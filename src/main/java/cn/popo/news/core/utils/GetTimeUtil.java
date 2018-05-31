@@ -24,16 +24,26 @@ public class GetTimeUtil {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
         return dateFormat.format(new Date());
     }
+
     public static String getCurrentTimeMillisDiff(Long l,Long ll){
         Long lll = (l-ll)/(1000*60);
         String time = "";
         String s1 = "";
         if(lll<60){
             s1 = BigDecimal.valueOf(Math.floor(lll)).stripTrailingZeros().toPlainString();
-            time = lll+"分钟";
-        }else{
+            time = lll+"分钟前";
+        }else if (lll>60 && lll<60*24){
             s1 = BigDecimal.valueOf(Math.floor(lll/60)).stripTrailingZeros().toPlainString();
-            time = s1 +"小时";
+            time = s1 +"小时前";
+        }else if (lll>60*24 && lll<60*24*30){
+            s1 = BigDecimal.valueOf(Math.floor(lll/(60*24))).stripTrailingZeros().toPlainString();
+            time = s1 +"天前";
+        }else if (lll<60*24*30*12 && lll>60*24*30){
+            s1 = BigDecimal.valueOf(Math.floor(lll/(60*24*30))).stripTrailingZeros().toPlainString();
+            time = s1 +"月前";
+        }else {
+            s1 = BigDecimal.valueOf(Math.floor(lll/(60*24*30*12))).stripTrailingZeros().toPlainString();
+            time = s1 +"年前";
         }
         return time;
     }
