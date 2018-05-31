@@ -140,8 +140,18 @@
 			<version>2.2.2</version>
 		</dependency>
 		<!-- swagger2 end -->
-
-
+		<!-- gson start -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<!-- gson end -->
+		<!-- redis start -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<!-- redis end -->
 		<!-- 图片压缩 -->
 		<dependency>
 			<groupId>net.coobird</groupId>
