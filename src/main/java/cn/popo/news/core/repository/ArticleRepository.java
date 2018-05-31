@@ -1,0 +1,40 @@
+package cn.popo.news.core.repository;
+
+import cn.popo.news.core.entity.common.ArticleInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+/**
+ * @Author  Administrator
+ * @Date    2018/5/22 18:52
+ * @Desc
+ */
+public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
+    Page<ArticleInfo> findAllByStateAndTypeIdAndDraft(Pageable pageable,Integer state,Integer type,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndUidAndDraft(Pageable pageable,Integer state,Integer type,String uid,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndShowStateAndDraft(Pageable pageable,Integer state,Integer type,Integer showState,Integer draft);
+    Page<ArticleInfo> findAllByStateAndDraft(Pageable pageable,Integer state,Integer draft);
+    Page<ArticleInfo> findAllByStateAndUidAndDraft(Pageable pageable,Integer state,String uid,Integer draft);
+    Page<ArticleInfo> findAllByStateAndShowStateAndDraft(Pageable pageable,Integer state, Integer showState,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraft(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraft(Pageable pageable,Integer state,Integer manageId,Integer draft);
+    List<ArticleInfo> findAllByStateAndDraft(Integer state,Integer draft);
+    List<ArticleInfo> findAllByStateAndUidAndDraft(Integer state,String uid,Integer draft);
+    List<ArticleInfo> findAllByStateAndManageIdAndDraft(Integer state,Integer manageId,Integer draft);
+    List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state,Integer showState,Integer draft);
+    List<ArticleInfo> findAllByArticleIdAndDraft(String articleId,Integer draft);
+    List<ArticleInfo> findAllByStateAndTitleLikeAndDraft(Integer state,String content,Integer draft);
+    List<ArticleInfo> findAllByStateAndKeywordsLikeAndDraft(Integer state,String content,Integer draft);
+    List<ArticleInfo> findAllByClassifyIdAndStateAndDraft(Integer classifyId,Integer state,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndTitleLikeAndDraft(Pageable pageable,Integer state,Integer typeId,String content,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTitleLikeAndDraft(Pageable pageable,Integer state,String content,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndKeywordsLikeAndDraft(Pageable pageable,Integer state,Integer typeId,String content,Integer draft);
+    Page<ArticleInfo> findAllByStateAndKeywordsLikeAndDraft(Pageable pageable,Integer state,String content,Integer draft);
+    Page<ArticleInfo> findAllByClassifyIdAndStateAndTypeIdAndDraft(Pageable pageable,Integer classifyId,Integer state,Integer typeId,Integer draft);
+    Page<ArticleInfo> findAllByClassifyIdAndStateAndDraft(Pageable pageable,Integer classifyId,Integer state,Integer draft);
+    Page<ArticleInfo> findAllByUidAndDraftAndTypeId(Pageable pageable,String userId, Integer draft,Integer typeId);
+    Page<ArticleInfo> findAllByUidAndDraft(Pageable pageable,String userId, Integer draft);
+}
