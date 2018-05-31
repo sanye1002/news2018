@@ -29,14 +29,5 @@ public class ReplyController {
     ReplyService replyService;
 
 
-    /**
-     * 回复上传
-     */
-    @ResponseBody
-    @PostMapping("/replysave")
-    public ResultVO<Map<String,Object>> replysave(@Valid ReplyForm replyForm){
-        replyService.replySave(replyForm);
-        Map<String,Object> map  = new HashMap<>();
-        return ResultVOUtil.success(map);
-    }
+
 }

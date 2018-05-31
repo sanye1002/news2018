@@ -34,16 +34,7 @@ public class ReplyReportController {
     ReplyReportService replyReportService;
 
 
-    /**
-     * 回复举报上传
-     */
-    @ResponseBody
-    @PostMapping("/report")
-    public ResultVO<Map<String,Object>> replyReportSave(@Valid ReplyReportForm replyReportForm){
-        replyReportService.replyReportSave(replyReportForm);
-        Map<String,Object> map  = new HashMap<>();
-        return ResultVOUtil.success(map);
-    }
+
 
     /**
      * 评论回复举报展示

@@ -149,16 +149,7 @@ public class ArticleController {
         return ResultVOUtil.success(map);
     }
 
-    /**
-     * 文章举报上传
-     */
-    @PostMapping("/reportsave")
-    @ResponseBody
-    public ResultVO<Map<String, String>> reprotSave(@Valid ReprotInfoForm reprotInfoForm){
-        articleService.articleReportInfoSave(reprotInfoForm);
-        Map<String,Object> map  = new HashMap<>();
-        return ResultVOUtil.success(map);
-    }
+
 
     /**
      * 用户文章删除

@@ -3,17 +3,14 @@ package cn.popo.news.core.service;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.DetailsVO;
 import cn.popo.news.core.dto.api.IndexVO;
 import cn.popo.news.core.dto.api.SearchVO;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,8 +49,6 @@ public interface ArticleService {
 
     void articleSave(ArticleForm articleForm);
 
-    void articleReportInfoSave(ReprotInfoForm reprotInfoForm);
-
     void updateArticleReportDisposeState(String id, Integer disposeState, String articleId, Integer dispose);
 
     void updateArticleStateByArticleId(String articleId,Integer state);
@@ -78,5 +73,4 @@ public interface ArticleService {
 
     PageDTO<IndexVO> findAllArticleByShowStateAndStateAndDraft(Pageable pageable, Integer state, Integer showState, Integer draft);
 
-    DetailsVO findArticleDetails();
 }

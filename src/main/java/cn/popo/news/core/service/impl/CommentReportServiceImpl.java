@@ -41,18 +41,7 @@ public class CommentReportServiceImpl implements CommentReportService {
     @Autowired
     CommentRepository commentRepository;
 
-    /**
-     * 评论回复举报上传
-     */
-    @Override
-    public void commentReplyReportSave(CommentReportForm commentReplyReportForm) {
-        CommentReport commentReport = new CommentReport();
-        BeanUtils.copyProperties(commentReplyReportForm,commentReport);
-        Long l = System.currentTimeMillis();
-        commentReport.setTime(l);
-        commentReport.setId(KeyUtil.genUniqueKey());
-        commentReportRepository.save(commentReport);
-    }
+
 
     /**
      * 举报回复管理

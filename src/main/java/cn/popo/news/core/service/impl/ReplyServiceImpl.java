@@ -27,20 +27,7 @@ public class ReplyServiceImpl implements ReplyService {
     ReplyRepository replyRepository;
 
 
-    /**
-     * 回复上传
-     */
-    @Override
-    public void replySave(ReplyForm replyForm) {
-        Reply reply = new Reply();
-        BeanUtils.copyProperties(replyForm,reply);
-        Long l = System.currentTimeMillis();
-        reply.setTime(l);
-        reply.setPraiseNum(ResultEnum.SUCCESS.getCode());
-        reply.setId(KeyUtil.genUniqueKey());
-        reply.setShowState(ResultEnum.PARAM_NULL.getCode());
-        replyRepository.save(reply);
-    }
+
 
     /**
      * 删除某评论的所有回复

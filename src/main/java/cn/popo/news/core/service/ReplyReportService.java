@@ -8,7 +8,6 @@ import cn.popo.news.core.entity.form.ReplyReportForm;
 import org.springframework.data.domain.Pageable;
 
 public interface ReplyReportService {
-    void replyReportSave(ReplyReportForm replyReportForm);
     void updateReplyShowState(String id, Integer disposeState, String replyId, Integer dispose);
     PageDTO<ReplyReportDTO> findAllReplyReportByDisposeSate(Pageable pageable, Integer disposeState);
     Integer findReplyReportByDisposeStateNum(Integer disposeState);

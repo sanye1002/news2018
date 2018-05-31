@@ -33,16 +33,7 @@ public class CommentReportController {
     @Autowired
     CommentReportService commentReportService;
 
-    /**
-     * 评论举报上传
-     */
-    @ResponseBody
-    @PostMapping("/report")
-    public ResultVO<Map<String,Object>> commentReportSave(@Valid CommentReportForm commentReportForm){
-        commentReportService.commentReplyReportSave(commentReportForm);
-        Map<String,Object> map  = new HashMap<>();
-        return ResultVOUtil.success(map);
-    }
+
 
     /**
      * 评论回复举报展示

@@ -10,7 +10,7 @@ import java.util.List;
  * @Desc
  */
 public interface ReplyService {
-    void replySave(ReplyForm replyForm);
+
     void deleteReplyByCommentId(String commentId);
     List<String> findReplyIdByCommentId(String commentId);
 }

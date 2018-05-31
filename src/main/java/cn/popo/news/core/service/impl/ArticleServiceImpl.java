@@ -3,7 +3,6 @@ package cn.popo.news.core.service.impl;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.DetailsVO;
 import cn.popo.news.core.dto.api.IndexVO;
 import cn.popo.news.core.dto.api.SearchVO;
 import cn.popo.news.core.entity.common.ArticleInfo;
@@ -501,19 +500,7 @@ public class ArticleServiceImpl implements ArticleService {
         return pageDTO;
     }
 
-    /**
-     * 文章举报上传
-     */
-    @Override
-    public void articleReportInfoSave(ReprotInfoForm reprotInfoForm) {
-        ArticleReport articleReport = new ArticleReport();
-        BeanUtils.copyProperties(reprotInfoForm,articleReport);
-        Long l = System.currentTimeMillis();
-        articleReport.setTime(l);
-        articleReport.setId(KeyUtil.genUniqueKey());
-        articleReport.setDisposeState(ResultEnum.SUCCESS.getCode());
-        reportRepository.save(articleReport);
-    }
+
 
     /**
      * 举报管理（标记为已处理，取消展示并标记为处理）
@@ -664,9 +651,6 @@ public class ArticleServiceImpl implements ArticleService {
         return pageDTO;
     }
 
-    @Override
-    public DetailsVO findArticleDetails() {
-        return null;
-    }
+
 
 }

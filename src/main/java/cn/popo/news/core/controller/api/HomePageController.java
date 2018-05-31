@@ -13,14 +13,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @Author  Administrator
  * @Date    2018/5/31 10:31
- * @Desc    首页控制
+ * @Desc    首页控制控制中心
  */
 
 @Controller
@@ -35,8 +34,8 @@ public class HomePageController {
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
-    private static final Integer TWO = 2;
-    private static final Integer THREE = 3;
+//    private static final Integer TWO = 2;
+//    private static final Integer THREE = 3;
 
 
     /**

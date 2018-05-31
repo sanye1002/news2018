@@ -28,14 +28,4 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    /**
-     * 评论上传
-     */
-    @ResponseBody
-    @PostMapping("/commentsave")
-    public ResultVO<Map<String,Object>> commentsave(@Valid CommentForm commentForm){
-        commentService.commontSave(commentForm);
-        Map<String,Object> map  = new HashMap<>();
-        return ResultVOUtil.success(map);
-    }
 }

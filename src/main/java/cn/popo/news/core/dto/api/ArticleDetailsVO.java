@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class DetailsVO implements Serializable {
+public class ArticleDetailsVO implements Serializable {
     private String uid;
     private String nickName;
     private String avatar;
@@ -15,7 +15,5 @@ public class DetailsVO implements Serializable {
     private String content;
     private List<String> keywordList;
     private List<String> imgList;
-    private Integer collectFlag;
-    private String reportFlag;
-    private List<CommentVO> commentVOList;
+    private Integer collect;
 }

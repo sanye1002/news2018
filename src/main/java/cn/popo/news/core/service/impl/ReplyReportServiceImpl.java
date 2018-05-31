@@ -43,18 +43,7 @@ public class ReplyReportServiceImpl implements ReplyReportService {
     @Autowired
     ReplyRepository replyRepository;
 
-    /**
-     * 评论回复举报上传
-     */
-    @Override
-    public void replyReportSave(ReplyReportForm replyReportForm) {
-        ReplyReport replyReport = new ReplyReport();
-        BeanUtils.copyProperties(replyReportForm,replyReport);
-        Long l = System.currentTimeMillis();
-        replyReport.setTime(l);
-        replyReport.setId(KeyUtil.genUniqueKey());
-        replyReportRepository.save(replyReport);
-    }
+
 
     /**
      * 举报回复管理

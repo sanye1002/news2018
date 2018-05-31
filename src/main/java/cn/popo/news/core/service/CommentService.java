@@ -11,7 +11,6 @@ import java.util.List;
  * @Desc
  */
 public interface CommentService {
-    void commontSave(CommentForm commentForm);
     void deleteComment(String articleId);
     List<String> findCommentIdByArticleId(String articleId);
 }

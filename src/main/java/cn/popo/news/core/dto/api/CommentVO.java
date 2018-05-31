@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Data
 public class CommentVO implements Serializable {
     private String commentId;
+    private String commentInfo;
     private String nickName;
     private String avatar;
     private String manyTimeAgo;
