@@ -94,4 +94,15 @@ public class ArticleDTO {
      *  1：草稿，2：不是草稿
      */
     private Integer draft;
+
+    /**
+     * 多少时间之前
+     */
+
+    private String manyTimeAgo;
+
+    /**
+     * 评论条数
+     */
+    private Integer commentNum;
 }
