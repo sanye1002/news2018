@@ -1,27 +1,28 @@
-package cn.popo.news.core.entity.common;
+package cn.popo.news.core.entity.param;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
-
 /**
- * @Author  Administrator
- * @Date    2018/5/22 11:50
- * @Desc    用户
+ * @Author: popo
+ * @computer：Administrator
+ * @create 2018-05-31 下午 5:43
+ * @Description description
  */
 @Data
-@Entity
-@Table(name="user")
-public class User implements Serializable {
-    @Id
+@Builder
+@ApiModel(value = "用户参数对象",description = "用户参数对象")
+public class UserParam {
+
+    @ApiModelProperty(hidden=true)
     private String userId;
 
     /**
      * 手机号
      */
+    @ApiModelProperty(value="用户名", name="phone", example="18145032533", required=true)
     private String phone;
 
     /**
@@ -74,6 +75,10 @@ public class User implements Serializable {
      */
     private String name;
 
+    private String createDate; //创建时间
+
+    private String updateDate; //修改时间
+
 
     /**
      * 我的粉丝数量
@@ -84,9 +89,4 @@ public class User implements Serializable {
      * 我关注的人总数
      */
     private Integer followCounts;
-
-    private String createDate; //创建时间
-
-    private String updateDate; //修改时间
-
 }

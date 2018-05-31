@@ -7,7 +7,8 @@ package cn.popo.news.common.constant;
  */
 public interface CookieConstant {
 
-    String TOKEN = "user-redis-session:";
+    String TOKEN = "user-cookie-token";
+    String USER_ID = "user-cookie-id";
 
-    Integer EXPIRE = 604800; //1周
+    Integer EXPIRE = 604800;
 }
