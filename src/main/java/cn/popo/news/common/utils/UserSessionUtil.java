@@ -3,7 +3,10 @@ package cn.popo.news.common.utils;
 import cn.popo.news.common.constant.CookieConstant;
 import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.core.entity.common.User;
+import cn.popo.news.core.enums.ResultEnum;
+import cn.popo.news.core.exception.APIException;
 import cn.popo.news.core.utils.CookieUtil;
+import com.google.gson.Gson;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +58,24 @@ public class UserSessionUtil {
         }
         return true;
     }
+
+    /**
+     * 检测用户是否登录
+     * 登录就获取user
+     * @param request
+     * @return
+     */
+    public User getUserByCookie(HttpServletRequest request,HttpServletResponse response){
+        if (!this.verifyLoginStatus(request, response)){
+            throw new APIException(ResultEnum.USER_FAILURE);
+        }
+        String userId = CookieUtil.get(request,CookieConstant.USER_ID).getValue();
+        Gson gson = new Gson();
+        String jsonUser = redis.get(RedisConstant.VO_PREFIX+userId);
+        if (jsonUser==null){
+            throw new APIException(ResultEnum.USER_FAILURE);
+        }
+        return gson.fromJson(jsonUser,User.class);
+    }
+
 }

@@ -8,6 +8,7 @@ package cn.popo.news.common.constant;
 public interface RedisConstant {
 
     String TOKEN_PREFIX = "user-redis-session:";
+    String VO_PREFIX = "user-redis-vo:";
 
     Integer EXPIRE = 604800; //1周
 }

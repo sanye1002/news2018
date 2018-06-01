@@ -12,6 +12,7 @@ import cn.popo.news.core.utils.Encrypt;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import cn.popo.news.core.vo.UserVO;
+import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,12 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
     public UserVO setUserRedisSessionTokenAndCookieSession(HttpServletResponse response, User userParam) {
         String uniqueToken = UUID.randomUUID().toString();
         redis.set(RedisConstant.TOKEN_PREFIX  + userParam.getUserId(), uniqueToken, RedisConstant.EXPIRE);
+
         CookieUtil.set(response,CookieConstant.USER_ID,userParam.getUserId(),CookieConstant.EXPIRE);
         CookieUtil.set(response, CookieConstant.TOKEN,uniqueToken,CookieConstant.EXPIRE);
+        String jsonUser = new Gson().toJson(userParam);
+
+        redis.set(RedisConstant.VO_PREFIX  + userParam.getUserId(), jsonUser, RedisConstant.EXPIRE);
         UserVO userVO = UserVO.builder().build();
         BeanUtils.copyProperties(userParam, userVO);
         userVO.setUserToken(uniqueToken);
@@ -80,11 +85,15 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
         if ( !redis.get(RedisConstant.TOKEN_PREFIX+userId).equals("")){
             redis.del(RedisConstant.TOKEN_PREFIX+userId);
         }
+        if ( !redis.get(RedisConstant.VO_PREFIX+userId).equals("")){
+            redis.del(RedisConstant.VO_PREFIX+userId);
+        }
         //3.查询cookie
         //4.清除cookie
-        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN+userId);
+        Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
         if (cookie!=null){
-            CookieUtil.set(response, CookieConstant.TOKEN+userId, null, 0);
+            CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
+            CookieUtil.set(response, CookieConstant.USER_ID, null, 0);
         }
         Map<String, Object> map = new HashMap<>();
         map.put("message","成功退出！");

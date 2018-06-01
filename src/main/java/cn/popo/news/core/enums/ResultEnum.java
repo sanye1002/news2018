@@ -12,6 +12,7 @@ public enum ResultEnum {
     SUCCESS(0," 处理成功"),
     PARAM_NULL(1,"参数为空"),
     PLATFORM_BOOS_NULL(2,"平台管理员为空"),
+    USER_FAILURE(3,"用户失效")
     ;
 
     private Integer code;
