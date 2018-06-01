@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class IndexVO implements Serializable {
+public class ArticleVO implements Serializable {
     private String articleId;
     private String uid;
     private String nikeName;
@@ -17,4 +17,5 @@ public class IndexVO implements Serializable {
     private String manyTimeAgo;
     private Integer commentNum;
     private Integer manageId;
+    private Integer typeId;
 }

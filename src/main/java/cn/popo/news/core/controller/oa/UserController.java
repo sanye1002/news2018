@@ -38,9 +38,9 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    RolePermissionService rolePermissionService;
+    private RolePermissionService rolePermissionService;
 
     /**
      * 用户展示

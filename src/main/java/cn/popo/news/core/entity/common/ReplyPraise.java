@@ -9,31 +9,26 @@ import javax.persistence.Table;
 
 /**
  * @Author  Administrator
- * @Date    2018/5/22 12:00
- * @Desc    收藏
+ * @Date    2018/5/22 12:11
+ * @Desc    评论赞
  */
 
 @Data
 @Entity
-@Table(name="collect")
-public class Collect {
+@Table(name="reply_praise")
+public class ReplyPraise {
     @Id
     @GeneratedValue
     private Integer id;
 
     /**
-     * 收藏者id
+     * 被赞回复id
+     */
+    private String replyId;
+
+    /**
+     * 赞用户id
      */
     private String uid;
-
-    /**
-     * 收藏文章id
-     */
-    private String aid;
-
-    /**
-     * 文章类型
-     */
-    private Integer typeId;
 
 }

@@ -15,8 +15,8 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="praise")
-public class Praise {
+@Table(name="comment_praise")
+public class CommentPraise {
     @Id
     @GeneratedValue
     private Integer id;
@@ -24,7 +24,7 @@ public class Praise {
     /**
      * 被赞评论id
      */
-    private String pid;
+    private String commentId;
 
     /**
      * 赞用户id

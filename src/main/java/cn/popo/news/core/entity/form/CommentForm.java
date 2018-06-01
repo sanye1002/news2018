@@ -1,6 +1,7 @@
 package cn.popo.news.core.entity.form;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @Author  Administrator
@@ -12,15 +13,18 @@ public class CommentForm {
     /**
      * 评论人id
      */
+    @NotEmpty
     private String uid;
 
     /**
      * 评论文章id
      */
+    @NotEmpty
     private String aid;
 
     /**
      * 评论内容
      */
+    @NotEmpty
     private String commentInfo;
 }

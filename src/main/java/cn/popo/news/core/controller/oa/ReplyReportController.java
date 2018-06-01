@@ -31,7 +31,7 @@ import java.util.Map;
 public class ReplyReportController {
 
     @Autowired
-    ReplyReportService replyReportService;
+    private ReplyReportService replyReportService;
 
 
 

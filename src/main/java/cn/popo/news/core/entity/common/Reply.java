@@ -25,6 +25,11 @@ public class Reply {
     private String commId;
 
     /**
+     * 被回复的id
+     */
+    private String byReplyId;
+
+    /**
      * 被回复者的id
      */
     private String cid;

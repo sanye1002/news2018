@@ -34,7 +34,7 @@ public class CommentReportForm {
     private Integer disposeState;
 
     /**
-     * 举报的回复Id
+     * 举报的评论Id
      */
     @NotEmpty
     private String commentId;

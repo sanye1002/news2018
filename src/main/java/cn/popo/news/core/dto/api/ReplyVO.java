@@ -5,14 +5,16 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class CommentVO implements Serializable {
+public class ReplyVO implements Serializable {
     private String id;
-    private String commentInfo;
+    private String byReplyId;
+    private String replyInfo;
+    private String byReplyInfo;
     private String nickName;
+    private String byNickName;
     private String avatar;
+    private String byAvatar;
     private String manyTimeAgo;
     private Integer praiseNum;
-    private Integer replyNum;
-    private Integer commentPraiseId;
-
+    private Integer replyPraiseId;
 }

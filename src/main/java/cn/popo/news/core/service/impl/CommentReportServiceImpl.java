@@ -33,13 +33,13 @@ import java.util.List;
 public class CommentReportServiceImpl implements CommentReportService {
 
     @Autowired
-    CommentReportRepository commentReportRepository;
+    private CommentReportRepository commentReportRepository;
 
     @Autowired
-    ReportTypeRepository reportTypeRepository;
+    private ReportTypeRepository reportTypeRepository;
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
 
 

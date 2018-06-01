@@ -36,7 +36,7 @@ import java.util.Map;
 @Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
 
     /**

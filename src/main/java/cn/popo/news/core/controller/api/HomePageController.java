@@ -1,11 +1,11 @@
 package cn.popo.news.core.controller.api;
 
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.IndexVO;
-import cn.popo.news.core.dto.api.SearchVO;
+import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
+import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,13 @@ import java.util.Map;
 public class HomePageController {
 
     @Autowired
-    ClassifyService classifyService;
+    private ClassifyService classifyService;
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
+
+    @Autowired
+    private AgoArticleService agoArticleService;
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
@@ -39,7 +42,7 @@ public class HomePageController {
 
 
     /**
-     * @param content
+     * @param content page size
      * @return List<SearchVO>
      * @desc 首页搜索
      */
@@ -51,7 +54,7 @@ public class HomePageController {
                                                @RequestParam(value = "content") String content
                                                                                         ){
         PageRequest pageRequest = new PageRequest(page-1,size);
-        PageDTO<SearchVO> pageDTO = articleService.findArticleTitleLikeAndStateAndShowStateAndDraft(pageRequest,ONE,content,ONE,ZERO);
+        PageDTO<ArticleVO> pageDTO = articleService.findArticleTitleLikeAndStateAndShowStateAndDraft(pageRequest,ONE,content,ONE,ZERO);
 
         map.put("size", size);
         map.put("currentPage", page);
@@ -61,7 +64,28 @@ public class HomePageController {
 
 
     /**
-     * @param
+     * @param classifyId page size
+     * @return List<SearchVO>
+     * @desc 分类搜索
+     */
+    @PostMapping("/classify")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> classify(Map<String,Object> map,
+                                               @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                               @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                               @RequestParam(value = "classifyId") Integer classifyId
+    ){
+        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByClassifyIdAndShowStateAndStateAndDraft(pageRequest,classifyId,ONE,ONE,ZERO);
+        map.put("size", size);
+        map.put("currentPage", page);
+        map.put("pageContent", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+
+    /**
+     * @param page size
      * @return
      * @desc 首页数据
      */
@@ -75,7 +99,7 @@ public class HomePageController {
         map.put("nav",list);
         //文章
         PageRequest pageRequest = new PageRequest(page-1,size);
-        PageDTO<IndexVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
+        PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
         map.put("size", size);
         map.put("currentPage", page);
         map.put("pageContent", pageDTO);

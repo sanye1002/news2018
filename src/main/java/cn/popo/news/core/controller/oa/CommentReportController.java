@@ -31,7 +31,7 @@ import java.util.Map;
 public class CommentReportController {
 
     @Autowired
-    CommentReportService commentReportService;
+    private CommentReportService commentReportService;
 
 
 

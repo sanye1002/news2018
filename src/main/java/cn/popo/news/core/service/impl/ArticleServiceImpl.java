@@ -3,14 +3,12 @@ package cn.popo.news.core.service.impl;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.IndexVO;
-import cn.popo.news.core.dto.api.SearchVO;
+import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.ArticleReport;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
-import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.ArticleService;
@@ -582,17 +580,17 @@ public class ArticleServiceImpl implements ArticleService {
      * 模糊搜索（title）
      */
     @Override
-    public PageDTO<SearchVO> findArticleTitleLikeAndStateAndShowStateAndDraft(Pageable pageable,Integer state, String content, Integer showState, Integer draft) {
+    public PageDTO<ArticleVO> findArticleTitleLikeAndStateAndShowStateAndDraft(Pageable pageable,Integer state, String content, Integer showState, Integer draft) {
         content = "%"+content+"%";
-        PageDTO<SearchVO> pageDTO = new PageDTO<>();
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         Page<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndTitleLikeAndShowStateAndDraft(pageable,state,content,showState,draft);
-        List<SearchVO> list = new ArrayList<>();
+        List<ArticleVO> list = new ArrayList<>();
         Long time = System.currentTimeMillis();
         if(articleInfoPage != null){
             pageDTO.setTotalPages(articleInfoPage.getTotalPages());
             if (!articleInfoPage.getContent().isEmpty()){
                 articleInfoPage.getContent().forEach(l->{
-                    SearchVO searchVO = new SearchVO();
+                    ArticleVO searchVO = new ArticleVO();
                     BeanUtils.copyProperties(l,searchVO);
                     searchVO.setArticleId(l.getArticleId());
                     searchVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
@@ -620,16 +618,16 @@ public class ArticleServiceImpl implements ArticleService {
      * 查找所有已通过且显示的文章
      */
     @Override
-    public PageDTO<IndexVO> findAllArticleByShowStateAndStateAndDraft(Pageable pageable, Integer state, Integer showState, Integer draft) {
-        PageDTO<IndexVO> pageDTO = new PageDTO<>();
+    public PageDTO<ArticleVO> findAllArticleByShowStateAndStateAndDraft(Pageable pageable, Integer state, Integer showState, Integer draft) {
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         Page<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraft(pageable,state,showState,draft);
-        List<IndexVO> list = new ArrayList<>();
+        List<ArticleVO> list = new ArrayList<>();
         Long time = System.currentTimeMillis();
         if(articleInfoPage != null){
             pageDTO.setTotalPages(articleInfoPage.getTotalPages());
             if (!articleInfoPage.getContent().isEmpty()){
                 articleInfoPage.getContent().forEach(l->{
-                    IndexVO indexVO = new IndexVO();
+                    ArticleVO indexVO = new ArticleVO();
                     BeanUtils.copyProperties(l,indexVO);
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());

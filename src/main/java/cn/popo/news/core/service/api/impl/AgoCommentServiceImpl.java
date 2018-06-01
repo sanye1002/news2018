@@ -2,10 +2,7 @@ package cn.popo.news.core.service.api.impl;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.CommentVO;
-import cn.popo.news.core.entity.common.Comment;
-import cn.popo.news.core.entity.common.CommentReport;
-import cn.popo.news.core.entity.common.Praise;
-import cn.popo.news.core.entity.common.User;
+import cn.popo.news.core.entity.common.*;
 import cn.popo.news.core.entity.form.CommentForm;
 import cn.popo.news.core.entity.form.CommentReportForm;
 import cn.popo.news.core.enums.ResultEnum;
@@ -28,40 +25,47 @@ import java.util.List;
 public class AgoCommentServiceImpl implements AgoCommentService {
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    ReplyRepository replyRepository;
+    private ReplyRepository replyRepository;
 
     @Autowired
-    PraiseRepository praiseRepository;
+    private CommentPraiseRepository commentPraiseRepository;
 
     @Autowired
-    CommentReportRepository commentReportRepository;
+    private CommentReportRepository commentReportRepository;
 
     /**
      * 查找评论通过文章id
      */
     @Override
-    public PageDTO<CommentVO> findComment(Pageable pageable, String articleId,Integer showState) {
+    public PageDTO<CommentVO> findComment(Pageable pageable, String articleId,String userId,Integer showState) {
         PageDTO<CommentVO> pageDTO = new PageDTO<>();
-        Page<Comment> commentPage = commentRepository.findAllByAidAndShowState(pageable,articleId,showState);
+        Page<Comment> commentPage = commentRepository.findAllByAidAndShowState(pageable, articleId, showState);
         Long time = System.currentTimeMillis();
         List<CommentVO> list = new ArrayList<CommentVO>();
-        if(commentPage != null){
+        if (commentPage != null) {
             pageDTO.setTotalPages(commentPage.getTotalPages());
-            if (!commentPage.getContent().isEmpty()){
-                commentPage.getContent().forEach(l->{
+            if (!commentPage.getContent().isEmpty()) {
+                commentPage.getContent().forEach(l -> {
                     CommentVO commentVO = new CommentVO();
-                    BeanUtils.copyProperties(l,commentVO);
+                    BeanUtils.copyProperties(l, commentVO);
                     User user = userRepository.findOne(l.getUid());
                     commentVO.setAvatar(user.getAvatar());
                     commentVO.setNickName(user.getNikeName());
                     commentVO.setReplyNum(replyRepository.findAllByCommId(l.getId()).size());
-                    commentVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getTime()));
+                    commentVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));
+                    CommentPraise commentPraise = commentPraiseRepository.findAllByUidAndCommentId(userId,l.getId());
+                    if (commentPraise!=null){
+                        commentVO.setCommentPraiseId(commentPraise.getId());
+                    }else {
+                        commentVO.setCommentPraiseId(0);
+                    }
+                    list.add(commentVO);
                 });
             }
         }
@@ -75,28 +79,34 @@ public class AgoCommentServiceImpl implements AgoCommentService {
      * 点赞
      */
     @Override
-    public void praise(String pid, String userId) {
-        Praise praise = new Praise();
-        praise.setPid(pid);
-        praise.setUid(userId);
-        praiseRepository.save(praise);
+    public void commentPraise(String userId, String commentId) {
+        Comment comment = commentRepository.findOne(commentId);
+        Integer praiseNum = comment.getPraiseNum()+1;
+        comment.setPraiseNum(praiseNum);
+        CommentPraise commentPraise = new CommentPraise();
+        commentPraise.setCommentId(commentId);
+        commentPraise.setUid(userId);
+        commentPraiseRepository.save(commentPraise);
     }
 
     /**
      * 取消点赞
      */
     @Override
-    public void deletePraise(Integer praiseId) {
-        praiseRepository.delete(praiseId);
+    public void deleteCommentPraise(Integer praiseId, String commentId) {
+        Comment comment = commentRepository.findOne(commentId);
+        Integer praiseNum = comment.getPraiseNum()-1;
+        comment.setPraiseNum(praiseNum);
+        commentPraiseRepository.delete(praiseId);
     }
 
     /**
-     *评论保存
+     * 评论保存
      */
     @Override
     public void commontSave(CommentForm commentForm) {
         Comment comment = new Comment();
-        BeanUtils.copyProperties(commentForm,comment);
+        BeanUtils.copyProperties(commentForm, comment);
         Long l = System.currentTimeMillis();
         comment.setTime(l);
         comment.setId(KeyUtil.genUniqueKey());
@@ -111,10 +121,11 @@ public class AgoCommentServiceImpl implements AgoCommentService {
     @Override
     public void commentReplyReportSave(CommentReportForm commentReplyReportForm) {
         CommentReport commentReport = new CommentReport();
-        BeanUtils.copyProperties(commentReplyReportForm,commentReport);
+        BeanUtils.copyProperties(commentReplyReportForm, commentReport);
         Long l = System.currentTimeMillis();
         commentReport.setTime(l);
         commentReport.setId(KeyUtil.genUniqueKey());
+        commentReport.setDisposeState(ResultEnum.SUCCESS.getCode());
         commentReportRepository.save(commentReport);
     }
 }

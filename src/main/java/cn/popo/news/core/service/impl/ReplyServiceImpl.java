@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class ReplyServiceImpl implements ReplyService {
     @Autowired
-    ReplyRepository replyRepository;
+    private ReplyRepository replyRepository;
 
 
 

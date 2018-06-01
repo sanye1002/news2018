@@ -6,50 +6,51 @@ import cn.popo.news.core.service.api.AgoCommentService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api/article")
 public class CommentController {
 
     @Autowired
-    AgoCommentService agoCommentService;
+    private AgoCommentService agoCommentService;
 
     /**
-     * 评论点赞
+     * @param userId commentId
+     * @return
+     * @desc 评论点赞
      */
-    @ResponseBody
-    @PostMapping("/praise")
-    public ResultVO<Map<String,Object>> articlePraise(@RequestParam(value = "pid") String pid,
+    @PostMapping("/comment/praise")
+    public ResultVO<Map<String,Object>> articleCommentPraise(
+                                                        @RequestParam(value = "commentId") String commentId,
                                                        @RequestParam(value = "userId") String userId){
-        agoCommentService.praise(pid,userId);
+        agoCommentService.commentPraise(userId,commentId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 
     /**
-     * 评论删除点赞
+     * @param commentPraiseId
+     * @return
+     * @desc 取消点赞
      */
-    @ResponseBody
-    @PostMapping("/praise/delete")
-    public ResultVO<Map<String,Object>> articleDeletePraise(@RequestParam(value = "praiseId") Integer praiseId){
-        agoCommentService.deletePraise(praiseId);
+    @PostMapping("/comment/praise/delete")
+    public ResultVO<Map<String,Object>> articleDeletePraise(@RequestParam(value = "commentId") String commentId,
+                                                            @RequestParam(value = "commentPraiseId") Integer commentPraiseId){
+        agoCommentService.deleteCommentPraise(commentPraiseId,commentId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 
     /**
-     * 评论上传
+     * @param commentForm
+     * @return
+     * @desc 评论上传
      */
-    @ResponseBody
     @PostMapping("/comment/save")
     public ResultVO<Map<String,Object>> commentSave(@Valid CommentForm commentForm){
         agoCommentService.commontSave(commentForm);
@@ -58,9 +59,10 @@ public class CommentController {
     }
 
     /**
-     * 评论举报上传
+     * @param commentReportForm
+     * @return
+     * @desc 评论举报上传
      */
-    @ResponseBody
     @PostMapping("/comment/report")
     public ResultVO<Map<String,Object>> commentReportSave(@Valid CommentReportForm commentReportForm){
         agoCommentService.commentReplyReportSave(commentReportForm);

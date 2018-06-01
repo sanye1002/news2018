@@ -7,9 +7,9 @@ import cn.popo.news.core.entity.form.CommentReportForm;
 import org.springframework.data.domain.Pageable;
 
 public interface AgoCommentService {
-    PageDTO<CommentVO> findComment(Pageable pageable,String articleId,Integer showState);
-    void praise(String pid,String userId);
-    void deletePraise(Integer praiseId);
+    PageDTO<CommentVO> findComment(Pageable pageable,String articleId,String userId,Integer showState);
+    void commentPraise(String userId,String commentId);
+    void deleteCommentPraise(Integer praiseId,String commentId);
     void commontSave(CommentForm commentForm);
     void commentReplyReportSave(CommentReportForm commentReplyReportForm);
 }

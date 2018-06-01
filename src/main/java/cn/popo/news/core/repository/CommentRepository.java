@@ -1,7 +1,6 @@
 package cn.popo.news.core.repository;
 
 
-import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -35,13 +35,13 @@ import java.util.List;
 public class ReplyReportServiceImpl implements ReplyReportService {
 
     @Autowired
-    ReplyReportRepository replyReportRepository;
+    private ReplyReportRepository replyReportRepository;
 
     @Autowired
-    ReportTypeRepository reportTypeRepository;
+    private ReportTypeRepository reportTypeRepository;
 
     @Autowired
-    ReplyRepository replyRepository;
+    private ReplyRepository replyRepository;
 
 
 
