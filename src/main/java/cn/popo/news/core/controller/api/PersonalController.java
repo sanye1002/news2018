@@ -7,6 +7,7 @@ import cn.popo.news.core.dto.api.AttentionVO;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoAttentionService;
 import cn.popo.news.core.utils.ResultVOUtil;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -100,7 +101,7 @@ public class PersonalController {
                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                @RequestParam(value = "typeId") Integer typeId
     ){
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",typeId);
         map.put("size", size);
         map.put("currentPage", page);

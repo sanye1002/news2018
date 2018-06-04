@@ -105,4 +105,16 @@ public class ArticleDTO {
      * 评论条数
      */
     private Integer commentNum;
+
+    private Integer original;
+
+    /**
+     * 是否上轮播图
+     */
+    private Integer slideState;
+
+    /**
+     * 是否上侧边栏
+     */
+    private Integer recommendState;
 }

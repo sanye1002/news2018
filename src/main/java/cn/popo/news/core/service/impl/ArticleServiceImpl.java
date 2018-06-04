@@ -4,6 +4,7 @@ import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
+import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.ArticleReport;
 import cn.popo.news.core.entity.common.User;
@@ -74,8 +75,9 @@ public class ArticleServiceImpl implements ArticleService {
         articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
         articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
         articleInfo.setUid(ShiroGetSession.getUser().getUserId());
-        Long l = System.currentTimeMillis();
-        articleInfo.setTime(l);
+        articleInfo.setCrateTime(System.currentTimeMillis());
+        articleInfo.setRecommendState(0);
+        articleInfo.setSlideState(0);
         articleRepository.save(articleInfo);
     }
 
@@ -90,7 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
         List<ArticleDTO> list = new ArrayList<>();
         Integer draft = ResultEnum.SUCCESS.getCode();
         if(type == 0){
-            articleInfoPage = articleRepository.findAllByStateAndDraft(pageable,state,draft);
+             articleInfoPage = articleRepository.findAllByStateAndDraft(pageable,state,draft);
         }else {
             articleInfoPage = articleRepository.findAllByStateAndTypeIdAndDraft(pageable, state, type,draft);
         }
@@ -104,7 +106,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
-                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
                     list.add(articleDTO);
                 });
@@ -139,7 +141,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
-                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     list.add(articleDTO);
                 });
             }
@@ -274,20 +276,41 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 管理 添加头条，侧边栏
+     * 管理 添加侧边栏
      */
     @Override
-    public void updateArticleSpecialByArticleId(String articleId, Integer sid) {
+    public void updateArticleSpecialByArticleId(String articleId) {
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
         articleInfo.setManageId(ResultEnum.PARAM_NULL.getCode());
-        articleInfo.setSid(sid);
+        articleInfo.setRecommendState(ResultEnum.PARAM_NULL.getCode());
+    }
+
+
+    /**
+     * 管理 添加轮播图
+     */
+    @Override
+    public void updateSlide(String articleId) {
+        ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        articleInfo.setSlideState(ResultEnum.PARAM_NULL.getCode());
+        articleInfo.setManageId(ResultEnum.PARAM_NULL.getCode());
+    }
+
+    /**
+     * 获取轮播图数量
+     */
+    @Override
+    public Integer findAllSlideNum(Integer manageId, Integer slideState) {
+        List<ArticleInfo> list = articleRepository.findAllByManageIdAndSlideState(manageId,slideState);
+        return list.size();
     }
 
     /**
      * 管理文章页面展示
      */
     @Override
-    public PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(Pageable pageable, Integer state, Integer type, Integer manageId) {
+    public PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(
+            Pageable pageable, Integer state, Integer type, Integer manageId) {
         PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
         Page<ArticleInfo> articleInfoPage = null;
         List<ArticleDTO> list = new ArrayList<>();
@@ -306,7 +329,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
-                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
                     list.add(articleDTO);
                 });
@@ -317,7 +340,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 管理 撤销头条，侧边栏
+     * 管理 撤销侧边栏
      */
     @Override
     public void updateArticleManage(String articleId, Integer manageId) {
@@ -362,7 +385,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         Long l = System.currentTimeMillis();
 
-        articleInfo.setTime(l);
+        articleInfo.setCrateTime(l);
         articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
         articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
         articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
@@ -416,7 +439,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
-                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
                     list.add(articleDTO);
                 });
@@ -565,7 +588,7 @@ public class ArticleServiceImpl implements ArticleService {
                     if(l.getImgUrl()!=null){
                         articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
-                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
                     list.add(articleDTO);
                 });
@@ -598,11 +621,12 @@ public class ArticleServiceImpl implements ArticleService {
                     if(l.getImgUrl()!=null){
                         searchVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
-                    searchVO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
-                    searchVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getTime()));
+                    searchVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());
-                    searchVO.setAvatar(user.getAvatar());
-                    searchVO.setNikeName(user.getNikeName());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    searchVO.setAuthor(author);
                     list.add(searchVO);
                 });
             }
@@ -635,11 +659,12 @@ public class ArticleServiceImpl implements ArticleService {
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
-                    indexVO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
-                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getTime()));
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());
-                    indexVO.setAvatar(user.getAvatar());
-                    indexVO.setNikeName(user.getNikeName());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    indexVO.setAuthor(author);
                     list.add(indexVO);
                 });
             }

@@ -6,6 +6,7 @@ import cn.popo.news.core.entity.form.ReplyReportForm;
 import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.service.ReplyReportService;
 import cn.popo.news.core.utils.ResultVOUtil;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -48,7 +49,7 @@ public class ReplyReportController {
     ){
         map.put("pageId",107);
         map.put("pageTitle","回复举报");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ReplyReportDTO> pageDTO = replyReportService.findAllReplyReportByDisposeSate(pageRequest,disposeState);
         Integer OnDispose = replyReportService.findReplyReportByDisposeStateNum(ResultEnum.PARAM_NULL.getCode());
         Integer UnDispose = replyReportService.findReplyReportByDisposeStateNum(ResultEnum.SUCCESS.getCode());

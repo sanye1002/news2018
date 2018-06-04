@@ -85,6 +85,17 @@
                                                        placeholder="关键字" style="display: none;">
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 col-sm-4 col-xs-4" style="padding: 0">
+                                                <div class="checkbox">
+                                                    <label style="padding: 0">
+                                                        <input name="original" type="checkbox" <#if article.getOriginal()! == 1>checked</#if> >
+                                                        <span class="text">原创</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -179,7 +190,8 @@
         keywords: "",
         classify: 1,
         article: "${article.getArticleId()!}",
-        smallImg: " "
+        smallImg: " ",
+        original:0
     }
 
     var index;
@@ -249,6 +261,11 @@
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
             var videoDes = $(".videoDes").val();
+
+            if ($('input[name="original"]:checked').length > 0){
+                article.original = 1
+            }
+
             if (article.title == "") {
                 layer.msg("文章标题为填写...")
             } else {
@@ -274,7 +291,8 @@
                                         draft: 1,
                                         articleId:article.article,
                                         des:videoDes,
-                                        imgUrl:article.smallImg
+                                        imgUrl:article.smallImg,
+                                        original:article.original
                                     },
                                     function (data) {
 
@@ -301,6 +319,9 @@
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
             var videoDes = $(".videoDes").val();
+            if ($('input[name="original"]:checked').length > 0){
+                article.original = 1
+            }
 
             //保存
             $("#saveDraft").attr("disabled", true);
@@ -314,7 +335,8 @@
                         classifyId: article.classify,
                         draft: 1,
                         articleId:article.article,
-                        des:videoDes
+                        des:videoDes,
+                        original:article.original
                     },
                     function (data) {
 

@@ -33,4 +33,6 @@ public class ArticleForm {
     private String des;
 
     private Integer draft;
+
+    private Integer original;
 }

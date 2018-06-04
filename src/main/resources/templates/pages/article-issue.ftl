@@ -63,7 +63,6 @@
                                 <div class="col-sm-12">
                                     <div class="form-title">基本内容</div>
                                     <div class="col-sm-6">
-
                                         <div class="form-group">
                                             <label>标题</label>
                                             <span class="input-icon icon-right">
@@ -78,6 +77,16 @@
                                                 <input id="key-words" type="text" value="${article.getKeyword()!}"
                                                        data-role="tagsinput"
                                                        placeholder="关键字" style="display: none;">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 col-sm-4 col-xs-4" style="padding: 0">
+                                                <div class="checkbox">
+                                                    <label style="padding: 0">
+                                                        <input name="original" type="checkbox" <#if article.getOriginal()! == 1>checked</#if> >
+                                                        <span class="text">原创</span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +116,9 @@
                                                 <i class="glyphicon glyphicon-fire"></i>
                                             </span>
                                         </div>
+
                                     </div>
+
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-title">封面图片</div>
@@ -186,7 +197,8 @@
             content: "",
             keywords: "",
             classify: DEFAULT,
-            article: "${articleId!}"
+            article: "${articleId!}",
+            original:0
         }
 
         var index;
@@ -315,6 +327,10 @@
             var desc = "";
             var des = $(".des")
             var num = des.length
+            if ($('input[name="original"]:checked').length > 0){
+                article.original = 1
+            }
+
 
             if (num != 0) {
                 for (var i = 0; i < num; i++) {
@@ -357,7 +373,8 @@
                                         keywords: article.keyWords,
                                         classifyId: article.classify,
                                         draft: ${article.getDraft()!0},
-                                        articleId:article.article
+                                        articleId:article.article,
+                                        original:article.original
                                     },
                                     function (data) {
 
@@ -383,6 +400,9 @@
             var desc = "";
             var des = $(".des")
             var num = des.length
+            if ($('input[name="original"]:checked').length > 0){
+                article.original = 1
+            }
             if (num != 0) {
                 for (var i = 0; i < num; i++) {
                     if (desc == "") {
@@ -412,7 +432,8 @@
                         keywords: article.keyWords,
                         classifyId: article.classify,
                         draft: ${article.getDraft()!1},
-                        articleId:article.article
+                        articleId:article.article,
+                        original:article.original
                     },
                     function (data) {
 

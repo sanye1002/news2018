@@ -3,6 +3,7 @@ package cn.popo.news.core.entity.common;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -48,7 +49,7 @@ public class ArticleInfo implements Serializable{
     /**
      * 创建时间
      */
-    private long Time;
+    private Long crateTime;
 
     /**
      * 关键词
@@ -58,6 +59,7 @@ public class ArticleInfo implements Serializable{
     /**
      * 审核状态：0未通过，1通过，2待审核
      */
+    @Column(name = "audit_state")
     private Integer state;
 
     /**
@@ -66,14 +68,19 @@ public class ArticleInfo implements Serializable{
     private String imgUrl;
 
     /**
-     * 管理的位置（头条，侧边栏）
-     */
-    private Integer sid;
-
-    /**
-     * 是否被安排
+     * 是否安排
      */
     private Integer manageId;
+
+    /**
+     * 是否上轮播图
+     */
+    private Integer slideState;
+
+    /**
+     * 是否上侧边栏
+     */
+    private Integer recommendState;
 
     /**
      * 展示否 0不展示，1展示
@@ -89,5 +96,10 @@ public class ArticleInfo implements Serializable{
      *  1：草稿，2：不是草稿
      */
     private Integer draft;
+
+    /**
+     * 是否原创 0否 1是
+     */
+    private Integer original;
 
 }

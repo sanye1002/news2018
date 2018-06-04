@@ -3,6 +3,7 @@ package cn.popo.news.core.service.api.impl;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.ArticleVO;
+import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.ArticleReport;
 import cn.popo.news.core.entity.common.Collect;
@@ -72,7 +73,10 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             articleDetailsVO.setAvatar(user.getAvatar());
             articleDetailsVO.setNickName(user.getNikeName());
             articleDetailsVO.setKeywordList(SplitUtil.splitComme(articleInfo.getKeywords()));
-            articleDetailsVO.setTime(GetTimeUtil.getDateFormat(articleInfo.getTime()));
+            articleDetailsVO.setTime(GetTimeUtil.getDateFormat(articleInfo.getCrateTime()));
+            if(articleInfo.getTypeId()==2){
+                articleDetailsVO.setImgDesc(SplitUtil.splitComme(articleInfo.getContent()));
+            }
             if(articleInfo.getImgUrl()!=null){
                 articleDetailsVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
             }
@@ -149,11 +153,12 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
-                    indexVO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
-                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getTime()));
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());
-                    indexVO.setAvatar(user.getAvatar());
-                    indexVO.setNikeName(user.getNikeName());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    indexVO.setAuthor(author);
                     list.add(indexVO);
                 });
             }
@@ -186,11 +191,12 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     if(articleInfo.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
                     }
-                    indexVO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
-                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,articleInfo.getTime()));
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,articleInfo.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());
-                    indexVO.setAvatar(user.getAvatar());
-                    indexVO.setNikeName(user.getNikeName());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    indexVO.setAuthor(author);
                     list.add(indexVO);
                 });
             }
@@ -198,6 +204,46 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         pageDTO.setPageContent(list);
 
         return pageDTO;
+    }
+
+
+    /**
+     * 查询轮播图
+     */
+    @Override
+    public List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId,Integer slideState) {
+        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
+                state,draft,showState,manageId,slideState);
+        List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
+        articleInfoList.forEach(l->{
+            ArticleVO indexVO = new ArticleVO();
+            BeanUtils.copyProperties(l,indexVO);
+            indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+            if(l.getImgUrl()!=null){
+                indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+            }
+            articleVOList.add(indexVO);
+        });
+
+        return articleVOList;
+    }
+
+    @Override
+    public List<ArticleVO> findRecommentByTypeId(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId, Integer recommendState) {
+        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
+                state,draft,showState,manageId,typeId,recommendState);
+        List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
+        articleInfoList.forEach(l->{
+            ArticleVO indexVO = new ArticleVO();
+            BeanUtils.copyProperties(l,indexVO);
+            indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+            if(l.getImgUrl()!=null){
+                indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+            }
+            articleVOList.add(indexVO);
+        });
+
+        return articleVOList;
     }
 
 }

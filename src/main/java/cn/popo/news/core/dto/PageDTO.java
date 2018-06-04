@@ -12,13 +12,19 @@ import java.util.List;
 @Data
 public class PageDTO<T> {
     private int totalPages;
+    private int currentPage;
     private List<T> pageContent;
-
     public PageDTO() {
     }
 
     public PageDTO(int totalPages, List<T> pageContent) {
         this.totalPages = totalPages;
+        this.pageContent = pageContent;
+    }
+
+    public PageDTO(int totalPages, int currentPage, List<T> pageContent) {
+        this.totalPages = totalPages;
+        this.currentPage = currentPage;
         this.pageContent = pageContent;
     }
 }

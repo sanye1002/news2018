@@ -9,6 +9,7 @@ import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,15 +18,15 @@ import java.util.Map;
  * @Desc
  */
 public interface ArticleService {
-    PageDTO<ArticleDTO> findAllArticleDTOByStateAndType(Pageable pageable, Integer state, Integer type);
+    PageDTO<ArticleDTO> findAllArticleDTOByStateAndType(Pageable pageable, Integer state, Integer typeId);
 
-    PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndUid(Pageable pageable, Integer state, Integer type, String uid);
+    PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndUid(Pageable pageable, Integer state, Integer typeId, String uid);
 
-    PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(Pageable pageable, Integer state, Integer type,Integer manageId);
+    PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(Pageable pageable, Integer state, Integer typeId,Integer manageId);
 
-    PageDTO<ArticleDTO> findAllByShowAndStateAndType(Pageable pageable,Integer showState,Integer state, Integer type);
+    PageDTO<ArticleDTO> findAllByShowAndStateAndType(Pageable pageable,Integer showState,Integer state, Integer typeId);
 
-    PageDTO<ArticleDTO> findAllByTitleOrkeywordsOrClassifyLikeAndStateAndType(Pageable pageable,String line,String content,Integer type,Integer state);
+    PageDTO<ArticleDTO> findAllByTitleOrkeywordsOrClassifyLikeAndStateAndType(Pageable pageable,String line,String content,Integer typeId,Integer state);
 
     PageDTO<ArticleReportDTO> findAllReportByDisposeState(Pageable pageable,Integer disposeState);
 
@@ -51,7 +52,7 @@ public interface ArticleService {
 
     void updateArticleStateByArticleId(String articleId,Integer state);
 
-    void updateArticleSpecialByArticleId(String articleId,Integer sid);
+    void updateArticleSpecialByArticleId(String articleId);
 
     void updateArticleManage(String articleId,Integer manageId);
 
@@ -70,5 +71,9 @@ public interface ArticleService {
     PageDTO<ArticleVO> findArticleTitleLikeAndStateAndShowStateAndDraft(Pageable pageable,Integer state, String content, Integer showState, Integer draft);
 
     PageDTO<ArticleVO> findAllArticleByShowStateAndStateAndDraft(Pageable pageable, Integer state, Integer showState, Integer draft);
+
+    void updateSlide(String articleId);
+
+    Integer findAllSlideNum(Integer manageId,Integer slideState);
 
 }

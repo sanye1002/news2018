@@ -19,7 +19,8 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByStateAndDraft(Pageable pageable,Integer state,Integer draft);
     Page<ArticleInfo> findAllByStateAndUidAndDraft(Pageable pageable,Integer state,String uid,Integer draft);
     Page<ArticleInfo> findAllByStateAndShowStateAndDraft(Pageable pageable,Integer state, Integer showState,Integer draft);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraft(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraft(
+            Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft);
     Page<ArticleInfo> findAllByStateAndManageIdAndDraft(Pageable pageable,Integer state,Integer manageId,Integer draft);
     List<ArticleInfo> findAllByStateAndDraft(Integer state,Integer draft);
     List<ArticleInfo> findAllByStateAndUidAndDraft(Integer state,String uid,Integer draft);
@@ -42,4 +43,12 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByStateAndTitleLikeAndShowStateAndDraft(Pageable pageable,Integer state,String content,Integer showState,Integer draft);
     //Page<ArticleInfo> findAllByUidAndStateAndShowStateAndDraft(Pageable pageable,String userId,Integer state, Integer showState,Integer draft);
     Page<ArticleInfo> findAllByClassifyIdAndStateAndShowStateAndDraft(Pageable pageable,Integer classify,Integer state, Integer showState,Integer draft);
+
+    List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
+            Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
+
+    List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
+            Integer state,Integer draft,Integer showState,Integer manageId,Integer slideState);
+
+    List<ArticleInfo> findAllByManageIdAndSlideState(Integer manageId,Integer slideState);
 }

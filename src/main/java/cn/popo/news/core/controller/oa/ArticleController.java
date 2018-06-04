@@ -10,14 +10,12 @@ import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.enums.ResultEnum;
-import cn.popo.news.core.service.CommentReportService;
-import cn.popo.news.core.service.CommentService;
-import cn.popo.news.core.service.ReplyReportService;
-import cn.popo.news.core.service.ReplyService;
+import cn.popo.news.core.service.*;
 import cn.popo.news.core.service.impl.ArticleServiceImpl;
 import cn.popo.news.core.service.impl.ClassifyServiceImpl;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.ShiroGetSession;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.utils.SplitUtil;
 import cn.popo.news.core.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +46,7 @@ public class ArticleController {
     @Autowired
     private ClassifyServiceImpl classifyService;
     @Autowired
-    private ArticleServiceImpl articleService;
+    private ArticleService articleService;
     @Autowired
     private UploadConfig uploadConfig;
     @Autowired
@@ -86,12 +84,12 @@ public class ArticleController {
             }
 
         }else {
+            articleDTO.setOriginal(0);
             articleDTO.setTypeId(1);
             articleDTO.setClassifyId(1);
             map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
-        System.out.println("con"+articleDTO.getArticleId()+"info"+articleInfo.getArticleId());
         map.put("articleId",id);
         map.put("type",type);
         map.put("pageId",104);
@@ -115,6 +113,7 @@ public class ArticleController {
             map.put("pageTitle","视频编辑");
             map.put("draftList",1);
         }else {
+            articleInfo.setOriginal(0);
             articleInfo.setTypeId(1);
             articleInfo.setClassifyId(1);
             map.put("pageTitle","视频发布");
@@ -175,7 +174,7 @@ public class ArticleController {
     ){
         map.put("pageId",101);
         map.put("pageTitle","文章审核");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndType(pageRequest,state,type);
         Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode());
         Integer pass = articleService.findStateNum(ResultEnum.PARAM_NULL.getCode());
@@ -205,7 +204,7 @@ public class ArticleController {
     ){
         map.put("pageId",109);
         map.put("pageTitle","文章草稿");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         String userId = ShiroGetSession.getUser().getUserId();
         PageDTO<ArticleDTO> pageDTO = articleService.findAllByUserIdAndDraftAndTypeId(pageRequest,userId,ResultEnum.PARAM_NULL.getCode(),type);
         Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode());
@@ -237,7 +236,7 @@ public class ArticleController {
     ){
         map.put("pageId",108);
         map.put("pageTitle","用户文章");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         String uid = ShiroGetSession.getUser().getUserId();
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndTypeAndUid(pageRequest,state,type,uid);
         Integer noPass = articleService.findStateAndUidNum(ResultEnum.SUCCESS.getCode(),uid);
@@ -343,7 +342,7 @@ public class ArticleController {
                                       ){
         map.put("pageId",103);
         map.put("pageTitle","文章管理");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndTypeAndSid(pageRequest,state,type,manageId);
         Integer passNum = articleService.findStateAndSidNum(state,ResultEnum.SUCCESS.getCode());
         Integer onNum = articleService.findStateAndSidNum(state,ResultEnum.PARAM_NULL.getCode());
@@ -361,20 +360,42 @@ public class ArticleController {
 
 
     /**
-     * 管理 添加头条，侧边栏
+     * 管理 添加侧边栏
      */
-    @PostMapping("/manage")
+    @PostMapping("/recomment")
     @ResponseBody
-    public ResultVO<Map<String, String>>articleManage(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId,
-                                                      @RequestParam(value = "specialId", defaultValue = "2") Integer specialId
+    public ResultVO<Map<String, String>> articleManage(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId
                                                         ){
-        articleService.updateArticleSpecialByArticleId(articleId,specialId);
+        articleService.updateArticleSpecialByArticleId(articleId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 
+
+
     /**
-     * 管理 撤销头条，侧边栏
+     * 管理 添加轮播图
+     */
+    @PostMapping("/slide")
+    @ResponseBody
+    public ResultVO<Map<String, String>> articleSlide(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId
+    ){
+        Map<String,Object> map  = new HashMap<>();
+        Integer slideNum = articleService.findAllSlideNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
+        if (slideNum<6){
+            articleService.updateSlide(articleId);
+
+            return ResultVOUtil.success(map);
+        }else {
+            map.put("message","轮播图已达上限");
+            return ResultVOUtil.success(map);
+        }
+
+
+    }
+
+    /**
+     * 管理 撤销侧边栏,轮播图
      */
     @PostMapping("/managedelete")
     @ResponseBody
@@ -385,6 +406,7 @@ public class ArticleController {
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
+
 
     /**
      * 文章前台显示否
@@ -400,7 +422,7 @@ public class ArticleController {
     ){
         map.put("pageId",102);
         map.put("pageTitle","文章展示");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type);
         Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
         Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode());
@@ -442,7 +464,7 @@ public class ArticleController {
     ){
         map.put("pageId",105);
         map.put("pageTitle","文章举报");
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ArticleReportDTO> pageDTO = articleService.findAllReportByDisposeState(pageRequest,disposeState);
         Integer OnDispose = articleService.findDisposeStateNum(ResultEnum.PARAM_NULL.getCode());
         Integer UnDispose = articleService.findDisposeStateNum(ResultEnum.SUCCESS.getCode());

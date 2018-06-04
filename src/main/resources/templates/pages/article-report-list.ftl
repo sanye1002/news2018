@@ -102,8 +102,8 @@
                                                 封面图</a>
                                         </#if>
 
-                                        <#if p.getTypeId()==3>
-                                            <a class="btn btn-info btn-xs" onclick="showVedio('${p.getArticleId()}',${p.getTypeId()})"><i class="fa fa-caret-square-o-right"></i>
+                                        <#if p.getArticle().getTypeId()==3>
+                                            <a class="btn btn-info btn-xs" onclick="showVedio('${p.getArticle().getArticleId()}',${p.getTypeId()})"><i class="fa fa-caret-square-o-right"></i>
                                                 视频</a>
                                         </#if>
 
@@ -111,10 +111,10 @@
                                     <div id="content${p.getArticle().getArticleId()}" style="display: none">
                                         ${p.getArticle().getContent()}
                                     </div>
-                                    <div id="video${p.getArticleId()}" style="display: none">
+                                    <div id="video${p.getArticle().getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
-                                                <video  style="max-height: 700px" src="${p.getContent()}" controls="controls" >
+                                                <video  style="max-height: 700px" src="${p.getArticle().getContent()}" controls="controls" >
 
                                                 </video>
                                             </div>

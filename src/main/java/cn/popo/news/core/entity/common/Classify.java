@@ -1,5 +1,6 @@
 package cn.popo.news.core.entity.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,6 @@ public class Classify {
     /**
      * 列别名称 头条   科技   娱乐  游戏   搞笑  文史   视频
      */
+    @JsonProperty("title")
     private String classify;
 }

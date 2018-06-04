@@ -6,6 +6,7 @@ import cn.popo.news.core.entity.form.ReplyForm;
 import cn.popo.news.core.entity.form.ReplyReportForm;
 import cn.popo.news.core.service.api.AgoReplyService;
 import cn.popo.news.core.utils.ResultVOUtil;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -64,7 +65,7 @@ public class ReplyController {
                                                   @RequestParam(value = "commentId") String commentId
     ){
 
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ReplyVO> pageDTO = agoReplyService.findReplyByCommentId(pageRequest,commentId,userId,ONE);
         map.put("pageContent", pageDTO);
         map.put("size", size);

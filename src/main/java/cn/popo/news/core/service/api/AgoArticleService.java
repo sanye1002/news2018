@@ -8,6 +8,8 @@ import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.entity.param.CollectParam;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @Author  Administrator
  * @Date    2018/5/22 18:52
@@ -26,4 +28,8 @@ public interface AgoArticleService {
     PageDTO<ArticleVO> findAllArticleByClassifyIdAndShowStateAndStateAndDraft(Pageable pageable,Integer classifyId ,Integer state, Integer showState, Integer draft);
 
     PageDTO<ArticleVO> findAllArticleByUserCollect(Pageable pageable,String userId,Integer typeId);
+
+    List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId);
+
+    List<ArticleVO> findRecommentByTypeId(Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
 }

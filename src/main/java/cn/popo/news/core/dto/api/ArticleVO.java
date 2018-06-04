@@ -1,5 +1,6 @@
 package cn.popo.news.core.dto.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,15 +8,30 @@ import java.util.List;
 
 @Data
 public class ArticleVO implements Serializable {
+    @JsonProperty("id")
     private String articleId;
-    private String uid;
-    private String nikeName;
-    private String avatar;
-    private String type;
+
+
+    private String title;
+
+    @JsonProperty("sort")
     private String classify;
+
+    @JsonProperty("img")
     private List<String> imgList;
+
+    @JsonProperty("nowTime")
     private String manyTimeAgo;
+
     private Integer commentNum;
-    private Integer manageId;
+
+    @JsonProperty("type")
     private Integer typeId;
+
+    private Integer original;
+
+    private Author author;
+
+    private Integer imgNum;
+
 }
