@@ -32,7 +32,7 @@ spring:
 upload:
   path: D:\xiaoxin\upload
 server:
-  port: 8888
+  port: 8080
 ffmpeg:
   exePath: D:\Program Files\ffmpeg\bin\ffmpeg.exe
   waterPath: D:\Program Files\waterPath\water.png

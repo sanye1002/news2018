@@ -62,7 +62,7 @@ public class User implements Serializable {
     /**
      * 伪删除
      */
-    private Integer showStatus;
+    private Integer showStatus=1;
 
     /**
      * 前台后台账号分离
@@ -78,12 +78,12 @@ public class User implements Serializable {
     /**
      * 我的粉丝数量
      */
-    private Integer fansCounts;
+    private Integer fansCounts=0;
 
     /**
      * 我关注的人总数
      */
-    private Integer followCounts;
+    private Integer followCounts=0;
 
     private String createDate; //创建时间
 

@@ -13,7 +13,7 @@ public class ImgVOUtil {
         ImgVO imgVO = new ImgVO();
         imgVO.setId(id);
         imgVO.setStart(0);
-        imgVO.setTitle("相册");
+        imgVO.setTitle("图片");
         imgVO.setData(object);
         return imgVO;
     }

@@ -3,13 +3,12 @@ package cn.popo.news.core.service.api.impl;
 import cn.popo.news.common.constant.CookieConstant;
 import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.RedisOperator;
+import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.param.UserParam;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.RegisterLoginService;
-import cn.popo.news.core.utils.CookieUtil;
-import cn.popo.news.core.utils.Encrypt;
-import cn.popo.news.core.utils.ResultVOUtil;
+import cn.popo.news.core.utils.*;
 import cn.popo.news.core.vo.ResultVO;
 import cn.popo.news.core.vo.UserVO;
 import com.google.gson.Gson;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,6 +39,8 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserSessionUtil userSessionUtil;
 
 
 
@@ -98,6 +100,130 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
         Map<String, Object> map = new HashMap<>();
         map.put("message","成功退出！");
         return ResultVOUtil.success(map);
+    }
+
+    @Override
+    public ResultVO<Map<String, Object>> loginByPhoneAndCode(HttpServletRequest request,HttpServletResponse response, String phone, String code) {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        String messageCode = (String) session.getAttribute("code");
+        if (messageCode.equals(code)) {
+            session.removeAttribute("code");
+            User user = userRepository.findByPhoneAndStatus(phone,1);
+            if (user == null) {
+                return ResultVOUtil.error(100, "查无用户");
+            }
+            map.put("message","登录成功");
+            map.put("userVO",this.setUserRedisSessionTokenAndCookieSession(response,user));
+            return ResultVOUtil.success(map);
+        } else {
+            return ResultVOUtil.error(100, "验证码错误");
+        }
+
+
+
+    }
+
+
+    /**
+     *  验证手机号码
+     *  type 0 登录找回密码   1 注册
+     *
+     */
+
+    @Override
+    public ResultVO<Map<String, Object>> checkPhone(HttpServletRequest request, String phone, Integer type) {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        if (type==0){
+            User user = userRepository.findByPhoneAndStatus(phone,1);
+            if (user == null) {
+                return ResultVOUtil.error(402, "查无用户");
+            }
+        }
+        session.setMaxInactiveInterval(500);
+        Integer code = RandomUtils.getRandom4Font();
+        if (SendMessageUtil.sendCodeMessage(phone, code + "")) {
+            session.setAttribute("code", "" + code);
+            map.put("message", "验证码发送成功！");
+        } else {
+            return ResultVOUtil.error(100, "短信发送失败，请联系管理员！");
+        }
+        return ResultVOUtil.success(map);
+    }
+
+    @Override
+    public ResultVO<Map<String, Object>> register(HttpServletRequest request, HttpServletResponse response, String phone, String code, String password) {
+        Map<String, Object> map = new HashMap<>();
+        if (checkCode(request, code)){
+            User user = new User();
+            user.setPassword(Encrypt.md5(password));
+            user.setPassword(phone);
+            user.setAvatar("");
+            user.setCreateDate(GetTimeUtil.getTime());
+            user.setUpdateDate(GetTimeUtil.getTime());
+            user.setUserType("1");
+            user.setUserId(KeyUtil.genUniqueKey());
+            User userParam = userRepository.save(user);
+            map.put("message","登录成功");
+            map.put("userVO",this.setUserRedisSessionTokenAndCookieSession(response,userParam));
+            return ResultVOUtil.success(map);
+        }
+        return ResultVOUtil.error(401,"验证码错误！");
+    }
+
+    @Override
+    public ResultVO<Map<String, Object>> forgetPassword(HttpServletRequest request, HttpServletResponse response, String phone, String code, String password) {
+        Map<String, Object> map = new HashMap<>();
+        if (checkCode(request, code)){
+            User user = userRepository.findByPhoneAndStatus(phone,1);
+            if (user == null) {
+                return ResultVOUtil.error(402, "查无用户");
+            }
+            user.setPassword(Encrypt.md5(password));
+            map.put("message","用户已成功创建");
+            map.put("userVO",this.setUserRedisSessionTokenAndCookieSession(response,userRepository.save(user)));
+            return ResultVOUtil.success(map);
+
+        }
+        return ResultVOUtil.error(401,"验证码错误！");
+    }
+
+    @Override
+    public ResultVO<Map<String, Object>> updatePassword(HttpServletRequest request, HttpServletResponse response, String userId, String oldPassword, String newPassword) {
+        Map<String, Object> map = new HashMap<>();
+        if (checkPassword(userId,oldPassword)){
+            User user = userRepository.findOne(userId);
+            if (user == null) {
+                return ResultVOUtil.error(402, "查无用户");
+            }
+            user.setPassword(Encrypt.md5(newPassword));
+            map.put("message","修改成功");
+            map.put("userVO",this.setUserRedisSessionTokenAndCookieSession(response,userRepository.save(user)));
+        }
+        return ResultVOUtil.error(401,"原密码错误！");
+    }
+
+    @Override
+    public Boolean checkCode(HttpServletRequest request, String code) {
+        HttpSession session = request.getSession();
+        String messageCode = (String) session.getAttribute("code");
+        if (messageCode.equals(code)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean checkPassword(String userId, String password) {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            return false;
+        }
+        if (user.getPassword().equals(Encrypt.md5(password))){
+            return true;
+        }
+        return false;
     }
 
 

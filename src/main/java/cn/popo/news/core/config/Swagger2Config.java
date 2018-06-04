@@ -1,11 +1,13 @@
 package cn.popo.news.core.config;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -20,22 +22,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
+
     @Bean
-    public Docket createRestApi() {
+    public Docket buildDocket(){
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
+                .apiInfo(buildApiInf())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.didispace.web"))
+                .apis(RequestHandlerSelectors.basePackage("cn.popo.news.core.controller.api"))
                 .paths(PathSelectors.any())
                 .build();
     }
-    private ApiInfo apiInfo() {
+
+    private ApiInfo buildApiInf(){
         return new ApiInfoBuilder()
                 .title("妙漫网创 RESTful APIs 文档")
                 .description("如有疑问请加QQ：331139839")
                 .termsOfServiceUrl("http://www.cdrysj.com")
-                .contact("popo")
-                .version("1.0")
+                .contact(new Contact("popo", "http://www.cdrysj.com", "331139839@qq.com"))
                 .build();
+
     }
 }

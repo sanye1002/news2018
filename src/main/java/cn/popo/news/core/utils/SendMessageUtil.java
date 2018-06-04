@@ -28,7 +28,7 @@ public class SendMessageUtil {
      */
     @Synchronized
     public static Boolean sendCodeMessage(String phone, String code)  {
-        Integer tempid = 51402;
+        Integer tempid = 51440;
         Boolean flog = false;
         try {
             String param = "code="+URLEncoder.encode(code,"utf-8");
