@@ -7,29 +7,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * @Author  Administrator
- * @Date    2018/5/22 11:57
- * @Desc    关注
- */
-
-@Entity
 @Data
-@Table(name="attention")
-public class Attention {
+@Entity
+@Table(name="dynamic")
+public class Dynamic {
+
     @Id
     @GeneratedValue
     private Integer id;
 
-    /**
-     * 关注者Id
-     */
-    private String aid;
+    private String userId;
 
-    /**
-     * 被关注者id
-     */
-    private String fid;
+    private String content;
+
+    private String imgUrl;
 
     private Long time;
 }

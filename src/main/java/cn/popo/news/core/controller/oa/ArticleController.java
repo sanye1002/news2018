@@ -8,10 +8,8 @@ import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
-import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.service.*;
-import cn.popo.news.core.service.impl.ArticleServiceImpl;
 import cn.popo.news.core.service.impl.ClassifyServiceImpl;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.ShiroGetSession;
@@ -293,8 +291,10 @@ public class ArticleController {
     @PostMapping("/audit")
     @ResponseBody
     public ResultVO<Map<String, String>> articleAudit(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId,
-                            @RequestParam(value = "state", defaultValue = "2") Integer state){
-        articleService.updateArticleStateByArticleId(articleId,state);
+                            @RequestParam(value = "state", defaultValue = "2") Integer state,
+                            @RequestParam(value = "integral", defaultValue = "2") Integer integral
+    ){
+        articleService.updateArticleStateByArticleId(articleId,state,integral);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

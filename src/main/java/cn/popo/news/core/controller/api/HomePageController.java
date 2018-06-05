@@ -46,7 +46,7 @@ public class HomePageController {
     /**
      * @param
      * @return List<SearchVO>
-     * @desc 首页搜索
+     * @desc 导航
      */
     @PostMapping("/nav")
     @ResponseBody
@@ -55,7 +55,6 @@ public class HomePageController {
         //导航
         List<Classify> list = classifyService.findAllClassify();
         map.put("indexNavigation",list);
-
         return ResultVOUtil.success(map);
     }
 
@@ -75,10 +74,8 @@ public class HomePageController {
                                                                                         ){
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findArticleTitleLikeAndStateAndShowStateAndDraft(pageRequest,ONE,content,ONE,ZERO);
-
-        map.put("size", size);
-        map.put("currentPage", page);
-        map.put("pageContent", pageDTO);
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
         return ResultVOUtil.success(map);
     }
 
@@ -86,7 +83,7 @@ public class HomePageController {
     /**
      * @param classifyId page size
      * @return List<SearchVO>
-     * @desc 分类搜索
+     * @desc 分类查找
      */
     @PostMapping("/classify")
     @ResponseBody
@@ -97,9 +94,8 @@ public class HomePageController {
     ){
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByClassifyIdAndShowStateAndStateAndDraft(pageRequest,classifyId,ONE,ONE,ZERO);
-        map.put("size", size);
-        map.put("currentPage", page);
-        map.put("pageContent", pageDTO);
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
         return ResultVOUtil.success(map);
     }
 
@@ -124,14 +120,15 @@ public class HomePageController {
         Map<String,Object> map1 = new HashMap<>();
         //图文
         List<ArticleVO> realTimeNews = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,ONE,ONE);
-        map.put("realTimeNews",realTimeNews);
+        map1.put("realTimeNews",realTimeNews);
         //多图
         List<ArticleVO> imgs = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,TWO,ONE);
-        map.put("imgs",imgs);
+        map1.put("imgs",imgs);
         //视频
         List<ArticleVO> videos = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,THREE,ONE);
-        map.put("videos",videos);
+        map1.put("videos",videos);
 
+        map.put("recommend",map1);
         //文章
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
@@ -141,7 +138,11 @@ public class HomePageController {
     }
 
 
-
+    /**
+     * @param page size
+     * @return  List<article>
+     * @desc 首页上拉刷新
+     */
     @PostMapping("/index/article")
     @ResponseBody
     public ResultVO<Map<String,Object>> indexArticle(Map<String,Object> map,

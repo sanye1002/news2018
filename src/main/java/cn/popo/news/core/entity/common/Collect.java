@@ -36,4 +36,6 @@ public class Collect {
      */
     private Integer typeId;
 
+    private Long time;
+
 }

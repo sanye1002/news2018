@@ -1,13 +1,8 @@
 package cn.popo.news.core.service.api.impl;
 
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.ArticleDetailsVO;
-import cn.popo.news.core.dto.api.ArticleVO;
-import cn.popo.news.core.dto.api.Author;
-import cn.popo.news.core.entity.common.ArticleInfo;
-import cn.popo.news.core.entity.common.ArticleReport;
-import cn.popo.news.core.entity.common.Collect;
-import cn.popo.news.core.entity.common.User;
+import cn.popo.news.core.dto.api.*;
+import cn.popo.news.core.entity.common.*;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.entity.param.CollectParam;
 import cn.popo.news.core.enums.ResultEnum;
@@ -53,11 +48,15 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     @Autowired
     private ClassifyRepository classifyRepository;
 
-    @Autowired
-    private TypeRepository typeRepository;
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private AttentionRepository attentionRepository;
+
+    @Autowired
+    private BrowsingHistoryRepository browsingHistoryRepository;
 
 
     /**
@@ -69,9 +68,6 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         ArticleDetailsVO articleDetailsVO = new ArticleDetailsVO();
         if(articleInfo!=null){
             BeanUtils.copyProperties(articleInfo,articleDetailsVO);
-            User user = userRepository.findOne(articleInfo.getUid());
-            articleDetailsVO.setAvatar(user.getAvatar());
-            articleDetailsVO.setNickName(user.getNikeName());
             articleDetailsVO.setKeywordList(SplitUtil.splitComme(articleInfo.getKeywords()));
             articleDetailsVO.setTime(GetTimeUtil.getDateFormat(articleInfo.getCrateTime()));
             if(articleInfo.getTypeId()==2){
@@ -88,8 +84,45 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             }
         }
 
-
         return articleDetailsVO;
+    }
+
+
+    /**
+     * 文章详情页面用户信息及推荐文章
+     */
+    @Override
+    public UserVO findArticleDetailsUser(String articleId,String userId){
+        ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        UserVO userVO = new UserVO();
+        List<UserReCommentVO> userReCommentVOArrayList = new ArrayList<UserReCommentVO>();
+
+        User user = userRepository.findOne(articleInfo.getUid());
+        BeanUtils.copyProperties(user,userVO);
+        Attention attention = attentionRepository.findAllByAidAndFid(userId,articleInfo.getUid());
+        if (attention!=null){
+            userVO.setAttentionId(attention.getId());
+        }else {
+            userVO.setAttentionId(0);
+        }
+
+        List<ArticleInfo> list = articleRepository.findAllByStateAndShowStateAndDraftAndUidAndTypeId(
+                ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),
+                ResultEnum.SUCCESS.getCode(),userId,articleInfo.getTypeId());
+
+        list.forEach(l->{
+            UserReCommentVO userReCommentVO = new UserReCommentVO();
+            userReCommentVO.setTitle(l.getTitle());
+            String imgList = l.getImgUrl();
+            if(imgList!=null){
+                userReCommentVO.setImgList(SplitUtil.splitComme(imgList));
+            }
+            userReCommentVO.setImgNum(SplitUtil.splitComme(imgList).size());
+            userReCommentVOArrayList.add(userReCommentVO);
+        });
+
+        userVO.setUserReCommentList(userReCommentVOArrayList);
+        return userVO;
     }
 
 
@@ -100,6 +133,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     public void articleCollect(CollectParam collectParam) {
         Collect collect = new Collect();
         BeanUtils.copyProperties(collectParam,collect);
+        collect.setTime(System.currentTimeMillis());
         collectRepository.save(collect);
     }
 
@@ -228,6 +262,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         return articleVOList;
     }
 
+    /**
+     * 查侧边栏
+     */
     @Override
     public List<ArticleVO> findRecommentByTypeId(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId, Integer recommendState) {
         List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
@@ -244,6 +281,25 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         });
 
         return articleVOList;
+    }
+
+
+    /**
+     * 增加浏览记录
+     */
+    @Override
+    public void saveBrowsingHistory(String userId,String articleId) {
+        BrowsingHistory browsingHistory = browsingHistoryRepository.findAllByUserIdAndArticleId(userId,articleId);
+        browsingHistory.setTime(System.currentTimeMillis());
+        if(browsingHistory==null){
+            browsingHistory.setArticleId(articleId);
+            browsingHistory.setUserId(userId);
+            browsingHistoryRepository.save(browsingHistory);
+            ArticleInfo articleInfo = articleRepository.findOne(articleId);
+            Integer lookNum = articleInfo.getLookNum();
+            articleInfo.setLookNum(lookNum+1);
+        }
+
     }
 
 }

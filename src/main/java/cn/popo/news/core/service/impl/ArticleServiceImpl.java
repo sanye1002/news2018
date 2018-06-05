@@ -78,6 +78,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleInfo.setCrateTime(System.currentTimeMillis());
         articleInfo.setRecommendState(0);
         articleInfo.setSlideState(0);
+        articleInfo.setLookNum(0);
         articleRepository.save(articleInfo);
     }
 
@@ -108,6 +109,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
+                    articleDTO.setUser(userRepository.getOne(l.getUid()));
                     list.add(articleDTO);
                 });
             }
@@ -269,9 +271,12 @@ public class ArticleServiceImpl implements ArticleService {
      * 改变审核状态
      */
     @Override
-    public void updateArticleStateByArticleId(String articleId, Integer state) {
+    public void updateArticleStateByArticleId(String articleId, Integer state,Integer integral) {
+
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
+
         articleInfo.setState(state);
+
 //        articleRepository.save(articleInfo);
     }
 

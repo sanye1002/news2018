@@ -12,4 +12,5 @@ public interface AgoCommentService {
     void deleteCommentPraise(Integer praiseId,String commentId);
     void commontSave(CommentForm commentForm);
     void commentReplyReportSave(CommentReportForm commentReplyReportForm);
+    Integer findCommentNumByArticleId(String articleId,Integer showState);
 }

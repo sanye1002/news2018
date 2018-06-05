@@ -89,4 +89,13 @@ public class UserParam {
      * 我关注的人总数
      */
     private Integer followCounts;
+
+    private String QQ;
+    private String email;
+    private String city;
+    private String birthday;
+    /**
+     * 0:女 1:男
+     */
+    private Integer sex;
 }

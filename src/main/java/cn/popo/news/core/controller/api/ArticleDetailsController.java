@@ -4,10 +4,12 @@ package cn.popo.news.core.controller.api;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.CommentVO;
+import cn.popo.news.core.dto.api.UserVO;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.entity.param.CollectParam;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoCommentService;
+import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ public class ArticleDetailsController {
     @Autowired
     private AgoArticleService agoArticleService;
 
+
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
 
@@ -51,22 +54,53 @@ public class ArticleDetailsController {
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
         PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
-        map.put("pageContent", pageDTO);
+        pageDTO.setCurrentPage(page);
+        Integer commentNum = agoCommentService.findCommentNumByArticleId(articleId,ONE);
+        pageDTO.setCommentNum(commentNum);
+        map.put("comment", pageDTO);
+
         //文章详情
         ArticleDetailsVO articleDetailsVO = agoArticleService.findArticleDetails(articleId,userId);
         map.put("articleDetails",articleDetailsVO);
 
-        map.put("size", size);
-        map.put("currentPage", page);
+        //用户信息及用户文章推荐
+        UserVO userVO = agoArticleService.findArticleDetailsUser(articleId,userId);
+        map.put("author",userVO);
+
+        //增加浏览记录
+        agoArticleService.saveBrowsingHistory(userId,articleId);
+
         return ResultVOUtil.success(map);
     }
+
+    /**
+     * @param articleId page size
+     * @return
+     * @desc 文章评论
+     */
+    @PostMapping("/comment")
+    public ResultVO<Map<String,Object>> articleComment(Map<String,Object> map,
+                                                       @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                       @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                       @RequestParam(value = "userId", defaultValue = "12") String userId,
+                                                       @RequestParam(value = "articleId") String articleId){
+        //评论
+        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
+        pageDTO.setCurrentPage(page);
+        map.put("comment", pageDTO);
+
+        return ResultVOUtil.success(map);
+    }
+
+
 
     /**
      * @param collectParam
      * @return
      * @desc 文章收藏
      */
-    @PostMapping("/collect")
+     @PostMapping("/collect")
     public ResultVO<Map<String,Object>> articleCollect(@Valid CollectParam collectParam){
         agoArticleService.articleCollect(collectParam);
         Map<String,Object> map  = new HashMap<>();

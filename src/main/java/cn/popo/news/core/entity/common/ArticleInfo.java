@@ -102,4 +102,9 @@ public class ArticleInfo implements Serializable{
      */
     private Integer original;
 
+    /**
+     * 人气
+     */
+    private Integer lookNum;
+
 }

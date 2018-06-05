@@ -125,18 +125,20 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
+                                    <th>用户</th>
                                     <th>标题</th>
                                     <th>时间</th>
                                     <th>关键字</th>
                                     <th>类型</th>
                                     <th>分类</th>
-                                    <th>操作</th>
+                                    <th>内容与图片</th>
                                     <th>审核</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <#list pageContent.getPageContent() as p>
                                 <tr id="${p.getArticleId()}">
+                                    <td>${p.getUser().getNikeName()}</td>
                                     <td>${p.getTitle()}</td>
                                     <td>${p.getTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
@@ -251,7 +253,7 @@
     });
 
     //审核提交
-    function changeAudit(articleId,state){
+    function changeAudit1(articleId,state){
         var resultType = $("#type input[type=checkbox]:checked").val()
         $.post(
             "/oa/article/audit",
@@ -320,6 +322,46 @@
                 ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
             });
         });
+    }
+
+    function changeAudit(articleId,state) {
+        var resultType = $("#type input[type=checkbox]:checked").val()
+
+
+
+                layer.prompt({title: '请输入积分(0-100)，并确认', formType: 0}, function(text){
+                    if(text>100||text<0){
+                        layer.msg('输入积分不合理',{
+                            time:1200
+                        });
+                    }else {
+                        $.post(
+                                "/oa/article/audit",
+                                {
+                                    articleId:articleId,
+                                    state:state,
+                                    integral:text
+
+                                },
+                                function (data){
+                                    if (data.code == 0) {
+                                        layer.msg(data.message);
+                                        setTimeout(function () {
+                                            location = "/oa/article/auditlist?type="+resultType
+                                        }, 100)
+                                    }
+                                    if (data.code > 0) {
+                                        layer.msg(data.message);
+                                    }
+                                }
+                        )
+                    }
+
+
+
+                });
+
+
     }
 </script>
 </body>

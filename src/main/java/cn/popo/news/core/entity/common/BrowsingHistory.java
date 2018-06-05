@@ -7,29 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * @Author  Administrator
- * @Date    2018/5/22 11:57
- * @Desc    关注
- */
-
-@Entity
 @Data
-@Table(name="attention")
-public class Attention {
+@Entity
+@Table(name="browsingHistory")
+public class BrowsingHistory {
     @Id
     @GeneratedValue
     private Integer id;
 
-    /**
-     * 关注者Id
-     */
-    private String aid;
+    private String articleId;
 
-    /**
-     * 被关注者id
-     */
-    private String fid;
+    private String userId;
 
     private Long time;
 }

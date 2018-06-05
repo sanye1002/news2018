@@ -128,4 +128,12 @@ public class AgoCommentServiceImpl implements AgoCommentService {
         commentReport.setDisposeState(ResultEnum.SUCCESS.getCode());
         commentReportRepository.save(commentReport);
     }
+
+    /**
+     * 评论数量
+     */
+    @Override
+    public Integer findCommentNumByArticleId(String articleId, Integer showState) {
+        return commentRepository.findAllByAidAndShowState(articleId,showState).size();
+    }
 }

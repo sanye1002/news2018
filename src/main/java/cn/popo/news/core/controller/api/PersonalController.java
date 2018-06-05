@@ -4,8 +4,12 @@ package cn.popo.news.core.controller.api;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.AttentionVO;
+import cn.popo.news.core.dto.api.DynamicVO;
+import cn.popo.news.core.dto.api.PersonalVO;
+import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoAttentionService;
+import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -27,6 +33,9 @@ public class PersonalController {
 
     @Autowired
     private AgoArticleService agoArticleService;
+
+    @Autowired
+    private AgoPersonalService agoPersonalService;
 
     /**
      * @param fid
@@ -67,9 +76,8 @@ public class PersonalController {
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
         PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllAttention(pageRequest,"1527582639993");
+        pageDTO.setCurrentPage(page);
         map.put("attention", pageDTO);
-        map.put("size", size);
-        map.put("currentPage", page);
         return ResultVOUtil.success(map);
     }
 
@@ -83,10 +91,9 @@ public class PersonalController {
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size){
         PageRequest pageRequest = new PageRequest(page-1,size);
-        PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllAttention(pageRequest,"1527582639993");
+        PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllFans(pageRequest,"1527582639993");
+        pageDTO.setCurrentPage(page);
         map.put("fans", pageDTO);
-        map.put("size", size);
-        map.put("currentPage", page);
         return ResultVOUtil.success(map);
     }
 
@@ -101,12 +108,132 @@ public class PersonalController {
                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                @RequestParam(value = "typeId") Integer typeId
     ){
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",typeId);
-        map.put("size", size);
-        map.put("currentPage", page);
+        pageDTO.setCurrentPage(page);
         map.put("pageContent", pageDTO);
         return ResultVOUtil.success(map);
     }
+
+    /**
+     * @param content imgUrl userId
+     * @return
+     * @desc 发表动态
+     */
+    @PostMapping("/user/dynamic/save")
+    public ResultVO<Map<String,Object>> addDynamic(Map<String,Object> map,
+                                                   @RequestParam(value = "content") String content,
+                                                   @RequestParam(value = "imgUrl") String imgUrl,
+                                                   @RequestParam(value = "userId") String userId
+                                                   ){
+        agoPersonalService.saveDynamic(userId,content,imgUrl);
+
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param page size
+     * @return
+     * @desc 用户动态
+     */
+    @PostMapping("/user/dynamic/list")
+    public ResultVO<Map<String,Object>> userDynamicList(Map<String,Object> map,
+                                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                          @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                          @RequestParam(value = "userId", defaultValue = "12") String userId
+    ){
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
+        PageDTO<DynamicVO> pageDTO = agoPersonalService.findAllDynamicByUserId(pageRequest,userId);
+        pageDTO.setCurrentPage(page);
+        map.put("dynamic", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+
+    /**
+     * @param page size
+     * @return
+     * @desc 浏览记录
+     */
+    @PostMapping("/user/history/list")
+    public ResultVO<Map<String,Object>> userBrowsingHistoryList(Map<String,Object> map,
+                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                        @RequestParam(value = "userId", defaultValue = "12") String userId
+    ){
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
+        PageDTO<String> pageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
+        pageDTO.setCurrentPage(page);
+        map.put("look", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+
+    /**
+     * @param page size
+     * @return
+     * @desc 个人首页
+     */
+    @PostMapping("/user/index")
+    public ResultVO<Map<String,Object>> userIndex(Map<String,Object> map,
+                                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                                @RequestParam(value = "userId", defaultValue = "12") String userId
+    ){
+        //用户信息
+        PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
+        map.put("user",personalVO);
+
+        //动态
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
+        PageDTO<DynamicVO> pageDTO = agoPersonalService.findAllDynamicByUserId(pageRequest,userId);
+        pageDTO.setCurrentPage(page);
+        map.put("dynamic", pageDTO);
+
+        //浏览记录
+        PageDTO<String> pageDTO1 = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
+        map.put("look", pageDTO1);
+
+        //粉丝和关注数量
+        Integer fans = agoAttentionService.findFansNum(userId);
+        Integer attentionNum = agoAttentionService.findAttentionNum(userId);
+        map.put("fansNum",fans);
+        map.put("attentionNum",attentionNum);
+
+        //图文
+        PageDTO<ArticleVO> articlePageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",1);
+        map.put("article", articlePageDTO);
+        //多图
+        PageDTO<ArticleVO> imgsPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",2);
+        map.put("imgs", imgsPageDTO);
+        //视频
+        PageDTO<ArticleVO> videoPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",3);
+        map.put("video", videoPageDTO);
+
+        //粉丝
+        PageDTO<AttentionVO> fansPageDTO = agoAttentionService.findAllFans(pageRequest,"1527582639993");
+        map.put("fans", fansPageDTO);
+
+        //关注
+        PageDTO<AttentionVO> attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,"1527582639993");
+        map.put("attention", attentionVOPageDTO);
+
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param personalParam
+     * @return
+     * @desc 用户信息更新
+     */
+    @PostMapping("/user/update")
+    public ResultVO<Map<String,Object>> updateUserInfo(@Valid PersonalParam personalParam
+                                                   ){
+        Map<String,Object> map  = new HashMap<>();
+        agoPersonalService.updateUserInfo(personalParam);
+        return ResultVOUtil.success(map);
+    }
+
+
 
 }
