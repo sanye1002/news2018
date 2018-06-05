@@ -5,7 +5,6 @@ import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.RedisOperator;
 import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.entity.common.User;
-import cn.popo.news.core.entity.param.UserParam;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.RegisterLoginService;
 import cn.popo.news.core.utils.*;
@@ -158,7 +157,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
         if (checkCode(request, code)){
             User user = new User();
             user.setPassword(Encrypt.md5(password));
-            user.setPassword(phone);
+            user.setPhone(phone);
             user.setAvatar("");
             user.setCreateDate(GetTimeUtil.getTime());
             user.setUpdateDate(GetTimeUtil.getTime());
