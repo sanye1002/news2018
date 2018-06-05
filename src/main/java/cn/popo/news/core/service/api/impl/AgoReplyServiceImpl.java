@@ -101,7 +101,6 @@ public class AgoReplyServiceImpl implements AgoReplyService {
                     User byUser = userRepository.findOne(l.getCid());//被回复者的id查找用户
                     replyVO.setAvatar(user.getAvatar());
                     replyVO.setNickName(user.getNikeName());
-                    replyVO.setByAvatar(byUser.getAvatar());
                     replyVO.setByNickName(byUser.getNikeName());
                     if (!l.getByReplyId().equals("0")) {
                         replyVO.setByReplyInfo(replyRepository.findOne(l.getByReplyId()).getReplyInfo());

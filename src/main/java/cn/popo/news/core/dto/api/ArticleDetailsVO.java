@@ -8,10 +8,7 @@ import java.util.List;
 @Data
 public class ArticleDetailsVO implements Serializable {
 
-    private String uid;
     private String articleId;
-    private String nickName;
-    private String avatar;
     private String time;
     private String title;
     private String content;
@@ -19,5 +16,7 @@ public class ArticleDetailsVO implements Serializable {
     private List<String> imgList;
     private List<String> imgDesc;
     private Integer collectId;
+    private Integer typeId;
+    private Integer original;
 
 }

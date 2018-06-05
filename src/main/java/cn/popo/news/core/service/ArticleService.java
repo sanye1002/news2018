@@ -50,7 +50,7 @@ public interface ArticleService {
 
     void updateArticleReportDisposeState(String id, Integer disposeState, String articleId, Integer dispose);
 
-    void updateArticleStateByArticleId(String articleId,Integer state);
+    void updateArticleStateByArticleId(String articleId,Integer state,Integer integral);
 
     void updateArticleSpecialByArticleId(String articleId);
 

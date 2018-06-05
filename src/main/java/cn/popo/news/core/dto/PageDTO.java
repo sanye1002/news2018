@@ -13,8 +13,13 @@ import java.util.List;
 public class PageDTO<T> {
     private int totalPages;
     private int currentPage;
+    private int commentNum;
     private List<T> pageContent;
     public PageDTO() {
+    }
+
+    public PageDTO(int commentNum) {
+        this.commentNum = commentNum;
     }
 
     public PageDTO(int totalPages, List<T> pageContent) {
@@ -27,4 +32,8 @@ public class PageDTO<T> {
         this.currentPage = currentPage;
         this.pageContent = pageContent;
     }
+
+
+
+
 }

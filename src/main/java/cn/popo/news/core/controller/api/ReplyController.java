@@ -67,9 +67,8 @@ public class ReplyController {
 
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ReplyVO> pageDTO = agoReplyService.findReplyByCommentId(pageRequest,commentId,userId,ONE);
+        pageDTO.setCurrentPage(page);
         map.put("pageContent", pageDTO);
-        map.put("size", size);
-        map.put("currentPage", page);
         return ResultVOUtil.success(map);
     }
 

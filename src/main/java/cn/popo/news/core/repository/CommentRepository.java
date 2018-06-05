@@ -16,6 +16,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,String> {
     void deleteAllByAid(String articleId);
     List<Comment> findAllByAid(String articleId);
-
+    List<Comment> findAllByAidAndShowState(String articleId,Integer showState);
     Page<Comment> findAllByAidAndShowState(Pageable pageable,String articleId,Integer showState);
 }

@@ -2,7 +2,6 @@ package cn.popo.news.core.service.api.impl;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.AttentionVO;
-import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.entity.common.Attention;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.repository.AttentionRepository;
@@ -43,6 +42,7 @@ public class AgoAttentionServiceImpl implements AgoAttentionService {
         Attention attention = new Attention();
         attention.setAid(aid);
         attention.setFid(fid);
+        attention.setTime(System.currentTimeMillis());
         attentionRepository.save(attention);
     }
 

@@ -37,7 +37,7 @@ public class User implements Serializable {
     /**
      * 个人中心背景图
      */
-    private String backgrundImg;
+    private String backgroundImg;
 
     /**
      * 头像路径
@@ -88,5 +88,16 @@ public class User implements Serializable {
     private String createDate; //创建时间
 
     private String updateDate; //修改时间
+
+    private String QQ;
+    private String email;
+    private String city;
+    private String birthday;
+    /**
+     * 0:女 1:男
+     */
+    private Integer sex;
+
+
 
 }
