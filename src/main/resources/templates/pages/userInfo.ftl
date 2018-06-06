@@ -145,6 +145,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="row">
@@ -196,7 +197,61 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
+                        <h5 class="row-title before-red"><i class="fa fa-tags red"></i>必须上传真实信息！</h5>
+                        <div class="widget">
+                            <div class="widget-header bordered-bottom bordered-palegreen">
+                                <span class="widget-caption">银行信息</span>
+                            </div>
+                            <div class="widget-body">
+                                <div>
+                                    <form class="form-horizontal form-bordered" role="form" id="payForType">
+                                        <input type="text" name="type" value="alterInfo" hidden>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right">支付宝账号</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="aliPay"
+                                                       value="${userInfo.aliPay!}">
+                                                <small>注意：支付宝账号作为拨款的必要凭证，请谨慎修改！</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="bankCardNumber" class="col-sm-2 control-label no-padding-right">开户银行</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="bankType"
+                                                       value="${userInfo.bankType!}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="bankCardNumber" class="col-sm-2 control-label no-padding-right">开户姓名</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="bankUserName"
+                                                       value="${userInfo.bankUserName!}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="bankCardNumber" class="col-sm-2 control-label no-padding-right">银行卡号</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="bankCardNumber"
+                                                       value="${userInfo.bankCardNumber!}">
+                                                <small>注意：银行卡号作为拨款的必要凭证，请谨慎修改！</small>
+                                            </div>
+                                        </div>
 
+
+                                        <div class="form-group text-align-right">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <a href="javascript:void(0);" class="btn btn-labeled btn-palegreen"
+                                                   id="payForTypeSubmit">
+                                                    <i class="btn-label glyphicon glyphicon-ok"></i>保存
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /Page Body -->
@@ -368,6 +423,53 @@
                         {
                             oldPassword:oldPassword,
                             newPassword:newPassword
+
+                        },
+                        function (res) {
+                            layer.msg(res.message, {
+                                time: 1000
+                            });
+                            if (res.code == 0) {
+                                setTimeout(function () {
+                                    location = "/oa/user/info.html";
+                                }, 1000);
+                            }
+                        }
+                )
+            }
+        })
+    })
+
+    $(function () {
+        $("#payForTypeSubmit").click(function () {
+            var aliPay = $("#aliPay").val();
+            var bankCardNumber = $("#bankCardNumber").val();
+            var bankUserName = $("#bankUserName").val();
+            var bankType = $("#bankType").val();
+            if (aliPay == "") {
+                layer.msg("支付宝账号不能为空！", {
+                    time: 1000
+                });
+            } else if (bankCardNumber == "") {
+                layer.msg("银行卡号不能为空！", {
+                    time: 1000
+                });
+            } else if (bankUserName == "") {
+                layer.msg("开户姓名不能为空！", {
+                    time: 1000
+                });
+            } else if (bankType=="") {
+                layer.msg("开户银行不能为空！", {
+                    time: 1000
+                });
+            } else {
+                $.post(
+                        "/oa/user/bank/save",
+                        {
+                            aliPay:aliPay,
+                            bankCardNumber:bankCardNumber,
+                            bankUserName:bankUserName,
+                            bankType:bankType
 
                         },
                         function (res) {

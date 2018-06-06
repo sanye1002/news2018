@@ -98,6 +98,14 @@ public class User implements Serializable {
      */
     private Integer sex;
 
+    private String bankCardNumber;//银行卡号
+
+    private String bankType;//开户银行
+
+    private String bankUserName;//开户姓名
+
+    private String aliPay;//支付宝
+
 
 
 }

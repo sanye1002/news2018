@@ -209,4 +209,22 @@ public class UserController {
         map.put("user", ShiroGetSession.getUser());
         return ResultVOUtil.success(map);
     }
+
+
+    //银行卡支付宝信息
+    @PostMapping("/bank/save")
+    @ResponseBody
+    public ResultVO<Map<String, Object>> saveBank(@RequestParam(value = "aliPay") String aliPay,
+                                                  @RequestParam(value = "bankCardNumber") String bankCardNumber,
+                                                  @RequestParam(value = "bankUserName") String bankUserName,
+                                                  @RequestParam(value = "bankType") String bankType) {
+        User userInfo = ShiroGetSession.getUser();
+        userInfo.setAliPay(aliPay);
+        userInfo.setBankType(bankType);
+        userInfo.setBankUserName(bankUserName);
+        userInfo.setBankCardNumber(bankCardNumber);
+        User user = userService.saveByUser(userInfo);
+        ShiroGetSession.setUser(user);
+        return ResultVOUtil.success();
+    }
 }
