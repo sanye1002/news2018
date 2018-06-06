@@ -14,4 +14,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "upload")
 public class UploadConfig {
     private String path;
+
+    private String waterMarkPath;
 }

@@ -38,6 +38,8 @@ public class UploadController {
     private FFMPEGConfig ffmpegConfig;
     @Autowired
     public NginxConfig nginxConfig;
+    @Autowired
+    private UploadUtil uploadUtil;
     @PostMapping("/img/{type}")
 
     private ResultVO<Map<String, String>> uploadFile(HttpServletRequest request,
@@ -49,7 +51,7 @@ public class UploadController {
 
         log.info("path={}", uploadConfig.getPath() + File.separator + type);
 
-        String src = UploadUtil.uploadFile(file, path, type);
+        String src = uploadUtil.uploadFile(file, path, type);
         if (src != null) {
             map.put("src", src);
             return ResultVOUtil.success(map);

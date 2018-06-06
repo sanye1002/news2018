@@ -1,6 +1,9 @@
 package cn.popo.news.core.service;
 
+import cn.popo.news.core.dto.PageDTO;
+import cn.popo.news.core.dto.WithdrawNotesDTO;
 import cn.popo.news.core.entity.common.PointsReward;
+import cn.popo.news.core.entity.common.RewardNotes;
 import cn.popo.news.core.entity.common.WithdrawNotes;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.data.domain.Page;
@@ -56,5 +59,30 @@ public interface UserRewardService {
      * @param resultStatus
      * @return
      */
-    Page<WithdrawNotes> findAllWithdrawNotesByCheckStatusAndResultStatus(Pageable pageable,Integer checkStatus,Integer resultStatus);
+    PageDTO<WithdrawNotesDTO> findAllWithdrawNotesByCheckStatusAndResultStatus(Pageable pageable, Integer checkStatus, Integer resultStatus);
+
+
+    /**
+     * 审核
+     * @param withdrawId
+     * @param resultStatus
+     * @return
+     */
+    ResultVO<Map<String,Object>> checkWithdraw(Integer withdrawId,String remark,Integer resultStatus);
+
+    /**
+     * 查询记录
+     * @param pageable
+     * @param userId
+     * @return
+     */
+    Page<RewardNotes> findAllRewardNotesByUserId(Pageable pageable, String userId);
+
+    /**
+     *
+     * @param status
+     * @return
+     */
+    Integer findAllWithdrawNotesSize(Integer status);
+
 }

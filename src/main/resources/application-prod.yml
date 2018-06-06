@@ -21,6 +21,7 @@ spring:
 
 upload:
   path: D:\xiaoxin\upload
+  waterMarkPath: D:\xiaoxin\water.png
 server:
   port: 8888
 ffmpeg:

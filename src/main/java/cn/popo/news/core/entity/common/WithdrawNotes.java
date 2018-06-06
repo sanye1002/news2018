@@ -35,6 +35,8 @@ public class WithdrawNotes {
 
     private Integer resultStatus=0;
 
+    private String remark;
+
 
 
 }

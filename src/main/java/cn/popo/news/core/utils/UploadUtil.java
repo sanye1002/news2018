@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -31,6 +32,7 @@ import java.util.Map;
  */
 @Slf4j
 @Builder
+@Component
 public class UploadUtil {
 
     @Autowired
@@ -38,7 +40,7 @@ public class UploadUtil {
     @Autowired
     public UploadConfig uploadConfig;
 
-    public static String uploadFile(MultipartFile file, String path, String type) {
+    public String uploadFile(MultipartFile file, String path, String type) {
         File dir = new File(path);
         //判断目录是否存在
         log.info("【文件上传】 path={}", path);
@@ -61,9 +63,14 @@ public class UploadUtil {
                     .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_right.jpg");
             Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.CENTER, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
                     .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_CENTER.jpg");*/
+            //打水印
             if (saveFile.length()>2048000){
                 Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
             }
+            if (!type.equals("user")){
+                WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
+            }
+
             return "/read/img/" + type + "/" + fileName;
 
         } catch (IOException e) {

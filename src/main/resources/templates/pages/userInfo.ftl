@@ -269,6 +269,11 @@
             Notify('请输入正确的手机号码', 'bottom-right', '9000', 'danger', 'fa-warning', true);
             Notify('手机必须真实,如果虚假信息导致其后果自负', 'bottom-right', '9000', 'warning', 'fa-warning', true);
         }
+        var aliPay = "${userInfo.getAliPay()!}";
+        if(aliPay==""){
+            Notify('请输入个人银行信息', 'bottom-right', '9000', 'danger', 'fa-warning', true);
+            Notify('银行信息必须真实,如果虚假信息导致其后果自负', 'bottom-right', '9000', 'warning', 'fa-warning', true);
+        }
 
     }
     exact()

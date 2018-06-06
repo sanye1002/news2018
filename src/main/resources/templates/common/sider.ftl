@@ -30,18 +30,18 @@
 
 
     <@shiro.hasPermission name="articleManage:tag">
-        <li <#if pageId==101|| pageId==102||pageId==103>class="open" </#if>>
+        <li <#if pageId==102||pageId==103>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-align-right"></i>
                 <span class="menu-text">文章处理</span>
                 <i class="menu-expand"></i>
             </a>
             <ul class="submenu">
-                <li <#if pageId==101>class="active" </#if>>
+               <#-- <li <#if pageId==101>class="active" </#if>>
                     <a href="/oa/article/auditlist.html">
                         <span class="menu-text">文章审核</span>
                     </a>
-                </li>
+                </li>-->
                 <li <#if pageId==102>class="active" </#if>>
                     <a href="/oa/article/showlist.html" class="menu-dropdown">
                         <span class="menu-text">文章展示</span>
@@ -55,6 +55,30 @@
             </ul>
         </li>
     </@shiro.hasPermission>
+
+        <#--checkManage:tag-->
+    <@shiro.hasPermission name="checkManage:tag">
+        <li <#if pageId==101|| pageId==201>class="open" </#if>>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-bolt"></i>
+                <span class="menu-text">审核管理</span>
+                <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu">
+                <li <#if pageId==101>class="active" </#if>>
+                    <a href="/oa/article/auditlist.html">
+                        <span class="menu-text">文章审核</span>
+                    </a>
+                </li>
+                <li <#if pageId==201>class="active" </#if>>
+                    <a href="/oa/reward/notes/list.html" class="menu-dropdown">
+                        <span class="menu-text">提现审核</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </@shiro.hasPermission>
+
 
 
     <@shiro.hasPermission name="reportManage:tag">
@@ -112,6 +136,25 @@
             </ul>
         </li>
 
+        <li <#if pageId==202|| pageId==200>class="open" </#if>>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-rmb"></i>
+                <span class="menu-text">个人积分</span>
+                <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu">
+                <li <#if pageId==22>class="active" </#if>>
+                    <a href="/oa/reward/notes/user/list.html">
+                        <span class="menu-text">积分提现</span>
+                    </a>
+                </li>
+                <li <#if pageId==202>class="active" </#if>>
+                    <a href="/oa/reward/rewardNotes/list.html" class="menu-dropdown">
+                        <span class="menu-text">奖励记录</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
        <@shiro.hasPermission name="system:tag">
             <li

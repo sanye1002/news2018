@@ -56,86 +56,33 @@
                     <div class="col-xs-12 col-md-12">
                         <div class="well with-header with-footer">
                             <div class="header bordered-sky">
-                                个人积分
+                            个人奖励记录
                             </div>
                             <div class="table-scrollable">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>用户名</th>
-                                        <th>手机号码</th>
-                                        <th>总积分</th>
-                                        <th>剩余积分</th>
-                                        <th>剩余可提现</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                       <#if pointsReward.getAllIntegral() != 0>
-                                       <tr id="${pointsReward.getId()!}">
-                                           <td>${pointsReward.getUsername()!}</td>
-                                           <td>${pointsReward.getPhone()!}</td>
-                                           <td>${pointsReward.getAllIntegral()!}</td>
-                                           <td>${pointsReward.getLaveIntegral()!}</td>
-                                           <td>${pointsReward.getLaveSalary()!}</td>
-                                           <td>
-                                               <a id="tiXian" onclick="tiXian('${user.getPassword()}',${pointsReward.getUserId()!})" class="btn btn-sky btn-sm  btn-follow">
-                                                   <i class="fa fa-arrow-circle-o-right"></i>
-                                                   提现
-                                               </a>
-                                           </td>
-                                       </tr>
-                                       </#if>
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <div class="well with-header with-footer">
-                            <div class="header bordered-sky">
-                            个人提现记录
-                            </div>
-                            <div class="table-scrollable">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>申请时间</th>
-                                        <th>提现金额</th>
-                                        <th>审核状态</th>
-                                        <th>审核结果</th>
-                                        <th>审核备注</th>
+                                        <th>文章标题</th>
+                                        <th>文章类型</th>
+                                        <th>奖励积分</th>
+                                        <th>时间</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <#list pageContent.getContent() as mm>
                                         <tr id="${mm.getId()}">
-                                            <td>${mm.getCreateTime()!}</td>
-                                            <td>${mm.getWithdrawSalary()!}</td>
+                                            <td>${mm.getArticleTitle()!}</td>
+                                            <td>${mm.getArticleType()!}</td>
                                             <td>
-                                                <#if mm.getCheckStatus()==0>
-                                                    未审核
-                                                </#if>
-                                                <#if mm.getCheckStatus()==1>
-                                                    已审核
-                                                </#if>
+                                                ${mm.getRewardIntegral()!}
                                             </td>
                                             <td>
-                                                <#if mm.getResultStatus()==0>
-                                                    未通过
-                                                </#if>
-                                                <#if mm.getResultStatus()==1>
-                                                    已拨款
-                                                </#if>
+                                                ${mm.getCreateTime()!}
                                             </td>
-                                            <td>${mm.getRemark()!}</td>
-                                            <th>操作</th>
+                                            <td>
+                                               无操作
+                                            </td>
                                         </tr>
                                         </#list>
                                     </tbody>

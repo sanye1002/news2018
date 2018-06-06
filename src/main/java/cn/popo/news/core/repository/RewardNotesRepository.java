@@ -1,6 +1,8 @@
 package cn.popo.news.core.repository;
 
 import cn.popo.news.core.entity.common.RewardNotes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -11,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RewardNotesRepository extends JpaRepository<RewardNotes,Integer> {
 
-    RewardNotes findByUserId(String userId);
+    Page<RewardNotes> findAllByUserId(Pageable pageable,String userId);
 }

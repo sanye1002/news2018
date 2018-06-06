@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @Author: popo
  * @computer：Administrator
@@ -16,5 +18,7 @@ public interface WithdrawNotesRepository extends JpaRepository<WithdrawNotes,Int
     Page<WithdrawNotes> findAllByCheckStatusAndResultStatus(Pageable pageable,Integer checkStatus,Integer resultStatus);
 
     Page<WithdrawNotes> findAllByUserId(Pageable pageable,String userId);
+
+    List<WithdrawNotes> findAllByCheckStatus(Integer checkStatus);
 
 }
