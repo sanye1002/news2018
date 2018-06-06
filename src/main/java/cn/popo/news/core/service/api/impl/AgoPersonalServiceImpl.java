@@ -72,6 +72,9 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                 dynamicPage.getContent().forEach(l -> {
                     DynamicVO dynamicVO = new DynamicVO();
                     BeanUtils.copyProperties(l,dynamicVO);
+                    User user = userRepository.findOne(l.getUserId());
+                    dynamicVO.setUsername(user.getNikeName());
+                    dynamicVO.setAvatar(user.getAvatar());
                     if(l.getImgUrl()!=null){
                         dynamicVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }

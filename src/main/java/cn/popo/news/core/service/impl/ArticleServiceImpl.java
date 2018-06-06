@@ -278,7 +278,6 @@ public class ArticleServiceImpl implements ArticleService {
     public void updateArticleStateByArticleId(String articleId, Integer state,Integer integral) {
 
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
-        System.out.println(articleInfo.toString()+"----------------------------");
         String type = typeRepository.findOne(articleInfo.getTypeId()).getType_name();
         userRewardService.addPoints(articleInfo.getUid(),articleInfo.getArticleId(),articleInfo.getTitle(),type,integral);
         articleInfo.setState(state);
