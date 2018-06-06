@@ -18,10 +18,6 @@ public class PageDTO<T> {
     public PageDTO() {
     }
 
-    public PageDTO(int commentNum) {
-        this.commentNum = commentNum;
-    }
-
     public PageDTO(int totalPages, List<T> pageContent) {
         this.totalPages = totalPages;
         this.pageContent = pageContent;

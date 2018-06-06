@@ -108,30 +108,38 @@
 <#include "../common/footjs.ftl">
 <script type="text/javascript">
     function deleteDept(id) {
-            layer.confirm('此操作为不可逆操作，客官已确认？', {
-                btn: ['确认', '取消'] //按钮
-            }, function () {
-                layer.closeAll();
-                layer.msg('请稍等...', {
-                    icon: 16
-                    , shade: 0.01
-                });
-                //执行POST请求
-                $.post(
-                        "/oa/classify/delete",
-                        {id: id},
-                        function (res) {
-                            layer.msg(res.message, {
-                                time: 1000
-                            });
+        layer.confirm('此操作为不可逆操作，客官已确认？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            layer.closeAll();
+            layer.msg('请稍等...', {
+                icon: 16
+                , shade: 0.01
+            });
+            //执行POST请求
+            $.post(
+                    "/oa/classify/delete",
+                    {
+                        id: id
+                    },
+                    function (res) {
+
+                        if(res.data.mmp){
                             if (res.code == 0) {
                                 setTimeout(function () {
                                     $("#" + id).remove();
                                     layer.closeAll();
                                 }, 1000);
                             }
+                        }else {
+                            layer.msg("还有此分类的文章，不能删除此分类", {
+                                time: 1000
+                            });
                         }
-                )
+
+
+                    }
+            )
 
         });
     }

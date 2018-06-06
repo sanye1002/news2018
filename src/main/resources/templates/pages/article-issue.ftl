@@ -193,10 +193,10 @@
         var article = {
             title: "",
             smallImg: "${article.getImgUrl()!}",
-            type: DEFAULT,
+            type: "",
             content: "",
             keywords: "",
-            classify: DEFAULT,
+            classify: "",
             article: "${articleId!}",
             original:0
         }
@@ -348,6 +348,9 @@
             }
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
+            article.classify = $("#e1").val();
+            article.type = $("#e2").val();
+
             console.log(article.smallImg)
             if (article.title == "") {
                 layer.msg("文章标题为填写...")

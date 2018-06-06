@@ -76,4 +76,6 @@ public interface ArticleService {
 
     Integer findAllSlideNum(Integer manageId,Integer slideState);
 
+    Boolean findArticleByClassifyId(Integer typeId);
+
 }

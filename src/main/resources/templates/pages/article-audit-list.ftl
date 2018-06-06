@@ -329,8 +329,8 @@
 
 
 
-                layer.prompt({title: '请输入积分(0-100)，并确认', formType: 0}, function(text){
-                    if(text>100||text<0){
+                layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function(text){
+                    if(text!=null){
                         layer.msg('输入积分不合理',{
                             time:1200
                         });

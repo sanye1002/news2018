@@ -2,6 +2,7 @@ package cn.popo.news.core.entity.common;
 
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

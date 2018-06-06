@@ -112,6 +112,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
 
         list.forEach(l->{
             UserReCommentVO userReCommentVO = new UserReCommentVO();
+            userReCommentVO.setArticleId(l.getArticleId());
             userReCommentVO.setTitle(l.getTitle());
             String imgList = l.getImgUrl();
             if(imgList!=null){
@@ -239,6 +240,28 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     author.setName(user.getNikeName());
                     indexVO.setAuthor(author);
                     list.add(indexVO);
+                });
+            }
+        }
+        pageDTO.setPageContent(list);
+
+        return pageDTO;
+    }
+
+    /**
+     * 模糊查询 （keywords）
+     */
+    @Override
+    public PageDTO<ArticleVO> findAllArticleByKeywordsLike(Pageable pageable, Integer state, Integer draft, Integer showState, String content) {
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        content="%"+content+"%";
+        Page<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraftAndKeywordsLike(pageable,state,showState,draft,content);
+        List<ArticleVO> list = new ArrayList<>();
+        if(articleInfoPage != null){
+            pageDTO.setTotalPages(articleInfoPage.getTotalPages());
+            if (!articleInfoPage.getContent().isEmpty()){
+                articleInfoPage.getContent().forEach(l->{
+
                 });
             }
         }
