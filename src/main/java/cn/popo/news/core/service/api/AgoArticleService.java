@@ -34,6 +34,8 @@ public interface AgoArticleService {
 
     PageDTO<ArticleVO> findAllArticleByUserCollect(Pageable pageable,String userId,Integer typeId);
 
+    PageDTO<ArticleVO> findAllArticleByKeywordsLike(Pageable pageable,Integer state,Integer draft,Integer showState,String content);
+
     List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId);
 
     List<ArticleVO> findRecommentByTypeId(Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);

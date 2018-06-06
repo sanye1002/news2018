@@ -2,7 +2,9 @@ package cn.popo.news.core.controller.oa;
 
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.Permission;
+import cn.popo.news.core.repository.ArticleRepository;
 import cn.popo.news.core.repository.ClassifyRepository;
+import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.impl.ClassifyServiceImpl;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
@@ -32,6 +34,8 @@ import java.util.Map;
 public class ClassifyController {
     @Autowired
     private ClassifyServiceImpl classifyService;
+    @Autowired
+    private ArticleService articleService;
 
     /**
      * 分类列表显示
@@ -101,9 +105,17 @@ public class ClassifyController {
      */
     @ResponseBody
     @PostMapping("/delete")
-    public ResultVO<Map<String, Object>> delete(@RequestParam(value = "id") Integer id) {
-        classifyService.deleteClassify(id);
+    public ResultVO<Map<String, Object>> delete(@RequestParam(value = "id") Integer id
+    ) {
+
         Map<String,Object> map  = new HashMap<>();
+        Boolean flag = articleService.findArticleByClassifyId(id);
+
+        if (flag){
+            classifyService.deleteClassify(id);
+        }
+
+        map.put("mmp",flag);
         return ResultVOUtil.success(map);
     }
 }

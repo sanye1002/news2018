@@ -105,6 +105,12 @@ public class AgoAttentionServiceImpl implements AgoAttentionService {
                     User user = userRepository.findOne(l.getFid());
                     attentionVO.setByAvatar(user.getAvatar());
                     attentionVO.setByNickName(user.getNikeName());
+                    Attention attention = attentionRepository.findAllByAidAndFid(l.getFid(),aid);
+                    if (attention!=null){
+                        attentionVO.setAttentionToo(1);
+                    }else {
+                        attentionVO.setAttentionToo(0);
+                    }
                     list.add(attentionVO);
                 });
             }
@@ -132,6 +138,12 @@ public class AgoAttentionServiceImpl implements AgoAttentionService {
                     User user = userRepository.findOne(l.getAid());
                     attentionVO.setByAvatar(user.getAvatar());
                     attentionVO.setByNickName(user.getNikeName());
+                    Attention attention = attentionRepository.findAllByAidAndFid(fid,l.getAid());
+                    if (attention!=null){
+                        attentionVO.setAttentionToo(1);
+                    }else {
+                        attentionVO.setAttentionToo(0);
+                    }
                     list.add(attentionVO);
                 });
             }

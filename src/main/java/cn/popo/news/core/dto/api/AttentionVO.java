@@ -9,4 +9,5 @@ public class AttentionVO {
     private String fid;
     private String byNickName;
     private String byAvatar;
+    private Integer attentionToo;
 }

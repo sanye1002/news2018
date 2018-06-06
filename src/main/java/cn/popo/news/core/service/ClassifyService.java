@@ -17,5 +17,4 @@ public interface ClassifyService {
     void deleteClassify(Integer id);
     Classify findClassifyById(Integer id);
     Page<Classify> findClassify(Pageable pageable);
-
 }

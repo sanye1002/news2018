@@ -316,6 +316,21 @@ public class ArticleServiceImpl implements ArticleService {
         return list.size();
     }
 
+
+    /**
+     * 通过文章typeId查询文章是否存在
+     */
+    @Override
+    public Boolean findArticleByClassifyId(Integer classifyId) {
+        List<ArticleInfo> articleInfoList = articleRepository.findAllByClassifyId(classifyId);
+        if (articleInfoList.size()!=0){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+
     /**
      * 管理文章页面展示
      */
