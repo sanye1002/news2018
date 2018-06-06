@@ -1,5 +1,6 @@
 package cn.popo.news.core.dto.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
@@ -14,9 +15,15 @@ public class DynamicVO {
 
     private String userId;
 
+    private String username;
+
+    private String avatar;
+
     private String content;
 
+    @JsonProperty("imgs")
     private List<String> imgList;
 
+    @JsonProperty("time")
     private String ManyTimeAgo;
 }

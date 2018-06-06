@@ -191,8 +191,9 @@ public class PersonalController {
         map.put("dynamic", pageDTO);
 
         //浏览记录
-        PageDTO<String> pageDTO1 = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
-        map.put("look", pageDTO1);
+        PageDTO<String> lookPageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
+        lookPageDTO.setCurrentPage(page);
+        map.put("look", lookPageDTO);
 
         //粉丝和关注数量
         Integer fans = agoAttentionService.findFansNum(userId);
@@ -202,20 +203,25 @@ public class PersonalController {
 
         //图文
         PageDTO<ArticleVO> articlePageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",1);
+        articlePageDTO.setCurrentPage(page);
         map.put("article", articlePageDTO);
         //多图
         PageDTO<ArticleVO> imgsPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",2);
+        imgsPageDTO.setCurrentPage(page);
         map.put("imgs", imgsPageDTO);
         //视频
         PageDTO<ArticleVO> videoPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",3);
+        videoPageDTO.setCurrentPage(page);
         map.put("video", videoPageDTO);
 
         //粉丝
         PageDTO<AttentionVO> fansPageDTO = agoAttentionService.findAllFans(pageRequest,"1527582639993");
+        fansPageDTO.setCurrentPage(page);
         map.put("fans", fansPageDTO);
 
         //关注
         PageDTO<AttentionVO> attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,"1527582639993");
+        attentionVOPageDTO.setCurrentPage(page);
         map.put("attention", attentionVOPageDTO);
 
         return ResultVOUtil.success(map);

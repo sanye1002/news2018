@@ -293,7 +293,9 @@ public class ArticleController {
                             @RequestParam(value = "state") Integer state,
                             @RequestParam(value = "integral") Integer integral
     ){
-        articleService.updateArticleStateByArticleId(articleId,state,integral);
+        if (state==1){
+            articleService.updateArticleStateByArticleId(articleId,state,integral);
+        }
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
