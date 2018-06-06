@@ -45,7 +45,9 @@ public class UserRewardServiceImpl implements UserRewardService {
     public void addPoints(String userId, String articleId, String articleTitle, String articleType, Integer rewardIntegral) {
         User user = userRepository.findOne(userId);
         PointsReward pointsReward = new PointsReward();
-        pointsReward = pointsRewardRepository.findByUserId(userId);
+        if (pointsRewardRepository.findByUserId(userId)!=null){
+            pointsReward = pointsRewardRepository.findByUserId(userId);
+        }
         RewardNotes rewardNotes = new RewardNotes();
         if (user != null) {
             pointsReward.setAllIntegral(pointsReward.getAllIntegral() + rewardIntegral);

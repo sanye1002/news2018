@@ -3,17 +3,11 @@ package cn.popo.news.core.service.api.impl;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.dto.api.ReplyVO;
-import cn.popo.news.core.entity.common.Reply;
-import cn.popo.news.core.entity.common.ReplyPraise;
-import cn.popo.news.core.entity.common.ReplyReport;
-import cn.popo.news.core.entity.common.User;
+import cn.popo.news.core.entity.common.*;
 import cn.popo.news.core.entity.form.ReplyForm;
 import cn.popo.news.core.entity.form.ReplyReportForm;
 import cn.popo.news.core.enums.ResultEnum;
-import cn.popo.news.core.repository.ReplyPraiseRepository;
-import cn.popo.news.core.repository.ReplyReportRepository;
-import cn.popo.news.core.repository.ReplyRepository;
-import cn.popo.news.core.repository.UserRepository;
+import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.api.AgoReplyService;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.KeyUtil;
@@ -50,11 +44,25 @@ public class AgoReplyServiceImpl implements AgoReplyService {
     @Autowired
     private ReplyPraiseRepository replyPraiseRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
+
     /**
      * 回复上传
      */
     @Override
     public void replySave(ReplyForm replyForm) {
+        //人气+1
+        String articleId = commentRepository.findOne(replyForm.getCommId()).getAid();
+        ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        Integer lookNum = articleInfo.getLookNum();
+        articleInfo.setLookNum(lookNum+1);
+
+
         Reply reply = new Reply();
         BeanUtils.copyProperties(replyForm, reply);
         Long l = System.currentTimeMillis();

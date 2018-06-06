@@ -29,13 +29,13 @@ public class PointsReward {
     private String phone;
 
     //总积分
-    private Integer AllIntegral;
+    private Integer AllIntegral=0;
 
     //剩余积分
-    private Integer laveIntegral;
+    private Integer laveIntegral=0;
 
     //剩余可提现金额
-    private BigDecimal laveSalary;
+    private BigDecimal laveSalary=new BigDecimal(0.00);
 
 
 }

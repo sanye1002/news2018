@@ -134,6 +134,13 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         Collect collect = new Collect();
         BeanUtils.copyProperties(collectParam,collect);
         collect.setTime(System.currentTimeMillis());
+
+        //人气+10
+        ArticleInfo articleInfo = articleRepository.findOne(collectParam.getAid());
+        Integer lookNum = articleInfo.getLookNum();
+        articleInfo.setLookNum(lookNum+10);
+
+
         collectRepository.save(collect);
     }
 
@@ -295,6 +302,8 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             browsingHistory.setArticleId(articleId);
             browsingHistory.setUserId(userId);
             browsingHistoryRepository.save(browsingHistory);
+
+            //人气+1
             ArticleInfo articleInfo = articleRepository.findOne(articleId);
             Integer lookNum = articleInfo.getLookNum();
             articleInfo.setLookNum(lookNum+1);

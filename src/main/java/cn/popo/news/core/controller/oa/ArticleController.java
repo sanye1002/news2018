@@ -294,6 +294,8 @@ public class ArticleController {
                             @RequestParam(value = "state", defaultValue = "2") Integer state,
                             @RequestParam(value = "integral", defaultValue = "2") Integer integral
     ){
+
+        System.out.println(integral+"............................");
         articleService.updateArticleStateByArticleId(articleId,state,integral);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

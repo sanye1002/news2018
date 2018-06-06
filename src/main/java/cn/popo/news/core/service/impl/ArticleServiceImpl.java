@@ -13,6 +13,7 @@ import cn.popo.news.core.entity.form.ArticleForm;
 import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.ArticleService;
+import cn.popo.news.core.service.UserRewardService;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.KeyUtil;
 import cn.popo.news.core.utils.ShiroGetSession;
@@ -56,6 +57,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private UserRewardService userRewardService;
 
 
     /**
@@ -274,7 +278,9 @@ public class ArticleServiceImpl implements ArticleService {
     public void updateArticleStateByArticleId(String articleId, Integer state,Integer integral) {
 
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
-
+        System.out.println(articleInfo.toString()+"----------------------------");
+        String type = typeRepository.findOne(articleInfo.getTypeId()).getType_name();
+        userRewardService.addPoints(articleInfo.getUid(),articleInfo.getArticleId(),articleInfo.getTitle(),type,integral);
         articleInfo.setState(state);
 
 //        articleRepository.save(articleInfo);

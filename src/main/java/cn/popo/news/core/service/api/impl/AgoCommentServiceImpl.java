@@ -39,6 +39,9 @@ public class AgoCommentServiceImpl implements AgoCommentService {
     @Autowired
     private CommentReportRepository commentReportRepository;
 
+    @Autowired
+    private ArticleRepository articleRepository;
+
     /**
      * 查找评论通过文章id
      */
@@ -105,6 +108,13 @@ public class AgoCommentServiceImpl implements AgoCommentService {
      */
     @Override
     public void commontSave(CommentForm commentForm) {
+        //人气+1
+        ArticleInfo articleInfo = articleRepository.findOne(commentForm.getAid());
+        Integer lookNum = articleInfo.getLookNum();
+        articleInfo.setLookNum(lookNum+1);
+
+
+
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentForm, comment);
         Long l = System.currentTimeMillis();
