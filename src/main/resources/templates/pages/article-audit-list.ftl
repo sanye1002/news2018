@@ -326,6 +326,10 @@
 
     function changeAudit(articleId,state) {
         var resultType = $("#type input[type=checkbox]:checked").val()
+<<<<<<< HEAD
+=======
+            if (state==1){
+>>>>>>> 2cea9964ed28b681cc5bbd64306134496f87b085
                 layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function(text){
                     if(text!=null){
                         layer.msg('输入积分不合理',{
@@ -357,6 +361,29 @@
 
 
                 });
+            }else {
+                $.post(
+                        "/oa/article/audit",
+                        {
+                            articleId:articleId,
+                            state:state,
+                            integral:0
+
+                        },
+                        function (data){
+                            if (data.code == 0) {
+                                layer.msg(data.message);
+                                setTimeout(function () {
+                                    location = "/oa/article/auditlist?type="+resultType
+                                }, 100)
+                            }
+                            if (data.code > 0) {
+                                layer.msg(data.message);
+                            }
+                        }
+                )
+            }
+
 
 
     }

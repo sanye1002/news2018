@@ -279,7 +279,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
         String type = typeRepository.findOne(articleInfo.getTypeId()).getType_name();
-        userRewardService.addPoints(articleInfo.getUid(),articleInfo.getArticleId(),articleInfo.getTitle(),type,integral);
+        if (state==1){
+            userRewardService.addPoints(articleInfo.getUid(),articleInfo.getArticleId(),articleInfo.getTitle(),type,integral);
+        }
         articleInfo.setState(state);
 
 //        articleRepository.save(articleInfo);
