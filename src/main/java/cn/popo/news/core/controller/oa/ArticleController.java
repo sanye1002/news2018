@@ -289,12 +289,10 @@ public class ArticleController {
      */
     @PostMapping("/audit")
     @ResponseBody
-    public ResultVO<Map<String, String>> articleAudit(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId,
-                            @RequestParam(value = "state", defaultValue = "2") Integer state,
-                            @RequestParam(value = "integral", defaultValue = "2") Integer integral
+    public ResultVO<Map<String, String>> articleAudit(@RequestParam(value = "articleId") String articleId,
+                            @RequestParam(value = "state") Integer state,
+                            @RequestParam(value = "integral") Integer integral
     ){
-
-        System.out.println(integral+"............................");
         articleService.updateArticleStateByArticleId(articleId,state,integral);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
