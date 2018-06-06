@@ -62,6 +62,7 @@ public class AgoCommentServiceImpl implements AgoCommentService {
                     commentVO.setNickName(user.getNikeName());
                     commentVO.setReplyNum(replyRepository.findAllByCommId(l.getId()).size());
                     commentVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));
+                    commentVO.setUserID(l.getUid());
                     CommentPraise commentPraise = commentPraiseRepository.findAllByUidAndCommentId(userId,l.getId());
                     if (commentPraise!=null){
                         commentVO.setCommentPraiseId(commentPraise.getId());

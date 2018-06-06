@@ -23,4 +23,6 @@ public class PersonalParam {
     private String nikeName;
 
     private String backgroundImg;
+
+    private String avatar;
 }

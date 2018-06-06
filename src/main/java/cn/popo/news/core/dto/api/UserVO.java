@@ -8,10 +8,12 @@ import java.util.List;
 @Data
 public class UserVO {
     private String userId;
-    @JsonProperty("username")
+    @JsonProperty("name")
     private String nikeName;
     private String avatar;
     private Integer vip;
+    @JsonProperty("attention")
     private Integer attentionId;
+    @JsonProperty("production")
     List<UserReCommentVO> userReCommentList;
 }

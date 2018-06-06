@@ -76,12 +76,14 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             if(articleInfo.getImgUrl()!=null){
                 articleDetailsVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
             }
+            articleDetailsVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
             Collect collect = collectRepository.findAllByUidAndAid(articleInfo.getUid(),articleId);
             if(collect!=null){
                 articleDetailsVO.setCollectId(collect.getId());
             }else {
                 articleDetailsVO.setCollectId(0);
             }
+
         }
 
         return articleDetailsVO;
@@ -108,7 +110,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
 
         List<ArticleInfo> list = articleRepository.findAllByStateAndShowStateAndDraftAndUidAndTypeId(
                 ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),
-                ResultEnum.SUCCESS.getCode(),userId,articleInfo.getTypeId());
+                ResultEnum.SUCCESS.getCode(),articleInfo.getUid(),articleInfo.getTypeId());
 
         list.forEach(l->{
             UserReCommentVO userReCommentVO = new UserReCommentVO();
@@ -256,12 +258,27 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         content="%"+content+"%";
         Page<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraftAndKeywordsLike(pageable,state,showState,draft,content);
+        Long time = System.currentTimeMillis();
         List<ArticleVO> list = new ArrayList<>();
         if(articleInfoPage != null){
             pageDTO.setTotalPages(articleInfoPage.getTotalPages());
             if (!articleInfoPage.getContent().isEmpty()){
                 articleInfoPage.getContent().forEach(l->{
-
+                    ArticleVO indexVO = new ArticleVO();
+                    BeanUtils.copyProperties(l,indexVO);
+                    indexVO.setArticleId(l.getArticleId());
+                    indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+                    if(l.getImgUrl()!=null){
+                        indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                    }
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
+                    User user = userRepository.findOne(l.getUid());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    indexVO.setAuthor(author);
+                    list.add(indexVO);
                 });
             }
         }
@@ -319,9 +336,16 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public void saveBrowsingHistory(String userId,String articleId) {
-        BrowsingHistory browsingHistory = browsingHistoryRepository.findAllByUserIdAndArticleId(userId,articleId);
-        browsingHistory.setTime(System.currentTimeMillis());
+        System.out.println(userId);
+        BrowsingHistory browsingHistory = null;
+        if(userId.equals("")){
+             browsingHistory = new BrowsingHistory();
+        }else {
+             browsingHistory = browsingHistoryRepository.findAllByUserIdAndArticleId(userId,articleId);
+        }
+
         if(browsingHistory==null){
+            browsingHistory.setTime(System.currentTimeMillis());
             browsingHistory.setArticleId(articleId);
             browsingHistory.setUserId(userId);
             browsingHistoryRepository.save(browsingHistory);

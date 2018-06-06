@@ -69,10 +69,10 @@ public class ReplyReportController {
     @PostMapping("/reportdispose")
     @ResponseBody
     public ResultVO<Map<String, String>>replyReportDispose(
-            @RequestParam(value = "replyId", defaultValue = "1527061901012") String replyId,
-            @RequestParam(value = "disposeState", defaultValue = "0") Integer disposeState,
-            @RequestParam(value = "dispose", defaultValue = "0") Integer dispose,
-            @RequestParam(value = "id", defaultValue = "0") String id
+            @RequestParam(value = "replyId") String replyId,
+            @RequestParam(value = "disposeState") Integer disposeState,
+            @RequestParam(value = "dispose") Integer dispose,
+            @RequestParam(value = "id") String id
     ){
         replyReportService.updateReplyShowState(id,disposeState,replyId,dispose);
         Map<String,Object> map  = new HashMap<>();

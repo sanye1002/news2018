@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DynamicRepository extends JpaRepository<Dynamic,Integer> {
+public interface DynamicRepository extends JpaRepository<Dynamic,String> {
 
     Page<Dynamic> findAllByUserId(Pageable pageable,String userId);
 }

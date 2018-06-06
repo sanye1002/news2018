@@ -253,7 +253,8 @@
         $.post(
                 "/oa/article/managedelete",
                 {
-                    articleId: articleId
+                    articleId: articleId,
+                    manageId:100
                 },
                 function (data) {
                     if (data.code == 0) {

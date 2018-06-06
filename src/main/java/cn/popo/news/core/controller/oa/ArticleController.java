@@ -293,9 +293,8 @@ public class ArticleController {
                             @RequestParam(value = "state") Integer state,
                             @RequestParam(value = "integral") Integer integral
     ){
-        if (state==1){
-            articleService.updateArticleStateByArticleId(articleId,state,integral);
-        }
+
+        articleService.updateArticleStateByArticleId(articleId,state,integral);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
@@ -368,7 +367,7 @@ public class ArticleController {
      */
     @PostMapping("/recomment")
     @ResponseBody
-    public ResultVO<Map<String, String>> articleManage(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId
+    public ResultVO<Map<String, String>> articleManage(@RequestParam(value = "articleId") String articleId
                                                         ){
         articleService.updateArticleSpecialByArticleId(articleId);
         Map<String,Object> map  = new HashMap<>();
@@ -382,7 +381,7 @@ public class ArticleController {
      */
     @PostMapping("/slide")
     @ResponseBody
-    public ResultVO<Map<String, String>> articleSlide(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId
+    public ResultVO<Map<String, String>> articleSlide(@RequestParam(value = "articleId") String articleId
     ){
         Map<String,Object> map  = new HashMap<>();
         Integer slideNum = articleService.findAllSlideNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
@@ -403,8 +402,8 @@ public class ArticleController {
      */
     @PostMapping("/managedelete")
     @ResponseBody
-    public ResultVO<Map<String, String>>articleManageDelete(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId,
-                                                      @RequestParam(value = "manageId", defaultValue = "100") Integer manageId
+    public ResultVO<Map<String, String>>articleManageDelete(@RequestParam(value = "articleId") String articleId,
+                                                      @RequestParam(value = "manageId") Integer manageId
     ){
         articleService.updateArticleManage(articleId,manageId);
         Map<String,Object> map  = new HashMap<>();
@@ -447,8 +446,8 @@ public class ArticleController {
      */
     @PostMapping("/show")
     @ResponseBody
-    public ResultVO<Map<String, String>>articleShow(@RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId,
-                                                      @RequestParam(value = "showState", defaultValue = "0") Integer showState
+    public ResultVO<Map<String, String>>articleShow(@RequestParam(value = "articleId") String articleId,
+                                                      @RequestParam(value = "showState") Integer showState
     ){
         articleService.updateArticleShow(articleId,showState);
         Map<String,Object> map  = new HashMap<>();
@@ -488,10 +487,10 @@ public class ArticleController {
     @PostMapping("/reportdispose")
     @ResponseBody
     public ResultVO<Map<String, String>>articlereportdispose(
-                                                    @RequestParam(value = "articleId", defaultValue = "") String articleId,
-                                                    @RequestParam(value = "disposeState", defaultValue = "0") Integer disposeState,
-                                                    @RequestParam(value = "dispose", defaultValue = "0") Integer dispose,
-                                                    @RequestParam(value = "id", defaultValue = "0") String id
+                                                    @RequestParam(value = "articleId") String articleId,
+                                                    @RequestParam(value = "disposeState") Integer disposeState,
+                                                    @RequestParam(value = "dispose") Integer dispose,
+                                                    @RequestParam(value = "id") String id
     ){
         articleService.updateArticleReportDisposeState(id,disposeState,articleId,dispose);
         Map<String,Object> map  = new HashMap<>();

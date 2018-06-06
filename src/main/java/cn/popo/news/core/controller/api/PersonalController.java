@@ -140,7 +140,7 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userDynamicList(Map<String,Object> map,
                                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                           @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                          @RequestParam(value = "userId", defaultValue = "12") String userId
+                                                          @RequestParam(value = "userId") String userId
     ){
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<DynamicVO> pageDTO = agoPersonalService.findAllDynamicByUserId(pageRequest,userId);
@@ -159,7 +159,7 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userBrowsingHistoryList(Map<String,Object> map,
                                                         @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                         @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                        @RequestParam(value = "userId", defaultValue = "12") String userId
+                                                        @RequestParam(value = "userId") String userId
     ){
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<String> pageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
@@ -178,7 +178,7 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userIndex(Map<String,Object> map,
                                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                                @RequestParam(value = "userId", defaultValue = "12") String userId
+                                                                @RequestParam(value = "userId") String userId
     ){
         //用户信息
         PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
@@ -237,6 +237,20 @@ public class PersonalController {
                                                    ){
         Map<String,Object> map  = new HashMap<>();
         agoPersonalService.updateUserInfo(personalParam);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param userId dynamicId
+     * @return
+     * @desc 动态点赞
+     */
+    @PostMapping("/dynamic/praise")
+    public ResultVO<Map<String,Object>> dynamicPraise(
+            @RequestParam(value = "dynamicId") String dynamicId,
+            @RequestParam(value = "userId") String userId){
+        agoPersonalService.dynamicPraise(userId,dynamicId);
+        Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 

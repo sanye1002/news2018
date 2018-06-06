@@ -328,11 +328,7 @@
         var resultType = $("#type input[type=checkbox]:checked").val()
             if (state==1){
                 layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function(text){
-                    if(text!=null){
-                        layer.msg('输入积分不合理',{
-                            time:1200
-                        });
-                    }else {
+                    if(parseInt(text)==text){
                         $.post(
                                 "/oa/article/audit",
                                 {
@@ -353,7 +349,11 @@
                                     }
                                 }
                         )
+                    }else{
+                        layer.msg("请输入整数")
                     }
+
+
 
 
 

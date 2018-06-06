@@ -9,9 +9,8 @@ import java.util.List;
 
 @Data
 public class DynamicVO {
-    @Id
-    @GeneratedValue
-    private Integer id;
+
+    private String id;
 
     private String userId;
 
@@ -26,4 +25,8 @@ public class DynamicVO {
 
     @JsonProperty("time")
     private String ManyTimeAgo;
+
+    private Integer good;
+
+    private Integer goodFlag;
 }

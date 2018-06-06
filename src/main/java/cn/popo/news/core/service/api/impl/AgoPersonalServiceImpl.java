@@ -5,15 +5,13 @@ import cn.popo.news.core.dto.api.DynamicVO;
 import cn.popo.news.core.dto.api.PersonalVO;
 import cn.popo.news.core.entity.common.BrowsingHistory;
 import cn.popo.news.core.entity.common.Dynamic;
+import cn.popo.news.core.entity.common.DynamicPraise;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.param.PersonalParam;
-import cn.popo.news.core.entity.param.UserParam;
-import cn.popo.news.core.repository.ArticleRepository;
-import cn.popo.news.core.repository.BrowsingHistoryRepository;
-import cn.popo.news.core.repository.DynamicRepository;
-import cn.popo.news.core.repository.UserRepository;
+import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.GetTimeUtil;
+import cn.popo.news.core.utils.KeyUtil;
 import cn.popo.news.core.utils.SplitUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +39,9 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private DynamicPraiseRepository dynamicPraiseRepository;
+
     /**
      * 动态保存
      */
@@ -48,6 +49,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     public void saveDynamic(String userId, String content, String imgUrl) {
         Long time = System.currentTimeMillis();
         Dynamic dynamic = new Dynamic();
+        dynamic.setUserId(KeyUtil.genUniqueKey());
         dynamic.setContent(content);
         dynamic.setTime(time);
         dynamic.setImgUrl(imgUrl);
@@ -79,6 +81,13 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                         dynamicVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
                     dynamicVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));
+                    DynamicPraise dynamicPraise = dynamicPraiseRepository.findAllByUidAndDynamicId(userId,l.getId());
+                    if (dynamicPraise!=null){
+                        dynamicVO.setGoodFlag(dynamicPraise.getId());
+                    }else {
+                        dynamicVO.setGoodFlag(0);
+                    }
+                    dynamicVO.setGood(l.getPraiseNum());
                     list.add(dynamicVO);
                 });
             }
@@ -135,6 +144,20 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         user.setBirthday(personalParam.getBirthday());
         user.setSignature(personalParam.getSignature());
         user.setBackgroundImg(personalParam.getBackgroundImg());
+    }
+
+    /**
+     * 点赞
+     */
+    @Override
+    public void dynamicPraise(String userId, String dynamicId) {
+        Dynamic dynamic = dynamicRepository.findOne(dynamicId);
+        Integer praiseNum = dynamic.getPraiseNum()+1;
+        dynamic.setPraiseNum(praiseNum);
+        DynamicPraise dynamicPraise = new DynamicPraise();
+        dynamicPraise.setDynamicId(dynamicId);
+        dynamicPraise.setUid(userId);
+        dynamicPraiseRepository.save(dynamicPraise);
     }
 
 

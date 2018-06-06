@@ -49,7 +49,7 @@ public class ArticleDetailsController {
     public ResultVO<Map<String,Object>> articleDetails(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                       @RequestParam(value = "userId", defaultValue = "12") String userId,
+                                                       @RequestParam(value = "userId",defaultValue = "") String userId,
                                                        @RequestParam(value = "articleId") String articleId){
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
@@ -76,13 +76,13 @@ public class ArticleDetailsController {
     /**
      * @param articleId page size
      * @return
-     * @desc 文章评论
+     * @desc 更多评论
      */
     @PostMapping("/comment")
     public ResultVO<Map<String,Object>> articleComment(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                       @RequestParam(value = "userId", defaultValue = "12") String userId,
+                                                       @RequestParam(value = "userId") String userId,
                                                        @RequestParam(value = "articleId") String articleId){
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);

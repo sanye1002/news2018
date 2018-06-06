@@ -58,6 +58,45 @@ public class HomePageController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * @param
+     * @return
+     * @desc 轮播图
+     */
+    @PostMapping("/slide")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> slide(Map<String,Object> map){
+
+        //轮播图
+        List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
+        map.put("slideContent",slide);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param
+     * @return
+     * @desc 侧边栏
+     */
+    @PostMapping("/recommend")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> recommend(Map<String,Object> map){
+
+        //侧边栏
+
+        //图文
+        List<ArticleVO> realTimeNews = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,ONE,ONE);
+        map.put("realTimeNews",realTimeNews);
+        //多图
+        List<ArticleVO> imgs = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,TWO,ONE);
+        map.put("recommendImgs",imgs);
+        //视频
+        List<ArticleVO> videos = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,THREE,ONE);
+        map.put("recommendVideos",videos);
+
+        return ResultVOUtil.success(map);
+    }
+
 
 
     /**
@@ -103,8 +142,8 @@ public class HomePageController {
     /**
      * @param page size
      * @return
-     * @desc 首页数据
-     */
+     * @desc 首页文章数据第一版
+     *//*
     @PostMapping("/index")
     @ResponseBody
     public ResultVO<Map<String,Object>> index(Map<String,Object> map,
@@ -112,30 +151,14 @@ public class HomePageController {
                                               @RequestParam(value = "size", defaultValue = "12") Integer size){
 
 
-        //轮播图
-        List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
-        map.put("slide",slide);
 
-        //侧边栏
-        Map<String,Object> map1 = new HashMap<>();
-        //图文
-        List<ArticleVO> realTimeNews = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,ONE,ONE);
-        map1.put("realTimeNews",realTimeNews);
-        //多图
-        List<ArticleVO> imgs = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,TWO,ONE);
-        map1.put("imgs",imgs);
-        //视频
-        List<ArticleVO> videos = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,THREE,ONE);
-        map1.put("videos",videos);
-
-        map.put("recommend",map1);
         //文章
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);
-    }
+    }*/
 
 
     /**
@@ -153,6 +176,27 @@ public class HomePageController {
         //文章
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param page size
+     * @return  List<article>
+     * @desc 推荐文章（通过keyword查找）
+     */
+    @PostMapping("/recommend/article")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> recommendArticle(Map<String,Object> map,
+                                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                     @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                     @RequestParam(value = "content", defaultValue = "12") String content
+    ){
+
+
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByKeywordsLike(pageRequest,ONE,ZERO,ONE,content);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);

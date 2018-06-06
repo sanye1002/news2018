@@ -19,4 +19,6 @@ public interface AgoPersonalService {
     PersonalVO findUserInfoByUserId(String userId);
 
     void updateUserInfo(PersonalParam personalParam);
+
+    void dynamicPraise(String userId,String dynamicId);
 }

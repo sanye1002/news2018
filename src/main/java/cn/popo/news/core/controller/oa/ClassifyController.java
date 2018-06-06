@@ -55,7 +55,7 @@ public class ClassifyController {
      */
     @ResponseBody
     @PostMapping("/save")
-    public ResultVO<Map<String,Object>> saveClassify(@RequestParam(value = "classify", defaultValue = "0") String classify,
+    public ResultVO<Map<String,Object>> saveClassify(@RequestParam(value = "classify") String classify,
                                                         @RequestParam(value = "id", defaultValue = "") Integer id){
         classifyService.saveClassify(classify,id);
         Map<String,Object> map  = new HashMap<>();

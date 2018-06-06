@@ -68,10 +68,10 @@ public class CommentReportController {
     @PostMapping("/reportdispose")
     @ResponseBody
     public ResultVO<Map<String, String>>commentReportDispose(
-            @RequestParam(value = "commentId", defaultValue = "1527061901012") String commentId,
-            @RequestParam(value = "disposeState", defaultValue = "0") Integer disposeState,
-            @RequestParam(value = "dispose", defaultValue = "0") Integer dispose,
-            @RequestParam(value = "id", defaultValue = "0") String id
+            @RequestParam(value = "commentId") String commentId,
+            @RequestParam(value = "disposeState") Integer disposeState,
+            @RequestParam(value = "dispose") Integer dispose,
+            @RequestParam(value = "id") String id
     ){
         commentReportService.updateCommentShowState(id,disposeState,commentId,dispose);
         Map<String,Object> map  = new HashMap<>();

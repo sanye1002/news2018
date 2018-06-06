@@ -13,8 +13,7 @@ import javax.persistence.Table;
 public class Dynamic {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    private String id;
 
     private String userId;
 
@@ -23,4 +22,6 @@ public class Dynamic {
     private String imgUrl;
 
     private Long time;
+
+    private Integer praiseNum;
 }
