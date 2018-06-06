@@ -23,3 +23,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+# Local configuration file (sdk path, etc)
+application.yml
