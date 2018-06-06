@@ -34,6 +34,7 @@ public class ArticleInfo implements Serializable{
     /**
      * 文章类容
      */
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     /**

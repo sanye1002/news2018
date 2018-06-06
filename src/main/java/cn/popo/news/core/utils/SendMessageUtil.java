@@ -49,7 +49,7 @@ public class SendMessageUtil {
      */
     @Synchronized
     public static Boolean sendSalaryTypeMessage(String phone, String username, String type, String result) {
-        Integer tempid = 51403;
+        Integer tempid = 51444;
 
         String param = null;
         Boolean flog = false;

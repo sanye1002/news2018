@@ -177,4 +177,9 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         }
 
     }
+
+    @Override
+    public Role findRoleByName(String name) {
+        return roleRepository.findByName(name);
+    }
 }

@@ -193,7 +193,6 @@ public class ArticleController {
      * 文章草稿展示
      */
     @GetMapping("/draft/list")
-    @RequiresPermissions("articleCheck:list")
     public ModelAndView draftList(Map<String,Object> map,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "12") Integer size,
@@ -307,8 +306,11 @@ public class ArticleController {
     @PostMapping("/delete")
     @ResponseBody
     public ResultVO<Map<String, String>> articleDelete(
-            @RequestParam(value = "articleId", defaultValue = "1527061901012") String articleId){
+            @RequestParam(value = "articleId", defaultValue = "") String articleId){
 
+        if (articleId==""){
+            return ResultVOUtil.error(100,"数据为空~");
+        }
         commentService.findCommentIdByArticleId(articleId).forEach(l->{
             //回复举报删除
             replyService.findReplyIdByCommentId(l).forEach(r->{

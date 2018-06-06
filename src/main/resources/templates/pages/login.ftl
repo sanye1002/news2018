@@ -53,7 +53,7 @@
         </form>
         <br>
         <div class="loginbox-signup">
-            <a href="javascript:void(0)" class="register-btn">
+            <a href="/register-user.html" class="register-btn">
                 <i class="fa fa-phone"></i>
                 <span>通过手机注册</span>
             </a>
@@ -66,12 +66,7 @@
 
 <#include "../common/footjs.ftl">
 <script>
-    $(function () {
-        $(".register-btn").click(function () {
-            layer.msg("不开放人员注册");
-        });
 
-    });
 </script>
 <script type="text/javascript">
     document.onkeydown = function (event) {

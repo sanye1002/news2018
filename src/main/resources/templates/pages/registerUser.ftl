@@ -10,7 +10,7 @@
         <br><br>
         <div class="loginbox-title">
             <i class="fa fa-sign-in"></i>
-            <span>找回密码</span>
+            <span>注册用户</span>
         </div>
         <br>
         <div class="loginbox-social">
@@ -45,6 +45,14 @@
                 </div>
             </div>
             <div style="display: none" id="box-password">
+                <div class="loginbox-textbox">
+                    <input type="text" id="name" name="password2" class="form-control" placeholder="真实姓名"
+                           autocomplete="off"/>
+                </div>
+                <div class="loginbox-textbox">
+                    <input type="text" id="nickname" name="password2" class="form-control" placeholder="昵称"
+                           autocomplete="off"/>
+                </div>
                 <div class="loginbox-textbox">
                     <input type="password" id="password1" name="password1" class="form-control" placeholder="密码"
                            autocomplete="off"/>
@@ -95,7 +103,7 @@
                             "/checkPhone",
                             {
                                 phone: phone,
-                                type:1
+                                type:0
                             }, function (res) {
                                 if (res.code == 0) {
                                     $("#send-code").hide(100);
@@ -169,12 +177,28 @@
             var phone = $("#phone").val();
             var password1 = $("#password1").val();
             var password2 = $("#password2").val();
+            var name = $("#name").val();
+            var nickname = $("#nickname").val();
             if (phone == "") {
                 layer.msg("手机号码不能为空，请重新输入！", {
                     time: 1500
                 });
             } else if (password1 == "") {
                 layer.msg("密码不能为空，请重新输入！", {
+                    time: 1500
+                });
+            }else if (password2 == "") {
+                layer.msg("密码不能为空，请重新输入！", {
+                    time: 1500
+                });
+            }else if (name == "") {
+                $("#name").parent().addClass("has-error");
+                layer.msg("真实姓名不能为空，请重新输入！", {
+                    time: 1500
+                });
+            } else if (nickname == "") {
+                $("#nickname").parent().addClass("has-error");
+                layer.msg("昵称不能为空，请重新输入！", {
                     time: 1500
                 });
             } else if (password1 != password2) {
@@ -184,17 +208,22 @@
                     time: 1500
                 });
             } else {
+                var password = $.md5($("#password1").val())
                 $.post(
-                        "/setPassword",
+                        "/register/user",
                         {
                             phone: phone,
-                            password: password1
+                            name: name,
+                            nikeName: name,
+                            password: password
                         },
                         function (res) {
                             layer.msg(res.message, {
                                 time: 1500
                             });
                             if (res.code == 0) {
+                                $("#name").parent().removeClass("has-error");
+                                $("#nickname").parent().removeClass("has-error");
                                 $("#password1").parent().removeClass("has-error");
                                 $("#password2").parent().removeClass("has-error");
                                 setTimeout(function () {
@@ -202,7 +231,7 @@
                                 },500)
                             }else {
                                 setTimeout(function () {
-                                    location = "/recover-password.html"
+                                    location = "/register-user.html"
                                 },1000)
                             }
 

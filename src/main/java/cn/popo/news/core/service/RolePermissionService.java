@@ -95,4 +95,11 @@ public interface RolePermissionService {
     List<Role> findAllRole();
 
     List<Role> findAllByLevel(Integer level);
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    Role findRoleByName(String name);
 }

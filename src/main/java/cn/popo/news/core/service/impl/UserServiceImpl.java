@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
             user.setUserId(KeyUtil.genUniqueKey());
             user.setUserType("0");
             user.setCreateDate(GetTimeUtil.getTime());
+            user.setUpdateDate(GetTimeUtil.getTime());
         }
 
 
