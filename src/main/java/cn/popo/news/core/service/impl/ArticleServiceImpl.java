@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.impl;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
@@ -68,6 +69,10 @@ public class ArticleServiceImpl implements ArticleService {
     public void articleSave(ArticleForm articleForm){
         System.out.println(articleForm.getArticleId());
         ArticleInfo articleInfo = new ArticleInfo();
+        articleForm.setContent(KeyWordFilter.doFilter(articleForm.getContent()));
+        articleForm.setKeywords(KeyWordFilter.doFilter(articleForm.getKeywords()));
+        articleForm.setTitle(KeyWordFilter.doFilter(articleForm.getTitle()));
+        articleForm.setDes(KeyWordFilter.doFilter(articleForm.getDes()));
         BeanUtils.copyProperties(articleForm,articleInfo);
         if(articleForm.getDraft() == 1){
             articleInfo.setDraft(0);
@@ -407,11 +412,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void saveArticleDraft(ArticleDraftForm articleDraftForm) {
         ArticleInfo articleInfo = new ArticleInfo();
+
+        articleDraftForm.setContent(KeyWordFilter.doFilter(articleDraftForm.getContent()));
+        articleDraftForm.setKeywords(KeyWordFilter.doFilter(articleDraftForm.getKeywords()));
+        articleDraftForm.setTitle(KeyWordFilter.doFilter(articleDraftForm.getTitle()));
         BeanUtils.copyProperties(articleDraftForm,articleInfo);
         if(articleInfo.getArticleId().equals("")){
             articleInfo.setArticleId(KeyUtil.genUniqueKey());
         }
         Long l = System.currentTimeMillis();
+
 
         articleInfo.setCrateTime(l);
         articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());

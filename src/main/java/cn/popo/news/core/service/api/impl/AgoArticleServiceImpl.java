@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.api.impl;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.*;
@@ -163,6 +164,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     @Override
     public void articleReportInfoSave(ReprotInfoForm reprotInfoForm) {
         ArticleReport articleReport = new ArticleReport();
+        reprotInfoForm.setInfo(KeyWordFilter.doFilter(reprotInfoForm.getInfo()));
         BeanUtils.copyProperties(reprotInfoForm,articleReport);
         Long l = System.currentTimeMillis();
         articleReport.setTime(l);

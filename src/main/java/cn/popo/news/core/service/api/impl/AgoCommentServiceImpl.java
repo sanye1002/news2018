@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.api.impl;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.entity.common.*;
@@ -117,6 +118,7 @@ public class AgoCommentServiceImpl implements AgoCommentService {
 
 
         Comment comment = new Comment();
+        commentForm.setCommentInfo(KeyWordFilter.doFilter(commentForm.getCommentInfo()));
         BeanUtils.copyProperties(commentForm, comment);
         Long l = System.currentTimeMillis();
         comment.setTime(l);
@@ -132,6 +134,7 @@ public class AgoCommentServiceImpl implements AgoCommentService {
     @Override
     public void commentReplyReportSave(CommentReportForm commentReplyReportForm) {
         CommentReport commentReport = new CommentReport();
+        commentReplyReportForm.setContent(KeyWordFilter.doFilter(commentReplyReportForm.getContent()));
         BeanUtils.copyProperties(commentReplyReportForm, commentReport);
         Long l = System.currentTimeMillis();
         commentReport.setTime(l);

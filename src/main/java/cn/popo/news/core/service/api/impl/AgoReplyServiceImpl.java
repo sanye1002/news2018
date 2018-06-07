@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.api.impl;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.dto.api.ReplyVO;
@@ -64,6 +65,7 @@ public class AgoReplyServiceImpl implements AgoReplyService {
 
 
         Reply reply = new Reply();
+        replyForm.setReplyInfo(KeyWordFilter.doFilter(replyForm.getReplyInfo()));
         BeanUtils.copyProperties(replyForm, reply);
         Long l = System.currentTimeMillis();
         reply.setTime(l);
@@ -79,6 +81,7 @@ public class AgoReplyServiceImpl implements AgoReplyService {
     @Override
     public void replyReportSave(ReplyReportForm replyReportForm) {
         ReplyReport replyReport = new ReplyReport();
+        replyReportForm.setContent(KeyWordFilter.doFilter(replyReportForm.getContent()));
         BeanUtils.copyProperties(replyReportForm, replyReport);
         Long l = System.currentTimeMillis();
         replyReport.setTime(l);

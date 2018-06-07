@@ -50,7 +50,7 @@ public class KeyWordFilter {
 		}
 	}
 
-	private static String doFilter(String str) {
+	public static String doFilter(String str) {
 		Matcher m = pattern.matcher(str);
 //		while (m.find()) {// 查找符合pattern的字符串
 //			System.out.println("The result is here :" + m.group());
