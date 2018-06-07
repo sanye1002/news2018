@@ -32,12 +32,13 @@ public class UserSessionUtil {
      * 检测用户是否登录
      * @param request
      * @param response
-     * @return
+     * @return boolean
      */
     public Boolean verifyLoginStatus(HttpServletRequest request, HttpServletResponse response){
         //1.从cookie中获取userToken
         Cookie userIdCookie = CookieUtil.get(request, CookieConstant.USER_ID);
         Cookie userTokenCookie = CookieUtil.get(request,CookieConstant.TOKEN);
+
         if (userIdCookie==null){
             return false;
         }
@@ -53,9 +54,13 @@ public class UserSessionUtil {
         //2.判断userToken是否等于redis
         String redisToken = redis.get(RedisConstant.TOKEN_PREFIX+userId);
 
-        if (!redisToken.equals(userToken)){
-            return false;
-        }
+       try {
+           if (!redisToken.equals(userToken)){
+               return false;
+           }
+       }catch (Exception e){
+           return false;
+       }
         return true;
     }
 

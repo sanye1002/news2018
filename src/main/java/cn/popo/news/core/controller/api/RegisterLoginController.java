@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,10 +50,11 @@ public class RegisterLoginController {
         return loginService.loginByPhoneAndPassword(response, phone, password);
     }
 
-    @PostMapping("/test")
+    @PostMapping("/valid")
+    @ApiOperation(value = "判断是否登录",notes = "判断用户是否登录，如果已登录，返回对象，否则重新登录")
     public ResultVO<Map<String, Object>> test(HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        map.put("message", "" + userSessionUtil.verifyLoginStatus(request, response));
+
         try {
             map.put("userVO", userSessionUtil.getUserByCookie(request, response));
         } catch (APIException a) {
@@ -134,6 +136,7 @@ public class RegisterLoginController {
         }
         return ResultVOUtil.error(401, "原密码错误！");
     }
+
 
 
 }
