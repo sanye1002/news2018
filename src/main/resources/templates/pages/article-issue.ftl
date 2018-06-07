@@ -400,6 +400,8 @@
         })
 
         $("#saveDraft").click(function () {
+            article.classify = $("#e1").val();
+            article.type = $("#e2").val();
             var desc = "";
             var des = $(".des")
             var num = des.length
@@ -423,7 +425,7 @@
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
 
-            //保存
+            //保存草稿
             $("#saveDraft").attr("disabled", true);
             $.post(
                     "/oa/article/draft/save",

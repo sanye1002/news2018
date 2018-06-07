@@ -418,6 +418,9 @@ public class ArticleServiceImpl implements ArticleService {
         articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
         articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
         articleInfo.setUid(ShiroGetSession.getUser().getUserId());
+        articleInfo.setRecommendState(0);
+        articleInfo.setSlideState(0);
+        articleInfo.setLookNum(0);
         articleRepository.save(articleInfo);
     }
 
