@@ -74,7 +74,7 @@
                                         <div class="form-group">
                                             <label>关键字</label>
                                             <div>
-                                                <input id="key-words" type="text" value="${article.getKeyword()!}"
+                                                <input id="key-words" type="text" value="${article.getKeywords()!}"
                                                        data-role="tagsinput"
                                                        placeholder="关键字" style="display: none;">
                                             </div>
@@ -108,7 +108,7 @@
                                             <label for="anchorUser">类目</label>
                                             <span class="input-icon icon-right">
                                                 <select id="e2" style="width:100%;">
-                                                    <option value=1 >图文</option>
+                                                    <option value=2 >多图</option>
                                                 </select>
                                                 <i class="glyphicon glyphicon-fire"></i>
                                             </span>
@@ -118,9 +118,9 @@
 
                                 </div>
                                 <div class="col-sm-12">
-                                    <div class="form-title">封面图片</div>
+                                    <div class="form-title">图片</div>
                                     <div class="col-sm-12">
-                                        <div class="form-title">封面图片<span>大小：360*265</span></div>
+                                        <div class="form-title">图片<span>大小：360*265</span></div>
                                         <div class="layui-upload">
                                             <input id="imgId" value="" style="display: none">
                                             <button type="button" class="layui-btn" id="image-select">
@@ -140,12 +140,20 @@
                                             </blockquote>
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-title">图片对应的描述</div>
+                                        <div id="content-box">
+                                                <#list article.getManyImgDesc()! as desc>
+                                                    <span class="input-icon icon-right">
+                                                                <textarea rows="2" class="form-control des"
+                                                                          id="back-content"
+                                                                          placeholder="请输入你的内容">${desc}</textarea>
+                                                               </span>
+                                                </#list>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <div class="1">
-                                        <div class="form-title">文章详细内容信息</div>
-                                        <textarea id="demo" style="display: none;">${article.getContent()!}</textarea>
-                                    </div>
                                     <div style="float:right;margin-top:10px;">
                                         <button id="save" class="btn btn-warning">上传</button>
                                     </div>
@@ -189,38 +197,14 @@
         var index;
         var layedit;
 
-        /*var mycars = new Array();
-        mycars[0] = 1;
-        mycars[1] = 2;
-        mycars[2] = 3;
-*/
 
-        /*for (var i = 0; i < mycars.length; i++) {
-            if (mycars[i] == ) {
-                $("." + mycars[i]).show()
-            } else {
-                $("." + mycars[i]).hide()
-            }
-        }*/
+
 
         //分类选择
         $("#e1").change(function () {
             article.classify = $(this).find("option:checked").val();
         });
 
-
-
-        /*//类型切换，样式改变
-        $("#e2").change(function () {
-            article.type = $(this).find("option:selected").val();
-            for (var i = 0; i < mycars.length; i++) {
-                if (mycars[i] == article.type) {
-                    $("." + mycars[i]).show()
-                } else {
-                    $("." + mycars[i]).hide()
-                }
-            }
-        });*/
 
         $("#e1").select2()
         $("#e2").select2()
@@ -257,11 +241,11 @@
 
                         //这里还可以做一些 append 文件列表 DOM 的操作
                         $('#imgShow').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
-                        /*$('#content-box').append('<span class="input-icon icon-right">\n' +
+                        $('#content-box').append('<span class="input-icon icon-right">\n' +
                                 '                                <textarea rows="2" class="form-control des"\n' +
                                 '                        id="back-content"\n' +
                                 '                        placeholder="请输入你的内容"></textarea>\n' +
-                                '                                </span>')*/
+                                '                                </span>')
                         //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
                         //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
                     });
@@ -326,11 +310,8 @@
                     }
                 }
             }
-            if (layedit.getContent(index) == "") {
-                article.content = desc
-            } else {
-                article.content = layedit.getContent(index);
-            }
+
+            article.content = desc;
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
             article.classify = $("#e1").val();
@@ -344,7 +325,7 @@
                     layer.msg("请填写关键字...")
                 } else {
                     if (article.smallImg == "") {
-                        layer.msg("请上传封面图...")
+                        layer.msg("请上传图片...")
                     } else {
                         if (article.content == "") {
                             layer.msg("请编写文章内容...")
@@ -369,7 +350,7 @@
                                         if (data.code == 0) {
                                             layer.msg(data.message);
                                             setTimeout(function () {
-                                                location = "/oa/article/issue"
+                                                location = "/oa/article/issue/img"
                                             }, 2000)
                                         }
                                         if (data.code > 0) {
@@ -402,11 +383,9 @@
                     }
                 }
             }
-            if (layedit.getContent(index) == "") {
+
                 article.content = desc
-            } else {
-                article.content = layedit.getContent(index);
-            }
+
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
 
@@ -430,7 +409,7 @@
                         if (data.code == 0) {
                             layer.msg(data.message);
                             setTimeout(function () {
-                                location = "/oa/article/issue"
+                                location = "/oa/article/issue/img"
                             }, 2000)
                         }
                         if (data.code > 0) {

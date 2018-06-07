@@ -20,6 +20,13 @@
             </a>
         </li>
 
+        <li <#if pageId==121>class="active" </#if>>
+            <a href="/oa/article/issue/img.html">
+                <i class="menu-icon fa fa-picture-o"></i>
+                <span class="menu-text">多图发布</span>
+            </a>
+        </li>
+
         <li <#if pageId==120>class="active" </#if>>
             <a href="/oa/article/video/index.html">
                 <i class="menu-icon fa fa-video-camera"></i>

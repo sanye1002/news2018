@@ -62,8 +62,7 @@ public class ArticleController {
     @GetMapping("/issue")
     @RequiresPermissions("userArticle:add")
     public ModelAndView index1(Map<String,Object> map,
-                               @RequestParam(value = "id", defaultValue = "") String id,
-                               @RequestParam(value = "type", defaultValue = "0") String type
+                               @RequestParam(value = "id", defaultValue = "") String id
     ){
         List<Classify> list = classifyService.findAllClassify();
         ArticleInfo articleInfo = new ArticleInfo();
@@ -73,9 +72,6 @@ public class ArticleController {
             if(articleInfo != null){
                 BeanUtils.copyProperties(articleInfo,articleDTO);
                 articleDTO.setKeyword(articleInfo.getKeywords());
-                if(articleInfo.getTypeId()==2){
-                    articleDTO.setManyImgDesc(SplitUtil.splitComme(articleInfo.getContent()));
-                }
                 articleDTO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
                 map.put("pageTitle","文章编辑");
                 map.put("draftList",1);
@@ -83,17 +79,56 @@ public class ArticleController {
 
         }else {
             articleDTO.setOriginal(0);
-            articleDTO.setTypeId(1);
             articleDTO.setClassifyId(1);
             map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
         map.put("articleId",id);
-        map.put("type",type);
         map.put("pageId",104);
         map.put("classify",list);
         map.put("article",articleDTO);
+        map.put("user",ShiroGetSession.getUser());
         return new ModelAndView("pages/article-issue",map);
+    }
+
+    /**
+     * 多图发布页面展示
+     */
+    @GetMapping("/issue/img")
+    public ModelAndView imgIssue(Map<String,Object> map,
+                               @RequestParam(value = "id", defaultValue = "") String id
+    ){
+        List<Classify> list = classifyService.findAllClassify();
+        ArticleInfo articleInfo = new ArticleInfo();
+        ArticleDTO articleDTO = new ArticleDTO();
+        if (!id.equals("")){
+            articleInfo = articleService.findOneByArticleId(id);
+            if(articleInfo != null){
+                BeanUtils.copyProperties(articleInfo,articleDTO);
+                articleDTO.setKeyword(articleInfo.getKeywords());
+                if(articleInfo.getContent()!=null){
+                    articleDTO.setManyImgDesc(SplitUtil.splitComme(articleInfo.getContent()));
+                }
+                if (articleInfo.getImgUrl()!=null){
+                    articleDTO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
+                }
+
+                map.put("pageTitle","文章编辑");
+                map.put("draftList",1);
+            }
+
+        }else {
+            articleDTO.setOriginal(0);
+            articleDTO.setClassifyId(list.get(0).getId());
+            map.put("pageTitle","文章发布");
+            map.put("draftList",0);
+        }
+        map.put("articleId",id);
+        map.put("pageId",121);
+        map.put("classify",list);
+        map.put("article",articleDTO);
+        map.put("user",ShiroGetSession.getUser());
+        return new ModelAndView("pages/article-issue-img",map);
     }
 
     /**
@@ -112,8 +147,7 @@ public class ArticleController {
             map.put("draftList",1);
         }else {
             articleInfo.setOriginal(0);
-            articleInfo.setTypeId(1);
-            articleInfo.setClassifyId(1);
+            articleInfo.setClassifyId(list.get(0).getId());
             map.put("pageTitle","视频发布");
             map.put("draftList",0);
         }

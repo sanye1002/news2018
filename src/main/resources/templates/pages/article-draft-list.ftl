@@ -106,12 +106,12 @@
                                     <td>${p.getTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
                                     <div id="content${p.getArticleId()}" style="display: none">
-                                            ${p.getContent()}
+                                            ${p.getContent()!}
                                     </div>
                                     <div id="video${p.getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
-                                                <video  style="max-height: 700px" src="${p.getContent()}" controls="controls" >
+                                                <video  style="max-height: 700px" src="${p.getContent()!}" controls="controls" >
 
                                                 </video>
                                             </div>
@@ -144,14 +144,27 @@
                                             </a>
                                         </#if>
 
-                                        <#if p.getTypeId()!=3>
+                                        <#if p.getTypeId()==1>
                                             <a href="/oa/article/issue.html?id=${p.getArticleId()}" target="_self" name="pullModel-row_edit_character" class="btn btn-info btn-xs">
                                                 <i class="fa fa-edit"></i> 编辑
                                             </a>
                                         </#if>
+
+                                        <#if p.getTypeId()==2>
+                                            <a href="/oa/article/issue/img.html?id=${p.getArticleId()}" target="_self" name="pullModel-row_edit_character" class="btn btn-info btn-xs">
+                                                <i class="fa fa-edit"></i> 编辑
+                                            </a>
+                                        </#if>
+
                                         <a onclick="issueContent('${p.getArticleId()}')" target="_self" name="pullModel-row_edit_character" class="btn btn-success btn-xs">
                                             <i class="fa fa-arrow-circle-up"></i> 发布
                                         </a>
+
+                                        <a class="btn btn-danger btn-xs"
+                                           onclick="deleteArticle('${p.getArticleId()}')"><i
+                                                class="fa fa-times"></i>
+                                            删除</a>
+
                                     </td>
                                 </tr>
                                 </#list>
@@ -285,6 +298,45 @@
             )
 
         });
+    }
+
+
+
+    //删除
+    function deleteArticle(articleId) {
+
+        var resultType = $("#type input[type=checkbox]:checked").val()
+
+        layer.confirm('此操作为不可逆操作，客官已确认？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            layer.closeAll();
+            layer.msg('请稍等...', {
+                icon: 16
+                , shade: 0.01
+            });
+            //执行POST请求
+            $.post(
+                    "/oa/article/user/delete",
+                    {
+                        articleId: articleId
+                    },
+                    function (data) {
+                        if (data.code == 0) {
+                            layer.msg(data.message);
+                            setTimeout(function () {
+                                location = "/oa/article/draft/list?type=" + resultType
+                            }, 100)
+                        }
+                        if (data.code > 0) {
+                            layer.msg(data.message);
+                        }
+                    }
+            )
+
+        })
+
+
     }
 </script>
 </body>
