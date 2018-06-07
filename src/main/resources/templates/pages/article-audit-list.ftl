@@ -126,6 +126,7 @@
                                 <thead>
                                 <tr>
                                     <th>用户</th>
+                                    <th>是否原创</th>
                                     <th>标题</th>
                                     <th>时间</th>
                                     <th>关键字</th>
@@ -139,6 +140,10 @@
                                 <#list pageContent.getPageContent() as p>
                                 <tr id="${p.getArticleId()}">
                                     <td>${p.getUser().getNikeName()}</td>
+                                    <td>
+                                        <#if p.getOriginal()==0>非原创</#if>
+                                        <#if p.getOriginal()==1>原创</#if>
+                                    </td>
                                     <td>${p.getTitle()}</td>
                                     <td>${p.getTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
