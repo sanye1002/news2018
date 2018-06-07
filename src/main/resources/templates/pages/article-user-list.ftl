@@ -132,7 +132,10 @@
                                         <th>分类</th>
                                         <th>审核状态</th>
                                         <th>内容与图片</th>
-                                        <th>操作</th>
+                                        <#if state!=1>
+                                            <th>操作</th>
+                                        </#if>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -196,12 +199,17 @@
                                                 视频</a>
                                         </#if>
                                     </td>
-                                    <td>
-                                        <a class="btn btn-danger btn-xs"
-                                           onclick="deleteArticle('${p.getArticleId()}',${state})"><i
-                                                class="fa fa-times"></i>
-                                            删除</a>
-                                    </td>
+
+                                    <#if state!=1>
+                                        <td>
+                                            <a class="btn btn-danger btn-xs"
+                                               onclick="deleteArticle('${p.getArticleId()}',${state})"><i
+                                                    class="fa fa-times"></i>
+                                                删除</a>
+                                        </td>
+                                    </#if>
+
+
                                 </tr>
                                 </#list>
                                     </tbody>
