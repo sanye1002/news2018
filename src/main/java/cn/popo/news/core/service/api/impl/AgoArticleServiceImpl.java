@@ -236,6 +236,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                         indexVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
                     }
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,articleInfo.getCrateTime()));
+                    indexVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
                     User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
                     author.setAvatar(user.getAvatar());

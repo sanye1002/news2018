@@ -2,11 +2,9 @@ package cn.popo.news.core.service.api.impl;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.DynamicVO;
+import cn.popo.news.core.dto.api.LookVO;
 import cn.popo.news.core.dto.api.PersonalVO;
-import cn.popo.news.core.entity.common.BrowsingHistory;
-import cn.popo.news.core.entity.common.Dynamic;
-import cn.popo.news.core.entity.common.DynamicPraise;
-import cn.popo.news.core.entity.common.User;
+import cn.popo.news.core.entity.common.*;
 import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.api.AgoPersonalService;
@@ -101,15 +99,20 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
      * 浏览记录小于等于6条
      */
     @Override
-    public PageDTO<String> findSixBrowsingHistory(Pageable pageable, String userId) {
-        PageDTO<String> pageDTO = new PageDTO<>();
+    public PageDTO<LookVO> findSixBrowsingHistory(Pageable pageable, String userId) {
+        PageDTO<LookVO> pageDTO = new PageDTO<>();
         Page<BrowsingHistory> browsingHistories = browsingHistoryRepository.findAllByUserId(pageable,userId);
-        List<String> list = new ArrayList<>();
+        List<LookVO> list = new ArrayList<>();
         if (browsingHistories != null) {
             pageDTO.setTotalPages(browsingHistories.getTotalPages());
             if (!browsingHistories.getContent().isEmpty()) {
                 browsingHistories.getContent().forEach(l -> {
-                    list.add(articleRepository.findOne(l.getArticleId()).getTitle());
+                    LookVO lookVO = new LookVO();
+                    ArticleInfo articleInfo = articleRepository.findOne(l.getArticleId());
+                    lookVO.setId(articleInfo.getArticleId());
+                    lookVO.setType(articleInfo.getTypeId());
+                    lookVO.setTitle(articleInfo.getTitle());
+                    list.add(lookVO);
                 });
             }
         }

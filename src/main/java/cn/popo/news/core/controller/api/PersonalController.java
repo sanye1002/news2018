@@ -2,10 +2,7 @@ package cn.popo.news.core.controller.api;
 
 
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.ArticleVO;
-import cn.popo.news.core.dto.api.AttentionVO;
-import cn.popo.news.core.dto.api.DynamicVO;
-import cn.popo.news.core.dto.api.PersonalVO;
+import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoAttentionService;
@@ -162,7 +159,7 @@ public class PersonalController {
                                                         @RequestParam(value = "userId") String userId
     ){
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
-        PageDTO<String> pageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
+        PageDTO<LookVO> pageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
         pageDTO.setCurrentPage(page);
         map.put("look", pageDTO);
         return ResultVOUtil.success(map);
@@ -191,7 +188,7 @@ public class PersonalController {
         map.put("dynamic", pageDTO);
 
         //浏览记录
-        PageDTO<String> lookPageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
+        PageDTO<LookVO> lookPageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
         lookPageDTO.setCurrentPage(page);
         map.put("look", lookPageDTO);
 

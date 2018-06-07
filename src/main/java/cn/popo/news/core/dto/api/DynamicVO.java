@@ -23,10 +23,10 @@ public class DynamicVO {
     @JsonProperty("imgs")
     private List<String> imgList;
 
-    @JsonProperty("time")
-    private String ManyTimeAgo;
-
     private Integer good;
 
     private Integer goodFlag;
+
+    @JsonProperty("time")
+    private String ManyTimeAgo;
 }
