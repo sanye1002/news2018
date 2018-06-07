@@ -72,14 +72,16 @@ public class ArticleController {
             if(articleInfo != null){
                 BeanUtils.copyProperties(articleInfo,articleDTO);
                 articleDTO.setKeyword(articleInfo.getKeywords());
-                articleDTO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
+                if (articleInfo.getImgUrl()!=null){
+                    articleDTO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
+                }
                 map.put("pageTitle","文章编辑");
                 map.put("draftList",1);
             }
 
         }else {
             articleDTO.setOriginal(0);
-            articleDTO.setClassifyId(1);
+            articleDTO.setClassifyId(list.get(0).getId());
             map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
@@ -141,19 +143,29 @@ public class ArticleController {
 
         List<Classify> list = classifyService.findAllClassify();
         ArticleInfo articleInfo = new ArticleInfo();
-        if(!id.equals("")){
+        ArticleDTO articleDTO = new ArticleDTO();
+        if (!id.equals("")){
             articleInfo = articleService.findOneByArticleId(id);
-            map.put("pageTitle","视频编辑");
-            map.put("draftList",1);
+            if(articleInfo != null){
+                BeanUtils.copyProperties(articleInfo,articleDTO);
+                articleDTO.setKeyword(articleInfo.getKeywords());
+                if (articleInfo.getImgUrl()!=null){
+                    articleDTO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
+                }
+                map.put("pageTitle","文章编辑");
+                map.put("draftList",1);
+            }
+
         }else {
-            articleInfo.setOriginal(0);
-            articleInfo.setClassifyId(list.get(0).getId());
-            map.put("pageTitle","视频发布");
+            articleDTO.setOriginal(0);
+            articleDTO.setClassifyId(list.get(0).getId());
+            map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
-        map.put("article",articleInfo);
+        map.put("articleId",id);
         map.put("pageId",120);
         map.put("classify",list);
+        map.put("article",articleDTO);
         map.put("user",ShiroGetSession.getUser());
         return new ModelAndView("pages/videoindex",map);
     }

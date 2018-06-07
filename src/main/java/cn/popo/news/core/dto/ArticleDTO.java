@@ -117,4 +117,6 @@ public class ArticleDTO {
      * 是否上侧边栏
      */
     private Integer recommendState;
+
+    private String des;
 }

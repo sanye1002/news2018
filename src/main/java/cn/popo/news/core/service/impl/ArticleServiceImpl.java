@@ -1,6 +1,7 @@
 package cn.popo.news.core.service.impl;
 
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.common.utils.WordParticipleUtil;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
@@ -67,12 +68,13 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章上传
      */
     public void articleSave(ArticleForm articleForm){
-        System.out.println(articleForm.getArticleId());
         ArticleInfo articleInfo = new ArticleInfo();
         articleForm.setContent(KeyWordFilter.doFilter(articleForm.getContent()));
         articleForm.setKeywords(KeyWordFilter.doFilter(articleForm.getKeywords()));
         articleForm.setTitle(KeyWordFilter.doFilter(articleForm.getTitle()));
-        articleForm.setDes(KeyWordFilter.doFilter(articleForm.getDes()));
+        if(articleForm.getDes()!=null){
+            articleForm.setDes(KeyWordFilter.doFilter(articleForm.getDes()));
+        }
         BeanUtils.copyProperties(articleForm,articleInfo);
         if(articleForm.getDraft() == 1){
             articleInfo.setDraft(0);

@@ -122,10 +122,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 WA">
+                                <div class="col-sm-12">
                                     <div class="form-title">封面图片</div>
                                     <div class="col-sm-12">
                                         <div class="form-title">封面图片<span>大小：360*265</span></div>
+                                        <div class="layui-upload">
+                                            <input id="imgId" value="" style="display: none">
+                                            <button type="button" class="layui-btn" id="image-select1">
+                                                封面图选择
+                                            </button>
+                                            <button type="button" class="layui-btn" id="image-upload1">
+                                                图片上传
+                                            </button>
+                                            <blockquote class="layui-elem-quote layui-quote-nm"
+                                                        style="margin-top: 10px;">
+                                                预览图：
+                                                <div class="layui-upload-list" id="imgShow">
+                                                    <#list article.getImgList()! as img >
+                                                        <img src="${img}" class="layui-upload-img">
+                                                    </#list>
+                                                </div>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 WA">
+                                    <div class="form-title">视频</div>
+                                    <div class="col-sm-12">
+                                        <div class="form-title">视频<span>大小：10M以下</span></div>
                                         <div class="layui-upload">
                                             <input id="imgId" value="" style="display: none">
                                             <button type="button" class="layui-btn" id="image-select">
@@ -137,7 +161,7 @@
                                             <blockquote class="layui-elem-quote layui-quote-nm"
                                                         style="margin-top: 10px;">
                                                 预览图：
-                                                <div class="layui-upload-list" id="imgShow">
+                                                <div class="layui-upload-list" id="videoShow">
                                                     <#if article.getContent()! !="">
                                                         <video src="${article.getContent()}" controls="controls" class="layui-upload-img"></video>
                                                     </#if>
@@ -190,7 +214,7 @@
         keywords: "",
         classify: 1,
         article: "${article.getArticleId()!}",
-        smallImg: " ",
+        smallImg: "${article.getImgUrl()!}",
         original:0
     }
 
@@ -213,11 +237,12 @@
         $("input[type=radio]").click(function () {
             article.type = this.value;
         })
+
         layui.use('upload', function () {
             var $ = layui.jquery
                     , upload = layui.upload;
 
-            //普通图片上传
+            //视频上传
             var uploadInst = upload.render({
                 elem: '#image-select'
                 , url: '/oa/upload/mp4/${user.getUserId()}'
@@ -237,7 +262,7 @@
                 , done: function (res) {
                     //上传成功
                     if (res.code == 0) {
-                        $('#imgShow').append('<video src="' + res.data.videoPath + '"  controls="controls" class="layui-upload-img">')
+                        $('#videoShow').append('<video src="' + res.data.videoPath + '"  controls="controls" class="layui-upload-img">')
                         article.content = res.data.videoPath;
                         return layer.msg( res.data.message);
                     }
@@ -257,6 +282,77 @@
                 }
             });
         });
+
+        layui.use('upload', function () {
+            var $ = layui.jquery, upload = layui.upload;
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#image-select1'
+                , url: '/oa/upload/img/article'
+                , auto: false
+                , multiple: false
+                , acceptMime: 'image'
+                , bindAction: '#image-upload1'
+                , choose: function (obj) {
+                    //将每次选择的文件追加到文件队列
+                    var files = obj.pushFile();
+                    obj.preview(function (index, file, result) {
+                        // console.log(index); //得到文件索引
+                        // console.log(file); //得到文件对象
+                        // console.log(result); //得到文件base64编码，比如图片
+
+                        //这里还可以做一些 append 文件列表 DOM 的操作
+                        $('#imgShow').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+                        /*$('#content-box').append('<span class="input-icon icon-right">\n' +
+                                '                                <textarea rows="2" class="form-control des"\n' +
+                                '                        id="back-content"\n' +
+                                '                        placeholder="请输入你的内容"></textarea>\n' +
+                                '                                </span>')*/
+                        //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
+                        //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
+                    });
+                }
+                , before: function (obj) {
+                    //预读本地文件示例，不支持ie8
+                    /* $('#imgShow').html("");*/
+                    obj.preview(function (index, file, result) {
+                        //这里还可以做一些 append 文件列表 DOM 的操作
+                        // $('#imgShow').html("")
+                    });
+                }
+                , done: function (res) {
+                    //上传成功
+
+                    if (res.code == 0) {
+
+                        $('#imgShow').append('<img src="' + res.data.src + '" alt="' + res.data.src + '" class="layui-upload-img">')
+                        if (article.smallImg == "") {
+                            article.smallImg = res.data.src;
+
+                        } else {
+                            article.smallImg = article.smallImg + "," + res.data.src;
+                        }
+                        return layer.msg(res.message);
+                    }
+
+                    //如果上传失败
+                    if (res.code > 0) {
+                        return layer.msg(res.message);
+                    }
+                }
+                , error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText123');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
+            });
+        });
+
+
         $("#save").click(function () {
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
@@ -278,36 +374,40 @@
                         if (article.content == "") {
                             layer.msg("请上传视频...")
                         } else {
-                            //保存
-                            $("#save").attr("disabled", true)
-                            $.post(
-                                    "/oa/article/save",
-                                    {
-                                        typeId: article.type,
-                                        title: article.title,
-                                        content: article.content,
-                                        keywords: article.keyWords,
-                                        classifyId: article.classify,
-                                        draft: 1,
-                                        articleId:article.article,
-                                        des:videoDes,
-                                        imgUrl:article.smallImg,
-                                        original:article.original
-                                    },
-                                    function (data) {
+                            if(videoDes==""){
+                                layer.msg("请填写视频描述...")
+                            }else {
+                                //保存
+                                $("#save").attr("disabled", true)
+                                $.post(
+                                        "/oa/article/save",
+                                        {
+                                            typeId: article.type,
+                                            title: article.title,
+                                            content: article.content,
+                                            keywords: article.keyWords,
+                                            classifyId: article.classify,
+                                            draft: 1,
+                                            articleId:article.article,
+                                            des:videoDes,
+                                            imgUrl:article.smallImg,
+                                            original:article.original
+                                        },
+                                        function (data) {
 
-                                        if (data.code == 0) {
-                                            layer.msg(data.message);
-                                            setTimeout(function () {
-                                                location = "/oa/article/video/index"
-                                            }, 2000)
+                                            if (data.code == 0) {
+                                                layer.msg(data.message);
+                                                setTimeout(function () {
+                                                    location = "/oa/article/video/index"
+                                                }, 2000)
+                                            }
+                                            if (data.code > 0) {
+                                                $("#save").removeAttr("disabled")
+                                                layer.msg(data.message);
+                                            }
                                         }
-                                        if (data.code > 0) {
-                                            $("#save").removeAttr("disabled")
-                                            layer.msg(data.message);
-                                        }
-                                    }
-                            )
+                                )
+                            }
                         }
                     }
                 }
@@ -336,6 +436,7 @@
                         draft: 1,
                         articleId:article.article,
                         des:videoDes,
+                        imgUrl:article.smallImg,
                         original:article.original
                     },
                     function (data) {
