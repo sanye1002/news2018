@@ -131,22 +131,21 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
      */
 
     @Override
-    public ResultVO<Map<String, Object>> checkPhone(HttpServletRequest request, String phone, Integer type) {
+    public ResultVO<Map<String, Object>> checkPhone(HttpServletRequest request,HttpServletResponse response, String phone, Integer type) {
         Map<String, Object> map = new HashMap<>();
-        HttpSession session = request.getSession();
+
         if (type==0){
             User user = userRepository.findByPhoneAndStatus(phone,1);
             if (user == null) {
                 return ResultVOUtil.error(402, "查无用户");
             }
         }
-        session.setMaxInactiveInterval(500);
         Integer code = RandomUtils.getRandom4Font();
         if (SendMessageUtil.sendCodeMessage(phone, code + "")) {
-            session.setAttribute("code", "" + code);
+            CookieUtil.set(response,CookieConstant.CODE_YZM,code+"",300);
             map.put("message", "验证码发送成功！");
         } else {
-            return ResultVOUtil.error(100, "短信发送失败，请联系管理员！");
+            return ResultVOUtil.error(100, "短信发送失败，请稍后重试！");
         }
         return ResultVOUtil.success(map);
     }
@@ -205,8 +204,8 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
 
     @Override
     public Boolean checkCode(HttpServletRequest request, String code) {
-        HttpSession session = request.getSession();
-        String messageCode = (String) session.getAttribute("code");
+        Cookie cookie = CookieUtil.get(request,CookieConstant.CODE_YZM);
+        String messageCode = (String) cookie.getValue();
         if (messageCode.equals(code)){
             return true;
         }

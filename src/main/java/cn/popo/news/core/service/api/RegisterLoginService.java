@@ -48,7 +48,7 @@ public interface RegisterLoginService {
      * @param type 0 登录   1 注册
      * @return
      */
-    ResultVO<Map<String,Object>> checkPhone(HttpServletRequest request,String phone,Integer type);
+    ResultVO<Map<String,Object>> checkPhone(HttpServletRequest request,HttpServletResponse response,String phone,Integer type);
 
 
     /**

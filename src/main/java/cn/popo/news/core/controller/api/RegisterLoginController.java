@@ -1,6 +1,7 @@
 package cn.popo.news.core.controller.api;
 
 import cn.popo.news.common.controller.BasicController;
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.exception.APIException;
@@ -83,9 +84,10 @@ public class RegisterLoginController {
     @PostMapping("/checkPhoneToCode")
     @ApiOperation(value = "验证手机号码发送验证码", notes = "验证手机号码和验证类型")
     public ResultVO<Map<String, Object>> checkPhone(HttpServletRequest request,
+                                                    HttpServletResponse response,
                                                     @RequestParam(value = "phone") @ApiParam(value = "手机号码", required = true) String phone,
                                                     @RequestParam(value = "type") @ApiParam(value = "操作类型（0 登录或者找回密码，1 注册）", required = true) Integer type) {
-        return loginService.checkPhone(request, phone, type);
+        return loginService.checkPhone(request,response, phone, type);
     }
 
     @PostMapping("/register")

@@ -9,6 +9,7 @@ public interface CookieConstant {
 
     String TOKEN = "user-cookie-token";
     String USER_ID = "user-cookie-id";
+    String CODE_YZM = "user-cookie-code";
 
     Integer EXPIRE = 604800;
 }
