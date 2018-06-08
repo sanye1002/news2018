@@ -342,17 +342,18 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     public void saveBrowsingHistory(String userId,String articleId) {
         System.out.println(userId);
         BrowsingHistory browsingHistory = null;
-        if(userId.equals("")){
-             browsingHistory = new BrowsingHistory();
-        }else {
-             browsingHistory = browsingHistoryRepository.findAllByUserIdAndArticleId(userId,articleId);
+        if(!userId.equals("")){
+            browsingHistory = browsingHistoryRepository.findAllByUserIdAndArticleId(userId,articleId);
         }
 
         if(browsingHistory==null){
-            browsingHistory.setTime(System.currentTimeMillis());
-            browsingHistory.setArticleId(articleId);
-            browsingHistory.setUserId(userId);
-            browsingHistoryRepository.save(browsingHistory);
+            if(!userId.equals("")){
+                browsingHistory = new BrowsingHistory();
+                browsingHistory.setTime(System.currentTimeMillis());
+                browsingHistory.setArticleId(articleId);
+                browsingHistory.setUserId(userId);
+                browsingHistoryRepository.save(browsingHistory);
+            }
 
             //人气+1
             ArticleInfo articleInfo = articleRepository.findOne(articleId);
