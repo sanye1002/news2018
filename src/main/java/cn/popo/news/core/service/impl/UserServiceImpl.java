@@ -115,6 +115,11 @@ public class UserServiceImpl implements UserService {
             map.put("message", "用户名不存在");
             return map;
         }
+        if(!userInfo.getUserType().equals("0")){
+            map.put("code", 100);
+            map.put("message", "无权限访问~");
+            return map;
+        }
         UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
         Subject subject = SecurityUtils.getSubject();
         try {

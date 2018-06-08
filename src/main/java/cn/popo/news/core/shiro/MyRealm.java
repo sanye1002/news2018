@@ -37,7 +37,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        log.info("Shiro权限验证执行");
+        System.out.println("权限。。。");
         String username = (String) principalCollection.getPrimaryPrincipal();
         if(username!=null){
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -63,7 +63,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        log.info("认证登录......");
+        System.out.println("认证登录......");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         User userInfo  = userService.findByPhoneAndStatus(token.getUsername());
         if(userInfo==null){

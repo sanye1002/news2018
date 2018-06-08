@@ -86,18 +86,22 @@ public class AccountController {
                                                     @RequestParam(value = "phone") String phone,
                                                     @RequestParam(value = "type") Integer type) {
         HttpSession session = request.getSession();
-        User userInfo = userService.findByPhoneAndStatus(phone);
+
         Map<String, Object> map = new HashMap<>();
         if (type==1){
+            User userInfo = userService.findByPhoneAndStatus(phone);
             if (userInfo == null) {
                 return ResultVOUtil.error(100, "查无用户");
             }
             map.put("message", "你好，" + userInfo.getName() + ",验证码已发送！");
         }else {
+            Map empty = userService.findPhoneIsEmpty(phone);
+            Integer code = (Integer) empty.get("code");
+            if (code!=0){
+                return ResultVOUtil.error(100,"用户已存在~");
+            }
             map.put("message", "你好,验证码已发送！");
         }
-
-
         session.setMaxInactiveInterval(300);
         Integer code = RandomUtils.getRandom4Font();
         if (SendMessageUtil.sendCodeMessage(phone, code + "")) {
@@ -117,6 +121,11 @@ public class AccountController {
                                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResultVOUtil.error(100, bindingResult.getFieldError().getDefaultMessage());
+        }
+        Map map = userService.findPhoneIsEmpty(userForm.getPhone());
+        Integer code = (Integer) map.get("code");
+        if (code!=0){
+            return ResultVOUtil.error(401,"用户已存在~");
         }
         userForm.setStatus(1);
         userForm.setShowStatus(1);

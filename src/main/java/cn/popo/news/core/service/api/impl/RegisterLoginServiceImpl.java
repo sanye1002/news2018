@@ -153,6 +153,9 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
     @Override
     public ResultVO<Map<String, Object>> register(HttpServletRequest request, HttpServletResponse response, String phone, String code, String password) {
         Map<String, Object> map = new HashMap<>();
+        if (userRepository.findByPhone(phone)!=null){
+            return ResultVOUtil.error(403,"用户已存在~");
+        }
         if (checkCode(request, code)){
             User user = new User();
             user.setPassword(Encrypt.md5(password));
@@ -162,6 +165,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
             user.setUpdateDate(GetTimeUtil.getTime());
             user.setUserType("1");
             user.setUserId(KeyUtil.genUniqueKey());
+            user.setStatus(1);
             User userParam = userRepository.save(user);
             map.put("message","登录成功");
             map.put("userVO",this.setUserRedisSessionTokenAndCookieSession(response,userParam));

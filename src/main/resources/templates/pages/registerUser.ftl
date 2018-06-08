@@ -97,7 +97,6 @@
                 } else {
                     $("#phone").parent().removeClass("has-error");
                     $("#phone").parent().addClass("has-success");
-                    $("#box-code").show(100)
                     //post请求
                     $.post(
                             "/checkPhone",
@@ -108,6 +107,7 @@
                                 if (res.code == 0) {
                                     $("#send-code").hide(100);
                                     $("#phone").attr("disabled", "disabled");
+                                    $("#box-code").show(100)
                                     layer.msg(res.data.message, {
                                         time: 1000
                                     });
