@@ -64,9 +64,10 @@ public class UploadUtil {
             Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.CENTER, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
                     .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_CENTER.jpg");*/
             //打水印
-            if (saveFile.length()>2048000){
+            /*if (saveFile.length()>2048000){
                 Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
-            }
+            }*/
+            //打水印
             if (!type.equals("user")){
                 WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
             }

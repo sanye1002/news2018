@@ -35,7 +35,7 @@ public class ShiroGetSession {
             session.removeAttribute("permissionList");
             throw new UnauthenticatedException();
         }
-        System.out.println("用户信息="+ userInfo.getName());
+        System.out.println(GetTimeUtil.getDate()+":"+ userInfo.getName());
         return userInfo;
     }
 

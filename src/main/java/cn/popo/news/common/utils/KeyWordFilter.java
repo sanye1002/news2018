@@ -55,12 +55,25 @@ public class KeyWordFilter {
 		initPattern();
 		Matcher m = pattern.matcher(str);
 
-//		while (m.find()) {// 查找符合pattern的字符串
-//			System.out.println("The result is here :" + m.group());
-//		}
+		while (m.find()) {// 查找符合pattern的字符串
+             System.out.println("The result is here :" + m.group());
+	    }
 		// 选择替换方式，这里以* 号代替
 		str = m.replaceAll("*");
 		return str;
+	}
+	public static String checkWords(String str) {
+		String words= "";
+		initPattern();
+		Matcher m = pattern.matcher(str);
+
+		while (m.find()) {// 查找符合pattern的字符串
+             System.out.println("The result is here :" + m.group());
+             words =words+m.group();
+	    }
+		// 选择替换方式，这里以* 号代替
+
+		return words;
 	}
 
 
@@ -78,7 +91,7 @@ public class KeyWordFilter {
 	            + "关, 人, 流, 电, 发, 情, 太, 限, 法轮功, 个人, 经, 色, 许, 公, 动, 地, 方, 基, 在, 上, 红, 强, 自杀指南, 制, 卡, 三级片, 一, 夜, 多, 手机, 于, 自，"  
 	            + "难过就躺在某一个人的怀里尽情的阐述心扉或者手机卡复制器一个人一杯红酒一部电影在夜三级片 深人静的晚上，关上电话静静的发呆着。";  
 		System.out.println("被检测字符串长度:"+str.length());
-		str = doFilter(str);
+		str = checkWords(str);
 		//高效Java敏感词、关键词过滤工具包_过滤非法词句：http://blog.csdn.net/ranjio_z/article/details/6299834
 		//FilteredResult result = WordFilterUtil.filterText(str, '*');
 		long endNumber = System.currentTimeMillis();  
