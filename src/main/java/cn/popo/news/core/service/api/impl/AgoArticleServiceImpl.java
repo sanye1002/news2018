@@ -326,6 +326,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
             if(l.getImgUrl()!=null){
                 indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
             }
             articleVOList.add(indexVO);
         });

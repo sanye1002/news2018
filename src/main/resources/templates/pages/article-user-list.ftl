@@ -197,6 +197,8 @@
                                                onclick="showVedio('${p.getArticleId()}',${p.getTypeId()})"><i
                                                     class="fa fa-caret-square-o-right"></i>
                                                 视频</a>
+                                            <a class="btn btn-info btn-xs" onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i class="fa fa-picture-o"></i>
+                                                封面图</a>
                                         </#if>
                                     </td>
 
