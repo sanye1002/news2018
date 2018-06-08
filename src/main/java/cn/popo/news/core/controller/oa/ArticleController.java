@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.oa;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.config.UploadConfig;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
@@ -176,6 +177,18 @@ public class ArticleController {
     @PostMapping("/save")
     @ResponseBody
     public ResultVO<Map<String, String>> save(@Valid ArticleForm articleForm){
+        String key = articleForm.getKeywords();
+        String title = articleForm.getTitle();
+        String content = articleForm.getContent();
+        if (!KeyWordFilter.checkWords(key).equals("")){
+            return ResultVOUtil.error(100,"关键字违规："+KeyWordFilter.checkWords(key));
+        }
+        if (!KeyWordFilter.checkWords(title).equals("")){
+            return ResultVOUtil.error(100,"标题违规："+KeyWordFilter.checkWords(title));
+        }
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"内容违规："+KeyWordFilter.checkWords(content));
+        }
         articleService.articleSave(articleForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
@@ -187,6 +200,18 @@ public class ArticleController {
     @PostMapping("/draft/save")
     @ResponseBody
     public ResultVO<Map<String, String>> saveDraft(@Valid ArticleDraftForm articleDraftForm){
+        String key = articleDraftForm.getKeywords();
+        String title = articleDraftForm.getTitle();
+        String content = articleDraftForm.getContent();
+        if (!KeyWordFilter.checkWords(key).equals("")){
+            return ResultVOUtil.error(100,"关键字违规："+KeyWordFilter.checkWords(key));
+        }
+        if (!KeyWordFilter.checkWords(title).equals("")){
+            return ResultVOUtil.error(100,"标题违规："+KeyWordFilter.checkWords(title));
+        }
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"内容违规："+KeyWordFilter.checkWords(content));
+        }
         articleService.saveArticleDraft(articleDraftForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

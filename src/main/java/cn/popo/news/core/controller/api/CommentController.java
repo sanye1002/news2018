@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.api;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.entity.form.CommentForm;
 import cn.popo.news.core.entity.form.CommentReportForm;
 import cn.popo.news.core.service.api.AgoCommentService;
@@ -53,6 +54,10 @@ public class CommentController {
      */
     @PostMapping("/comment/save")
     public ResultVO<Map<String,Object>> commentSave(@Valid CommentForm commentForm){
+        String content = commentForm.getCommentInfo();
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"评论内容违规："+KeyWordFilter.checkWords(content));
+        }
         agoCommentService.commontSave(commentForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
@@ -65,6 +70,10 @@ public class CommentController {
      */
     @PostMapping("/comment/report")
     public ResultVO<Map<String,Object>> commentReportSave(@Valid CommentReportForm commentReportForm){
+        String content = commentReportForm.getContent();
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
+        }
         agoCommentService.commentReplyReportSave(commentReportForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

@@ -233,7 +233,9 @@
                     , type: 'post' //默认post
                 }
             });
-            index = layedit.build('demo'); //建立编辑器
+            index = layedit.build('demo',{
+                height:600
+            }); //建立编辑器
         });
 
         layui.use('upload', function () {

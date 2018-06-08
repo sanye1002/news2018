@@ -20,8 +20,7 @@
     <script src="/assets/js/skins.min.js"></script>
     <style>
         .layui-upload-img {
-            width: 92px;
-            height: 92px;
+            width: 200px;
             margin: 0 10px 10px 0;
         }
         .display-none{

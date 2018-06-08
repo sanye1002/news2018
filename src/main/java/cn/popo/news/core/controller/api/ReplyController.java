@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.api;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ReplyVO;
 import cn.popo.news.core.entity.form.ReplyForm;
@@ -34,6 +35,10 @@ public class ReplyController {
      */
     @PostMapping("/reply/save")
     public ResultVO<Map<String,Object>> replySave(@Valid ReplyForm replyForm){
+        String content = replyForm.getReplyInfo();
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"回复内容违规："+KeyWordFilter.checkWords(content));
+        }
         agoReplyService.replySave(replyForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
@@ -46,6 +51,10 @@ public class ReplyController {
      */
     @PostMapping("reply/report")
     public ResultVO<Map<String,Object>> replyReportSave(@Valid ReplyReportForm replyReportForm){
+        String content = replyReportForm.getContent();
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
+        }
         agoReplyService.replyReportSave(replyReportForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

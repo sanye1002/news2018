@@ -253,7 +253,7 @@
 
     //相册层
     function showImgs(id,type) {
-        // console.log(id)
+        console.log(id)
         $.getJSON('/layer/article?id='+id+'&type='+type, function(json){
             layer.photos({
                 photos: json

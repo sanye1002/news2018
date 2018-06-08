@@ -1,6 +1,7 @@
 package cn.popo.news.core.controller.api;
 
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.CommentVO;
@@ -126,6 +127,10 @@ public class ArticleDetailsController {
      */
     @PostMapping("/report/save")
     public ResultVO<Map<String, String>> reprotSave(@Valid ReprotInfoForm reprotInfoForm){
+        String content = reprotInfoForm.getInfo();
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
+        }
         agoArticleService.articleReportInfoSave(reprotInfoForm);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
