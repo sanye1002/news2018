@@ -180,6 +180,7 @@ public class ArticleController {
         String key = articleForm.getKeywords();
         String title = articleForm.getTitle();
         String content = articleForm.getContent();
+        String desc = articleForm.getDes();
         if (!KeyWordFilter.checkWords(key).equals("")){
             return ResultVOUtil.error(100,"关键字违规："+KeyWordFilter.checkWords(key));
         }
@@ -188,6 +189,9 @@ public class ArticleController {
         }
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"内容违规："+KeyWordFilter.checkWords(content));
+        }
+        if (!KeyWordFilter.checkWords(desc).equals("")){
+            return ResultVOUtil.error(100,"视频描述违规："+KeyWordFilter.checkWords(desc));
         }
         articleService.articleSave(articleForm);
         Map<String,Object> map  = new HashMap<>();
@@ -203,6 +207,7 @@ public class ArticleController {
         String key = articleDraftForm.getKeywords();
         String title = articleDraftForm.getTitle();
         String content = articleDraftForm.getContent();
+        String desc = articleDraftForm.getDes();
         if (!KeyWordFilter.checkWords(key).equals("")){
             return ResultVOUtil.error(100,"关键字违规："+KeyWordFilter.checkWords(key));
         }
@@ -211,6 +216,9 @@ public class ArticleController {
         }
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"内容违规："+KeyWordFilter.checkWords(content));
+        }
+        if (!KeyWordFilter.checkWords(desc).equals("")){
+            return ResultVOUtil.error(100,"视频描述违规："+KeyWordFilter.checkWords(desc));
         }
         articleService.saveArticleDraft(articleDraftForm);
         Map<String,Object> map  = new HashMap<>();
