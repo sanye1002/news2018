@@ -663,6 +663,7 @@ public class ArticleServiceImpl implements ArticleService {
                     searchVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         searchVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                        searchVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     }
                     searchVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());

@@ -111,6 +111,10 @@ public class HomePageController {
                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                @RequestParam(value = "content") String content
                                                                                         ){
+        if (content==""||content==null){
+            return ResultVOUtil.error(100,"内容为空~");
+        }
+
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findArticleTitleLikeAndStateAndShowStateAndDraft(pageRequest,ONE,content,ONE,ZERO);
         pageDTO.setCurrentPage(page);
