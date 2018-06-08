@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class LayuiPhotos {
         Map<String,Object> map =articleService.findOneArticleSomeImg(id);
         List<String> contentList= (List<String>) map.get("contentList");
         List<String> imgList= (List<String>) map.get("imgList");
-        if (!contentList.isEmpty()&&!imgList.isEmpty()){
+        if (!imgList.isEmpty()){
             if(type == ResultEnum.PLATFORM_BOOS_NULL.getCode()){
                 for (int i=0;i<imgList.size();i++){
                     Map<String,Object> result = new HashMap<>();
