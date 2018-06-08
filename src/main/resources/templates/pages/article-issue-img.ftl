@@ -143,11 +143,11 @@
                                     <div class="col-sm-12">
                                         <div class="form-title">图片对应的描述</div>
                                         <div id="content-box">
-                                                <#list article.getManyImgDesc()! as desc>
+                                                <#list article.getImgList()! as desc>
                                                     <span class="input-icon icon-right">
                                                                 <textarea rows="2" class="form-control des"
                                                                           id="back-content"
-                                                                          placeholder="请输入你的内容">${desc}</textarea>
+                                                                          placeholder="请输入你的内容">${article.getManyImgDesc()[desc_index]!}</textarea>
                                                                </span>
                                                 </#list>
                                         </div>
@@ -255,7 +255,7 @@
                     /* $('#imgShow').html("");*/
                     obj.preview(function (index, file, result) {
                         //这里还可以做一些 append 文件列表 DOM 的操作
-                        $('#imgShow').html("")
+                        // $('#imgShow').html("")
                     });
                 }
                 , done: function (res) {
@@ -263,7 +263,7 @@
 
                     if (res.code == 0) {
 
-                        $('#imgShow').append('<img src="' + res.data.src + '" alt="' + res.data.src + '" class="layui-upload-img">')
+                        // $('#imgShow').append('<img src="' + res.data.src + '" alt="' + res.data.src + '" class="layui-upload-img">')
                         if (article.smallImg == "") {
                             article.smallImg = res.data.src;
 

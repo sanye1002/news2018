@@ -271,7 +271,7 @@
                     /* $('#imgShow').html("");*/
                     obj.preview(function (index, file, result) {
                         //这里还可以做一些 append 文件列表 DOM 的操作
-                        $('#imgShow').html("")
+                        // $('#imgShow').html("")
                     });
                 }
                 , done: function (res) {
@@ -279,7 +279,7 @@
 
                     if (res.code == 0) {
 
-                        $('#imgShow').append('<img src="' + res.data.src + '" alt="' + res.data.src + '" class="layui-upload-img">')
+                        // $('#imgShow').append('<img src="' + res.data.src + '" alt="' + res.data.src + '" class="layui-upload-img">')
                         if (article.smallImg == "") {
                             article.smallImg = res.data.src;
 

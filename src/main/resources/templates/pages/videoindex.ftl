@@ -247,7 +247,7 @@
                 elem: '#image-select'
                 , url: '/oa/upload/mp4/${user.getUserId()}'
                 , auto: false
-                , multiple: true
+                , multiple: false
                 , size: 5120
                 , accept:"video"
                 , acceptMime: 'video'
