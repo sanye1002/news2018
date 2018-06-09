@@ -3,8 +3,10 @@ package cn.popo.news.core.controller.api;
 import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ReplyVO;
+import cn.popo.news.core.entity.common.ReplyPraise;
 import cn.popo.news.core.entity.form.ReplyForm;
 import cn.popo.news.core.entity.form.ReplyReportForm;
+import cn.popo.news.core.repository.ReplyPraiseRepository;
 import cn.popo.news.core.service.api.AgoReplyService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
@@ -26,6 +28,9 @@ public class ReplyController {
 
     @Autowired
     private AgoReplyService agoReplyService;
+
+    @Autowired
+    private ReplyPraiseRepository replyPraiseRepository;
 
 
     /**
@@ -89,6 +94,10 @@ public class ReplyController {
     @PostMapping("/reply/praise")
     public ResultVO<Map<String,Object>> articleCommentPraise(@RequestParam(value = "replyId") String replyId,
                                                              @RequestParam(value = "userId") String userId){
+        ReplyPraise replyPraise = replyPraiseRepository.findAllByUidAndReplyId(userId,replyId);
+        if(replyPraise!=null){
+            return ResultVOUtil.error(100,"已赞");
+        }
         agoReplyService.replyPraise(userId,replyId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

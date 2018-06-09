@@ -78,7 +78,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 articleDetailsVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
             }
             articleDetailsVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
-            Collect collect = collectRepository.findAllByUidAndAid(articleInfo.getUid(),articleId);
+            Collect collect = collectRepository.findAllByUidAndAid(userId,articleId);
             if(collect!=null){
                 articleDetailsVO.setCollectId(collect.getId());
             }else {
@@ -135,17 +135,21 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public void articleCollect(CollectParam collectParam) {
-        Collect collect = new Collect();
-        BeanUtils.copyProperties(collectParam,collect);
-        collect.setTime(System.currentTimeMillis());
-
-        //人气+10
-        ArticleInfo articleInfo = articleRepository.findOne(collectParam.getAid());
-        Integer lookNum = articleInfo.getLookNum();
-        articleInfo.setLookNum(lookNum+10);
 
 
-        collectRepository.save(collect);
+            Collect collect = new Collect();
+            BeanUtils.copyProperties(collectParam,collect);
+            collect.setTime(System.currentTimeMillis());
+
+
+            //人气+10
+            ArticleInfo articleInfo = articleRepository.findOne(collectParam.getAid());
+            Integer lookNum = articleInfo.getLookNum();
+            articleInfo.setLookNum(lookNum+10);
+
+            collectRepository.save(collect);
+
+
     }
 
 

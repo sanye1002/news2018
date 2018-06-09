@@ -190,8 +190,10 @@ public class ArticleController {
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"内容违规："+KeyWordFilter.checkWords(content));
         }
-        if (!KeyWordFilter.checkWords(desc).equals("")){
-            return ResultVOUtil.error(100,"视频描述违规："+KeyWordFilter.checkWords(desc));
+        if(desc!=null){
+            if (!KeyWordFilter.checkWords(desc).equals("")){
+                return ResultVOUtil.error(100,"视频描述违规："+KeyWordFilter.checkWords(desc));
+            }
         }
         articleService.articleSave(articleForm);
         Map<String,Object> map  = new HashMap<>();

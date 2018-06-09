@@ -4,7 +4,11 @@ package cn.popo.news.core.controller.api;
 import cn.popo.news.common.utils.WordParticipleUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
+import cn.popo.news.core.entity.common.Attention;
+import cn.popo.news.core.entity.common.DynamicPraise;
 import cn.popo.news.core.entity.param.PersonalParam;
+import cn.popo.news.core.repository.AttentionRepository;
+import cn.popo.news.core.repository.DynamicPraiseRepository;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoAttentionService;
 import cn.popo.news.core.service.api.AgoPersonalService;
@@ -35,6 +39,12 @@ public class PersonalController {
     @Autowired
     private AgoPersonalService agoPersonalService;
 
+    @Autowired
+    private AttentionRepository attentionRepository;
+
+    @Autowired
+    private DynamicPraiseRepository dynamicPraiseRepository;
+
     /**
      * @param fid
      * @return
@@ -42,9 +52,14 @@ public class PersonalController {
      */
     @PostMapping("/user/attention")
     public ResultVO<Map<String,Object>> addAttention(Map<String,Object> map,
-                                                  @RequestParam(value = "fid") String fid){
-
-        agoAttentionService.addAttention(fid,fid);
+                                                  @RequestParam(value = "fid") String fid,
+                                                  @RequestParam(value = "aid") String aid
+    ){
+        Attention attention = attentionRepository.findAllByAidAndFid(aid,fid);
+        if (attention!=null){
+            return ResultVOUtil.error(100,"已关注");
+        }
+        agoAttentionService.addAttention(aid,fid);
         return ResultVOUtil.success(map);
     }
 
@@ -247,6 +262,10 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> dynamicPraise(
             @RequestParam(value = "dynamicId") String dynamicId,
             @RequestParam(value = "userId") String userId){
+        DynamicPraise dynamicPraise = dynamicPraiseRepository.findAllByUidAndDynamicId(userId,dynamicId);
+        if (dynamicPraise!=null){
+            return ResultVOUtil.error(100,"已赞");
+        }
         agoPersonalService.dynamicPraise(userId,dynamicId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

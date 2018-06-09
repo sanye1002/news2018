@@ -26,7 +26,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class AgoAttentionServiceImpl implements AgoAttentionService {
+public class   AgoAttentionServiceImpl implements AgoAttentionService {
 
     @Autowired
     private AttentionRepository attentionRepository;

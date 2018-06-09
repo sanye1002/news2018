@@ -1,8 +1,10 @@
 package cn.popo.news.core.controller.api;
 
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.core.entity.common.CommentPraise;
 import cn.popo.news.core.entity.form.CommentForm;
 import cn.popo.news.core.entity.form.CommentReportForm;
+import cn.popo.news.core.repository.CommentPraiseRepository;
 import cn.popo.news.core.service.api.AgoCommentService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
@@ -19,6 +21,8 @@ public class CommentController {
 
     @Autowired
     private AgoCommentService agoCommentService;
+    @Autowired
+    private CommentPraiseRepository commentPraiseRepository;
 
     /**
      * @param userId commentId
@@ -29,6 +33,10 @@ public class CommentController {
     public ResultVO<Map<String,Object>> articleCommentPraise(
                                                         @RequestParam(value = "commentId") String commentId,
                                                        @RequestParam(value = "userId") String userId){
+        CommentPraise commentPraise = commentPraiseRepository.findAllByUidAndCommentId(userId,commentId);
+        if(commentPraise!=null){
+            return ResultVOUtil.error(100,"已赞");
+        }
         agoCommentService.commentPraise(userId,commentId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

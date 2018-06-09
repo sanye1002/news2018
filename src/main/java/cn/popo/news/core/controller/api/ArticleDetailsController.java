@@ -6,11 +6,12 @@ import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.dto.api.UserVO;
+import cn.popo.news.core.entity.common.Collect;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.entity.param.CollectParam;
+import cn.popo.news.core.repository.CollectRepository;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoCommentService;
-import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class ArticleDetailsController {
 
     @Autowired
     private AgoArticleService agoArticleService;
+
+    @Autowired
+    private CollectRepository collectRepository;
 
 
     private static final Integer ZERO = 0;
@@ -103,6 +107,10 @@ public class ArticleDetailsController {
      */
      @PostMapping("/collect")
     public ResultVO<Map<String,Object>> articleCollect(@Valid CollectParam collectParam){
+         Collect collect1 = collectRepository.findAllByUidAndAid(collectParam.getUid(),collectParam.getAid());
+         if (collect1!=null){
+             return ResultVOUtil.error(100,"已收藏");
+         }
         agoArticleService.articleCollect(collectParam);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
