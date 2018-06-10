@@ -1,7 +1,6 @@
 package cn.popo.news.core.controller.api;
 
 
-import cn.popo.news.common.utils.WordParticipleUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.Attention;
@@ -9,6 +8,7 @@ import cn.popo.news.core.entity.common.DynamicPraise;
 import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.repository.AttentionRepository;
 import cn.popo.news.core.repository.DynamicPraiseRepository;
+import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoAttentionService;
 import cn.popo.news.core.service.api.AgoPersonalService;
@@ -44,6 +44,9 @@ public class PersonalController {
 
     @Autowired
     private DynamicPraiseRepository dynamicPraiseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * @param fid
@@ -215,25 +218,25 @@ public class PersonalController {
         map.put("attentionNum",attentionNum);
 
         //图文
-        PageDTO<ArticleVO> articlePageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",1);
+        PageDTO<ArticleVO> articlePageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,userId,1);
         articlePageDTO.setCurrentPage(page);
         map.put("article", articlePageDTO);
         //多图
-        PageDTO<ArticleVO> imgsPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",2);
+        PageDTO<ArticleVO> imgsPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,userId,2);
         imgsPageDTO.setCurrentPage(page);
         map.put("imgs", imgsPageDTO);
         //视频
-        PageDTO<ArticleVO> videoPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",3);
+        PageDTO<ArticleVO> videoPageDTO= agoArticleService.findAllArticleByUserCollect(pageRequest,userId,3);
         videoPageDTO.setCurrentPage(page);
         map.put("video", videoPageDTO);
 
         //粉丝
-        PageDTO<AttentionVO> fansPageDTO = agoAttentionService.findAllFans(pageRequest,"1527582639993");
+        PageDTO<AttentionVO> fansPageDTO = agoAttentionService.findAllFans(pageRequest,userId);
         fansPageDTO.setCurrentPage(page);
         map.put("fans", fansPageDTO);
 
         //关注
-        PageDTO<AttentionVO> attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,"1527582639993");
+        PageDTO<AttentionVO> attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,userId);
         attentionVOPageDTO.setCurrentPage(page);
         map.put("attention", attentionVOPageDTO);
 
@@ -248,6 +251,11 @@ public class PersonalController {
     @PostMapping("/user/update")
     public ResultVO<Map<String,Object>> updateUserInfo(@Valid PersonalParam personalParam
                                                    ){
+        if(userRepository.findOne(personalParam.getUserId()).getNikeName().equals(personalParam.getNikeName())){
+            return ResultVOUtil.error(100,"昵称已存在！！！！！");
+        }
+
+
         Map<String,Object> map  = new HashMap<>();
         agoPersonalService.updateUserInfo(personalParam);
         return ResultVOUtil.success(map);

@@ -11,6 +11,7 @@ public class AttentionVO {
     @JsonProperty("byUsername")
     private String byNickName;
     private String byAvatar;
+
     @JsonProperty("eachOtherAttention")
     private Integer attentionToo;
 }
