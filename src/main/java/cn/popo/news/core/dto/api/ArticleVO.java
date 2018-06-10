@@ -34,4 +34,6 @@ public class ArticleVO implements Serializable {
 
     private Integer imgNum;
 
+    private Integer collectId;
+
 }

@@ -111,6 +111,12 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
                     }else {
                         attentionVO.setAttentionToo(0);
                     }
+                    Attention attention1 = attentionRepository.findAllByAidAndFid(aid,l.getFid());
+                    if (attention1!=null){
+                        attentionVO.setAttention(attention1.getId());
+                    }else {
+                        attentionVO.setAttention(0);
+                    }
                     list.add(attentionVO);
                 });
             }

@@ -94,13 +94,7 @@
                 backgroundColor: window.chartColors.red,
                 borderColor: window.chartColors.red,
                 data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
+                   1,2,3,4,5,33,22,55
                 ],
                 fill: false,
             }, {
@@ -149,10 +143,10 @@
                     },
                     ticks: {
                         min: 0,
-                        max: 100,
+                        max: 10000,
 
                         // forces step size to be 5 units
-                        stepSize: 5
+                        stepSize: 500
                     }
                 }]
             }

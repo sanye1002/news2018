@@ -251,6 +251,12 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     author.setAvatar(user.getAvatar());
                     author.setName(user.getNikeName());
                     indexVO.setAuthor(author);
+                    Collect collect = collectRepository.findAllByUidAndAid(userId,l.getAid());
+                    if(collect!=null){
+                        indexVO.setCollectId(collect.getId());
+                    }else {
+                        indexVO.setCollectId(0);
+                    }
                     list.add(indexVO);
                 });
             }

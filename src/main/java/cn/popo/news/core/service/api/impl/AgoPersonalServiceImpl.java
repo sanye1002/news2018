@@ -52,6 +52,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         dynamic.setTime(time);
         dynamic.setImgUrl(imgUrl);
         dynamic.setUserId(userId);
+        dynamic.setPraiseNum(0);
         dynamicRepository.save(dynamic);
     }
 
@@ -139,14 +140,42 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     @Override
     public void updateUserInfo(PersonalParam personalParam) {
         User user = userRepository.findOne(personalParam.getUserId());
-        user.setNikeName(personalParam.getNikeName());
+
+        if(personalParam.getNikeName()!=null){
+            user.setNikeName(personalParam.getNikeName());
+        }
+
         user.setUpdateDate(GetTimeUtil.getTime());
-        user.setQQ(personalParam.getQQ());
-        user.setSex(personalParam.getSex());
-        user.setEmail(personalParam.getEmail());
-        user.setBirthday(personalParam.getBirthday());
-        user.setSignature(personalParam.getSignature());
-        user.setBackgroundImg(personalParam.getBackgroundImg());
+
+        if(personalParam.getQQ()!=null){
+            user.setQQ(personalParam.getQQ());
+        }
+
+
+        if(personalParam.getSex()!=null){
+            user.setSex(personalParam.getSex());
+        }
+
+        if(personalParam.getEmail()!=null){
+            user.setEmail(personalParam.getEmail());
+        }
+
+        if(personalParam.getBirthday()!=null){
+            user.setBirthday(personalParam.getBirthday());
+        }
+
+        if(personalParam.getSignature()!=null){
+            user.setSignature(personalParam.getSignature());
+        }
+
+        if(personalParam.getBackgroundImg()!=null){
+            user.setBackgroundImg(personalParam.getBackgroundImg());
+        }
+
+        if(personalParam.getAvatar()!=null){
+            user.setAvatar(personalParam.getAvatar());
+        }
+
     }
 
     /**

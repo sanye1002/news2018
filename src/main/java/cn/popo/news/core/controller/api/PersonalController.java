@@ -88,10 +88,12 @@ public class PersonalController {
     @PostMapping("/user/attention/list")
     public ResultVO<Map<String,Object>> userAttentionList(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                       @RequestParam(value = "size", defaultValue = "12") Integer size){
+                                                       @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                          @RequestParam(value = "userId") String userId
+                                                          ){
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
-        PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllAttention(pageRequest,"1527582639993");
+        PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllAttention(pageRequest,userId);
         pageDTO.setCurrentPage(page);
         map.put("attention", pageDTO);
         return ResultVOUtil.success(map);
@@ -105,9 +107,11 @@ public class PersonalController {
     @PostMapping("/user/fans/list")
     public ResultVO<Map<String,Object>> userFansList(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                       @RequestParam(value = "size", defaultValue = "12") Integer size){
+                                                       @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                       @RequestParam(value = "userId") String userId
+                                                     ){
         PageRequest pageRequest = new PageRequest(page-1,size);
-        PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllFans(pageRequest,"1527582639993");
+        PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllFans(pageRequest,userId);
         pageDTO.setCurrentPage(page);
         map.put("fans", pageDTO);
         return ResultVOUtil.success(map);
@@ -122,10 +126,11 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> search(Map<String,Object> map,
                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                               @RequestParam(value = "typeId") Integer typeId
+                                               @RequestParam(value = "typeId") Integer typeId,
+                                               @RequestParam(value = "userId") String userId
     ){
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
-        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest,"1527582639993",typeId);
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest,userId,typeId);
         pageDTO.setCurrentPage(page);
         map.put("pageContent", pageDTO);
         return ResultVOUtil.success(map);
@@ -194,7 +199,8 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userIndex(Map<String,Object> map,
                                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                                @RequestParam(value = "userId") String userId
+                                                                @RequestParam(value = "userId") String userId,
+                                                                @RequestParam(value = "userId1") String userId1
     ){
         //用户信息
         PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
@@ -251,10 +257,11 @@ public class PersonalController {
     @PostMapping("/user/update")
     public ResultVO<Map<String,Object>> updateUserInfo(@Valid PersonalParam personalParam
                                                    ){
-        if(userRepository.findOne(personalParam.getUserId()).getNikeName().equals(personalParam.getNikeName())){
-            return ResultVOUtil.error(100,"昵称已存在！！！！！");
+        if(personalParam.getNikeName()!=null){
+            if(userRepository.findOne(personalParam.getUserId()).getNikeName().equals(personalParam.getNikeName())){
+                return ResultVOUtil.error(100,"昵称已存在！！！！！");
+            }
         }
-
 
         Map<String,Object> map  = new HashMap<>();
         agoPersonalService.updateUserInfo(personalParam);
