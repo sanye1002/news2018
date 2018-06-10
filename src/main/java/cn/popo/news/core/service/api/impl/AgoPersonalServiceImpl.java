@@ -47,7 +47,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     public void saveDynamic(String userId, String content, String imgUrl) {
         Long time = System.currentTimeMillis();
         Dynamic dynamic = new Dynamic();
-        dynamic.setUserId(KeyUtil.genUniqueKey());
+        dynamic.setId(KeyUtil.genUniqueKey());
         dynamic.setContent(content);
         dynamic.setTime(time);
         dynamic.setImgUrl(imgUrl);
