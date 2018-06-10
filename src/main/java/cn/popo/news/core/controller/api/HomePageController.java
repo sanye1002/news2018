@@ -188,6 +188,28 @@ public class HomePageController {
     /**
      * @param page size
      * @return  List<article>
+     * @desc 首页刷新按时间
+     */
+    @PostMapping("/time/article")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> timeArticle(Map<String,Object> map,
+                                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                     @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                     @RequestParam(value = "time") Long time
+    ){
+
+
+        //文章
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByStateAndShowStateAndDraftAndTimeAfter(pageRequest,ONE,ONE,ZERO,1,time);
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param page size
+     * @return  List<article>
      * @desc 推荐文章（通过keyword查找）
      */
     @PostMapping("/recommend/article")

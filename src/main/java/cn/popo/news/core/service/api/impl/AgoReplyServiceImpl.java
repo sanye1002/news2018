@@ -113,7 +113,7 @@ public class AgoReplyServiceImpl implements AgoReplyService {
                     replyVO.setAvatar(user.getAvatar());
                     replyVO.setNickName(user.getNikeName());
                     replyVO.setByNickName(byUser.getNikeName());
-                    if (!l.getByReplyId().equals("0")) {
+                    if (!l.getByReplyId().equals(l.getCommId())) {
                         replyVO.setByReplyInfo(replyRepository.findOne(l.getByReplyId()).getReplyInfo());
                     }
                     replyVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));

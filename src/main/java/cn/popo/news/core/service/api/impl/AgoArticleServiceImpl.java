@@ -59,6 +59,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     @Autowired
     private BrowsingHistoryRepository browsingHistoryRepository;
 
+    @Autowired
+    private ReportTypeRepository reportTypeRepository;
+
 
     /**
      * 通过文章id查找文章详情
@@ -336,6 +339,48 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         });
 
         return articleVOList;
+    }
+
+
+    //首页文章按时间查询（多少时间之后的）
+    @Override
+    public PageDTO<ArticleVO> findAllArticleByStateAndShowStateAndDraftAndTimeAfter(Pageable pageable, Integer state, Integer showState, Integer draft,Integer classifyId ,Long time) {
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        Page<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraftAndCrateTimeAfter(pageable,state,showState,draft,time);
+        List<ArticleVO> list = new ArrayList<>();
+        Long nowTime = System.currentTimeMillis();
+        if(articleInfoPage != null){
+            pageDTO.setTotalPages(articleInfoPage.getTotalPages());
+            if (!articleInfoPage.getContent().isEmpty()){
+                articleInfoPage.getContent().forEach(l->{
+                    ArticleVO indexVO = new ArticleVO();
+                    BeanUtils.copyProperties(l,indexVO);
+                    indexVO.setArticleId(l.getArticleId());
+                    indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+                    if(l.getImgUrl()!=null){
+                        indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                    }
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(nowTime,l.getCrateTime()));
+                    indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
+                    User user = userRepository.findOne(l.getUid());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    indexVO.setAuthor(author);
+                    list.add(indexVO);
+                });
+            }
+        }
+        pageDTO.setPageContent(list);
+
+        return pageDTO;
+    }
+
+    //举报类型
+    @Override
+    public List<ReportType> findAllReportType() {
+        return reportTypeRepository.findAll();
     }
 
 

@@ -5,6 +5,7 @@ import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.UserVO;
+import cn.popo.news.core.entity.common.ReportType;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.entity.param.CollectParam;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,8 @@ public interface AgoArticleService {
     List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId);
 
     List<ArticleVO> findRecommentByTypeId(Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
+
+    PageDTO<ArticleVO> findAllArticleByStateAndShowStateAndDraftAndTimeAfter(Pageable pageable,Integer state,Integer showState,Integer draft,Integer classifyId,Long time);
+
+    List<ReportType> findAllReportType();
 }

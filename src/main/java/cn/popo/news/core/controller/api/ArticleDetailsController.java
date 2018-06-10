@@ -7,6 +7,7 @@ import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.dto.api.UserVO;
 import cn.popo.news.core.entity.common.Collect;
+import cn.popo.news.core.entity.common.ReportType;
 import cn.popo.news.core.entity.form.ReprotInfoForm;
 import cn.popo.news.core.entity.param.CollectParam;
 import cn.popo.news.core.repository.CollectRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -141,6 +143,19 @@ public class ArticleDetailsController {
         }
         agoArticleService.articleReportInfoSave(reprotInfoForm);
         Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param
+     * @return
+     * @desc 文章举报
+     */
+    @PostMapping("/report/type/list")
+    public ResultVO<Map<String, String>> reprotTypeList(){
+        Map<String,Object> map  = new HashMap<>();
+        List<ReportType> reportTypes = agoArticleService.findAllReportType();
+        map.put("reportTypeList",reportTypes);
         return ResultVOUtil.success(map);
     }
 

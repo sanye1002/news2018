@@ -56,4 +56,10 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndKeywordsLike(Pageable pageable,Integer state,Integer showState,Integer draft,String content);
 
     List<ArticleInfo> findAllByClassifyId(Integer classifyId);
+
+    Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndClassifyIdAndCrateTimeAfter(Pageable pageable,Integer state,Integer showState,Integer draft,Integer classifyId,Long time);
+
+    Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndCrateTimeAfter(Pageable pageable,Integer state,Integer showState,Integer draft,Long time);
+
+
 }

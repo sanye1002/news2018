@@ -703,6 +703,7 @@ public class ArticleServiceImpl implements ArticleService {
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
+                    indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
