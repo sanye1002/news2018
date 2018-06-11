@@ -51,6 +51,9 @@ public class PersonalController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserSessionUtil userSessionUtil;
+
     /**
      * @param fid
      * @return
@@ -59,8 +62,13 @@ public class PersonalController {
     @PostMapping("/user/attention")
     public ResultVO<Map<String,Object>> addAttention(Map<String,Object> map,
                                                   @RequestParam(value = "fid") String fid,
-                                                  @RequestParam(value = "aid") String aid
+                                                  @RequestParam(value = "aid") String aid,
+                                                     HttpServletRequest request,
+                                                     HttpServletResponse response
     ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         Attention attention = attentionRepository.findAllByAidAndFid(aid,fid);
         if (attention!=null){
             return ResultVOUtil.error(100,"已关注");
@@ -77,8 +85,13 @@ public class PersonalController {
      */
     @PostMapping("/user/attention/delete")
     public ResultVO<Map<String,Object>> deleteAttention(Map<String,Object> map,
-                                                  @RequestParam(value = "attentionId") Integer attentionId){
-
+                                                  @RequestParam(value = "attentionId") Integer attentionId,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response      
+                                                        ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         agoAttentionService.deleteAttention(attentionId);
         return ResultVOUtil.success(map);
     }
@@ -308,12 +321,43 @@ public class PersonalController {
             HttpServletRequest request,
             HttpServletResponse response
     ){
-        String userId = UserSessionUtil.getUserByCookie(request,response).getUserId();
+
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+            agoPersonalService.saveCommunication(uid,userId,sendMessage);
+        }else {
+            return ResultVOUtil.error(3,"用户失效");
+        }
 
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * @param page size
+     * @return
+     * @desc 通信记录
+     */
+    @PostMapping("/user/communication/list")
+    public ResultVO<Map<String,Object>> userCommunicationList(Map<String,Object> map,
+                                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                                @RequestParam(value = "uid") String uid,
+                                                              HttpServletRequest request,
+                                                              HttpServletResponse response
+    ){
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
+        PageDTO<PrivateLetterVO> pageDTO = null;
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+            pageDTO = agoPersonalService.findUserCommunication(pageRequest,uid,userId);
+        }else {
+            return ResultVOUtil.error(3,"用户失效");
+        }
+        pageDTO.setCurrentPage(page);
+        map.put("charMessages", pageDTO);
+        return ResultVOUtil.success(map);
+    }
 
 
 }

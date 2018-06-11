@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class UserSessionUtil {
     @Autowired
-    private static RedisOperator redis;
+    private RedisOperator redis;
 
     /**
      * 检测用户是否登录
@@ -34,7 +34,7 @@ public class UserSessionUtil {
      * @param response
      * @return boolean
      */
-    public static Boolean verifyLoginStatus(HttpServletRequest request, HttpServletResponse response){
+    public Boolean verifyLoginStatus(HttpServletRequest request, HttpServletResponse response){
         //1.从cookie中获取userToken
         Cookie userIdCookie = CookieUtil.get(request, CookieConstant.USER_ID);
         Cookie userTokenCookie = CookieUtil.get(request,CookieConstant.TOKEN);
@@ -70,8 +70,8 @@ public class UserSessionUtil {
      * @param request
      * @return
      */
-    public static User getUserByCookie(HttpServletRequest request,HttpServletResponse response){
-        if (!verifyLoginStatus(request, response)){
+    public User getUserByCookie(HttpServletRequest request,HttpServletResponse response){
+        if (!this.verifyLoginStatus(request, response)){
             throw new APIException(ResultEnum.USER_FAILURE);
         }
         String userId = CookieUtil.get(request,CookieConstant.USER_ID).getValue();

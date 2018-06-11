@@ -2,10 +2,7 @@ package cn.popo.news.core.entity.common;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @Author  Administrator
@@ -18,8 +15,7 @@ import javax.persistence.Table;
 @Table(name="private_letter")
 public class PrivateLetter {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private String id;
 
     /**
      * 发送者id
@@ -34,6 +30,7 @@ public class PrivateLetter {
     /**
      * 发送的消息
      */
+    @Column(columnDefinition = "TEXT")
     private String sendMessage;
 
     /**

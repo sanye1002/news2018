@@ -39,7 +39,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     private DynamicPraiseRepository dynamicPraiseRepository;
 
     @Autowired
-    private AttentionRepository attentionRepository;
+    private PrivateLetterRepository privateLetterRepository;
 
     /**
      * 动态保存
@@ -77,7 +77,8 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                     User user = userRepository.findOne(l.getUserId());
                     dynamicVO.setUsername(user.getNikeName());
                     dynamicVO.setAvatar(user.getAvatar());
-                    if(l.getImgUrl()!=null){
+
+                    if(!l.getImgUrl().equals("")){
                         dynamicVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
                     dynamicVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));
@@ -210,6 +211,50 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                     BeanUtils.copyProperties(l,author);
                     author.setName(l.getNikeName());
                     list.add(author);
+                });
+            }
+        }
+        pageDTO.setPageContent(list);
+
+        return pageDTO;
+    }
+
+
+    /**
+     * 通信保存
+     */
+    @Override
+    public void saveCommunication(String uid, String userId, String sendMessage) {
+        PrivateLetter privateLetter = new PrivateLetter();
+//        privateLetter.setId(KeyUtil.genUniqueKey());
+        privateLetter.setTime(System.currentTimeMillis());
+        privateLetter.setUid(uid);
+        privateLetter.setUserId(userId);
+        privateLetter.setSendMessage(sendMessage);
+        privateLetter.setId(KeyUtil.genUniqueKey());
+        privateLetterRepository.save(privateLetter);
+
+    }
+
+    /**
+     * 查看用户通信
+     */
+    @Override
+    public PageDTO<PrivateLetterVO> findUserCommunication(Pageable pageable, String uid, String userId) {
+        PageDTO<PrivateLetterVO> pageDTO = new PageDTO<>();
+        Page<PrivateLetter> privateLetterPage = privateLetterRepository.findAllByUidAndUserId(pageable,uid,userId);
+        List<PrivateLetterVO> list = new ArrayList<PrivateLetterVO>();
+        if (privateLetterPage != null) {
+            pageDTO.setTotalPages(privateLetterPage.getTotalPages());
+            if (!privateLetterPage.getContent().isEmpty()) {
+                privateLetterPage.getContent().forEach(l -> {
+                    PrivateLetterVO privateLetterVO = new PrivateLetterVO();
+                    privateLetterVO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    privateLetterVO.setMessage(l.getSendMessage());
+                    privateLetterVO.setId(l.getUserId());
+                    privateLetterVO.setAvatar(userRepository.findOne(l.getUserId()).getAvatar());
+                    privateLetterVO.setUsername(userRepository.findOne(l.getUserId()).getNikeName());
+                    list.add(privateLetterVO);
                 });
             }
         }
