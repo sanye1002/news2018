@@ -71,7 +71,7 @@ public class UserSessionUtil {
      * @return
      */
     public User getUserByCookie(HttpServletRequest request,HttpServletResponse response){
-        if (!verifyLoginStatus(request, response)){
+        if (!this.verifyLoginStatus(request, response)){
             throw new APIException(ResultEnum.USER_FAILURE);
         }
         String userId = CookieUtil.get(request,CookieConstant.USER_ID).getValue();
