@@ -14,5 +14,6 @@ public interface AgoAttentionService {
     Integer findAttentionNum(String aid);
     Integer findFansNum(String fid);
     PageDTO<AttentionVO> findAllAttention(Pageable pageable, String aid);
+    PageDTO<AttentionVO> findOtherUserAttention(Pageable pageable, String aid,String fid);
     PageDTO<AttentionVO> findAllFans(Pageable pageable,String fid);
 }

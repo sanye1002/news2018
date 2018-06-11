@@ -248,7 +248,7 @@
                 , url: '/oa/upload/mp4/${user.getUserId()}'
                 , auto: false
                 , multiple: false
-                , size: 5120
+                , size: 10240
                 , accept:"video"
                 , acceptMime: 'video'
                 , bindAction: '#image-upload'

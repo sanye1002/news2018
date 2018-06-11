@@ -2,6 +2,7 @@ package cn.popo.news.core.service.api.impl;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.AttentionVO;
+import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.Attention;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.repository.AttentionRepository;
@@ -126,6 +127,47 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
         return pageDTO;
     }
 
+    /**
+     * 其他用户关注查询
+     */
+    @Override
+    public PageDTO<AttentionVO> findOtherUserAttention(Pageable pageable, String aid,String fid) {
+        PageDTO<AttentionVO> pageDTO = new PageDTO<>();
+        Page<Attention> attentionPage = attentionRepository.findAllByAid(pageable, aid);
+        List<Attention> attentionList = attentionRepository.findAllByAid(aid);
+        List<AttentionVO> list = new ArrayList<AttentionVO>();
+        if (attentionPage != null) {
+            pageDTO.setTotalPages(attentionPage.getTotalPages());
+            if (!attentionPage.getContent().isEmpty()) {
+                attentionPage.getContent().forEach(l -> {
+
+                    AttentionVO attentionVO = new AttentionVO();
+                    BeanUtils.copyProperties(l,attentionVO);
+                    if (attentionList.contains(l)){
+                        attentionVO.setAttention(1);
+                        Attention attention = attentionRepository.findAllByAidAndFid(l.getFid(),fid);
+                        if (attention!=null){
+                            attentionVO.setAttentionToo(1);
+                        }else {
+                            attentionVO.setAttentionToo(0);
+                        }
+                    }else {
+                        attentionVO.setAttention(0);
+                    }
+
+                    User user = userRepository.findOne(l.getFid());
+                    attentionVO.setByAvatar(user.getAvatar());
+                    attentionVO.setByNickName(user.getNikeName());
+
+                    list.add(attentionVO);
+                });
+            }
+        }
+        pageDTO.setPageContent(list);
+
+        return pageDTO;
+    }
+
 
     /**
      * 粉丝查询
@@ -133,7 +175,7 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
     @Override
     public PageDTO<AttentionVO> findAllFans(Pageable pageable,String fid) {
         PageDTO<AttentionVO> pageDTO = new PageDTO<>();
-        Page<Attention> attentionPage = attentionRepository.findAllByAid(pageable, fid);
+        Page<Attention> attentionPage = attentionRepository.findAllByFid(pageable, fid);
         List<AttentionVO> list = new ArrayList<AttentionVO>();
         if (attentionPage != null) {
             pageDTO.setTotalPages(attentionPage.getTotalPages());

@@ -200,7 +200,7 @@ public class PersonalController {
                                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                                 @RequestParam(value = "userId") String userId,
-                                                                @RequestParam(value = "userId1") String userId1
+                                                                @RequestParam(value = "userId1", defaultValue="0") String userId1
     ){
         //用户信息
         PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
@@ -242,7 +242,14 @@ public class PersonalController {
         map.put("fans", fansPageDTO);
 
         //关注
-        PageDTO<AttentionVO> attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,userId);
+        PageDTO<AttentionVO> attentionVOPageDTO = null;
+        if (userId1.equals("0")){
+            System.out.println("111111111111111111111");
+            attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,userId);
+        }else {
+            attentionVOPageDTO = agoAttentionService.findOtherUserAttention(pageRequest,userId,userId1);
+        }
+
         attentionVOPageDTO.setCurrentPage(page);
         map.put("attention", attentionVOPageDTO);
 
