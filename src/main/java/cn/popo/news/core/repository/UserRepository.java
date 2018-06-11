@@ -1,6 +1,7 @@
 package cn.popo.news.core.repository;
 
 
+import cn.popo.news.core.dto.api.AttentionVO;
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.User;
 import org.springframework.data.domain.Page;
@@ -25,5 +26,7 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     //api
     User findByPhone(String phone);
+
+    Page<User> findAllByUserTypeAndNikeNameContaining(Pageable pageable, String userType, String content);
 
 }

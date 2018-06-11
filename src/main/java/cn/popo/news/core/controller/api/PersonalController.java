@@ -1,6 +1,7 @@
 package cn.popo.news.core.controller.api;
 
 
+import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.Attention;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +65,8 @@ public class PersonalController {
         if (attention!=null){
             return ResultVOUtil.error(100,"已关注");
         }
-        agoAttentionService.addAttention(aid,fid);
+        AttentionVO attentionVO =agoAttentionService.addAttention(aid,fid);
+        map.put("attention",attentionVO);
         return ResultVOUtil.success(map);
     }
 
@@ -244,7 +248,6 @@ public class PersonalController {
         //关注
         PageDTO<AttentionVO> attentionVOPageDTO = null;
         if (userId1.equals("0")){
-            System.out.println("111111111111111111111");
             attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest,userId);
         }else {
             attentionVOPageDTO = agoAttentionService.findOtherUserAttention(pageRequest,userId,userId1);
@@ -289,6 +292,24 @@ public class PersonalController {
             return ResultVOUtil.error(100,"已赞");
         }
         agoPersonalService.dynamicPraise(userId,dynamicId);
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param uid sendMessage
+     * @return
+     * @desc 用户通信
+     */
+    @PostMapping("/user/communication/save")
+    public ResultVO<Map<String,Object>> communication(
+            @RequestParam(value = "sendMessage") String sendMessage,
+            @RequestParam(value = "uid") String uid,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+        String userId = UserSessionUtil.getUserByCookie(request,response).getUserId();
+
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

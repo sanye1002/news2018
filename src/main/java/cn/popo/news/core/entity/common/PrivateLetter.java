@@ -24,17 +24,17 @@ public class PrivateLetter {
     /**
      * 发送者id
      */
-    private String sid;
+    private String userId;
 
     /**
      * 接收者id
      */
-    private String rid;
+    private String uid;
 
     /**
      * 发送的消息
      */
-    private String pLInfo;
+    private String sendMessage;
 
     /**
      * 发送时间

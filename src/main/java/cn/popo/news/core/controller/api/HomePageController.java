@@ -2,10 +2,12 @@ package cn.popo.news.core.controller.api;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
+import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.api.AgoArticleService;
+import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
@@ -36,6 +38,9 @@ public class HomePageController {
 
     @Autowired
     private AgoArticleService agoArticleService;
+
+    @Autowired
+    private AgoPersonalService agoPersonalService;
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
@@ -119,6 +124,29 @@ public class HomePageController {
         PageDTO<ArticleVO> pageDTO = articleService.findArticleTitleLikeAndStateAndShowStateAndDraft(pageRequest,ONE,content,ONE,ZERO);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param content page size
+     * @return
+     * @desc 首页用户搜索
+     */
+    @PostMapping("/search/user")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> searchUser(Map<String,Object> map,
+                                               @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                               @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                               @RequestParam(value = "content") String content
+    ){
+        if (content==""||content==null){
+            return ResultVOUtil.error(100,"内容为空~");
+        }
+
+        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageDTO<Author> pageDTO = agoPersonalService.findUserByUserTypeAndNickNameLike(pageRequest,"1",content);
+        pageDTO.setCurrentPage(page);
+        map.put("user", pageDTO);
         return ResultVOUtil.success(map);
     }
 

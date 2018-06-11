@@ -39,12 +39,18 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
      *添加关注
      */
     @Override
-    public void addAttention(String aid, String fid) {
+    public AttentionVO addAttention(String aid, String fid) {
         Attention attention = new Attention();
         attention.setAid(aid);
         attention.setFid(fid);
         attention.setTime(System.currentTimeMillis());
         attentionRepository.save(attention);
+        Attention attention1 = attentionRepository.findAllByAidAndFid(aid,fid);
+        AttentionVO attentionVO = new AttentionVO();
+        BeanUtils.copyProperties(attention1,attentionVO);
+        attentionVO.setAttention(attention1.getId());
+        attentionVO.setAttentionToo(1);
+        return attentionVO;
     }
 
 
@@ -104,7 +110,9 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
                     AttentionVO attentionVO = new AttentionVO();
                     BeanUtils.copyProperties(l,attentionVO);
                     User user = userRepository.findOne(l.getFid());
-                    attentionVO.setByAvatar(user.getAvatar());
+                    if(user.getAvatar()!=null){
+                        attentionVO.setByAvatar(user.getAvatar());
+                    }
                     attentionVO.setByNickName(user.getNikeName());
                     Attention attention = attentionRepository.findAllByAidAndFid(l.getFid(),aid);
                     if (attention!=null){
@@ -155,6 +163,8 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
                         attentionVO.setAttention(0);
                     }
 
+
+
                     User user = userRepository.findOne(l.getFid());
                     attentionVO.setByAvatar(user.getAvatar());
                     attentionVO.setByNickName(user.getNikeName());
@@ -192,6 +202,14 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
                     }else {
                         attentionVO.setAttentionToo(0);
                     }
+
+                    Attention attention1 = attentionRepository.findAllByAidAndFid(fid,l.getAid());
+                    if (attention1!=null){
+                        attentionVO.setAttention(attention1.getId());
+                    }else {
+                        attentionVO.setAttention(0);
+                    }
+
                     list.add(attentionVO);
                 });
             }

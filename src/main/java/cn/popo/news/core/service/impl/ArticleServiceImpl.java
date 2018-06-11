@@ -80,7 +80,6 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setDraft(0);
         }else{
             articleInfo.setArticleId(KeyUtil.genUniqueKey());
-
         }
         articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
         articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());

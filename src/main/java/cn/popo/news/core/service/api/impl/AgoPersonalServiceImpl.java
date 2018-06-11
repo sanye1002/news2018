@@ -1,9 +1,7 @@
 package cn.popo.news.core.service.api.impl;
 
 import cn.popo.news.core.dto.PageDTO;
-import cn.popo.news.core.dto.api.DynamicVO;
-import cn.popo.news.core.dto.api.LookVO;
-import cn.popo.news.core.dto.api.PersonalVO;
+import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.*;
 import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.repository.*;
@@ -39,6 +37,9 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
 
     @Autowired
     private DynamicPraiseRepository dynamicPraiseRepository;
+
+    @Autowired
+    private AttentionRepository attentionRepository;
 
     /**
      * 动态保存
@@ -190,6 +191,31 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         dynamicPraise.setDynamicId(dynamicId);
         dynamicPraise.setUid(userId);
         dynamicPraiseRepository.save(dynamicPraise);
+    }
+
+
+    /**
+     * 查找用户（用户名模糊查找）
+     */
+    @Override
+    public PageDTO<Author> findUserByUserTypeAndNickNameLike(Pageable pageable,String userType, String content) {
+        PageDTO<Author> pageDTO = new PageDTO<>();
+        Page<User> userPage = userRepository.findAllByUserTypeAndNikeNameContaining(pageable,userType,content);
+        List<Author> list = new ArrayList<Author>();
+        if (userPage != null) {
+            pageDTO.setTotalPages(userPage.getTotalPages());
+            if (!userPage.getContent().isEmpty()) {
+                userPage.getContent().forEach(l -> {
+                    Author author = new Author();
+                    BeanUtils.copyProperties(l,author);
+                    author.setName(l.getNikeName());
+                    list.add(author);
+                });
+            }
+        }
+        pageDTO.setPageContent(list);
+
+        return pageDTO;
     }
 
 

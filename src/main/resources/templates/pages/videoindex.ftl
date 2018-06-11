@@ -387,7 +387,7 @@
                                             content: article.content,
                                             keywords: article.keyWords,
                                             classifyId: article.classify,
-                                            draft: 1,
+                                            draft: 0,
                                             articleId:article.article,
                                             des:videoDes,
                                             imgUrl:article.smallImg,
