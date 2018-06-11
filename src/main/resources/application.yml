@@ -1,9 +1,6 @@
 spring:
   profiles:
-<<<<<<< HEAD
     active: dev
-=======
-    active: llc
->>>>>>> a2cf5ddaea0e827a634d4075b6b4b7e41d31919b
+
 
 
