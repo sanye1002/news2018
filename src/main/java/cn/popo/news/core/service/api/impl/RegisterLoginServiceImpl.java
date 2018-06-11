@@ -160,6 +160,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
             User user = new User();
             user.setPassword(Encrypt.md5(password));
             user.setPhone(phone);
+            user.setNikeName("用户"+KeyUtil.genUniqueKey());
             user.setAvatar("");
             user.setCreateDate(GetTimeUtil.getTime());
             user.setUpdateDate(GetTimeUtil.getTime());
