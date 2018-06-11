@@ -87,7 +87,7 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> deleteAttention(Map<String,Object> map,
                                                   @RequestParam(value = "attentionId") Integer attentionId,
                                                         HttpServletRequest request,
-                                                        HttpServletResponse response      
+                                                        HttpServletResponse response
                                                         ){
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
@@ -106,8 +106,14 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userAttentionList(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                          @RequestParam(value = "userId") String userId
+                                                          @RequestParam(value = "userId") String userId,
+                                                          HttpServletRequest request,
+                                                          HttpServletResponse response
                                                           ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
+
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
         PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllAttention(pageRequest,userId);
@@ -125,8 +131,13 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userFansList(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                       @RequestParam(value = "userId") String userId
+                                                       @RequestParam(value = "userId") String userId,
+                                                     HttpServletRequest request,
+                                                     HttpServletResponse response
                                                      ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         PageRequest pageRequest = new PageRequest(page-1,size);
         PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllFans(pageRequest,userId);
         pageDTO.setCurrentPage(page);
@@ -144,8 +155,13 @@ public class PersonalController {
                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                @RequestParam(value = "typeId") Integer typeId,
-                                               @RequestParam(value = "userId") String userId
+                                               @RequestParam(value = "userId") String userId,
+                                               HttpServletRequest request,
+                                               HttpServletResponse response
     ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest,userId,typeId);
         pageDTO.setCurrentPage(page);
@@ -162,8 +178,13 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> addDynamic(Map<String,Object> map,
                                                    @RequestParam(value = "content") String content,
                                                    @RequestParam(value = "imgUrl") String imgUrl,
-                                                   @RequestParam(value = "userId") String userId
+                                                   @RequestParam(value = "userId") String userId,
+                                                   HttpServletRequest request,
+                                                   HttpServletResponse response
                                                    ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         agoPersonalService.saveDynamic(userId,content,imgUrl);
 
         return ResultVOUtil.success(map);
@@ -178,8 +199,13 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userDynamicList(Map<String,Object> map,
                                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                           @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                          @RequestParam(value = "userId") String userId
+                                                          @RequestParam(value = "userId") String userId,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response
     ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<DynamicVO> pageDTO = agoPersonalService.findAllDynamicByUserId(pageRequest,userId);
         pageDTO.setCurrentPage(page);
@@ -197,8 +223,13 @@ public class PersonalController {
     public ResultVO<Map<String,Object>> userBrowsingHistoryList(Map<String,Object> map,
                                                         @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                         @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                        @RequestParam(value = "userId") String userId
+                                                        @RequestParam(value = "userId") String userId,
+                                                                HttpServletRequest request,
+                                                                HttpServletResponse response
     ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<LookVO> pageDTO = agoPersonalService.findSixBrowsingHistory(pageRequest,userId);
         pageDTO.setCurrentPage(page);
@@ -217,8 +248,14 @@ public class PersonalController {
                                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                                 @RequestParam(value = "userId") String userId,
-                                                                @RequestParam(value = "userId1", defaultValue="0") String userId1
+                                                                @RequestParam(value = "userId1", defaultValue="0") String userId1,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response
+
     ){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         //用户信息
         PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
         map.put("user",personalVO);
