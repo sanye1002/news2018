@@ -35,7 +35,6 @@ public class UserVO {
     /**
      * 个人中心背景图
      */
-    @JsonProperty("backgroundImg")
     private String backgroundImg;
 
     /**
@@ -61,7 +60,7 @@ public class UserVO {
     /**
      * 伪删除
      */
-    private Integer showStatus;
+    private Integer showStatus=1;
 
     /**
      * 前台后台账号分离
@@ -72,6 +71,7 @@ public class UserVO {
      *姓名
      */
     private String name;
+
 
     /**
      * 我的粉丝数量
@@ -86,4 +86,21 @@ public class UserVO {
     private String createDate; //创建时间
 
     private String updateDate; //修改时间
+
+    private String QQ;
+    private String email;
+    private String city;
+    private String birthday;
+    /**
+     * 0:女 1:男
+     */
+    private Integer sex;
+
+    private String bankCardNumber;//银行卡号
+
+    private String bankType;//开户银行
+
+    private String bankUserName;//开户姓名
+
+    private String aliPay;//支付宝
 }

@@ -5,6 +5,7 @@ import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.RedisOperator;
 import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.entity.common.User;
+import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.RegisterLoginService;
 import cn.popo.news.core.utils.*;
@@ -195,6 +196,9 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
     @Override
     public ResultVO<Map<String, Object>> updatePassword(HttpServletRequest request, HttpServletResponse response, String userId, String oldPassword, String newPassword) {
         Map<String, Object> map = new HashMap<>();
+        if (!userSessionUtil.verifyLoginStatus(request, response)){
+            ResultVOUtil.error(ResultEnum.USER_FAILURE.getCode(), ResultEnum.USER_FAILURE.getMessage());
+        }
         if (checkPassword(userId,oldPassword)){
             User user = userRepository.findOne(userId);
             if (user == null) {
@@ -203,6 +207,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService{
             user.setPassword(Encrypt.md5(newPassword));
             map.put("message","修改成功");
             map.put("userVO",this.setUserRedisSessionTokenAndCookieSession(response,userRepository.save(user)));
+            return ResultVOUtil.success(map);
         }
         return ResultVOUtil.error(401,"原密码错误！");
     }

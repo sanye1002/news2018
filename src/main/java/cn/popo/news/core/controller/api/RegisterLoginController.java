@@ -114,8 +114,8 @@ public class RegisterLoginController {
                                                         @RequestParam(value = "userId") @ApiParam(value = "用户id", required = true) String userId,
                                                         @RequestParam(value = "code") @ApiParam(value = "验证码", required = true) String code,
                                                         @RequestParam(value = "newPassword") @ApiParam(value = "新密码", required = true) String newPassword,
-                                                        @RequestParam(value = "odlPassword") @ApiParam(value = "旧密码", required = true) String odlPassword) {
-        return loginService.updatePassword(request, response, userId, odlPassword, newPassword);
+                                                        @RequestParam(value = "oldPassword") @ApiParam(value = "旧密码", required = true) String oldPassword) {
+        return loginService.updatePassword(request, response, userId, oldPassword, newPassword);
     }
 
     @PostMapping("/checkCode")
