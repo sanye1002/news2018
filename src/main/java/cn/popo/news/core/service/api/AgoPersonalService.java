@@ -26,4 +26,6 @@ public interface AgoPersonalService {
     void saveCommunication(String uid,String userId,String sendMessage);
 
     PageDTO<PrivateLetterVO> findUserCommunication(Pageable pageable,String uid,String userId);
+
+    void updateCommunicationLookState(String uid,String userId);
 }

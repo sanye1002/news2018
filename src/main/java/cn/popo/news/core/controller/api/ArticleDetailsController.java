@@ -2,6 +2,7 @@ package cn.popo.news.core.controller.api;
 
 
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleDetailsVO;
 import cn.popo.news.core.dto.api.CommentVO;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +45,9 @@ public class ArticleDetailsController {
 
     @Autowired
     private CollectRepository collectRepository;
+
+    @Autowired
+    private UserSessionUtil userSessionUtil;
 
 
     private static final Integer ZERO = 0;
@@ -108,7 +114,15 @@ public class ArticleDetailsController {
      * @desc 文章收藏
      */
      @PostMapping("/collect")
-    public ResultVO<Map<String,Object>> articleCollect(@Valid CollectParam collectParam){
+    public ResultVO<Map<String,Object>> articleCollect(@Valid CollectParam collectParam,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response
+     ){
+
+         if (!userSessionUtil.verifyLoginStatus(request,response)){
+             return ResultVOUtil.error(3,"用户失效");
+         }
+
          Collect collect1 = collectRepository.findAllByUidAndAid(collectParam.getUid(),collectParam.getAid());
          if (collect1!=null){
              return ResultVOUtil.error(100,"已收藏");
@@ -124,7 +138,13 @@ public class ArticleDetailsController {
      * @desc 文章取消收藏
      */
     @PostMapping("/collect/delete")
-    public ResultVO<Map<String,Object>> deleteCollect(@RequestParam(value = "collectId") Integer collectId){
+    public ResultVO<Map<String,Object>> deleteCollect(@RequestParam(value = "collectId") Integer collectId,
+                                                      HttpServletRequest request,
+                                                      HttpServletResponse response){
+
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         agoArticleService.deleteCollectByCollectId(collectId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
@@ -136,7 +156,13 @@ public class ArticleDetailsController {
      * @desc 文章举报
      */
     @PostMapping("/report/save")
-    public ResultVO<Map<String, String>> reprotSave(@Valid ReprotInfoForm reprotInfoForm){
+    public ResultVO<Map<String, String>> reprotSave(@Valid ReprotInfoForm reprotInfoForm,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response){
+
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         String content = reprotInfoForm.getInfo();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
@@ -149,7 +175,7 @@ public class ArticleDetailsController {
     /**
      * @param
      * @return
-     * @desc 文章举报
+     * @desc 文章举报类型list
      */
     @PostMapping("/report/type/list")
     public ResultVO<Map<String, String>> reprotTypeList(){

@@ -232,6 +232,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         privateLetter.setUserId(userId);
         privateLetter.setSendMessage(sendMessage);
         privateLetter.setId(KeyUtil.genUniqueKey());
+        privateLetter.setState(0);
         privateLetterRepository.save(privateLetter);
 
     }
@@ -243,6 +244,8 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     public PageDTO<PrivateLetterVO> findUserCommunication(Pageable pageable, String uid, String userId) {
         PageDTO<PrivateLetterVO> pageDTO = new PageDTO<>();
         Page<PrivateLetter> privateLetterPage = privateLetterRepository.findAllByUidAndUserId(pageable,uid,userId);
+
+        Page<PrivateLetter> privateLetterPageToo = privateLetterRepository.findAllByUidAndUserId(pageable,userId,uid);
         List<PrivateLetterVO> list = new ArrayList<PrivateLetterVO>();
         if (privateLetterPage != null) {
             pageDTO.setTotalPages(privateLetterPage.getTotalPages());
@@ -258,9 +261,37 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                 });
             }
         }
+        if (privateLetterPageToo != null) {
+            pageDTO.setTotalPages(privateLetterPageToo.getTotalPages());
+            if (!privateLetterPageToo.getContent().isEmpty()) {
+                privateLetterPageToo.getContent().forEach(l -> {
+                    PrivateLetterVO privateLetterVO = new PrivateLetterVO();
+                    privateLetterVO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
+                    privateLetterVO.setMessage(l.getSendMessage());
+                    privateLetterVO.setId(l.getUserId());
+                    privateLetterVO.setAvatar(userRepository.findOne(l.getUserId()).getAvatar());
+                    privateLetterVO.setUsername(userRepository.findOne(l.getUserId()).getNikeName());
+                    list.add(privateLetterVO);
+                });
+            }
+        }
+
         pageDTO.setPageContent(list);
 
         return pageDTO;
+    }
+
+    /**
+     * 改变通信状态
+     */
+    @Override
+    public void updateCommunicationLookState(String uid, String userId) {
+        List<PrivateLetter> privateLetterList = privateLetterRepository.findAllByUidAndUserIdAndState(userId,uid,0);
+        if(privateLetterList!=null){
+            privateLetterList.forEach(l->{
+                l.setState(1);
+            });
+        }
     }
 
 

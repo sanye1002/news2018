@@ -4,8 +4,10 @@ import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.AttentionVO;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.Attention;
+import cn.popo.news.core.entity.common.PrivateLetter;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.repository.AttentionRepository;
+import cn.popo.news.core.repository.PrivateLetterRepository;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.AgoAttentionService;
 import org.springframework.beans.BeanUtils;
@@ -35,11 +37,22 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PrivateLetterRepository privateLetterRepository;
+
     /**
      *添加关注
      */
     @Override
     public AttentionVO addAttention(String aid, String fid) {
+        //添加关注人数，粉丝人数
+        User user1 = userRepository.findOne(fid);
+        Integer fansCounts = user1.getFansCounts();
+        user1.setFansCounts(fansCounts+1);
+        User user2 = userRepository.findOne(aid);
+        Integer followCounts = user2.getFollowCounts();
+        user2.setFansCounts(followCounts+1);
+
         Attention attention = new Attention();
         attention.setAid(aid);
         attention.setFid(fid);
@@ -59,7 +72,17 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
      */
     @Override
     public void deleteAttention(Integer attentionId) {
+        //添加关注人数，粉丝人数
+        Attention attention = attentionRepository.getOne(attentionId);
+        User user1 = userRepository.findOne(attention.getFid());
+        Integer fansCounts = user1.getFansCounts();
+        user1.setFansCounts(fansCounts-1);
+        User user2 = userRepository.findOne(attention.getAid());
+        Integer followCounts = user2.getFollowCounts();
+        user2.setFansCounts(followCounts-1);
+
         attentionRepository.delete(attentionId);
+
     }
 
 
@@ -109,6 +132,8 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
                 attentionPage.getContent().forEach(l -> {
                     AttentionVO attentionVO = new AttentionVO();
                     BeanUtils.copyProperties(l,attentionVO);
+                    List<PrivateLetter> privateLetterList = privateLetterRepository.findAllByUidAndUserIdAndState(aid,l.getFid(),0);
+                    attentionVO.setUnread(privateLetterList.size());
                     User user = userRepository.findOne(l.getFid());
                     if(user.getAvatar()!=null){
                         attentionVO.setByAvatar(user.getAvatar());
@@ -193,6 +218,8 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
                 attentionPage.getContent().forEach(l -> {
                     AttentionVO attentionVO = new AttentionVO();
                     BeanUtils.copyProperties(l,attentionVO);
+                    List<PrivateLetter> privateLetterList = privateLetterRepository.findAllByUidAndUserIdAndState(fid,l.getAid(),0);
+                    attentionVO.setUnread(privateLetterList.size());
                     User user = userRepository.findOne(l.getAid());
                     attentionVO.setByAvatar(user.getAvatar());
                     attentionVO.setByNickName(user.getNikeName());

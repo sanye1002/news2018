@@ -15,4 +15,6 @@ public class AttentionVO {
 
     @JsonProperty("eachOtherAttention")
     private Integer attentionToo;
+
+    private Integer unread;
 }

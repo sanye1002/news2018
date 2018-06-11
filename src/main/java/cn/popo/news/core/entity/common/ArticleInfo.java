@@ -67,6 +67,7 @@ public class ArticleInfo implements Serializable{
     /**
      * 封面图路径
      */
+    @Column(columnDefinition = "TEXT")
     private String imgUrl;
 
     /**

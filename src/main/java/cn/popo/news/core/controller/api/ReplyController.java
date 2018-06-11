@@ -1,6 +1,7 @@
 package cn.popo.news.core.controller.api;
 
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ReplyVO;
 import cn.popo.news.core.entity.common.ReplyPraise;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +35,9 @@ public class ReplyController {
     @Autowired
     private ReplyPraiseRepository replyPraiseRepository;
 
+    @Autowired
+    private UserSessionUtil userSessionUtil;
+
 
     /**
      * @param replyForm
@@ -39,7 +45,12 @@ public class ReplyController {
      * @desc 回复上传
      */
     @PostMapping("/reply/save")
-    public ResultVO<Map<String,Object>> replySave(@Valid ReplyForm replyForm){
+    public ResultVO<Map<String,Object>> replySave(@Valid ReplyForm replyForm,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         String content = replyForm.getReplyInfo();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"回复内容违规："+KeyWordFilter.checkWords(content));
@@ -55,7 +66,12 @@ public class ReplyController {
      * @desc 回复举报
      */
     @PostMapping("reply/report")
-    public ResultVO<Map<String,Object>> replyReportSave(@Valid ReplyReportForm replyReportForm){
+    public ResultVO<Map<String,Object>> replyReportSave(@Valid ReplyReportForm replyReportForm,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         String content = replyReportForm.getContent();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
@@ -79,6 +95,7 @@ public class ReplyController {
                                                   @RequestParam(value = "commentId") String commentId
     ){
 
+
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ReplyVO> pageDTO = agoReplyService.findReplyByCommentId(pageRequest,commentId,userId,ONE);
         pageDTO.setCurrentPage(page);
@@ -93,7 +110,12 @@ public class ReplyController {
      */
     @PostMapping("/reply/praise")
     public ResultVO<Map<String,Object>> articleCommentPraise(@RequestParam(value = "replyId") String replyId,
-                                                             @RequestParam(value = "userId") String userId){
+                                                             @RequestParam(value = "userId") String userId,
+                                                             HttpServletRequest request,
+                                                             HttpServletResponse response){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         ReplyPraise replyPraise = replyPraiseRepository.findAllByUidAndReplyId(userId,replyId);
         if(replyPraise!=null){
             return ResultVOUtil.error(100,"已赞");
@@ -110,7 +132,12 @@ public class ReplyController {
      */
     @PostMapping("/reply/praise/delete")
     public ResultVO<Map<String,Object>> articleDeletePraise(@RequestParam(value = "replyId") String replyId,
-                                                            @RequestParam(value = "replyPraiseId") Integer replyPraiseId){
+                                                            @RequestParam(value = "replyPraiseId") Integer replyPraiseId,
+                                                            HttpServletRequest request,
+                                                            HttpServletResponse response){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         agoReplyService.deleteReplyPraise(replyPraiseId,replyId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

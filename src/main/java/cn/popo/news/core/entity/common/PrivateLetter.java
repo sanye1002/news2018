@@ -37,4 +37,9 @@ public class PrivateLetter {
      * 发送时间
      */
     private Long time;
+
+    /**
+     * 状态 0：未阅读 1：已阅读
+     */
+    private Integer state;
 }
