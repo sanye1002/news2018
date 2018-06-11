@@ -52,7 +52,7 @@ public class RegisterLoginController {
     }
 
     @PostMapping("/valid")
-    @ApiOperation(value = "判断是否登录",notes = "判断用户是否登录，如果已登录，返回对象，否则重新登录")
+    @ApiOperation(value = "判断是否登录", notes = "判断用户是否登录，如果已登录，返回对象，否则重新登录")
     public ResultVO<Map<String, Object>> test(HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
 
@@ -87,7 +87,7 @@ public class RegisterLoginController {
                                                     HttpServletResponse response,
                                                     @RequestParam(value = "phone") @ApiParam(value = "手机号码", required = true) String phone,
                                                     @RequestParam(value = "type") @ApiParam(value = "操作类型（0 登录或者找回密码，1 注册）", required = true) Integer type) {
-        return loginService.checkPhone(request,response, phone, type);
+        return loginService.checkPhone(request, response, phone, type);
     }
 
     @PostMapping("/register")
@@ -118,6 +118,15 @@ public class RegisterLoginController {
         return loginService.updatePassword(request, response, userId, oldPassword, newPassword);
     }
 
+    @PostMapping("/updatePhone")
+    @ApiOperation(value = "修改用户手机号码", notes = "新手机号码、验证码、旧手机号码")
+    public ResultVO<Map<String, Object>> updatePhone(HttpServletRequest request, HttpServletResponse response,
+                                                     @RequestParam(value = "code") @ApiParam(value = "验证码", required = true) String code,
+                                                     @RequestParam(value = "newPhone") @ApiParam(value = "新手机号码", required = true) String newPhone,
+                                                     @RequestParam(value = "oldPhone") @ApiParam(value = "旧手机号码", required = true) String oldPhone) {
+        return loginService.updatePhone(request, response, oldPhone, newPhone, code);
+    }
+
     @PostMapping("/checkCode")
     @ApiOperation(value = "验证验证码", notes = "验证验证码是否正确！")
     public ResultVO<Map<String, Object>> checkCode(HttpServletRequest request,
@@ -139,6 +148,14 @@ public class RegisterLoginController {
         return ResultVOUtil.error(401, "原密码错误！");
     }
 
+    @PostMapping("/checkPhone")
+    @ApiOperation(value = "验证新手机号码", notes = "修改手机号码的时候判断当前修改新手机号码是否已注册")
+    public ResultVO<Map<String, Object>> checkPhone(@RequestParam(value = "oldPhone") @ApiParam(value = "要判断的原手机号码", required = true) String oldPhone) {
+        if (loginService.checkPhone(oldPhone)) {
+            return ResultVOUtil.success();
+        }
+        return ResultVOUtil.error(401, "手机号码已注册！");
+    }
 
 
 }

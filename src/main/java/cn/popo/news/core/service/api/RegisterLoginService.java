@@ -86,7 +86,16 @@ public interface RegisterLoginService {
      */
     ResultVO<Map<String,Object>> updatePassword(HttpServletRequest request,HttpServletResponse response,String userId,String oldPassword,String newPassword);
 
-
+    /**
+     * 修改密码
+     * @param request
+     * @param response
+     * @param oldPhone
+     * @param newPhone
+     * @param code
+     * @return
+     */
+    ResultVO<Map<String,Object>> updatePhone(HttpServletRequest request,HttpServletResponse response,String oldPhone,String newPhone,String code);
     /**
      *
      * @param request
@@ -103,7 +112,7 @@ public interface RegisterLoginService {
      */
     Boolean checkPassword(String userId,String password);
 
-
+    Boolean checkPhone(String phone);
 
 
 
