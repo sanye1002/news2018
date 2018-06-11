@@ -1,4 +1,4 @@
-#开发环境
+#线上环境
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/news?useUnicode=yes&characterEncoding=UTF8
@@ -33,6 +33,7 @@ upload:
   waterMarkPath: D:\xiaoxin\water.png
 server:
   port: 8888
+  address: news.cdrysj.com
 ffmpeg:
   exePath: D:\Program Files\ffmpeg\bin\ffmpeg.exe
   waterPath: D:\Program Files\waterPath\water.png
