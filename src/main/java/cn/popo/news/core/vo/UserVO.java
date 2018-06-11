@@ -36,7 +36,7 @@ public class UserVO {
      * 个人中心背景图
      */
     @JsonProperty("backgroundImg")
-    private String backgrundImg;
+    private String backgroundImg;
 
     /**
      * 头像路径
@@ -76,12 +76,12 @@ public class UserVO {
     /**
      * 我的粉丝数量
      */
-    private Integer fansCounts;
+    private Integer fansCounts=0;
 
     /**
      * 我关注的人总数
      */
-    private Integer followCounts;
+    private Integer followCounts=0;
 
     private String createDate; //创建时间
 
