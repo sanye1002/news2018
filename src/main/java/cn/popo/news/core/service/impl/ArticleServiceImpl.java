@@ -286,7 +286,6 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
         String type = typeRepository.findOne(articleInfo.getTypeId()).getType_name();
         if (state==1){
-            System.out.println("state:"+state+"integral:"+integral+articleInfo.toString());
             userRewardService.addPoints(articleInfo.getUid(),articleInfo.getArticleId(),articleInfo.getTitle(),type,integral);
         }
         articleInfo.setState(state);
@@ -505,7 +504,6 @@ public class ArticleServiceImpl implements ArticleService {
         if(type == 0){
             if(line.equals("title")){
                 articleInfoPage = articleRepository.findAllByStateAndTitleLikeAndDraft(pageable,state,content,ResultEnum.SUCCESS.getCode());
-                System.out.println(articleInfoPage.getContent().size());
             }
             if(line.equals("keywords")){
                 articleInfoPage = articleRepository.findAllByStateAndKeywordsLikeAndDraft(pageable,state,content,ResultEnum.SUCCESS.getCode());

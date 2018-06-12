@@ -56,23 +56,34 @@ public class AgoReplyServiceImpl implements AgoReplyService {
      * 回复上传
      */
     @Override
-    public void replySave(ReplyForm replyForm) {
+    public ReplyVO replySave(ReplyForm replyForm) {
         //人气+1
         String articleId = commentRepository.findOne(replyForm.getCommId()).getAid();
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
         Integer lookNum = articleInfo.getLookNum();
         articleInfo.setLookNum(lookNum+1);
 
-
+        String id = KeyUtil.genUniqueKey();
         Reply reply = new Reply();
         replyForm.setReplyInfo(KeyWordFilter.doFilter(replyForm.getReplyInfo()));
         BeanUtils.copyProperties(replyForm, reply);
         Long l = System.currentTimeMillis();
         reply.setTime(l);
         reply.setPraiseNum(ResultEnum.SUCCESS.getCode());
-        reply.setId(KeyUtil.genUniqueKey());
+        reply.setId(id);
         reply.setShowState(ResultEnum.PARAM_NULL.getCode());
         replyRepository.save(reply);
+
+        ReplyVO replyVO = new ReplyVO();
+        BeanUtils.copyProperties(replyForm,replyVO);
+        replyVO.setId(replyForm.getCid());
+        User user = userRepository.findOne(replyForm.getRid());//回复者的id查找用户
+        User byUser = userRepository.findOne(replyForm.getCid());//被回复者的id查找用户
+        replyVO.setAvatar(user.getAvatar());
+        replyVO.setNickName(user.getNikeName());
+        replyVO.setByNickName(byUser.getNikeName());
+        return replyVO;
+
     }
 
     /**
@@ -88,6 +99,9 @@ public class AgoReplyServiceImpl implements AgoReplyService {
         replyReport.setId(KeyUtil.genUniqueKey());
         replyReport.setDisposeState(ResultEnum.SUCCESS.getCode());
         replyReportRepository.save(replyReport);
+
+
+
     }
 
 
@@ -98,14 +112,13 @@ public class AgoReplyServiceImpl implements AgoReplyService {
     public PageDTO<ReplyVO> findReplyByCommentId(Pageable pageable, String commentId,String userId, Integer showState) {
         PageDTO<ReplyVO> pageDTO = new PageDTO<>();
         Page<Reply> replyPage = replyRepository.findAllByCommIdAndShowState(pageable, commentId, showState);
-        System.out.println(replyPage);
+
         Long time = System.currentTimeMillis();
         List<ReplyVO> list = new ArrayList<ReplyVO>();
         if (replyPage != null) {
             pageDTO.setTotalPages(replyPage.getTotalPages());
             if (!replyPage.getContent().isEmpty()) {
                 replyPage.getContent().forEach(l -> {
-                    System.out.println(l.getId());
                     ReplyVO replyVO = new ReplyVO();
                     BeanUtils.copyProperties(l, replyVO);
                     User user = userRepository.findOne(l.getRid());//回复者的id查找用户

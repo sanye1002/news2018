@@ -26,7 +26,6 @@ public class ReplyForm {
     /**
      * 回复者id
      */
-    @NotEmpty
     private String rid;
 
     /**
@@ -40,4 +39,7 @@ public class ReplyForm {
      */
     @NotEmpty
     private String byReplyId;
+
+    //被回复的信息
+    private String byReplyInfo;
 }

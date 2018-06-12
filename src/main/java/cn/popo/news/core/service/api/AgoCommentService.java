@@ -10,7 +10,7 @@ public interface AgoCommentService {
     PageDTO<CommentVO> findComment(Pageable pageable,String articleId,String userId,Integer showState);
     void commentPraise(String userId,String commentId);
     void deleteCommentPraise(Integer praiseId,String commentId);
-    void commontSave(CommentForm commentForm);
+    CommentVO commontSave(CommentForm commentForm);
     void commentReplyReportSave(CommentReportForm commentReplyReportForm);
     Integer findCommentNumByArticleId(String articleId,Integer showState);
 }

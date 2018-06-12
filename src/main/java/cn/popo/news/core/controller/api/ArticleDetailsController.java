@@ -62,8 +62,17 @@ public class ArticleDetailsController {
     public ResultVO<Map<String,Object>> articleDetails(Map<String,Object> map,
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                       @RequestParam(value = "userId",defaultValue = "") String userId,
-                                                       @RequestParam(value = "articleId") String articleId){
+                                                       @RequestParam(value = "articleId") String articleId,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response){
+
+
+        String userId = "";
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
+
+
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
         PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
@@ -96,7 +105,13 @@ public class ArticleDetailsController {
                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                        @RequestParam(value = "userId") String userId,
-                                                       @RequestParam(value = "articleId") String articleId){
+                                                       @RequestParam(value = "articleId") String articleId,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response){
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
+
         //评论
         PageRequest pageRequest = new PageRequest(page-1,size);
         PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
@@ -123,12 +138,17 @@ public class ArticleDetailsController {
              return ResultVOUtil.error(3,"用户失效");
          }
 
+         collectParam.setUid(userSessionUtil.getUserByCookie(request,response).getUserId());
+
          Collect collect1 = collectRepository.findAllByUidAndAid(collectParam.getUid(),collectParam.getAid());
          if (collect1!=null){
              return ResultVOUtil.error(100,"已收藏");
          }
-        agoArticleService.articleCollect(collectParam);
+        Integer collectId = agoArticleService.articleCollect(collectParam);
+
         Map<String,Object> map  = new HashMap<>();
+
+        map.put("collectId",collectId);
         return ResultVOUtil.success(map);
     }
 
@@ -163,6 +183,8 @@ public class ArticleDetailsController {
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+
+        reprotInfoForm.setUid(userSessionUtil.getUserByCookie(request,response).getUserId());
         String content = reprotInfoForm.getInfo();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));

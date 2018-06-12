@@ -1,9 +1,12 @@
 package cn.popo.news.core.service.api.impl;
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.*;
+import cn.popo.news.core.entity.form.DynamicReportForm;
 import cn.popo.news.core.entity.param.PersonalParam;
+import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.GetTimeUtil;
@@ -40,6 +43,9 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
 
     @Autowired
     private PrivateLetterRepository privateLetterRepository;
+
+    @Autowired
+    private DynamicReportRepository dynamicReportRepository;
 
     /**
      * 动态保存
@@ -294,5 +300,20 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         }
     }
 
+
+    /**
+     * 动态举报上传
+     */
+    @Override
+    public void dynamicReportSave(DynamicReportForm dynamicReportForm) {
+        DynamicReport dynamicReport = new DynamicReport();
+        dynamicReportForm.setContent(KeyWordFilter.doFilter(dynamicReportForm.getContent()));
+        BeanUtils.copyProperties(dynamicReportForm, dynamicReport);
+        Long l = System.currentTimeMillis();
+        dynamicReport.setTime(l);
+//        dynamicReport.setId(KeyUtil.genUniqueKey());
+        dynamicReport.setDisposeState(ResultEnum.SUCCESS.getCode());
+        dynamicReportRepository.save(dynamicReport);
+    }
 
 }

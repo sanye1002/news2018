@@ -13,7 +13,6 @@ public class CommentForm {
     /**
      * 评论人id
      */
-    @NotEmpty
     private String uid;
 
     /**

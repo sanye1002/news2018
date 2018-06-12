@@ -23,7 +23,7 @@ public interface AgoArticleService {
 
     UserVO findArticleDetailsUser(String articleId,String userId);
 
-    void articleCollect(CollectParam collectParam);
+    Integer articleCollect(CollectParam collectParam);
 
     void deleteCollectByCollectId(Integer collectId);
 

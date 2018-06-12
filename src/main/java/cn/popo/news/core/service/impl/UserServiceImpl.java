@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void saveUser(UserForm userForm) {
-        System.out.println(userForm.getUserId());
         User user = new User();
         if (userForm.getUserId() != "") {
             user = userRepository.findOne(userForm.getUserId());

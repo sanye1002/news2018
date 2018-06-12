@@ -3,6 +3,7 @@ package cn.popo.news.core.service.api;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
+import cn.popo.news.core.entity.form.DynamicReportForm;
 import cn.popo.news.core.entity.param.PersonalParam;
 import org.springframework.data.domain.Pageable;
 
@@ -28,4 +29,7 @@ public interface AgoPersonalService {
     PageDTO<PrivateLetterVO> findUserCommunication(Pageable pageable,String uid,String userId);
 
     void updateCommunicationLookState(String uid,String userId);
+
+    void dynamicReportSave(DynamicReportForm dynamicReportForm);
+
 }

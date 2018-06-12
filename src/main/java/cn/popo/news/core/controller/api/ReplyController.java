@@ -51,12 +51,14 @@ public class ReplyController {
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+        replyForm.setRid(userSessionUtil.getUserByCookie(request,response).getUserId());
         String content = replyForm.getReplyInfo();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"回复内容违规："+KeyWordFilter.checkWords(content));
         }
-        agoReplyService.replySave(replyForm);
+        ReplyVO replyVO = agoReplyService.replySave(replyForm);
         Map<String,Object> map  = new HashMap<>();
+        map.put("reply",replyVO);
         return ResultVOUtil.success(map);
     }
 
@@ -72,6 +74,7 @@ public class ReplyController {
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+        replyReportForm.setReportId(userSessionUtil.getUserByCookie(request,response).getUserId());
         String content = replyReportForm.getContent();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
@@ -91,10 +94,15 @@ public class ReplyController {
     public ResultVO<Map<String,Object>> replyList(Map<String,Object> map,
                                                   @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                  @RequestParam(value = "userId", defaultValue = "12") String userId,
-                                                  @RequestParam(value = "commentId") String commentId
+                                                  @RequestParam(value = "userId") String userId,
+                                                  @RequestParam(value = "commentId") String commentId,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response
     ){
 
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
 
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ReplyVO> pageDTO = agoReplyService.findReplyByCommentId(pageRequest,commentId,userId,ONE);
@@ -110,12 +118,13 @@ public class ReplyController {
      */
     @PostMapping("/reply/praise")
     public ResultVO<Map<String,Object>> articleCommentPraise(@RequestParam(value = "replyId") String replyId,
-                                                             @RequestParam(value = "userId") String userId,
                                                              HttpServletRequest request,
                                                              HttpServletResponse response){
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         ReplyPraise replyPraise = replyPraiseRepository.findAllByUidAndReplyId(userId,replyId);
         if(replyPraise!=null){
             return ResultVOUtil.error(100,"已赞");

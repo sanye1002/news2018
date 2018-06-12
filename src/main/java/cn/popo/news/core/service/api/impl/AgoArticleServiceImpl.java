@@ -15,6 +15,7 @@ import cn.popo.news.core.utils.SplitUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -112,22 +113,24 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             userVO.setAttentionId(0);
         }
 
-        List<ArticleInfo> list = articleRepository.findAllByStateAndShowStateAndDraftAndUidAndTypeId(
+        PageRequest pageRequest = new PageRequest(0,6);
+        Page<ArticleInfo> list = articleRepository.findAllByStateAndShowStateAndDraftAndUidAndTypeId(pageRequest,
                 ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),
                 ResultEnum.SUCCESS.getCode(),articleInfo.getUid(),articleInfo.getTypeId());
 
-        list.forEach(l->{
-            UserReCommentVO userReCommentVO = new UserReCommentVO();
-            userReCommentVO.setArticleId(l.getArticleId());
-            userReCommentVO.setTitle(l.getTitle());
-            String imgList = l.getImgUrl();
-            if(imgList!=null){
-                userReCommentVO.setImgList(SplitUtil.splitComme(imgList));
-            }
-            userReCommentVO.setImgNum(SplitUtil.splitComme(imgList).size());
-            userReCommentVOArrayList.add(userReCommentVO);
-        });
-
+        if (!list.getContent().isEmpty()) {
+            list.getContent().forEach(l -> {
+                UserReCommentVO userReCommentVO = new UserReCommentVO();
+                userReCommentVO.setArticleId(l.getArticleId());
+                userReCommentVO.setTitle(l.getTitle());
+                String imgList = l.getImgUrl();
+                if (imgList != null) {
+                    userReCommentVO.setImgList(SplitUtil.splitComme(imgList));
+                }
+                userReCommentVO.setImgNum(SplitUtil.splitComme(imgList).size());
+                userReCommentVOArrayList.add(userReCommentVO);
+            });
+        }
         userVO.setUserReCommentList(userReCommentVOArrayList);
         return userVO;
     }
@@ -137,7 +140,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      * 文章收藏（添加）
      */
     @Override
-    public void articleCollect(CollectParam collectParam) {
+    public Integer articleCollect(CollectParam collectParam) {
 
 
             Collect collect = new Collect();
@@ -152,7 +155,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
 
             collectRepository.save(collect);
 
+            Integer collectId = collectRepository.findAllByUidAndAid(collectParam.getUid(),collectParam.getAid()).getId();
 
+            return collectId;
     }
 
 
@@ -395,7 +400,6 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public void saveBrowsingHistory(String userId,String articleId) {
-        System.out.println(userId);
         BrowsingHistory browsingHistory = null;
         if(!userId.equals("")){
             browsingHistory = browsingHistoryRepository.findAllByUserIdAndArticleId(userId,articleId);

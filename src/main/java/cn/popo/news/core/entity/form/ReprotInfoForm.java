@@ -14,7 +14,6 @@ public class ReprotInfoForm {
     /**
      * 用户id
      */
-    @NotEmpty
     private String uid;
 
     /**

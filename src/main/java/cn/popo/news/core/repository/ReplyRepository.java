@@ -16,5 +16,5 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply,String> {
     void deleteAllByCommId(String commentId);
     List<Reply> findAllByCommId(String commentId);
-    Page<Reply> findAllByCommIdAndShowState(Pageable pageable, String articleId, Integer showState);
+    Page<Reply> findAllByCommIdAndShowState(Pageable pageable, String commentId, Integer showState);
 }

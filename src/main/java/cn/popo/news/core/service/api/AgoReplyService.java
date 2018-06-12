@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface AgoReplyService {
-    void replySave(ReplyForm replyForm);
+    ReplyVO replySave(ReplyForm replyForm);
     void replyReportSave(ReplyReportForm replyReportForm);
     PageDTO<ReplyVO> findReplyByCommentId(Pageable pageable, String commentId,String userId, Integer showState);
     void replyPraise(String userId,String replyId);

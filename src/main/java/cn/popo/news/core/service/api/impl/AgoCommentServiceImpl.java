@@ -109,7 +109,7 @@ public class AgoCommentServiceImpl implements AgoCommentService {
      * 评论保存
      */
     @Override
-    public void commontSave(CommentForm commentForm) {
+    public CommentVO commontSave(CommentForm commentForm) {
         //人气+1
         ArticleInfo articleInfo = articleRepository.findOne(commentForm.getAid());
         Integer lookNum = articleInfo.getLookNum();
@@ -122,10 +122,26 @@ public class AgoCommentServiceImpl implements AgoCommentService {
         BeanUtils.copyProperties(commentForm, comment);
         Long l = System.currentTimeMillis();
         comment.setTime(l);
-        comment.setId(KeyUtil.genUniqueKey());
+        String id = KeyUtil.genUniqueKey();
+        comment.setId(id);
         comment.setPraiseNum(ResultEnum.SUCCESS.getCode());
         comment.setShowState(ResultEnum.PARAM_NULL.getCode());
         commentRepository.save(comment);
+
+        //返回数据
+        CommentVO commentVO = new CommentVO();
+        User user = userRepository.findOne(commentForm.getUid());
+        commentVO.setAvatar(user.getAvatar());
+        commentVO.setNickName(user.getNikeName());
+        commentVO.setUserID(commentForm.getUid());
+        commentVO.setId(id);
+        commentVO.setCommentPraiseId(0);
+        commentVO.setReplyNum(0);
+        commentVO.setPraiseNum(0);
+        commentVO.setCommentInfo(commentForm.getCommentInfo());
+
+        return commentVO;
+
     }
 
     /**

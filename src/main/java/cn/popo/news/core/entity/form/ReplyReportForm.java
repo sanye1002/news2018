@@ -14,7 +14,6 @@ public class ReplyReportForm {
     /**
      * 举报者用户id
      */
-    @NotEmpty
     private String reportId;
 
     /**

@@ -1,11 +1,13 @@
 package cn.popo.news.core.controller.api;
 
 
+import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.Attention;
 import cn.popo.news.core.entity.common.DynamicPraise;
+import cn.popo.news.core.entity.form.DynamicReportForm;
 import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.repository.AttentionRepository;
 import cn.popo.news.core.repository.DynamicPraiseRepository;
@@ -62,13 +64,13 @@ public class PersonalController {
     @PostMapping("/user/attention")
     public ResultVO<Map<String, Object>> addAttention(Map<String, Object> map,
                                                       @RequestParam(value = "fid") String fid,
-                                                      @RequestParam(value = "aid") String aid,
                                                       HttpServletRequest request,
                                                       HttpServletResponse response
     ) {
         if (!userSessionUtil.verifyLoginStatus(request, response)) {
             return ResultVOUtil.error(3, "用户失效");
         }
+        String aid = userSessionUtil.getUserByCookie(request,response).getUserId();
         Attention attention = attentionRepository.findAllByAidAndFid(aid, fid);
         if (attention != null) {
             return ResultVOUtil.error(100, "已关注");
@@ -248,7 +250,6 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> userIndex(Map<String, Object> map,
                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                    @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                   @RequestParam(value = "userId") String userId,
                                                    @RequestParam(value = "userId1", defaultValue = "0") String userId1,
                                                    HttpServletRequest request,
                                                    HttpServletResponse response
@@ -257,6 +258,15 @@ public class PersonalController {
         if (!userSessionUtil.verifyLoginStatus(request, response)) {
             return ResultVOUtil.error(3, "用户失效");
         }
+
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+
+        if(!userId1.equals("0")){
+            userId = userId1;
+        }
+
+
+
         //用户信息
         PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
         map.put("user", personalVO);
@@ -301,7 +311,8 @@ public class PersonalController {
         if (userId1.equals("0")) {
             attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest, userId);
         } else {
-            attentionVOPageDTO = agoAttentionService.findOtherUserAttention(pageRequest, userId, userId1);
+            attentionVOPageDTO = agoAttentionService.findOtherUserAttention(
+                    pageRequest, userSessionUtil.getUserByCookie(request,response).getUserId(), userId1);
         }
 
         attentionVOPageDTO.setCurrentPage(page);
@@ -338,14 +349,13 @@ public class PersonalController {
     }
 
     /**
-     * @param userId dynamicId
+     * @param dynamicId
      * @return
      * @desc 动态点赞
      */
     @PostMapping("/dynamic/praise")
     public ResultVO<Map<String, Object>> dynamicPraise(
             @RequestParam(value = "dynamicId") String dynamicId,
-            @RequestParam(value = "userId") String userId,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
@@ -354,6 +364,7 @@ public class PersonalController {
             return ResultVOUtil.error(3, "用户失效");
         }
 
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         DynamicPraise dynamicPraise = dynamicPraiseRepository.findAllByUidAndDynamicId(userId, dynamicId);
         if (dynamicPraise != null) {
             return ResultVOUtil.error(100, "已赞");
@@ -409,6 +420,29 @@ public class PersonalController {
         PageDTO<PrivateLetterVO> pageDTO = agoPersonalService.findUserCommunication(pageRequest, uid, userId);
         pageDTO.setCurrentPage(page);
         map.put("chatMessages", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+
+    /**
+     * @param dynamicReportForm
+     * @return
+     * @desc 动态举报上传
+     */
+    @PostMapping("/dynamic/report")
+    public ResultVO<Map<String,Object>> commentReportSave(@Valid DynamicReportForm dynamicReportForm,
+                                                          HttpServletRequest request,
+                                                          HttpServletResponse response){
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
+        dynamicReportForm.setUid(userSessionUtil.getUserByCookie(request,response).getUserId());
+        String content = dynamicReportForm.getContent();
+        if (!KeyWordFilter.checkWords(content).equals("")){
+            return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
+        }
+        agoPersonalService.dynamicReportSave(dynamicReportForm);
+        Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 

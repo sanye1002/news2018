@@ -10,11 +10,11 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 
 @Data
-public class CommentReportForm {
+public class DynamicReportForm {
     /**
      * 举报者用户id
      */
-    private String reportId;
+    private String uid;
 
     /**
      * 举报发送的内容
@@ -36,5 +36,5 @@ public class CommentReportForm {
      * 举报的评论Id
      */
     @NotEmpty
-    private String commentId;
+    private String dynamicId;
 }

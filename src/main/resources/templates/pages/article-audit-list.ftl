@@ -270,9 +270,12 @@
                 },
                 function (data){
                     if (data.code == 0) {
+                        var url =  window.location.pathname;
+                        var search = window.location.search;
                         layer.msg(data.message);
                         setTimeout(function () {
-                            location = "/oa/article/auditlist?type="+resultType
+                            // location = "/oa/article/auditlist?type="+resultType
+                            location = url+search
                         }, 100)
                     }
                     if (data.code > 0) {
@@ -348,7 +351,10 @@
                                     if (data.code == 0) {
                                         layer.msg(data.message);
                                         setTimeout(function () {
-                                            location = "/oa/article/auditlist?type="+resultType
+                                            // location = "/oa/article/auditlist?type="+resultType
+                                            var url =  window.location.pathname;
+                                            var search = window.location.search;
+                                            location = url+search
                                         }, 100)
                                     }
                                     if (data.code > 0) {
@@ -378,7 +384,9 @@
                             if (data.code == 0) {
                                 layer.msg(data.message);
                                 setTimeout(function () {
-                                    location = "/oa/article/auditlist?type="+resultType
+                                    var url =  window.location.pathname;
+                                    var search = window.location.search;
+                                    location = url+search
                                 }, 100)
                             }
                             if (data.code > 0) {

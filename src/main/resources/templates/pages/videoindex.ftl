@@ -212,7 +212,7 @@
         type: DEFAULT,
         content: "${article.getContent()!}",
         keywords: "",
-        classify: 1,
+        classify: "",
         article: "${article.getArticleId()!}",
         smallImg: "${article.getImgUrl()!}",
         original:0
@@ -354,6 +354,8 @@
 
 
         $("#save").click(function () {
+
+            article.classify = $("#e1").val();
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
             var videoDes = $(".videoDes").val();
@@ -416,6 +418,8 @@
 
         $("#saveDraft").click(function () {
 
+
+            article.classify = $("#e1").val();
             article.keyWords = $("#key-words").val();
             article.title = $("#article_title").val();
             var videoDes = $(".videoDes").val();

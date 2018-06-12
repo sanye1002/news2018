@@ -7,9 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class CollectParam {
     @NotEmpty
     private String aid;
-    @NotEmpty
     private String uid;
-
     private Integer typeId;
 
 }

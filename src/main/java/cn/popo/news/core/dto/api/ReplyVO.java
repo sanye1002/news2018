@@ -29,6 +29,8 @@ public class ReplyVO implements Serializable {
 
     @JsonProperty("time")
     private String manyTimeAgo;
+    @JsonProperty("good")
     private Integer praiseNum;
+    @JsonProperty("goodFlag")
     private Integer replyPraiseId;
 }

@@ -2,6 +2,7 @@ package cn.popo.news.core.controller.api;
 
 import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.common.utils.UserSessionUtil;
+import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.entity.common.CommentPraise;
 import cn.popo.news.core.entity.form.CommentForm;
 import cn.popo.news.core.entity.form.CommentReportForm;
@@ -30,20 +31,21 @@ public class CommentController {
     private UserSessionUtil userSessionUtil;
 
     /**
-     * @param userId commentId
+     * @param commentId
      * @return
      * @desc 评论点赞
      */
     @PostMapping("/comment/praise")
     public ResultVO<Map<String,Object>> articleCommentPraise(
                                                         @RequestParam(value = "commentId") String commentId,
-                                                       @RequestParam(value = "userId") String userId,
                                                         HttpServletRequest request,
                                                         HttpServletResponse response){
 
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         CommentPraise commentPraise = commentPraiseRepository.findAllByUidAndCommentId(userId,commentId);
         if(commentPraise!=null){
             return ResultVOUtil.error(100,"已赞");
@@ -83,12 +85,15 @@ public class CommentController {
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        commentForm.setUid(userId);
         String content = commentForm.getCommentInfo();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"评论内容违规："+KeyWordFilter.checkWords(content));
         }
-        agoCommentService.commontSave(commentForm);
+        CommentVO commentVO = agoCommentService.commontSave(commentForm);
         Map<String,Object> map  = new HashMap<>();
+        map.put("comment",commentVO);
         return ResultVOUtil.success(map);
     }
 
@@ -104,6 +109,7 @@ public class CommentController {
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
+        commentReportForm.setReportId(userSessionUtil.getUserByCookie(request,response).getUserId());
         String content = commentReportForm.getContent();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"举报内容违规："+KeyWordFilter.checkWords(content));
