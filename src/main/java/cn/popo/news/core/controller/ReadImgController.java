@@ -46,7 +46,7 @@ public class ReadImgController {
         File file = new File(path);
         InputStream inputStream = new FileInputStream(file);
         OutputStream out = response.getOutputStream();
-        byte[] b = new byte[10240];
+        byte[] b = new byte[1024000];
         int length = 0;
         while((length=inputStream.read(b))!=-1){
             out.write(b,0,length);
