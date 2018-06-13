@@ -4,8 +4,10 @@ import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.Classify;
+import cn.popo.news.core.entity.common.Logo;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
+import cn.popo.news.core.service.LogoService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.ResultVOUtil;
@@ -42,10 +44,29 @@ public class HomePageController {
     @Autowired
     private AgoPersonalService agoPersonalService;
 
+    @Autowired
+    private LogoService logoService;
+
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
     private static final Integer TWO = 2;
     private static final Integer THREE = 3;
+
+
+
+    /**
+     * @param
+     * @return logo
+     * @desc logo
+     */
+    @PostMapping("/logo")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> logo(Map<String,Object> map){
+
+       Logo logo = logoService.findShowLogo();
+        map.put("logo",logo);
+        return ResultVOUtil.success(map);
+    }
 
 
     /**

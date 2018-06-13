@@ -56,11 +56,12 @@ public class ClassifyController {
     @ResponseBody
     @PostMapping("/save")
     public ResultVO<Map<String,Object>> saveClassify(@RequestParam(value = "classify") String classify,
-                                                        @RequestParam(value = "id", defaultValue = "") Integer id){
+                                                     @RequestParam(value = "id", defaultValue = "") Integer id){
         classifyService.saveClassify(classify,id);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
+
 
     /**
      * 分类添加页面

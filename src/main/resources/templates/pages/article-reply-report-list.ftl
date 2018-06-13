@@ -172,9 +172,12 @@
                 },
                 function (data){
                     if (data.code == 0) {
+                        var url =  window.location.pathname;
+                        var search = window.location.search;
                         layer.msg(data.message);
                         setTimeout(function () {
-                            location = "/oa/report/reply/reportlist?disposeState="+disposeState
+                            location = url+search
+                            // location = "/oa/report/reply/reportlist?disposeState="+disposeState
                         }, 100)
                     }
                     if (data.code > 0) {

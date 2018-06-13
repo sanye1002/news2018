@@ -249,9 +249,12 @@
                 },
                 function (data) {
                     if (data.code == 0) {
+                        var url =  window.location.pathname;
+                        var search = window.location.search;
                         layer.msg(data.message);
                         setTimeout(function () {
-                            location = "/oa/article/showlist?type=" +resultType+ "&showState=" + showF
+                            location = url+search
+                            // location = "/oa/article/showlist?type=" +resultType+ "&showState=" + showF
                         }, 100)
                     } else {
                         layer.msg(data.message);

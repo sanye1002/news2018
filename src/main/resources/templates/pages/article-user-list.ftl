@@ -288,9 +288,12 @@
                     },
                     function (data) {
                         if (data.code == 0) {
+                            var url =  window.location.pathname;
+                            var search = window.location.search;
                             layer.msg(data.message);
                             setTimeout(function () {
-                                location = "/oa/article/user/articlelist?type=" + resultType + "&state=" + state
+                                location = url+search
+                                // location = "/oa/article/user/articlelist?type=" + resultType + "&state=" + state
                             }, 100)
                         }
                         if (data.code > 0) {
