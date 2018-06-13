@@ -150,7 +150,7 @@
                                     <div id="video${p.getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
-                                                <video style="max-height: 700px" src="${p.getContent()}"
+                                                <video preload="none" style="max-height: 700px" src="${p.getContent()}"
                                                        controls="controls">
 
                                                 </video>
