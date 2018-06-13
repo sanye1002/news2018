@@ -81,7 +81,7 @@
                                         <div class="form-group">
                                             <label>关键字</label>
                                             <div>
-                                                <input id="key-words" type="text" value="${article.getKeywords()!}" data-role="tagsinput"
+                                                <input id="key-words" type="text" value="${article.getKeyword()!}" data-role="tagsinput"
                                                        placeholder="关键字" style="display: none;">
                                             </div>
                                         </div>
