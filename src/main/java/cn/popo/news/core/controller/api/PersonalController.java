@@ -7,6 +7,7 @@ import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.Attention;
 import cn.popo.news.core.entity.common.DynamicPraise;
+import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.DynamicReportForm;
 import cn.popo.news.core.entity.param.PersonalParam;
 import cn.popo.news.core.repository.AttentionRepository;
@@ -70,7 +71,11 @@ public class PersonalController {
         if (!userSessionUtil.verifyLoginStatus(request, response)) {
             return ResultVOUtil.error(3, "用户失效");
         }
+
         String aid = userSessionUtil.getUserByCookie(request,response).getUserId();
+        if(aid.equals(fid)){
+            return ResultVOUtil.error(100, "不能关注自己");
+        }
         Attention attention = attentionRepository.findAllByAidAndFid(aid, fid);
         if (attention != null) {
             return ResultVOUtil.error(100, "已关注");
@@ -108,14 +113,10 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> userAttentionList(Map<String, Object> map,
                                                            @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                            @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                           HttpServletRequest request,
-                                                           HttpServletResponse response
+                                                           @RequestParam(value = "userId") String userId
     ) {
-        if (!userSessionUtil.verifyLoginStatus(request, response)) {
-            return ResultVOUtil.error(3, "用户失效");
-        }
 
-        String userId = userSessionUtil.getUserByCookie(request, response).getUserId();
+
 
         //评论
         PageRequest pageRequest = new PageRequest(page - 1, size);
@@ -134,13 +135,10 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> userFansList(Map<String, Object> map,
                                                       @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                       @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                      HttpServletRequest request,
-                                                      HttpServletResponse response
+                                                      @RequestParam(value = "userId") String userId
     ) {
-        if (!userSessionUtil.verifyLoginStatus(request, response)) {
-            return ResultVOUtil.error(3, "用户失效");
-        }
-        String userId = userSessionUtil.getUserByCookie(request, response).getUserId();
+
+//        String userId = userSessionUtil.getUserByCookie(request, response).getUserId();
         PageRequest pageRequest = new PageRequest(page - 1, size);
         PageDTO<AttentionVO> pageDTO = agoAttentionService.findAllFans(pageRequest, userId);
         pageDTO.setCurrentPage(page);
@@ -158,13 +156,9 @@ public class PersonalController {
                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                 @RequestParam(value = "size", defaultValue = "12") Integer size,
                                                 @RequestParam(value = "typeId") Integer typeId,
-                                                @RequestParam(value = "userId") String userId,
-                                                HttpServletRequest request,
-                                                HttpServletResponse response
+                                                @RequestParam(value = "userId") String userId
     ) {
-        if (!userSessionUtil.verifyLoginStatus(request, response)) {
-            return ResultVOUtil.error(3, "用户失效");
-        }
+
         PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("desc", "time"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest, userId, typeId);
         pageDTO.setCurrentPage(page);
@@ -202,13 +196,8 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> userDynamicList(Map<String, Object> map,
                                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                          @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                         @RequestParam(value = "userId") String userId,
-                                                         HttpServletRequest request,
-                                                         HttpServletResponse response
+                                                         @RequestParam(value = "userId") String userId
     ) {
-        if (!userSessionUtil.verifyLoginStatus(request, response)) {
-            return ResultVOUtil.error(3, "用户失效");
-        }
         PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("desc", "time"));
         PageDTO<DynamicVO> pageDTO = agoPersonalService.findAllDynamicByUserId(pageRequest, userId);
         pageDTO.setCurrentPage(page);
@@ -255,14 +244,17 @@ public class PersonalController {
                                                    HttpServletResponse response
 
     ) {
-        if (!userSessionUtil.verifyLoginStatus(request, response)) {
-            return ResultVOUtil.error(3, "用户失效");
-        }
 
-        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+
+        String userId = null;
 
         if(!userId1.equals("0")){
             userId = userId1;
+        }else {
+            if (!userSessionUtil.verifyLoginStatus(request, response)) {
+                return ResultVOUtil.error(3, "用户失效");
+            }
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         }
 
 
@@ -308,12 +300,27 @@ public class PersonalController {
 
         //关注
         PageDTO<AttentionVO> attentionVOPageDTO = null;
-        if (userId1.equals("0")) {
-            attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest, userId);
-        } else {
-            attentionVOPageDTO = agoAttentionService.findOtherUserAttention(
-                    pageRequest, userSessionUtil.getUserByCookie(request,response).getUserId(), userId1);
+        if(userSessionUtil.verifyLoginStatus(request,response)){
+            if (userId1.equals("0")) {
+                attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest, userId);
+            } else {
+                attentionVOPageDTO = agoAttentionService.findOtherUserAttention(
+                        pageRequest, userSessionUtil.getUserByCookie(request,response).getUserId(), userId1);
+                Attention attention = attentionRepository.findAllByAidAndFid(
+                        userSessionUtil.getUserByCookie(request,response).getUserId(), userId1);
+                if (attention!=null){
+                    map.put("attentionFlag",1);
+                }else {
+                    map.put("attentionFlag",0);
+                }
+            }
+        }else {
+            if (!userId1.equals("0")) {
+                attentionVOPageDTO = agoAttentionService.findAllAttention(pageRequest, userId);
+            }
+            map.put("attentionFlag",0);
         }
+
 
         attentionVOPageDTO.setCurrentPage(page);
         map.put("attention", attentionVOPageDTO);
@@ -337,10 +344,12 @@ public class PersonalController {
 
         String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         personalParam.setUserId(userId);
-        if (personalParam.getNikeName() != null) {
-            if (userRepository.findOne(userId).getNikeName().equals(personalParam.getNikeName())) {
-                return ResultVOUtil.error(100, "昵称已存在！！！！！");
-            }
+
+       if (personalParam.getNikeName() != null) {
+           User user = userRepository.findAllByNikeName(personalParam.getNikeName());
+           if (user != null){
+               return ResultVOUtil.error(100, "昵称已存在！！！！！");
+           }
         }
 
         Map<String, Object> map = new HashMap<>();

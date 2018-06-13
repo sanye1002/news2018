@@ -11,6 +11,7 @@ import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.KeyUtil;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.utils.SplitUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,7 +252,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     }
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,articleInfo.getCrateTime()));
                     indexVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
-                    User user = userRepository.findOne(l.getUid());
+                    User user = userRepository.findOne(articleInfo.getUid());
                     Author author = new Author();
                     author.setAvatar(user.getAvatar());
                     author.setName(user.getNikeName());
@@ -314,10 +315,11 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId,Integer slideState) {
-        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
-                state,draft,showState,manageId,slideState);
+        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","crateTime"));
+        Page<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
+                pageRequest,state,draft,showState,manageId,slideState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
-        articleInfoList.forEach(l->{
+        articleInfoList.getContent().forEach(l->{
             ArticleVO indexVO = new ArticleVO();
             BeanUtils.copyProperties(l,indexVO);
             indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
@@ -335,8 +337,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public List<ArticleVO> findRecommentByTypeId(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId, Integer recommendState) {
-        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
-                state,draft,showState,manageId,typeId,recommendState);
+        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","crateTime"));
+        Page<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
+                pageRequest,state,draft,showState,manageId,typeId,recommendState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
         articleInfoList.forEach(l->{
             ArticleVO indexVO = new ArticleVO();

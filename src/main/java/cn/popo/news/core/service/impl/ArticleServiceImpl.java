@@ -706,6 +706,7 @@ public class ArticleServiceImpl implements ArticleService {
                     Author author = new Author();
                     author.setAvatar(user.getAvatar());
                     author.setName(user.getNikeName());
+                    author.setUserId(user.getUserId());
                     indexVO.setAuthor(author);
                     list.add(indexVO);
                 });

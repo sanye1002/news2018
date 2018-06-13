@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PersonalVO {
+    private String userId;
     private String nikeName;
     private String signature;
     private String avatar;

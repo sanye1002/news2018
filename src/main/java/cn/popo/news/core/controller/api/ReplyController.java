@@ -94,15 +94,16 @@ public class ReplyController {
     public ResultVO<Map<String,Object>> replyList(Map<String,Object> map,
                                                   @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                  @RequestParam(value = "userId") String userId,
                                                   @RequestParam(value = "commentId") String commentId,
                                                   HttpServletRequest request,
                                                   HttpServletResponse response
     ){
+        String userId = null;
 
         if (userSessionUtil.verifyLoginStatus(request,response)){
             userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         }
+
 
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<ReplyVO> pageDTO = agoReplyService.findReplyByCommentId(pageRequest,commentId,userId,ONE);

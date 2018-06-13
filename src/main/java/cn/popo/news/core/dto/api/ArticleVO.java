@@ -17,6 +17,8 @@ public class ArticleVO implements Serializable {
     @JsonProperty("sort")
     private String classify;
 
+    private Integer classifyId;
+
     @JsonProperty("img")
     private List<String> imgList;
 

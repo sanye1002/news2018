@@ -43,11 +43,11 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     //Page<ArticleInfo> findAllByUidAndStateAndShowStateAndDraft(Pageable pageable,String userId,Integer state, Integer showState,Integer draft);
     Page<ArticleInfo> findAllByClassifyIdAndStateAndShowStateAndDraft(Pageable pageable,Integer classify,Integer state, Integer showState,Integer draft);
 
-    List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
-            Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
+    Page<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
+            Pageable pageable,Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
 
-    List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
-            Integer state,Integer draft,Integer showState,Integer manageId,Integer slideState);
+    Page<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
+            Pageable pageable,Integer state,Integer draft,Integer showState,Integer manageId,Integer slideState);
 
     List<ArticleInfo> findAllByManageIdAndSlideState(Integer manageId,Integer slideState);
 

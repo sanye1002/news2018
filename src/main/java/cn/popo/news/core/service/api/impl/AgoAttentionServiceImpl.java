@@ -105,6 +105,7 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
      */
     @Override
     public Integer findAttentionNum(String aid) {
+        userRepository.findOne(aid).setFollowCounts(attentionRepository.findAllByAid(aid).size());
         return attentionRepository.findAllByAid(aid).size();
     }
 
@@ -114,6 +115,7 @@ public class   AgoAttentionServiceImpl implements AgoAttentionService {
      */
     @Override
     public Integer findFansNum(String fid) {
+        userRepository.findOne(fid).setFansCounts(attentionRepository.findAllByFid(fid).size());
         return attentionRepository.findAllByFid(fid).size();
     }
 

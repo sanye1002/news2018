@@ -29,4 +29,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     Page<User> findAllByUserTypeAndNikeNameContaining(Pageable pageable, String userType, String content);
 
+    User findAllByNikeName(String nikename);
+
 }

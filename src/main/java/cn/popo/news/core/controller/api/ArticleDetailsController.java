@@ -15,6 +15,7 @@ import cn.popo.news.core.repository.CollectRepository;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoCommentService;
 import cn.popo.news.core.utils.ResultVOUtil;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -74,7 +75,7 @@ public class ArticleDetailsController {
 
 
         //评论
-        PageRequest pageRequest = new PageRequest(page-1,size);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
         pageDTO.setCurrentPage(page);
         Integer commentNum = agoCommentService.findCommentNumByArticleId(articleId,ONE);
