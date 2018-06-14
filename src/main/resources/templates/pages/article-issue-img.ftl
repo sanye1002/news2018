@@ -120,7 +120,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-title">图片</div>
                                     <div class="col-sm-12">
-                                        <div class="form-title">图片<span>大小：360*265</span></div>
+                                        <div class="form-title">图片<span>大小：676*501</span></div>
                                         <div class="layui-upload">
                                             <input id="imgId" value="" style="display: none">
                                             <button type="button" class="layui-btn" id="image-select">

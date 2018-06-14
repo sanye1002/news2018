@@ -159,5 +159,46 @@ public class UploadUtil {
         }
     }
 
+    public String uploadArticleImg(MultipartFile file, String path, String type) {
+        File dir = new File(path);
+        //判断目录是否存在
+        log.info("【文件上传】 path={}", path);
+        log.info("【文件上传】 dir.exists()={}", dir.exists());
+        //判断目录是否存在
+        if (!dir.exists()) {
+            // 如果不存在，自动创建
+            dir.mkdirs();
+        }
+        //上传文件名
+        //String fileName = KeyUtil.genUniqueKey() + file.getOriginalFilename();
+        String fileName = KeyUtil.genUniqueKey() + ".jpg";
+        //保存文件
+        File saveFile = new File(path + File.separator + fileName);
+        try {
+            file.transferTo(saveFile);
+            //log.info("file-size={}", );
+            //压缩比
+            /*Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
+                    .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_right.jpg");
+            Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.CENTER, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
+                    .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_CENTER.jpg");*/
+            //压缩
+            /*if (saveFile.length()>2048000){
+                Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
+            }*/
+            //打水印
+            if (!type.equals("user")){
+                WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
+            }
+
+            return "http://news.cdrysj.com:8888/read/img/" + type + "/" + fileName;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
 }

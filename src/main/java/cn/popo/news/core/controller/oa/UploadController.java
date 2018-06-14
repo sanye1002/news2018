@@ -74,4 +74,23 @@ public class UploadController {
         return ResultVOUtil.success(map);
 
     }
+    @PostMapping("article/img/{type}")
+
+    private ResultVO<Map<String, String>> uploadArticleImg(HttpServletRequest request,
+                                                     @PathVariable String type,
+                                                     MultipartFile file) throws Exception {
+        Map<String, String> map = new HashMap<>();
+
+        String path = uploadConfig.getPath() + File.separator + type;
+
+        log.info("path={}", uploadConfig.getPath() + File.separator + type);
+
+        String src = uploadUtil.uploadArticleImg(file, path, type);
+        if (src != null) {
+            map.put("src", src);
+            return ResultVOUtil.success(map);
+        } else {
+            return ResultVOUtil.error(100, "上传失败");
+        }
+    }
 }

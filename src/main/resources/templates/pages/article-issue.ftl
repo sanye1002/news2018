@@ -120,7 +120,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-title">封面图片</div>
                                     <div class="col-sm-12">
-                                        <div class="form-title">封面图片<span>大小：360*265</span></div>
+                                        <div class="form-title">封面图片<span>大小：960*497</span></div>
                                         <div class="layui-upload">
                                             <input id="imgId" value="" style="display: none">
                                             <button type="button" class="layui-btn" id="image-select">
@@ -229,7 +229,7 @@
             layedit = layui.layedit;
             layedit.set({
                 uploadImage: {
-                    url: '/oa/upload/img/article' //接口url
+                    url: '/oa/upload/article/img/article' //接口url
                     , type: 'post' //默认post
                 }
             });
