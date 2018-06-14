@@ -10,6 +10,7 @@ import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
 import cn.popo.news.core.enums.ResultEnum;
+import cn.popo.news.core.repository.ArticleRepository;
 import cn.popo.news.core.service.*;
 import cn.popo.news.core.service.impl.ClassifyServiceImpl;
 import cn.popo.news.core.utils.ResultVOUtil;
@@ -56,6 +57,9 @@ public class ArticleController {
     private CommentReportService commentReportService;
     @Autowired
     private ReplyReportService replyReportService;
+    @Autowired
+    private ArticleRepository articleRepository;
+
 
     /**
      * 文章发布页面展示
@@ -429,7 +433,7 @@ public class ArticleController {
                                       ){
         map.put("pageId",103);
         map.put("pageTitle","文章管理");
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndTypeAndSid(pageRequest,state,type,manageId);
         Integer passNum = articleService.findStateAndSidNum(state,ResultEnum.SUCCESS.getCode());
         Integer onNum = articleService.findStateAndSidNum(state,ResultEnum.PARAM_NULL.getCode());
@@ -509,7 +513,7 @@ public class ArticleController {
     ){
         map.put("pageId",102);
         map.put("pageTitle","文章展示");
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type);
         Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
         Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode());
@@ -589,5 +593,17 @@ public class ArticleController {
         return ResultVOUtil.success(map);
     }
 
+
+    /**
+     * 分类添加
+     */
+    @ResponseBody
+    @PostMapping("/audit/save/default")
+    public ResultVO<Map<String,Object>> saveAudit(){
+
+        articleService.addDefaultAuditTime();
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
 
 }

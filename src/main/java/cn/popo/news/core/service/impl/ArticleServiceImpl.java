@@ -289,6 +289,7 @@ public class ArticleServiceImpl implements ArticleService {
             userRewardService.addPoints(articleInfo.getUid(),articleInfo.getArticleId(),articleInfo.getTitle(),type,integral);
         }
         articleInfo.setState(state);
+        articleInfo.setAuditTime(System.currentTimeMillis());
 
 //        articleRepository.save(articleInfo);
     }
@@ -364,6 +365,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
+                    articleDTO.setAuditTime(GetTimeUtil.getDateFormat(l.getAuditTime()));
                     list.add(articleDTO);
                 });
             }
@@ -482,6 +484,7 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
+                    articleDTO.setAuditTime(GetTimeUtil.getDateFormat(l.getAuditTime()));
                     list.add(articleDTO);
                 });
             }
@@ -719,4 +722,11 @@ public class ArticleServiceImpl implements ArticleService {
 
 
 
+    public void addDefaultAuditTime(){
+        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndShowStateAndDraft(1,1,0);
+        articleInfoList.forEach(l->{
+            System.out.println(System.currentTimeMillis());
+            l.setAuditTime(System.currentTimeMillis());
+        });
+    }
 }

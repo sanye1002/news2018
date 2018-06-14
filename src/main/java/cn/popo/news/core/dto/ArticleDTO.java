@@ -119,4 +119,6 @@ public class ArticleDTO {
     private Integer recommendState;
 
     private String des;
+
+    private String auditTime;
 }

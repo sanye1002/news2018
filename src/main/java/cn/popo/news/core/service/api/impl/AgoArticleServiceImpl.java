@@ -315,7 +315,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId,Integer slideState) {
-        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","auditTime"));
         Page<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
                 pageRequest,state,draft,showState,manageId,slideState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
@@ -337,7 +337,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public List<ArticleVO> findRecommentByTypeId(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId, Integer recommendState) {
-        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","auditTime"));
         Page<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
                 pageRequest,state,draft,showState,manageId,typeId,recommendState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();

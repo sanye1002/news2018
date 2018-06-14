@@ -110,4 +110,9 @@ public class ArticleInfo implements Serializable{
      */
     private Integer lookNum;
 
+    /**
+     * 审核时间
+     */
+    private Long auditTime;
+
 }

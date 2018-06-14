@@ -344,11 +344,15 @@ public class PersonalController {
 
         String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         personalParam.setUserId(userId);
+        User myUser = userRepository.findOne(userId);
 
        if (personalParam.getNikeName() != null) {
            User user = userRepository.findAllByNikeName(personalParam.getNikeName());
+
            if (user != null){
-               return ResultVOUtil.error(100, "昵称已存在！！！！！");
+               if (!myUser.equals(personalParam.getNikeName())){
+                   return ResultVOUtil.error(100, "昵称已存在！！！！！");
+               }
            }
         }
 
