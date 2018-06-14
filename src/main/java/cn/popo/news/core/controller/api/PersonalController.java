@@ -348,9 +348,10 @@ public class PersonalController {
 
        if (personalParam.getNikeName() != null) {
            User user = userRepository.findAllByNikeName(personalParam.getNikeName());
-
+            String nikeName = myUser.getNikeName();
            if (user != null){
-               if (!myUser.equals(personalParam.getNikeName())){
+               if (!nikeName.equals(personalParam.getNikeName())){
+                   System.out.println();
                    return ResultVOUtil.error(100, "昵称已存在！！！！！");
                }
            }
