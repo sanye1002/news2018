@@ -63,7 +63,7 @@ public class UploadUtil {
                     .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_right.jpg");
             Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.CENTER, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
                     .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_CENTER.jpg");*/
-            //打水印
+            //压缩
             /*if (saveFile.length()>2048000){
                 Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
             }*/
