@@ -101,6 +101,7 @@
                                     <thead>
                                     <tr>
                                         <th>标题</th>
+                                        <th>发布时间</th>
                                         <th>审核通过时间</th>
                                         <th>关键字</th>
                                         <th>类型</th>
@@ -114,6 +115,7 @@
                                 <#list pageContent.getPageContent() as p>
                                 <tr id="${p.getArticleId()}">
                                     <td>${p.getTitle()}</td>
+                                    <td>${p.getTime()}</td>
                                     <td>${p.getAuditTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
                                     <div id="content${p.getArticleId()}" style="display: none">

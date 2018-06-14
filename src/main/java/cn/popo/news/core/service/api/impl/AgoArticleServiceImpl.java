@@ -211,6 +211,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                        indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     }
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
                     User user = userRepository.findOne(l.getUid());
