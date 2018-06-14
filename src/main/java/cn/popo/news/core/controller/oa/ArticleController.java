@@ -472,15 +472,19 @@ public class ArticleController {
     public ResultVO<Map<String, String>> articleSlide(@RequestParam(value = "articleId") String articleId
     ){
         Map<String,Object> map  = new HashMap<>();
-        Integer slideNum = articleService.findAllSlideNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
-        if (slideNum<6){
+        articleService.updateSlide(articleId);
+        return ResultVOUtil.success(map);
+
+        
+//        Integer slideNum = articleService.findAllSlideNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
+        /*if (slideNum<6){
             articleService.updateSlide(articleId);
 
             return ResultVOUtil.success(map);
         }else {
             map.put("message","轮播图已达上限");
             return ResultVOUtil.success(map);
-        }
+        }*/
 
 
     }
