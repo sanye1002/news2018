@@ -339,8 +339,8 @@
             article.type = $("#e2").val();
 
             console.log(article.smallImg)
-            if (article.title == "") {
-                layer.msg("文章标题为填写...")
+            if (article.title.length < 20) {
+                layer.msg("文章标题必须大于20个字...")
             } else {
                 if (article.keyWords == "") {
                     layer.msg("请填写关键字...")

@@ -475,7 +475,7 @@ public class ArticleController {
         articleService.updateSlide(articleId);
         return ResultVOUtil.success(map);
 
-        
+
 //        Integer slideNum = articleService.findAllSlideNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
         /*if (slideNum<6){
             articleService.updateSlide(articleId);
