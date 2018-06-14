@@ -76,7 +76,7 @@ public class AgoReplyServiceImpl implements AgoReplyService {
 
         ReplyVO replyVO = new ReplyVO();
         BeanUtils.copyProperties(replyForm,replyVO);
-        replyVO.setId(replyForm.getCid());
+        replyVO.setId(id);
         User user = userRepository.findOne(replyForm.getRid());//回复者的id查找用户
         User byUser = userRepository.findOne(replyForm.getCid());//被回复者的id查找用户
         replyVO.setAvatar(user.getAvatar());

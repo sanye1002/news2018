@@ -75,7 +75,7 @@ public class ArticleDetailsController {
 
 
         //评论
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","praiseNum"));
         PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
         pageDTO.setCurrentPage(page);
         Integer commentNum = agoCommentService.findCommentNumByArticleId(articleId,ONE);
