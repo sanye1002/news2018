@@ -95,6 +95,7 @@
                                             <label for="anchorUser">文章类型</label>
                                             <span class="input-icon icon-right">
                                                 <select id="e1" style="width:100%;">
+                                                    <option value="0" <#if article.getClassifyId()! == 0>selected</#if>>请选择</option>
                                                     <#list classify as c>
                                                         <option value=${c.getId()} <#if article.getClassifyId()! == c.getId()>selected</#if>>
                                                             ${c.getClassify()}
@@ -323,6 +324,8 @@
             } else {
                 if (article.keyWords == "") {
                     layer.msg("请填写关键字...")
+                }if (article.classify == 0){
+                    layer.msg("请选择分类...")
                 } else {
                     if (article.smallImg == "") {
                         layer.msg("请上传图片...")

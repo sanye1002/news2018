@@ -5,11 +5,13 @@ import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.Logo;
+import cn.popo.news.core.entity.common.SearchWords;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.LogoService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoPersonalService;
+import cn.popo.news.core.service.api.SearchWordsService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
@@ -43,6 +45,9 @@ public class HomePageController {
 
     @Autowired
     private AgoPersonalService agoPersonalService;
+
+    @Autowired
+    private SearchWordsService searchWordsService;
 
     @Autowired
     private LogoService logoService;
@@ -81,6 +86,20 @@ public class HomePageController {
         //导航
         List<Classify> list = classifyService.findAllClassify();
         map.put("indexNavigation",list);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param
+     * @return
+     * @desc 热搜词
+     */
+    @PostMapping("/hot/search/words")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> hotSearchWords(Map<String,Object> map){
+
+        List<SearchWords> list = searchWordsService.findHotSearchWords();
+        map.put("hot",list);
         return ResultVOUtil.success(map);
     }
 
@@ -143,6 +162,7 @@ public class HomePageController {
 
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findArticleTitleLikeAndStateAndShowStateAndDraft(pageRequest,ONE,content,ONE,ZERO);
+        searchWordsService.saveSearchWords(content);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);

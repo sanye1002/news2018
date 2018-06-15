@@ -86,7 +86,7 @@ public class ArticleController {
 
         }else {
             articleDTO.setOriginal(0);
-            articleDTO.setClassifyId(list.get(0).getId());
+            articleDTO.setClassifyId(0);
             map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
@@ -126,7 +126,7 @@ public class ArticleController {
 
         }else {
             articleDTO.setOriginal(0);
-            articleDTO.setClassifyId(list.get(0).getId());
+            articleDTO.setClassifyId(0);
             map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
@@ -163,7 +163,7 @@ public class ArticleController {
 
         }else {
             articleDTO.setOriginal(0);
-            articleDTO.setClassifyId(list.get(0).getId());
+            articleDTO.setClassifyId(0);
             map.put("pageTitle","文章发布");
             map.put("draftList",0);
         }
