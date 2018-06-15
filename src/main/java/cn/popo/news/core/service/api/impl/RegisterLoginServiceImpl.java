@@ -161,6 +161,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
             user.setNikeName("用户" + KeyUtil.genUniqueKey());
             user.setAvatar("");
             user.setCreateDate(GetTimeUtil.getTime());
+            user.setAvatar("/read/img/user/model.png");
             user.setUpdateDate(GetTimeUtil.getTime());
             user.setUserType("1");
             user.setUserId(KeyUtil.genUniqueKey());
@@ -182,7 +183,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
                 return ResultVOUtil.error(402, "查无用户");
             }
             user.setPassword(Encrypt.md5(password));
-            map.put("message", "用户已成功创建");
+            map.put("message", "密码修改成功~");
             map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, userRepository.save(user)));
             return ResultVOUtil.success(map);
 
