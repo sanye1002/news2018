@@ -95,6 +95,19 @@
                                             class="badge">${showN}</span></option>
                                 </select>
                             </div>
+
+                        </div>
+                        <div style="float:right;margin-right:2px;">
+
+                            <div class="form-group">
+                                <select id="classifySelectType">
+                                    <option value="0" <#if classifyId == 0>selected</#if>>全部</option>
+                                    <#list classify as c>
+                                        <option value="${c.getId()}" <#if c.getId() ==classifyId >selected</#if>>
+                                            ${c.getClassify()}</option>
+                                    </#list>
+                                </select>
+                            </div>
                         </div>
                         <div class="table-scrollable">
                             <table class="table table-bordered table-hover">
@@ -175,11 +188,11 @@
                         <div class="margin-top-30 text-align-right">
                             <div class="next">
                                 <ul class="pagination">
-                                    <li><a href="${url}?page=1&size=${size}&type=${type}&showState=${showState}">首页</a></li>
+                                    <li><a href="${url}?page=1&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">首页</a></li>
                                             <#if currentPage lte 1>
                                                 <li class="disabled"><a>上一页</a></li>
                                             <#else>
-                                                <li><a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&showState=${showState}">上一页</a></li>
+                                                <li><a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">上一页</a></li>
 
                                             </#if>
 
@@ -187,16 +200,16 @@
                                                    <#if currentPage == index >
                                                          <li class="active"><a href="#">${index}</a></li>
                                                    <#else>
-                                                        <li><a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}">${index}</a></li>
+                                                        <li><a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a></li>
                                                    </#if>
                                                </#list>
                                                 <#if currentPage gte pageContent.getTotalPages()>
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
-                                                    <li><a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&showState=${showState}">下一页</a></li>
+                                                    <li><a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">下一页</a></li>
                                                 </#if>
                                     <li>
-                                        <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&showState=${showState}">尾页</a>
+                                        <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&showState=${showState}&classifyId=${classifyId}">尾页</a>
                                     </li>
                                 </ul>
                             </div>
@@ -273,7 +286,8 @@
     $("#selectType").change(function(){
         var showState = $(this).val()
         var resultType = $("#type input[type=checkbox]:checked").val()
-        location = "/oa/article/showlist?type="+resultType+"&showState="+showState
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/showlist?type="+resultType+"&showState="+showState+"&classifyId="+classifyId
     });
 
 
@@ -281,8 +295,17 @@
     $("#type input[type=checkbox]").click(function () {
         var showState = $("#selectType option:selected").val()
         var resultType = $(this).val()
-        location = "/oa/article/showlist.html?state=" + STATE+"&type=" + resultType + "&showState=" +showState
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/showlist.html?state=" + STATE+"&type=" + resultType + "&showState=" +showState+"&classifyId="+classifyId
     })
+
+    //分类切换
+    $("#classifySelectType").change(function(){
+        var showState = $("#selectType option:selected").val()
+        var resultType = $("#type input[type=checkbox]:checked").val()
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/showlist?type="+resultType+"&state="+STATE+"&classifyId="+classifyId+ "&showState=" +showState
+    });
 
 
     function showContent(id) {

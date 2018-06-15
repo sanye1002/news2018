@@ -22,9 +22,9 @@ public interface ArticleService {
 
     PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndUid(Pageable pageable, Integer state, Integer typeId, String uid);
 
-    PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(Pageable pageable, Integer state, Integer typeId,Integer manageId);
+    PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(Pageable pageable, Integer state, Integer typeId,Integer manageId,Integer classifyId,Integer position);
 
-    PageDTO<ArticleDTO> findAllByShowAndStateAndType(Pageable pageable,Integer showState,Integer state, Integer typeId);
+    PageDTO<ArticleDTO> findAllByShowAndStateAndType(Pageable pageable,Integer showState,Integer state, Integer typeId,Integer classifyId);
 
     PageDTO<ArticleDTO> findAllByTitleOrkeywordsOrClassifyLikeAndStateAndType(Pageable pageable,String line,String content,Integer typeId,Integer state);
 
@@ -42,9 +42,9 @@ public interface ArticleService {
 
     Integer findDisposeStateNum(Integer disposeState);
 
-    Integer findStateAndSidNum(Integer state,Integer sid);
+    Integer findStateAndSidNum(Integer state,Integer sid,Integer classifyId,Integer typeId,Integer position);
 
-    Integer findStateAndShowNum(Integer state,Integer showState);
+    Integer findStateAndShowNum(Integer state,Integer showState,Integer typeId,Integer classifyId);
 
     Map<String,Object> findOneArticleSomeImg(String id);
 

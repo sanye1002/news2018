@@ -432,15 +432,21 @@ public class ArticleController {
                                       @RequestParam(value = "page", defaultValue = "1") Integer page,
                                       @RequestParam(value = "size", defaultValue = "12") Integer size,
                                       @RequestParam(value = "state", defaultValue = "1") Integer state,
+                                      @RequestParam(value = "position", defaultValue = "0") Integer position,
                                       @RequestParam(value = "type", defaultValue = "0") Integer type,
-                                      @RequestParam(value = "manageId", defaultValue = "0") Integer manageId
+                                      @RequestParam(value = "manageId", defaultValue = "0") Integer manageId,
+                                      @RequestParam(value = "classifyId", defaultValue = "0") Integer classifyId
                                       ){
         map.put("pageId",103);
         map.put("pageTitle","文章管理");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
-        PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndTypeAndSid(pageRequest,state,type,manageId);
-        Integer passNum = articleService.findStateAndSidNum(state,ResultEnum.SUCCESS.getCode());
-        Integer onNum = articleService.findStateAndSidNum(state,ResultEnum.PARAM_NULL.getCode());
+        PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndTypeAndSid(pageRequest,state,type,manageId,classifyId,position);
+        Integer passNum = articleService.findStateAndSidNum(state,ResultEnum.SUCCESS.getCode(),classifyId,type,position);
+        Integer onNum = articleService.findStateAndSidNum(state,ResultEnum.PARAM_NULL.getCode(),classifyId,type,position);
+        List<Classify> list = classifyService.findAllClassify();
+        map.put("classify",list);
+        map.put("classifyId",classifyId);
+        map.put("position",position);
         map.put("state", state);
         map.put("type",type);
         map.put("pageContent", pageDTO);
@@ -517,14 +523,18 @@ public class ArticleController {
                              @RequestParam(value = "size", defaultValue = "12") Integer size,
                              @RequestParam(value = "state", defaultValue = "1") Integer state,
                              @RequestParam(value = "type", defaultValue = "0") Integer type,
-                             @RequestParam(value = "showState", defaultValue = "1") Integer showState
+                             @RequestParam(value = "showState", defaultValue = "1") Integer showState,
+                             @RequestParam(value = "classifyId", defaultValue = "0") Integer classifyId
     ){
         map.put("pageId",102);
         map.put("pageTitle","文章展示");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
-        PageDTO<ArticleDTO> pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type);
-        Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode());
-        Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode());
+        PageDTO<ArticleDTO> pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type,classifyId);
+        Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),type,classifyId);
+        Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode(),type,classifyId);
+        List<Classify> list = classifyService.findAllClassify();
+        map.put("classify",list);
+        map.put("classifyId",classifyId);
         map.put("state", state);
         map.put("type",type);
         map.put("pageContent", pageDTO);

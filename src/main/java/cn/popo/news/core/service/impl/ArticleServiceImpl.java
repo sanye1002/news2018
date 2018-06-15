@@ -271,8 +271,63 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章管理-未被安排的数据长度
      */
     @Override
-    public Integer findStateAndSidNum(Integer state, Integer manageId) {
-        List<ArticleInfo> list = articleRepository.findAllByStateAndManageIdAndDraft(state,manageId,ResultEnum.SUCCESS.getCode());
+    public Integer findStateAndSidNum(Integer state, Integer manageId,Integer classifyId,Integer typeId,Integer position) {
+        List<ArticleInfo> list = new ArrayList<>();
+        if (classifyId == 0) {
+            if (typeId == 0 ) {
+                if (position==0){
+                    list = articleRepository.findAllByStateAndManageIdAndDraft(state,manageId,ResultEnum.SUCCESS.getCode());
+                }
+                if (position==1){
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndSlideState(state,manageId,ResultEnum.SUCCESS.getCode(),1);
+                }
+                if (position==2){
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndRecommendState(state,manageId,ResultEnum.SUCCESS.getCode(),1);
+                }
+            }else {
+                if (position==0){
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndTypeId(state,manageId,ResultEnum.SUCCESS.getCode(),typeId);
+                }
+                if (position==1){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndTypeIdAndSlideState(state,manageId,ResultEnum.SUCCESS.getCode(),typeId,1);
+                }
+                if (position==2){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndTypeIdAndRecommendState(state,manageId,ResultEnum.SUCCESS.getCode(),typeId,1);
+                }
+            }
+
+        }else {
+            if (typeId == 0 ) {
+                if (position==0){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyId(state,manageId,ResultEnum.SUCCESS.getCode(),classifyId);
+                }
+                if (position==1){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideState(state,manageId,ResultEnum.SUCCESS.getCode(),classifyId,1);
+                }
+                if (position==2){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendState(state,manageId,ResultEnum.SUCCESS.getCode(),classifyId,1);
+                }
+            }else {
+                if (position==0){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndTypeId(state,manageId,ResultEnum.SUCCESS.getCode(),classifyId,typeId);
+                }
+                if (position==1){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndTypeIdAndSlideState(state,manageId,ResultEnum.SUCCESS.getCode(),classifyId,typeId,1);
+                }
+                if (position==2){
+
+                    list = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndTypeIdAndRecommendState(state,manageId,ResultEnum.SUCCESS.getCode(),classifyId,typeId,1);
+                }
+            }
+
+        }
         if (list.isEmpty()){
             return 0;
         }else {
@@ -285,8 +340,22 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章展示-数据长度
      */
     @Override
-    public Integer findStateAndShowNum(Integer state, Integer show) {
-        List<ArticleInfo> list = articleRepository.findAllByStateAndShowStateAndDraft(state,show,ResultEnum.SUCCESS.getCode());
+    public Integer findStateAndShowNum(Integer state, Integer show,Integer typeId,Integer classifyId) {
+        List<ArticleInfo> list = new ArrayList<>();
+        if (classifyId == 0) {
+            if (typeId == 0) {
+                list = articleRepository.findAllByStateAndShowStateAndDraft(state,show,ResultEnum.SUCCESS.getCode());
+            }else {
+                list = articleRepository.findAllByStateAndShowStateAndDraftAndTypeId(state,show,ResultEnum.SUCCESS.getCode(),typeId);
+            }
+        }else {
+            if (typeId == 0) {
+                list = articleRepository.findAllByStateAndShowStateAndDraftAndClassifyId(state,show,ResultEnum.SUCCESS.getCode(),classifyId);
+            }else {
+                list = articleRepository.findAllByStateAndShowStateAndDraftAndTypeIdAndClassifyId(state,show,ResultEnum.SUCCESS.getCode(),typeId,classifyId);
+            }
+
+        }
         if (list.isEmpty()){
             return 0;
         }else {
@@ -382,16 +451,60 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndSid(
-            Pageable pageable, Integer state, Integer type, Integer manageId) {
+            Pageable pageable, Integer state, Integer type, Integer manageId,Integer classifyId,Integer position) {
+
         PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
         Page<ArticleInfo> articleInfoPage = null;
         List<ArticleDTO> list = new ArrayList<>();
         Integer draft = ResultEnum.SUCCESS.getCode();
-        if(type == 0){
-            articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraft(pageable, state,manageId,draft);
+        if (classifyId == 0){
+            if(type == 0){
+                if (position==0) {
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraft(pageable, state,manageId,draft);
+                }
+                if (position==1){
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndSlideState(pageable, state,manageId,draft,1);
+                }
+                if (position==2) {
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndRecommendState(pageable, state,manageId,draft,1);
+                }
+            }else {
+                if (position==0) {
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraft(pageable, state, type, manageId,draft);
+                }
+                if (position==1){
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndSlideState(pageable, state, type, manageId,draft,1);
+                }
+                if (position==2) {
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndRecommendState(pageable, state, type, manageId,draft,1);
+                }
+
+            }
         }else {
-            articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraft(pageable, state, type, manageId,draft);
+            if(type == 0){
+                if (position==0) {
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyId(pageable, state,manageId,draft,classifyId);
+                }
+                if (position==1){
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideState(pageable, state,manageId,draft,classifyId,1);
+                }
+                if (position==2) {
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendState(pageable, state,manageId,draft,classifyId,1);
+                }
+
+            }else {
+                if (position==0) {
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyId(pageable, state, type, manageId,draft,classifyId);
+                }
+                if (position==1){
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndSlideState(pageable, state, type, manageId,draft,classifyId,1);
+                }
+                if (position==2) {
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndRecommendState(pageable, state, type, manageId,draft,classifyId,1);
+                }
+            }
         }
+
         if(articleInfoPage != null){
             pageDTO.setTotalPages(articleInfoPage.getTotalPages());
             if (!articleInfoPage.getContent().isEmpty()){
@@ -500,16 +613,25 @@ public class ArticleServiceImpl implements ArticleService {
      * 已通过的文章的展示与否
      */
     @Override
-    public PageDTO<ArticleDTO> findAllByShowAndStateAndType(Pageable pageable, Integer showState, Integer state, Integer type) {
+    public PageDTO<ArticleDTO> findAllByShowAndStateAndType(Pageable pageable, Integer showState, Integer state, Integer type,Integer classifyId) {
         PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
         Page<ArticleInfo> articleInfoPage = null;
         List<ArticleDTO> list = new ArrayList<>();
         Integer draft = ResultEnum.SUCCESS.getCode();
-        if(type == 0){
-            articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraft(pageable,state,showState,draft);
+        if (classifyId == 0) {
+            if(type == 0){
+                articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraft(pageable,state,showState,draft);
+            }else {
+                articleInfoPage = articleRepository.findAllByStateAndTypeIdAndShowStateAndDraft(pageable, state, type,showState,draft);
+            }
         }else {
-            articleInfoPage = articleRepository.findAllByStateAndTypeIdAndShowStateAndDraft(pageable, state, type,showState,draft);
+            if(type == 0){
+                articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraftAndClassifyId(pageable,state,showState,draft,classifyId);
+            }else {
+                articleInfoPage = articleRepository.findAllByStateAndTypeIdAndShowStateAndDraftAndClassifyId(pageable, state, type,showState,draft,classifyId);
+            }
         }
+
 
         if(articleInfoPage != null){
             pageDTO.setTotalPages(articleInfoPage.getTotalPages());
@@ -742,7 +864,7 @@ public class ArticleServiceImpl implements ArticleService {
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
                     indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
-                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getAuditTime()));
                     User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
                     author.setAvatar(user.getAvatar());

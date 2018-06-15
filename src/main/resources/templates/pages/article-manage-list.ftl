@@ -85,14 +85,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <#if manageId == 1>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="checkbox" id="special">
+                                            <span>板块：</span>
+                                            <label>
+                                                <input type="checkbox" class="colored-blue" value="2"
+                                                   <#if position==2>checked</#if>>
+                                                <span class="text">侧边栏</span>
+                                            </label>
+                                            <label id="abc">
+                                                <input type="checkbox" class="colored-blue" value="1"
+                                                   <#if position==1>checked</#if>>
+                                                <span class="text">轮播图</span>
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" value="0" class="colored-danger"
+                                                   <#if position==0>checked</#if>>
+                                                <span class="text">全部</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </#if>
                             <div style="float:right;margin-right:2px;">
 
                                 <div class="form-group">
                                     <select id="selectType">
-                                        <option value="1" <#if manageId==0>selected</#if> >已安排 <span
+                                        <option value="1" <#if manageId==1>selected</#if> >已安排 <span
                                                 class="badge">${onNum}</span></option>
                                         <option value="0" <#if manageId==0>selected</#if> >未安排 <span
                                                 class="badge">${passNum}</span></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="float:right;margin-right:2px;">
+
+                                <div class="form-group">
+                                    <select id="classifySelectType">
+                                        <option value="0" <#if classifyId == 0>selected</#if>>全部</option>
+                                    <#list classify as c>
+                                        <option value="${c.getId()}" <#if c.getId() ==classifyId >selected</#if>>
+                                            ${c.getClassify()}</option>
+                                    </#list>
                                     </select>
                                 </div>
                             </div>
@@ -204,13 +240,13 @@
                                 <div class="next">
                                     <ul class="pagination">
                                         <li>
-                                            <a href="${url}?page=1&size=${size}&type=${type}&manageId=${manageId}">首页</a>
+                                            <a href="${url}?page=1&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">首页</a>
                                         </li>
                                             <#if currentPage lte 1>
                                                 <li class="disabled"><a>上一页</a></li>
                                             <#else>
                                                 <li>
-                                                    <a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&manageId=${manageId}">上一页</a>
+                                                    <a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">上一页</a>
                                                 </li>
 
                                             </#if>
@@ -220,7 +256,7 @@
                                                          <li class="active"><a href="#">${index}</a></li>
                                                    <#else>
                                                         <li>
-                                                            <a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}">${index}</a>
+                                                            <a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">${index}</a>
                                                         </li>
                                                    </#if>
                                                </#list>
@@ -228,11 +264,11 @@
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
                                                     <li>
-                                                        <a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&manageId=${manageId}">下一页</a>
+                                                        <a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">下一页</a>
                                                     </li>
                                                 </#if>
                                         <li>
-                                            <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&manageId=${manageId}">尾页</a>
+                                            <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">尾页</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -281,7 +317,21 @@
     $("#selectType").change(function () {
         var manageId = $(this).val()
         var resultType = $("#type input[type=checkbox]:checked").val()
-        location = "/oa/article/managelist?type=" + resultType + "&manageId=" + manageId
+        var classifyId = $("#classifySelectType").val();
+        var position = 0
+        location = "/oa/article/managelist?type=" + resultType + "&manageId=" + manageId+"&classifyId="+classifyId+"&position="+position
+    });
+
+    //分类切换
+    $("#classifySelectType").change(function(){
+        var manageId = $("#selectType").val()
+        var resultType = $("#type input[type=checkbox]:checked").val()
+        var classifyId = $("#classifySelectType").val();
+        var position = $("#special input[type=checkbox]:checked").val()
+        if(position==null){
+            position = ${position}
+        }
+        location = "/oa/article/managelist?type="+resultType+"&manageId=" + manageId+"&classifyId="+classifyId+"&position="+position
     });
 
     //模块管理（上轮播图）
@@ -335,10 +385,28 @@
     }
 
     //类型切换
-    $("input[type=checkbox]").click(function () {
+    $("#type input[type=checkbox]").click(function () {
+
+        var classifyId = $("#classifySelectType").val();
         var manageId = $("#selectType option:selected").val()
         var resultType = $(this).val()
-        location = "/oa/article/managelist.html?state=" + STATE + "&type=" + resultType + "&manageId=" + manageId
+        var position = $("#special input[type=checkbox]:checked").val()
+        if(position==null){
+            position = ${position}
+        }
+        location = "/oa/article/managelist.html?state=" + STATE + "&type=" + resultType + "&manageId=" + manageId+
+                "&classifyId="+classifyId+"&position="+position
+    })
+
+    //板块切换
+    $("#special input[type=checkbox]").click(function () {
+
+        var classifyId = $("#classifySelectType").val();
+        var manageId = $("#selectType option:selected").val()
+        var resultType = $("#type input[type=checkbox]:checked").val()
+        var position = $(this).val()
+        location = "/oa/article/managelist.html?state=" + STATE + "&type=" + resultType + "&manageId=" + manageId+
+                "&classifyId="+classifyId+"&position="+position
     })
 
 

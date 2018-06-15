@@ -227,7 +227,7 @@ public class HomePageController {
 
 
         //文章
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
