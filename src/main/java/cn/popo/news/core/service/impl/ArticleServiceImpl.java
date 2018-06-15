@@ -97,16 +97,25 @@ public class ArticleServiceImpl implements ArticleService {
      * 后台文章审核页面
      */
     @Override
-    public PageDTO<ArticleDTO> findAllArticleDTOByStateAndType(Pageable pageable, Integer state, Integer type) {
+    public PageDTO<ArticleDTO> findAllArticleDTOByStateAndType(Pageable pageable, Integer state, Integer type,Integer classifyId) {
         PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
         Page<ArticleInfo> articleInfoPage = null;
         List<ArticleDTO> list = new ArrayList<>();
         Integer draft = ResultEnum.SUCCESS.getCode();
-        if(type == 0){
-             articleInfoPage = articleRepository.findAllByStateAndDraft(pageable,state,draft);
+        if(classifyId == 0){
+            if(type == 0){
+                articleInfoPage = articleRepository.findAllByStateAndDraft(pageable,state,draft);
+            }else {
+                articleInfoPage = articleRepository.findAllByStateAndTypeIdAndDraft(pageable, state, type,draft);
+            }
         }else {
-            articleInfoPage = articleRepository.findAllByStateAndTypeIdAndDraft(pageable, state, type,draft);
+            if(type == 0){
+                articleInfoPage = articleRepository.findAllByStateAndDraftAndClassifyId(pageable,state,draft,classifyId);
+            }else {
+                articleInfoPage = articleRepository.findAllByStateAndTypeIdAndDraftAndClassifyId(pageable, state, type,draft,classifyId);
+            }
         }
+
 
         if(articleInfoPage != null){
             pageDTO.setTotalPages(articleInfoPage.getTotalPages());
@@ -166,8 +175,37 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章审核-数据长度
      */
     @Override
+    public Integer findStateNum(Integer state,Integer classifyId,Integer typeId) {
+        List<ArticleInfo> list = new ArrayList<>();
+        if (typeId == 0){
+            if (classifyId == 0){
+                list = articleRepository.findAllByStateAndDraft(state,ResultEnum.SUCCESS.getCode());
+            }else {
+                list = articleRepository.findAllByStateAndDraftAndClassifyId(state,ResultEnum.SUCCESS.getCode(),classifyId);
+            }
+        }else {
+            if (classifyId == 0){
+                list = articleRepository.findAllByStateAndDraftAndTypeId(state,ResultEnum.SUCCESS.getCode(), typeId);
+            }else {
+                list = articleRepository.findAllByStateAndDraftAndClassifyIdAndTypeId(state,ResultEnum.SUCCESS.getCode(),classifyId, typeId);
+            }
+        }
+
+
+        if (list.isEmpty()){
+            return 0;
+        }else {
+            return list.size();
+        }
+    }
+
+    /**
+     * 文章审核-数据长度
+     */
+    @Override
     public Integer findStateNum(Integer state) {
         List<ArticleInfo> list = articleRepository.findAllByStateAndDraft(state,ResultEnum.SUCCESS.getCode());
+
         if (list.isEmpty()){
             return 0;
         }else {

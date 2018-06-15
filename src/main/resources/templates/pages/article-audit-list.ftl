@@ -121,6 +121,18 @@
                                 </select>
                             </div>
                         </div>
+                        <div style="float:right;margin-right:2px;">
+
+                            <div class="form-group">
+                                <select id="classifySelectType">
+                                    <option value="0" <#if classifyId == 0>selected</#if>>全部</option>
+                                    <#list classify as c>
+                                        <option value="${c.getId()}" <#if c.getId() ==classifyId >selected</#if>>
+                                            ${c.getClassify()}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -207,11 +219,11 @@
                         <div class="margin-top-30 text-align-right">
                             <div class="next">
                                 <ul class="pagination">
-                                    <li><a href="${url}?page=1&size=${size}&state=${state}&type=${type}">首页</a></li>
+                                    <li><a href="${url}?page=1&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">首页</a></li>
                                             <#if currentPage lte 1>
                                                 <li class="disabled"><a>上一页</a></li>
                                             <#else>
-                                                <li><a href="${url}?page=${currentPage-1}&size=${size}&state=${state}&type=${type}">上一页</a></li>
+                                                <li><a href="${url}?page=${currentPage-1}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">上一页</a></li>
 
                                             </#if>
 
@@ -219,16 +231,16 @@
                                                    <#if currentPage == index >
                                                          <li class="active"><a href="#">${index}</a></li>
                                                    <#else>
-                                                        <li><a href="${url}?page=${index}&size=${size}&state=${state}&type=${type}">${index}</a></li>
+                                                        <li><a href="${url}?page=${index}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">${index}</a></li>
                                                    </#if>
                                                </#list>
                                                 <#if currentPage gte pageContent.getTotalPages()>
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
-                                                    <li><a href="${url}?page=${currentPage+1}&size=${size}&state=${state}&type=${type}">下一页</a></li>
+                                                    <li><a href="${url}?page=${currentPage+1}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">下一页</a></li>
                                                 </#if>
                                     <li>
-                                        <a href="${url}?page=${pageContent.getTotalPages()}&state=${state}&type=${type}">尾页</a>
+                                        <a href="${url}?page=${pageContent.getTotalPages()}&state=${state}&type=${type}&classifyId=${classifyId}">尾页</a>
                                     </li>
                                 </ul>
                             </div>
@@ -255,11 +267,21 @@
     var ALL = 0
     $("#selectType").change(function(){
         var resultType = $("#type input[type=checkbox]:checked").val()
-        var state = $(this).val()
-        location = "/oa/article/auditlist?type="+resultType+"&state="+state
+        var state = $("#selectType").val()
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/auditlist?type="+resultType+"&state="+state+"&classifyId="+classifyId
     });
 
-    //审核提交
+    //分类切换
+    $("#classifySelectType").change(function(){
+        var resultType = $("#type input[type=checkbox]:checked").val()
+        var state = $("#selectType").val()
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/auditlist?type="+resultType+"&state="+state+"&classifyId="+classifyId
+    });
+
+
+    /*//审核提交
     function changeAudit1(articleId,state){
         var resultType = $("#type input[type=checkbox]:checked").val()
         $.post(
@@ -283,10 +305,11 @@
                     }
                 }
         )
-    }
+    }*/
 
     //类型和审核状态选择
     $("input[type=checkbox]").click(function () {
+        var classifyId = $("#classifySelectType").val();
         var resultStatus = null;
         var resultType = null;
         var result = $(this).parent().parent().attr('id');
@@ -299,7 +322,7 @@
                 resultStatus = $("#state input[type=checkbox]:checked").val()
             }
         }
-        location = "/oa/article/auditlist.html?state=" + resultStatus+"&type=" +resultType
+            location = "/oa/article/auditlist.html?state=" + resultStatus+"&type=" +resultType+"&classifyId="+classifyId
 
     })
     function showContent(id) {

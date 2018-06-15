@@ -14,14 +14,19 @@ import java.util.List;
  */
 public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByStateAndTypeIdAndDraft(Pageable pageable,Integer state,Integer type,Integer draft);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndDraftAndClassifyId(Pageable pageable,Integer state,Integer type,Integer draft,Integer classifyId);
     Page<ArticleInfo> findAllByStateAndTypeIdAndUidAndDraft(Pageable pageable,Integer state,Integer type,String uid,Integer draft);
     Page<ArticleInfo> findAllByStateAndTypeIdAndShowStateAndDraft(Pageable pageable,Integer state,Integer type,Integer showState,Integer draft);
     Page<ArticleInfo> findAllByStateAndDraft(Pageable pageable,Integer state,Integer draft);
+    Page<ArticleInfo> findAllByStateAndDraftAndClassifyId(Pageable pageable,Integer state,Integer draft,Integer classifyId);
     Page<ArticleInfo> findAllByStateAndUidAndDraft(Pageable pageable,Integer state,String uid,Integer draft);
     Page<ArticleInfo> findAllByStateAndShowStateAndDraft(Pageable pageable,Integer state, Integer showState,Integer draft);
     Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraft(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft);
     Page<ArticleInfo> findAllByStateAndManageIdAndDraft(Pageable pageable,Integer state,Integer manageId,Integer draft);
     List<ArticleInfo> findAllByStateAndDraft(Integer state,Integer draft);
+    List<ArticleInfo> findAllByStateAndDraftAndTypeId(Integer state,Integer draft,Integer typeId);
+    List<ArticleInfo> findAllByStateAndDraftAndClassifyIdAndTypeId(Integer state,Integer draft,Integer classifyId,Integer typeId);
+    List<ArticleInfo> findAllByStateAndDraftAndClassifyId(Integer state,Integer draft,Integer classifyId);
     List<ArticleInfo> findAllByStateAndUidAndDraft(Integer state,String uid,Integer draft);
     List<ArticleInfo> findAllByStateAndManageIdAndDraft(Integer state,Integer manageId,Integer draft);
     List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state,Integer showState,Integer draft);

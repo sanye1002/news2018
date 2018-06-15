@@ -18,7 +18,7 @@ import java.util.Map;
  * @Desc
  */
 public interface ArticleService {
-    PageDTO<ArticleDTO> findAllArticleDTOByStateAndType(Pageable pageable, Integer state, Integer typeId);
+    PageDTO<ArticleDTO> findAllArticleDTOByStateAndType(Pageable pageable, Integer state, Integer typeId,Integer classifyId);
 
     PageDTO<ArticleDTO> findAllArticleDTOByStateAndTypeAndUid(Pageable pageable, Integer state, Integer typeId, String uid);
 
@@ -31,6 +31,8 @@ public interface ArticleService {
     PageDTO<ArticleReportDTO> findAllReportByDisposeState(Pageable pageable,Integer disposeState);
 
     PageDTO<ArticleDTO> findAllByUserIdAndDraftAndTypeId(Pageable pageable,String userId,Integer draft,Integer typeId);
+
+    Integer findStateNum(Integer state,Integer classifyId,Integer typeId);
 
     Integer findStateNum(Integer state);
 

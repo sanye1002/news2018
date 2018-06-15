@@ -256,15 +256,19 @@ public class ArticleController {
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "12") Integer size,
                              @RequestParam(value = "state", defaultValue = "2") Integer state,
-                             @RequestParam(value = "type", defaultValue = "0") Integer type
+                             @RequestParam(value = "type", defaultValue = "0") Integer type,
+                             @RequestParam(value = "classifyId", defaultValue = "0") Integer classifyId
     ){
         map.put("pageId",101);
         map.put("pageTitle","文章审核");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
-        PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndType(pageRequest,state,type);
-        Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode());
-        Integer pass = articleService.findStateNum(ResultEnum.PARAM_NULL.getCode());
-        Integer noAudit = articleService.findStateNum(ResultEnum.PLATFORM_BOOS_NULL.getCode());
+        PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndType(pageRequest,state,type,classifyId);
+        Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode(),classifyId,type);
+        Integer pass = articleService.findStateNum(ResultEnum.PARAM_NULL.getCode(),classifyId,type);
+        Integer noAudit = articleService.findStateNum(ResultEnum.PLATFORM_BOOS_NULL.getCode(),classifyId,type);
+        List<Classify> list = classifyService.findAllClassify();
+        map.put("classify",list);
+        map.put("classifyId",classifyId);
         map.put("state", state);
         map.put("type",type);
         map.put("pageContent", pageDTO);
@@ -342,7 +346,7 @@ public class ArticleController {
     /**
      * 文章审核展示(搜索)
      */
-    @GetMapping("/selectlist")
+    /*@GetMapping("/selectlist")
     public ModelAndView selectList(Map<String,Object> map,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "12") Integer size,
@@ -370,7 +374,7 @@ public class ArticleController {
         map.put("content",content);
         map.put("currentPage", page);
         return new ModelAndView("pages/article-select-list",map);
-    }
+    }*/
 
     /**
      * 文章审核
@@ -609,5 +613,7 @@ public class ArticleController {
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
+
+
 
 }
