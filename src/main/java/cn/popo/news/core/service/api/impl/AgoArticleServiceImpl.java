@@ -1,6 +1,9 @@
 package cn.popo.news.core.service.api.impl;
 
+import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.common.utils.RedisOperator;
+import cn.popo.news.common.utils.WordParticipleUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.*;
@@ -13,6 +16,7 @@ import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.KeyUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.utils.SplitUtil;
+import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -35,6 +40,9 @@ import java.util.List;
 @Transactional
 @Service
 public class AgoArticleServiceImpl implements AgoArticleService {
+
+    @Autowired
+    private RedisOperator redis;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -278,16 +286,15 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      * 模糊查询 （keywords）
      */
     @Override
-    public PageDTO<ArticleVO> findAllArticleByKeywordsLike(Pageable pageable, Integer state, Integer draft, Integer showState, String content) {
-        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
-        content="%"+content+"%";
-        Page<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraftAndKeywordsLike(pageable,state,showState,draft,content);
+    public List<ArticleVO> findAllArticleByKeywordsLike(Integer state, Integer draft, Integer showState, String content) {
+//        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        content = "%"+content+"%";
+        List<ArticleInfo> articleInfoPage = articleRepository.findAllByStateAndShowStateAndDraftAndKeywordsLikeOrderByCrateTimeDesc(state,showState,draft,content);
         Long time = System.currentTimeMillis();
         List<ArticleVO> list = new ArrayList<>();
         if(articleInfoPage != null){
-            pageDTO.setTotalPages(articleInfoPage.getTotalPages());
-            if (!articleInfoPage.getContent().isEmpty()){
-                articleInfoPage.getContent().forEach(l->{
+            if (!articleInfoPage.isEmpty()){
+                articleInfoPage.forEach(l->{
                     ArticleVO indexVO = new ArticleVO();
                     BeanUtils.copyProperties(l,indexVO);
                     indexVO.setArticleId(l.getArticleId());
@@ -306,9 +313,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 });
             }
         }
-        pageDTO.setPageContent(list);
+//        pageDTO.setPageContent(list);
 
-        return pageDTO;
+        return list;
     }
 
 
@@ -321,15 +328,18 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         Page<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
                 pageRequest,state,draft,showState,manageId,slideState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
-        articleInfoList.getContent().forEach(l->{
-            ArticleVO indexVO = new ArticleVO();
-            BeanUtils.copyProperties(l,indexVO);
-            indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-            if(l.getImgUrl()!=null){
-                indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
-            }
-            articleVOList.add(indexVO);
-        });
+        if (!articleInfoList.getContent().isEmpty()) {
+            articleInfoList.getContent().forEach(l->{
+                ArticleVO indexVO = new ArticleVO();
+                BeanUtils.copyProperties(l,indexVO);
+                indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+                if(l.getImgUrl()!=null){
+                    indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                }
+                articleVOList.add(indexVO);
+            });
+        }
+
 
         return articleVOList;
     }
@@ -339,21 +349,25 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      */
     @Override
     public List<ArticleVO> findRecommentByTypeId(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId, Integer recommendState) {
-        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","auditTime"));
-        Page<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
-                pageRequest,state,draft,showState,manageId,typeId,recommendState);
+//        PageRequest pageRequest = new PageRequest(0,6,SortTools.basicSort("desc","auditTime"));
+        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
+                state,draft,showState,manageId,typeId,recommendState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
-        articleInfoList.forEach(l->{
-            ArticleVO indexVO = new ArticleVO();
-            BeanUtils.copyProperties(l,indexVO);
-            indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-            if(l.getImgUrl()!=null){
-                indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
-                indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
+        if (!articleInfoList.isEmpty()) {
+            for (int i=0;i<6;i++){
+                Integer j= new Random().nextInt(articleInfoList.size());
+                ArticleInfo articleInfo = articleInfoList.get(j);
+                ArticleVO indexVO = new ArticleVO();
+                BeanUtils.copyProperties(articleInfo,indexVO);
+                indexVO.setClassify(classifyRepository.findOne(articleInfo.getClassifyId()).getClassify());
+                if(articleInfo.getImgUrl()!=null){
+                    indexVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
+                    indexVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
+                }
+                articleVOList.add(indexVO);
             }
-            articleVOList.add(indexVO);
-        });
 
+        }
         return articleVOList;
     }
 
@@ -425,6 +439,41 @@ public class AgoArticleServiceImpl implements AgoArticleService {
             articleInfo.setLookNum(lookNum+1);
         }
 
+    }
+
+
+    @Override
+    public void keywordsArticle(String content,Integer article) {
+
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        Long time = System.currentTimeMillis();
+        List<ArticleVO> list = new ArrayList<>();
+        articleRepository.findAllByStateAndShowStateAndDraftOrderByAuditTimeDesc(1,1,0).forEach(l->{
+            double d = WordParticipleUtil.similarityArticle(l.getKeywords(),content);
+            if (d>0.1){
+                ArticleVO indexVO = new ArticleVO();
+                BeanUtils.copyProperties(l,indexVO);
+                indexVO.setArticleId(l.getArticleId());
+                indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+                indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+                if(l.getImgUrl()!=null){
+                    indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                }
+                indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
+                User user = userRepository.findOne(l.getUid());
+                Author author = new Author();
+                author.setAvatar(user.getAvatar());
+                author.setName(user.getNikeName());
+                indexVO.setAuthor(author);
+                list.add(indexVO);
+
+                System.out.println(l.getKeywords());
+
+            }
+        });
+        pageDTO.setPageContent(list.subList(0, 6));
+        String list1 = new Gson().toJson(list);
+        redis.set(RedisConstant.VO_PREFIX + article, list1, RedisConstant.EXPIRE);
     }
 
 }

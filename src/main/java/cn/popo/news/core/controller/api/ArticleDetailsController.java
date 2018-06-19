@@ -208,4 +208,17 @@ public class ArticleDetailsController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * @param
+     * @return
+     * @desc 文章举报类型list
+     */
+    /*@PostMapping("/find")
+    public ResultVO<Map<String, String>> find(
+            @RequestParam(value = "content") String content){
+        Map<String,Object> map  = new HashMap<>();
+        agoArticleService.find(content);
+        return ResultVOUtil.success(map);
+    }
+*/
 }

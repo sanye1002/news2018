@@ -5,17 +5,14 @@ import org.apdplat.word.analysis.CosineTextSimilarity;
 import org.apdplat.word.analysis.TextSimilarity;
 
 public class WordParticipleUtil {
-    public static String similarityArticle(String content1, String content2) {
+    public static double similarityArticle(String content1, String content2) {
 
         TextSimilarity textSimilarity = new CosineTextSimilarity();
         double score1pk1 = textSimilarity.similarScore(content1, content2);
-
-        System.out.println(content1 + " 和 " + content2 + " 的相似度分值：" + score1pk1);
-
-        return null;
+        return score1pk1;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String s = "hpmcnmhhh<p>1950年朝鲜战争爆发，朝鲜战争是继第二次世界大战以来规模最大的一次局部战争，也是继二战以来最多国家参战的一场局部战争，" +
                 "这场战争以中国人民志愿军的胜利而告终，以美国为首的“联合国军”被中国人民志愿军打回谈判桌上，并且战线稳定在三八线，美军司令亲口承认" +
                 "：“我们输掉了这场战争”。</p><p></p><div><img src=\"https://p0.ssl.qhimgs4.com/t016245d3c0d66c2340.webp\"></div><p>朝鲜战" +
@@ -37,5 +34,5 @@ public class WordParticipleUtil {
         TextSimilarity textSimilarity = new CosineTextSimilarity();
         double score1pk2 = textSimilarity.similarScore(s, s1);
         System.out.println("ai: " + " 的相似度分值：" + score1pk2);
-    }
+    }*/
 }

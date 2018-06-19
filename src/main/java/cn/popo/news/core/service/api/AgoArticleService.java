@@ -35,7 +35,7 @@ public interface AgoArticleService {
 
     PageDTO<ArticleVO> findAllArticleByUserCollect(Pageable pageable,String userId,Integer typeId);
 
-    PageDTO<ArticleVO> findAllArticleByKeywordsLike(Pageable pageable,Integer state,Integer draft,Integer showState,String content);
+    List<ArticleVO> findAllArticleByKeywordsLike(Integer state,Integer draft,Integer showState,String content);
 
     List<ArticleVO> findSlide(Integer state, Integer draft, Integer showState, Integer manageId, Integer typeId);
 
@@ -44,4 +44,6 @@ public interface AgoArticleService {
     PageDTO<ArticleVO> findAllArticleByStateAndShowStateAndDraftAndTimeAfter(Pageable pageable,Integer state,Integer showState,Integer draft,Integer classifyId,Long time);
 
     List<ReportType> findAllReportType();
+
+    void keywordsArticle(String content,Integer article);
 }

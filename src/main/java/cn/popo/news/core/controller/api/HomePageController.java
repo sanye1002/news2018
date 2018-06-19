@@ -1,5 +1,7 @@
 package cn.popo.news.core.controller.api;
 
+import cn.popo.news.common.constant.RedisConstant;
+import cn.popo.news.common.utils.RedisOperator;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
@@ -15,14 +17,14 @@ import cn.popo.news.core.service.api.SearchWordsService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author  Administrator
@@ -33,6 +35,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/api/homePage")
 public class HomePageController {
+
+    @Autowired
+    private RedisOperator redis;
 
     @Autowired
     private ClassifyService classifyService;
@@ -263,14 +268,14 @@ public class HomePageController {
     @ResponseBody
     public ResultVO<Map<String,Object>> timeArticle(Map<String,Object> map,
                                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                     @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                     @RequestParam(value = "size", defaultValue = "6") Integer size,
                                                      @RequestParam(value = "time") Long time
     ){
 
 
         //文章
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
-        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByStateAndShowStateAndDraftAndTimeAfter(pageRequest,ONE,ONE,ZERO,1,time);
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByStateAndShowStateAndDraftAndTimeAfter(pageRequest,ONE,ZERO,ZERO,1,time);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);
@@ -285,14 +290,31 @@ public class HomePageController {
     @ResponseBody
     public ResultVO<Map<String,Object>> recommendArticle(Map<String,Object> map,
                                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                     @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                     @RequestParam(value = "content", defaultValue = "12") String content
+                                                     @RequestParam(value = "size", defaultValue = "6") Integer size,
+                                                     @RequestParam(value = "content") List<String> content
     ){
 
+        List<ArticleVO> list = new ArrayList<>();
+        System.out.println(content);
+        content.forEach(l->{
+            System.out.println(l);
+            List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
+            list.addAll(articleVOList);
+        });
+        double d = size;
+        double l = list.size()/d;
+        Integer totalPages = (int)Math.ceil(l);
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        if (totalPages == page){
+            pageDTO.setPageContent(list.subList(page-1,list.size()));
+        }else {
+            pageDTO.setPageContent(list.subList((page-1)*size,size*page));
+        }
 
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
-        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByKeywordsLike(pageRequest,ONE,ZERO,ONE,content);
         pageDTO.setCurrentPage(page);
+
+
+        pageDTO.setTotalPages(totalPages);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);
     }

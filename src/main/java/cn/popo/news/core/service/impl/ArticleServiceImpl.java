@@ -82,7 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setArticleId(KeyUtil.genUniqueKey());
         }
         articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
-        articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
+        articleInfo.setShowState(ResultEnum.SUCCESS.getCode());
         articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
         articleInfo.setUid(ShiroGetSession.getUser().getUserId());
         articleInfo.setCrateTime(System.currentTimeMillis());

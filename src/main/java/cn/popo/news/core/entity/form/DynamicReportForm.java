@@ -33,7 +33,7 @@ public class DynamicReportForm {
     private Integer disposeState;
 
     /**
-     * 举报的评论Id
+     * 举报的动态Id
      */
     @NotEmpty
     private String dynamicId;

@@ -53,6 +53,7 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     List<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideState(Integer state,Integer manageId,Integer draft,Integer classifyId,Integer slideState);
     List<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendState(Integer state,Integer manageId,Integer draft,Integer classifyId,Integer recommendState);
     List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state,Integer showState,Integer draft);
+    List<ArticleInfo> findAllByStateAndShowStateAndDraftOrderByAuditTimeDesc(Integer state,Integer showState,Integer draft);
     List<ArticleInfo> findAllByStateAndShowStateAndDraftAndClassifyId(Integer state,Integer showState,Integer draft,Integer classifyId);
     List<ArticleInfo> findAllByStateAndShowStateAndDraftAndTypeId(Integer state,Integer showState,Integer draft,Integer typeId);
     List<ArticleInfo> findAllByStateAndShowStateAndDraftAndTypeIdAndClassifyId(Integer state,Integer showState,Integer draft,Integer typeId,Integer classifyId);
@@ -74,8 +75,8 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     //Page<ArticleInfo> findAllByUidAndStateAndShowStateAndDraft(Pageable pageable,String userId,Integer state, Integer showState,Integer draft);
     Page<ArticleInfo> findAllByClassifyIdAndStateAndShowStateAndDraft(Pageable pageable,Integer classify,Integer state, Integer showState,Integer draft);
 
-    Page<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
-            Pageable pageable,Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
+    List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
+            Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
 
     Page<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndSlideState(
             Pageable pageable,Integer state,Integer draft,Integer showState,Integer manageId,Integer slideState);
@@ -85,6 +86,8 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndUidAndTypeId(Pageable pageable,Integer state,Integer showState, Integer draft, String uid,Integer typeId);
 
     Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndKeywordsLike(Pageable pageable,Integer state,Integer showState,Integer draft,String content);
+
+    List<ArticleInfo> findAllByStateAndShowStateAndDraftAndKeywordsLikeOrderByCrateTimeDesc(Integer state,Integer showState,Integer draft,String content);
 
     List<ArticleInfo> findAllByClassifyId(Integer classifyId);
 
