@@ -361,7 +361,6 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 Integer num = set.size();
                 Integer index = new Random().nextInt(articleInfoList.size());
                 set.add(index);
-                System.out.println(set);
                 if (num<set.size()){
                     ArticleInfo articleInfo = articleInfoList.get(index);
                     ArticleVO indexVO = new ArticleVO();

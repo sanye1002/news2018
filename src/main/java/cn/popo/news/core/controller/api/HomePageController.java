@@ -320,17 +320,23 @@ public class HomePageController {
         content.forEach(l->{
             System.out.println(l);
             List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
+            List<ArticleVO> temp = new ArrayList<>(articleVOList);
+            temp.retainAll(list);
+            articleVOList.removeAll(temp);
             list.addAll(articleVOList);
         });
         double d = size;
         double l = list.size()/d;
         Integer totalPages = (int)Math.ceil(l);
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
-        if (totalPages == page){
-            pageDTO.setPageContent(list.subList(page-1,list.size()));
-        }else {
-            pageDTO.setPageContent(list.subList((page-1)*size,size*page));
+        if(list.size()!=0){
+            if (totalPages == page){
+                pageDTO.setPageContent(list.subList((page-1)*size,list.size()));
+            }else {
+                pageDTO.setPageContent(list.subList((page-1)*size,size*page));
+            }
         }
+
 
         pageDTO.setCurrentPage(page);
 
