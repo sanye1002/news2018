@@ -262,6 +262,27 @@ public class HomePageController {
     /**
      * @param page size
      * @return  List<article>
+     * @desc 首页刷新
+     */
+    @PostMapping("/refresh/article")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> refreshArticle(Map<String,Object> map,
+                                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                     @RequestParam(value = "size", defaultValue = "6") Integer size){
+
+
+        //文章
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("asc","auditTime"));
+        PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
+        pageDTO.setCurrentPage(page);
+        Collections.shuffle(pageDTO.getPageContent());
+        map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param page size
+     * @return  List<article>
      * @desc 首页刷新按时间
      */
     @PostMapping("/time/article")

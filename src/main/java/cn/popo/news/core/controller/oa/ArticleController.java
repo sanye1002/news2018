@@ -613,7 +613,7 @@ public class ArticleController {
 
 
     /**
-     * 分类添加
+     * 添加默认审核时间
      */
     @ResponseBody
     @PostMapping("/audit/save/default")

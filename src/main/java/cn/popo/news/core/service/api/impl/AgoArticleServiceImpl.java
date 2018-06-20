@@ -25,9 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 /**
@@ -354,19 +352,28 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 state,draft,showState,manageId,typeId,recommendState);
         List<ArticleVO> articleVOList = new ArrayList<ArticleVO>();
         if (!articleInfoList.isEmpty()) {
-            for (int i=0;i<6;i++){
-                Integer j= new Random().nextInt(articleInfoList.size());
-                ArticleInfo articleInfo = articleInfoList.get(j);
-                ArticleVO indexVO = new ArticleVO();
-                BeanUtils.copyProperties(articleInfo,indexVO);
-                indexVO.setClassify(classifyRepository.findOne(articleInfo.getClassifyId()).getClassify());
-                if(articleInfo.getImgUrl()!=null){
-                    indexVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
-                    indexVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
-                }
-                articleVOList.add(indexVO);
+            Set<Integer> set = new HashSet<Integer>();
+            Integer count = 6;
+            if (articleInfoList.size()<6) {
+                count = articleInfoList.size();
             }
-
+            while(set.size()<count){
+                Integer num = set.size();
+                Integer index = new Random().nextInt(articleInfoList.size());
+                set.add(index);
+                System.out.println(set);
+                if (num<set.size()){
+                    ArticleInfo articleInfo = articleInfoList.get(index);
+                    ArticleVO indexVO = new ArticleVO();
+                    BeanUtils.copyProperties(articleInfo,indexVO);
+                    indexVO.setClassify(classifyRepository.findOne(articleInfo.getClassifyId()).getClassify());
+                    if(articleInfo.getImgUrl()!=null){
+                        indexVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
+                        indexVO.setImgNum(SplitUtil.splitComme(articleInfo.getImgUrl()).size());
+                    }
+                    articleVOList.add(indexVO);
+                }
+            }
         }
         return articleVOList;
     }
