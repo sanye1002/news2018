@@ -108,7 +108,7 @@ public class UserRewardController {
         map.put("pageId", 202);
         map.put("pageTitle", "积分奖励列表");
         map.put("pageContent", rewardNotes);
-        map.put("url", "/oa/reward/reward/notes/list.html");
+        map.put("url", "/oa/reward/rewardNotes/list.html");
         map.put("size", size);
         map.put("currentPage", page);
         return new ModelAndView("pages/userRewardNotesList",map);

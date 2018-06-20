@@ -130,6 +130,7 @@ public class RegisterLoginController {
     @PostMapping("/checkCode")
     @ApiOperation(value = "验证验证码", notes = "验证验证码是否正确！")
     public ResultVO<Map<String, Object>> checkCode(HttpServletRequest request,
+
                                                    @RequestParam(value = "code") @ApiParam(value = "验证码", required = true) String code) {
         if (loginService.checkCode(request, code)) {
             return ResultVOUtil.success();
