@@ -1,6 +1,5 @@
 package cn.popo.news.core.entity.common;
 
-
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -8,16 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * @Author  Administrator
- * @Date    2018/6/21 12:34
- * @Desc    ip用户访问记录
- */
-
 @Data
 @Entity
-@Table(name="ip_statistics")
-public class IPStatistics {
+@Table(name="ip_time")
+public class IpTime {
 
     @Id
     @GeneratedValue
@@ -25,7 +18,5 @@ public class IPStatistics {
 
     private String ip;
 
-    private Long newestTime;
-
-    private String util;
+    private Long time;
 }

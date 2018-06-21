@@ -248,6 +248,18 @@ public class ArticleController {
     }
 
     /**
+     * 文章内容查询
+     */
+    @PostMapping("/content")
+    @ResponseBody
+    public ResultVO<Map<String, String>> selectArticleContent(@RequestParam(value = "articleId") String articleId){
+        ArticleInfo articleInfo = articleService.findOneByArticleId(articleId);
+        Map<String,Object> map  = new HashMap<>();
+        map.put("content",articleInfo.getContent());
+        return ResultVOUtil.success(map);
+    }
+
+    /**
      * 文章审核展示
      */
     @GetMapping("/auditlist")
@@ -530,6 +542,7 @@ public class ArticleController {
         map.put("pageTitle","文章展示");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type,classifyId);
+        System.out.println(pageDTO.getPageContent().get(0).getImgList()+"--------------");
         Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),type,classifyId);
         Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode(),type,classifyId);
         List<Classify> list = classifyService.findAllClassify();

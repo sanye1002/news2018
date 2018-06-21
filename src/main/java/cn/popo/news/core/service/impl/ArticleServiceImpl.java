@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.impl;
 
+import cn.popo.news.common.constant.UrlConstant;
 import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.common.utils.WordParticipleUtil;
 import cn.popo.news.core.dto.ArticleDTO;
@@ -123,6 +124,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                        if (l.getTypeId()==3){
+                            articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                        }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
@@ -158,6 +162,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                    if (l.getTypeId()==3){
+                        articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                    }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
@@ -511,6 +518,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                    if (l.getTypeId()==3){
+                        articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                    }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
@@ -639,6 +649,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                    if (articleDTO.getTypeId()==3){
+                        articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                    }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));

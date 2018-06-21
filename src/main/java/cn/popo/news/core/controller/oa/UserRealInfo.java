@@ -2,9 +2,11 @@ package cn.popo.news.core.controller.oa;
 
 import cn.popo.news.common.utils.StatisticsInfoGetUtil;
 import cn.popo.news.common.utils.ToolUtil;
+import cn.popo.news.core.service.IPStatisticsService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,10 @@ import java.util.Map;
 @RequestMapping("/oa/statistics")
 @Slf4j
 public class UserRealInfo {
+
+    @Autowired
+    private IPStatisticsService ipStatisticsService;
+
     /**
      * 分类列表显示
      */
@@ -27,9 +33,8 @@ public class UserRealInfo {
     public ResultVO<Map<String,Object>> allClassify(HttpServletRequest httpServletRequest){
         Map<String,Object> map  = new HashMap<>();
 //        System.out.println(StatisticsInfoGetUtil.getIpAddr(httpServletRequest));
-        System.out.println(ToolUtil.getClientIp(httpServletRequest));
-        StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
-        StatisticsInfoGetUtil.getVisitUitl(httpServletRequest);
+//        StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
+        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
         return ResultVOUtil.success(map);
     }
 

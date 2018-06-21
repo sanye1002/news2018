@@ -154,9 +154,7 @@
                                     <td>${p.getTime()}</td>
                                     <td>${p.getAuditTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
-                                    <div id="content${p.getArticleId()}" style="display: none">
-                                        ${p.getContent()}
-                                    </div>
+
                                     <div id="video${p.getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
@@ -251,15 +249,41 @@
 
                                             </#if>
 
-                                               <#list 1..pageContent.getTotalPages() as index>
-                                                   <#if currentPage == index >
-                                                         <li class="active"><a href="#">${index}</a></li>
-                                                   <#else>
-                                                        <li>
-                                                            <a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">${index}</a>
-                                                        </li>
-                                                   </#if>
-                                               </#list>
+                                               <#if pageContent.getTotalPages() lte 5>
+                                                   <#list 1..pageContent.getTotalPages() as index>
+                                                       <#if currentPage == index >
+                         <li class="active"><a href="#">${index}</a></li>
+                                                       <#else>
+                        <li><a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">${index}</a></li>
+                                                       </#if>
+                                                   </#list>
+                                               <#elseif currentPage lte 3>
+                                                   <#list 1..5 as index>
+                                                       <#if currentPage == index >
+                         <li class="active"><a href="#">${index}</a></li>
+                                                       <#else>
+                        <li><a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">${index}</a></li>
+                                                       </#if>
+                                                   </#list>
+                                               <#elseif  currentPage gt 3 && currentPage lte pageContent.getTotalPages()-2>
+                                                   <#list currentPage-2..currentPage+2 as index>
+                                                       <#if currentPage == index >
+                                <li class="active"><a href="#">${index}</a></li>
+                                                       <#else>
+                                <li><a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">${index}</a></li>
+                                                       </#if>
+                                                   </#list>
+                                               <#elseif  currentPage gt pageContent.getTotalPages()-2>
+                                                   <#list pageContent.getTotalPages()-4..pageContent.getTotalPages() as index>
+                                                       <#if currentPage == index >
+                                <li class="active"><a href="#">${index}</a></li>
+                                                       <#else>
+                                <li><a href="${url}?page=${index}&size=${size}&type=${type}&manageId=${manageId}&classifyId=${classifyId}&position=${position}">${index}</a></li>
+                                                       </#if>
+                                                   </#list>
+                                               </#if>
+
+
                                                 <#if currentPage gte pageContent.getTotalPages()>
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
@@ -412,13 +436,25 @@
 
     function showContent(id) {
         //页面层
-        var content = $("#content" + id).html();
-        layer.open({
-            type: 1,
-            skin: 'layui-layer-lan', //加上边框
-            area: ['1280px', '768px'], //宽高
-            content: content
-        });
+        $.post(
+                "/oa/article/content",
+                {
+                    articleId: id
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        layer.open({
+                            type: 1,
+                            skin: 'layui-layer-lan', //加上边框
+                            area: ['1280px', '768px'], //宽高
+                            content: data.data.content
+                        });
+                    }
+                    if (data.code > 0) {
+                        layer.msg(data.message);
+                    }
+                }
+        )
     }
 
     //相册层

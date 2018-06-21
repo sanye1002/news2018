@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller;
 
+import cn.popo.news.common.constant.UrlConstant;
 import cn.popo.news.core.enums.ResultEnum;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.utils.ImgVOUtil;
@@ -39,8 +40,8 @@ public class LayuiPhotos {
                     Map<String,Object> result = new HashMap<>();
                     result.put("alt",contentList.get(i));
                     result.put("pid",""+i);
-                    result.put("src",imgList.get(i));
-                    result.put("thumb",imgList.get(i));
+                    result.put("src",UrlConstant.URL+imgList.get(i));
+                    result.put("thumb",UrlConstant.URL+imgList.get(i));
                     list.add(result);
                 }
             }else {
@@ -48,8 +49,8 @@ public class LayuiPhotos {
                     Map<String,Object> result = new HashMap<>();
                     result.put("alt",i);
                     result.put("pid",""+i);
-                    result.put("src",imgList.get(i));
-                    result.put("thumb",imgList.get(i));
+                    result.put("src",UrlConstant.URL+imgList.get(i));
+                    result.put("thumb",UrlConstant.URL+imgList.get(i));
                     list.add(result);
                 }
             }

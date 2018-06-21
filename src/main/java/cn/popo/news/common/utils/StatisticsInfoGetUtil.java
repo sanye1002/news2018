@@ -104,7 +104,7 @@ public class StatisticsInfoGetUtil {
         System.out.println("系统：" + os + ",浏览器：" + browser);
     }
 
-    public static void getVisitUitl(HttpServletRequest request){
+    public static String getVisitUitl(HttpServletRequest request){
         String userAgent = request.getHeader("user-agent");
         String visitUitl = null;
         if(userAgent.indexOf("Android") != -1){
@@ -118,6 +118,7 @@ public class StatisticsInfoGetUtil {
             visitUitl = "computer";
         }
         System.out.println(visitUitl);
+        return visitUitl;
     }
 
 }
