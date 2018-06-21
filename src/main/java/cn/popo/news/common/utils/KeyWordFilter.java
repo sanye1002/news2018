@@ -51,12 +51,10 @@ public class KeyWordFilter {
 	}
 
 	public static String doFilter(String str) {
-		System.out.println("mmpsadf"+str+"12323");
 		initPattern();
 		Matcher m = pattern.matcher(str);
 
 		while (m.find()) {// 查找符合pattern的字符串
-             System.out.println("The result is here :" + m.group());
 	    }
 		// 选择替换方式，这里以* 号代替
 		str = m.replaceAll("*");
@@ -68,7 +66,6 @@ public class KeyWordFilter {
 		Matcher m = pattern.matcher(str);
 
 		while (m.find()) {// 查找符合pattern的字符串
-             System.out.println("The result is here :" + m.group());
              words =words+m.group();
 	    }
 		// 选择替换方式，这里以* 号代替

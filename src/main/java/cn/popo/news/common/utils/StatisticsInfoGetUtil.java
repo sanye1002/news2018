@@ -115,7 +115,7 @@ public class StatisticsInfoGetUtil {
             visitUitl = "iPhone";
         }else{
             //电脑
-            visitUitl = "电脑";
+            visitUitl = "computer";
         }
         System.out.println(visitUitl);
     }

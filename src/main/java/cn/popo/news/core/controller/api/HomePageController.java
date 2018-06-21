@@ -37,9 +37,6 @@ import java.util.*;
 public class HomePageController {
 
     @Autowired
-    private RedisOperator redis;
-
-    @Autowired
     private ClassifyService classifyService;
 
     @Autowired
@@ -120,6 +117,21 @@ public class HomePageController {
         //轮播图
         List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
         map.put("slideContent",slide);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param
+     * @return
+     * @desc 地址 ip
+     */
+    @PostMapping("/city")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> city(Map<String,Object> map,
+                                             @RequestParam(value = "content") String content
+                                             ){
+
+        System.out.println(content);
         return ResultVOUtil.success(map);
     }
 
@@ -262,6 +274,30 @@ public class HomePageController {
     /**
      * @param page size
      * @return  List<article>
+     * @desc 首页上拉刷新
+     */
+    @PostMapping("/random/article")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> indexRandomArticle(Map<String,Object> map,
+                                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                     @RequestParam(value = "size", defaultValue = "12") Integer size){
+
+
+        page = new Random().nextInt(10)+45;
+        //文章
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("asc","auditTime"));
+        PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
+        Collections.shuffle(pageDTO.getPageContent());
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+
+
+    /**
+     * @param page size
+     * @return  List<article>
      * @desc 首页刷新
      */
     @PostMapping("/refresh/article")
@@ -316,9 +352,7 @@ public class HomePageController {
     ){
 
         List<ArticleVO> list = new ArrayList<>();
-        System.out.println(content);
         content.forEach(l->{
-            System.out.println(l);
             List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
             List<ArticleVO> temp = new ArrayList<>(articleVOList);
             temp.retainAll(list);
@@ -336,11 +370,7 @@ public class HomePageController {
                 pageDTO.setPageContent(list.subList((page-1)*size,size*page));
             }
         }
-
-
         pageDTO.setCurrentPage(page);
-
-
         pageDTO.setTotalPages(totalPages);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);

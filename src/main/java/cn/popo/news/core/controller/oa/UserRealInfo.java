@@ -30,7 +30,6 @@ public class UserRealInfo {
         System.out.println(ToolUtil.getClientIp(httpServletRequest));
         StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
         StatisticsInfoGetUtil.getVisitUitl(httpServletRequest);
-
         return ResultVOUtil.success(map);
     }
 
