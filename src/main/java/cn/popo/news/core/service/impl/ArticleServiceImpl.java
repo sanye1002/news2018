@@ -124,8 +124,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                    articleDTO.setContent("");
                         if (l.getTypeId()==3){
-                            articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                            articleDTO.setContent(UrlConstant.URL+l.getContent());
                         }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
@@ -162,8 +163,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                    articleDTO.setContent("");
                     if (l.getTypeId()==3){
-                        articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                        articleDTO.setContent(UrlConstant.URL+l.getContent());
                     }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
@@ -518,8 +520,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
+                    articleDTO.setContent("");
                     if (l.getTypeId()==3){
-                        articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                        articleDTO.setContent(UrlConstant.URL+l.getContent());
                     }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
@@ -649,8 +652,9 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleDTO articleDTO = new ArticleDTO();
                     BeanUtils.copyProperties(l,articleDTO);
-                    if (articleDTO.getTypeId()==3){
-                        articleDTO.setContent(UrlConstant.URL+articleDTO.getContent());
+                    articleDTO.setContent("");
+                    if (l.getTypeId()==3){
+                        articleDTO.setContent(UrlConstant.URL+l.getContent());
                     }
                     articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());

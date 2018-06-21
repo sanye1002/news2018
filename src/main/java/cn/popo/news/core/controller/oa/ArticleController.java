@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.oa;
 
+import cn.popo.news.common.constant.UrlConstant;
 import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.core.config.UploadConfig;
 import cn.popo.news.core.dto.ArticleDTO;
@@ -254,8 +255,12 @@ public class ArticleController {
     @ResponseBody
     public ResultVO<Map<String, String>> selectArticleContent(@RequestParam(value = "articleId") String articleId){
         ArticleInfo articleInfo = articleService.findOneByArticleId(articleId);
+
         Map<String,Object> map  = new HashMap<>();
+
         map.put("content",articleInfo.getContent());
+
+
         return ResultVOUtil.success(map);
     }
 

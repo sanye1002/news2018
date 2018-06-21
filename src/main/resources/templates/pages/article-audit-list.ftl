@@ -159,7 +159,7 @@
                                     <td>${p.getTitle()}</td>
                                     <td>${p.getTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
-
+                                    
                                     <div id="video${p.getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
