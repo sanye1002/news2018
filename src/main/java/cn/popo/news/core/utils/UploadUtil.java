@@ -1,6 +1,7 @@
 package cn.popo.news.core.utils;
 
 
+import cn.popo.news.common.utils.QiniuUpload;
 import cn.popo.news.core.config.FFMPEGConfig;
 import cn.popo.news.core.config.UploadConfig;
 import lombok.Builder;
@@ -71,6 +72,11 @@ public class UploadUtil {
             if (!type.equals("user")){
                 WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
             }
+            try {
+                new QiniuUpload().uploadFile(saveFile,"po/read/img/" + type + "/" + fileName);
+            } catch (IOException e) {
+                log.info("【上传】={}", "error");
+            }
 
             return "/read/img/" + type + "/" + fileName;
 
@@ -103,6 +109,7 @@ public class UploadUtil {
         String fileName = KeyUtil.genUniqueKey() + ".MP4";
         //保存视频
         File saveFile = new File(path + File.separator + fileName);
+
         try {
             file.transferTo(saveFile);
             log.info("fileName={}", fileName);
@@ -116,7 +123,11 @@ public class UploadUtil {
             map.put("code", 0);
             map.put("message", "视频上传成功！");
             map.put("videoPath", "/read/mp4/" + userId + "/" + fileName);
-
+            try {
+                new QiniuUpload().uploadFile(saveFile,"po/read/mp4/" + userId + "/" + fileName);
+            } catch (IOException e) {
+                log.info("【视频上传】={}", "error");
+            }
             return map;
 
         } catch (IOException e) {
@@ -176,22 +187,12 @@ public class UploadUtil {
         File saveFile = new File(path + File.separator + fileName);
         try {
             file.transferTo(saveFile);
-            //log.info("file-size={}", );
-            //压缩比
-            /*Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
-                    .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_right.jpg");
-            Thumbnails.of(saveFile.getAbsolutePath()).size(800, 600).watermark(Positions.CENTER, ImageIO.read(new File("C:\\Users\\Administrator\\Pictures\\logo\\logo3.png")), 0.5f)
-                    .outputQuality(0.8f).toFile("C:\\Users\\Administrator\\Pictures\\image_watermark_bottom_CENTER.jpg");*/
-            //压缩
-            /*if (saveFile.length()>2048000){
-                Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
-            }*/
-            //打水印
+
             if (!type.equals("user")){
                 WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
             }
 
-            return "http://news.cdrysj.com:8888/read/img/" + type + "/" + fileName;
+            return "http://p0.cdrysj.com/p0/read/img/" + type + "/" + fileName;
 
         } catch (IOException e) {
             e.printStackTrace();

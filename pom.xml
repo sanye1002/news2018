@@ -97,6 +97,7 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 		<!-- shiro start -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
