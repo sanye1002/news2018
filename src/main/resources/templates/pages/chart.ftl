@@ -4,7 +4,7 @@
 <#include "../common/header.ftl">
 
 <style>
-    canvas{
+    canvas {
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
@@ -64,11 +64,13 @@
                 </div>
                 <br>
                 <br>
-                <button id="randomizeData">Randomize Data</button>
+                <#--<button id="randomizeData">Randomize Data</button>
                 <button id="addDataset">Add Dataset</button>
-                <button id="removeDataset">Remove Dataset</button>
+                <button id="removeDataset">Remove Dataset</button>-->
                 <button id="addData">Add Data</button>
                 <button id="removeData">Remove Data</button>
+                <button id="nextMonth">Next Month</button>
+                <button id="upMonth">Before Month</button>
             </div>
             <!-- /Page Body -->
         </div>
@@ -79,45 +81,36 @@
 <script src="/assets/js/charts/chartjs/Chart.bundle.js"></script>
 <script src="/assets/js/charts/chartjs/utils.js"></script>
 <script>
-    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    // var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var DAY = ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号', '13号', '14号', '15号', '16号', '17号', '18号', '19号',
+        '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号'];
 
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
+    var month = ${month}
+
+    /*var randomScalingFactor = function () {
+        return Math.round(Math.random() * 10);
+    };*/
+
 
     var config = {
         type: 'line',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
+            // labels:[1,2,3,4,5,6,7],
             datasets: [{
-                label: 'my money',
+                label: '访问量',
                 backgroundColor: window.chartColors.red,
                 borderColor: window.chartColors.red,
-                data: [
-                   1,2,3,4,5,33,22,55
-                ],
+                data: ${list},
                 fill: false,
-            }, {
-                label: 'My Second dataset',
-                fill: false,
-                backgroundColor: window.chartColors.blue,
-                borderColor: window.chartColors.blue,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ],
             }]
         },
         options: {
             responsive: true,
             title: {
                 display: true,
-                text: 'Chart.js Line Chart'
+                text: month+'月访问量'
             },
             tooltips: {
                 mode: 'index',
@@ -132,7 +125,7 @@
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Month'
+                        labelString: 'Day'
                     }
                 }],
                 yAxes: [{
@@ -143,7 +136,7 @@
                     },
                     ticks: {
                         min: 0,
-                        max: 10000,
+                        max: 10,
 
                         // forces step size to be 5 units
                         stepSize: 500
@@ -153,23 +146,40 @@
         }
     };
 
-    window.onload = function() {
+
+    window.onload = function () {
         var ctx = document.getElementById('canvas').getContext('2d');
         window.myLine = new Chart(ctx, config);
     };
 
-    document.getElementById('randomizeData').addEventListener('click', function() {
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data = dataset.data.map(function() {
+    document.getElementById('upMonth').addEventListener('click', function () {
+        if(month>1){
+            month = month-1
+            location = "/oa/chart/index?month="+month
+        }
+
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', function () {
+        if(month<12){
+            month = month+1
+            location = "/oa/chart/index?month="+month
+        }
+
+    });
+
+    /*document.getElementById('randomizeData').addEventListener('click', function () {
+        config.data.datasets.forEach(function (dataset) {
+            dataset.data = dataset.data.map(function () {
                 return randomScalingFactor();
             });
         });
 
         window.myLine.update();
-    });
+    });*/
 
     var colorNames = Object.keys(window.chartColors);
-    document.getElementById('addDataset').addEventListener('click', function() {
+    /*document.getElementById('addDataset').addEventListener('click', function () {
         var colorName = colorNames[config.data.datasets.length % colorNames.length];
         var newColor = window.chartColors[colorName];
         var newDataset = {
@@ -186,30 +196,49 @@
 
         config.data.datasets.push(newDataset);
         window.myLine.update();
+    });*/
+
+    document.getElementById('addData').addEventListener('click', function () {
+
+        var day = DAY[config.data.labels.length % DAY.length];
+        config.data.labels.push(day);
+         day = day.split("号");
+
+        $.post(
+                "/oa/chart/add/day",
+                {
+                    day: day[0],
+                    month:month
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        if (config.data.datasets.length > 0) {
+                            config.data.datasets.forEach(function (dataset) {
+                                dataset.data.push(data.data.dayValue);
+                            });
+                        }
+                        window.myLine.update();
+                    }
+                    if (data.code > 0) {
+                        layer.msg(data.message);
+                    }
+                }
+        )
+
+
+
+
     });
 
-    document.getElementById('addData').addEventListener('click', function() {
-        if (config.data.datasets.length > 0) {
-            var month = MONTHS[config.data.labels.length % MONTHS.length];
-            config.data.labels.push(month);
-
-            config.data.datasets.forEach(function(dataset) {
-                dataset.data.push(randomScalingFactor());
-            });
-
-            window.myLine.update();
-        }
-    });
-
-    document.getElementById('removeDataset').addEventListener('click', function() {
+    /*document.getElementById('removeDataset').addEventListener('click', function () {
         config.data.datasets.splice(0, 1);
         window.myLine.update();
-    });
+    });*/
 
-    document.getElementById('removeData').addEventListener('click', function() {
+    document.getElementById('removeData').addEventListener('click', function () {
         config.data.labels.splice(-1, 1); // remove the label first
 
-        config.data.datasets.forEach(function(dataset) {
+        config.data.datasets.forEach(function (dataset) {
             dataset.data.pop();
         });
 

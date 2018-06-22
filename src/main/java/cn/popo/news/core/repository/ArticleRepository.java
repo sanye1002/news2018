@@ -23,18 +23,18 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByStateAndUidAndDraft(Pageable pageable,Integer state,String uid,Integer draft);
     Page<ArticleInfo> findAllByStateAndShowStateAndDraft(Pageable pageable,Integer state, Integer showState,Integer draft);
     Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndClassifyId(Pageable pageable,Integer state, Integer showState,Integer draft,Integer classifyId);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraft(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndSlideState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer slideState);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndRecommendState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer recommendState);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyId(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer classifyId);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndSlideState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer classifyId,Integer slideState);
-    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndRecommendState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer classifyId,Integer recommendState);
-    Page<ArticleInfo> findAllByStateAndManageIdAndDraft(Pageable pageable,Integer state,Integer manageId,Integer draft);
-    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndRecommendState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer recommendState);
-    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndSlideState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer slideState);
-    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyId(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer classifyId);
-    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer classifyId,Integer slideState);
-    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer classifyId,Integer recommendState);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndShowState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer showState);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndSlideStateAndShowState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer slideState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndRecommendStateAndShowState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer recommendState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndShowState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer classifyId,Integer showState);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndSlideStateAndShowState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer classifyId,Integer slideState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndRecommendStateAndShowState(Pageable pageable,Integer state,Integer type,Integer manageId,Integer draft,Integer classifyId,Integer recommendState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndShowState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer showState);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndRecommendStateAndShowState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer recommendState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndSlideStateAndShowState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer slideState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndShowState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer classifyId,Integer showState);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideStateAndShowState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer classifyId,Integer slideState,Integer showState);
+    Page<ArticleInfo> findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendStateAndShowState(Pageable pageable,Integer state,Integer manageId,Integer draft,Integer classifyId,Integer recommendState,Integer showState);
     List<ArticleInfo> findAllByStateAndDraft(Integer state,Integer draft);
     List<ArticleInfo> findAllByStateAndDraftAndTypeId(Integer state,Integer draft,Integer typeId);
     List<ArticleInfo> findAllByStateAndDraftAndClassifyIdAndTypeId(Integer state,Integer draft,Integer classifyId,Integer typeId);
@@ -69,6 +69,7 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByClassifyIdAndStateAndDraft(Pageable pageable,Integer classifyId,Integer state,Integer draft);
     Page<ArticleInfo> findAllByUidAndDraftAndTypeId(Pageable pageable,String userId, Integer draft,Integer typeId);
     Page<ArticleInfo> findAllByUidAndDraft(Pageable pageable,String userId, Integer draft);
+    List<ArticleInfo> findAllByManageIdAndTypeIdAndRecommendStateOrderByAuditTimeAsc(Integer manageId,Integer typeId, Integer recommendState);
 
     //api
     Page<ArticleInfo> findAllByStateAndTitleLikeAndShowStateAndDraft(Pageable pageable,Integer state,String content,Integer showState,Integer draft);

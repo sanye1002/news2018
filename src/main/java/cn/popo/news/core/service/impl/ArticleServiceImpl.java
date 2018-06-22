@@ -416,8 +416,12 @@ public class ArticleServiceImpl implements ArticleService {
      * 管理 添加侧边栏
      */
     @Override
-    public void updateArticleSpecialByArticleId(String articleId) {
+    public void updateArticleSpecialByArticleId(String articleId,Integer typeId) {
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        List<ArticleInfo> list = articleRepository.findAllByManageIdAndTypeIdAndRecommendStateOrderByAuditTimeAsc(1,typeId,1);
+        if (list.size()==20){
+            updateArticleManage(list.get(0).getArticleId(),100);
+        }
         articleInfo.setManageId(ResultEnum.PARAM_NULL.getCode());
         articleInfo.setRecommendState(ResultEnum.PARAM_NULL.getCode());
     }
@@ -471,47 +475,47 @@ public class ArticleServiceImpl implements ArticleService {
         if (classifyId == 0){
             if(type == 0){
                 if (position==0) {
-                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraft(pageable, state,manageId,draft);
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndShowState(pageable, state,manageId,draft,1);
                 }
                 if (position==1){
-                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndSlideState(pageable, state,manageId,draft,1);
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndSlideStateAndShowState(pageable, state,manageId,draft,1,1);
                 }
                 if (position==2) {
-                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndRecommendState(pageable, state,manageId,draft,1);
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndRecommendStateAndShowState(pageable, state,manageId,draft,1,1);
                 }
             }else {
                 if (position==0) {
-                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraft(pageable, state, type, manageId,draft);
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndShowState(pageable, state, type, manageId,draft,1);
                 }
                 if (position==1){
-                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndSlideState(pageable, state, type, manageId,draft,1);
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndSlideStateAndShowState(pageable, state, type, manageId,draft,1,1);
                 }
                 if (position==2) {
-                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndRecommendState(pageable, state, type, manageId,draft,1);
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndRecommendStateAndShowState(pageable, state, type, manageId,draft,1,1);
                 }
 
             }
         }else {
             if(type == 0){
                 if (position==0) {
-                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyId(pageable, state,manageId,draft,classifyId);
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndShowState(pageable, state,manageId,draft,classifyId,1);
                 }
                 if (position==1){
-                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideState(pageable, state,manageId,draft,classifyId,1);
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndSlideStateAndShowState(pageable, state,manageId,draft,classifyId,1,1);
                 }
                 if (position==2) {
-                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendState(pageable, state,manageId,draft,classifyId,1);
+                    articleInfoPage = articleRepository.findAllByStateAndManageIdAndDraftAndClassifyIdAndRecommendStateAndShowState(pageable, state,manageId,draft,classifyId,1,1);
                 }
 
             }else {
                 if (position==0) {
-                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyId(pageable, state, type, manageId,draft,classifyId);
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndShowState(pageable, state, type, manageId,draft,classifyId,1);
                 }
                 if (position==1){
-                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndSlideState(pageable, state, type, manageId,draft,classifyId,1);
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndSlideStateAndShowState(pageable, state, type, manageId,draft,classifyId,1,1);
                 }
                 if (position==2) {
-                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndRecommendState(pageable, state, type, manageId,draft,classifyId,1);
+                    articleInfoPage = articleRepository.findAllByStateAndTypeIdAndManageIdAndDraftAndClassifyIdAndRecommendStateAndShowState(pageable, state, type, manageId,draft,classifyId,1,1);
                 }
             }
         }

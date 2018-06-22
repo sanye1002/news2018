@@ -54,7 +54,7 @@ public interface ArticleService {
 
     void updateArticleStateByArticleId(String articleId,Integer state,Integer integral);
 
-    void updateArticleSpecialByArticleId(String articleId);
+    void updateArticleSpecialByArticleId(String articleId,Integer typeId);
 
     void updateArticleManage(String articleId,Integer manageId);
 

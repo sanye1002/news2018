@@ -482,9 +482,11 @@ public class ArticleController {
      */
     @PostMapping("/recomment")
     @ResponseBody
-    public ResultVO<Map<String, String>> articleManage(@RequestParam(value = "articleId") String articleId
+    public ResultVO<Map<String, String>> articleManage(
+            @RequestParam(value = "articleId") String articleId,
+            @RequestParam(value = "typeId") Integer typeId
                                                         ){
-        articleService.updateArticleSpecialByArticleId(articleId);
+        articleService.updateArticleSpecialByArticleId(articleId,typeId);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

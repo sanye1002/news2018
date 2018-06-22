@@ -18,5 +18,5 @@ public class IpTime {
 
     private String ip;
 
-    private Long time;
+    private String time;
 }

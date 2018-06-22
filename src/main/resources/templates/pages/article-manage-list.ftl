@@ -208,7 +208,7 @@
                                                 上轮播</a>
 
                                                 <a class="btn btn-success btn-xs"
-                                                   onclick="recommentArticle('${p.getArticleId()}')"><i
+                                                   onclick="recommentArticle('${p.getArticleId()}',${p.getTypeId()})"><i
                                                         class="btn-label glyphicon glyphicon-ok"></i>
                                                     上侧边栏</a>
 
@@ -384,12 +384,13 @@
     }
 
     //模块管理（上侧边栏）
-    function recommentArticle(articleId) {
+    function recommentArticle(articleId,typeId) {
         var resultType = $("#type input[type=checkbox]:checked").val()
         $.post(
                 "/oa/article/recomment",
                 {
-                    articleId: articleId
+                    articleId: articleId,
+                    typeId:typeId
                 },
                 function (data) {
                     if (data.code == 0) {

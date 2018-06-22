@@ -56,7 +56,7 @@ public class GetTimeUtil {
 
     public static String getZeroDateFormat(long time){
         time = time * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(time);
     }
 
@@ -108,6 +108,14 @@ public class GetTimeUtil {
         cal.set(Calendar.HOUR_OF_DAY, 24);
         return (int) (cal.getTimeInMillis()/1000);
     }
+    public static long getMonthDay(Integer day,Integer month) {
+        Calendar calendar = Calendar.getInstance();// 获取当前日期
+        calendar.set(Calendar.MONTH, day);
+        calendar.set(Calendar.DAY_OF_MONTH, month-1);// 设置为1号,当前日期既为本月第一天
+        return calendar.getTimeInMillis()/1000;
+    }
+
+
 }
 
 

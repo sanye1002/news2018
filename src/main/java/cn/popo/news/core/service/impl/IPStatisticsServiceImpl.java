@@ -31,7 +31,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         long nowTime = System.currentTimeMillis()/1000;
         IpTime ipTime = new IpTime();
         ipTime.setIp(ip);
-        ipTime.setTime(nowTime);
+        ipTime.setTime(GetTimeUtil.getZeroDateFormat(nowTime));
 //        ipStatistics.setId(KeyUtil.genUniqueKey());
         ipStatistics.setIp(ip);
         ipStatistics.setUtil(util);
@@ -56,4 +56,30 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
 
 
     }
+
+    /**
+     * 查找某天的访问量
+     */
+    @Override
+    public Integer findDayCount(String time) {
+        return ipTimeRepository.findAllByTime(time).size();
+    }
+
+    /**
+     * 查找某月的访问量
+     */
+    @Override
+    public Integer findMonthCount(String month) {
+        return ipTimeRepository.findAllByTimeEndingWith(month).size();
+    }
+
+    /**
+     * 查找某周的访问量
+     */
+    @Override
+    public Integer findWeekCount(String week) {
+        return null;
+    }
+
+
 }
