@@ -22,6 +22,7 @@ import cn.popo.news.core.utils.KeyUtil;
 import cn.popo.news.core.utils.ShiroGetSession;
 import cn.popo.news.core.utils.SplitUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.Roman;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -406,6 +407,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleInfo.setState(state);
         articleInfo.setAuditTime(System.currentTimeMillis());
+        articleInfo.setLookNum(new Random().nextInt(450)+50);
 
 //        articleRepository.save(articleInfo);
     }
@@ -898,12 +900,25 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
-
+    /**
+     * 添加默认时间
+     */
+    @Autowired
     public void addDefaultAuditTime(){
         List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndShowStateAndDraft(1,1,0);
         articleInfoList.forEach(l->{
-            System.out.println(System.currentTimeMillis());
             l.setAuditTime(System.currentTimeMillis());
+        });
+    }
+
+    /**
+     * 添加默认人气
+     */
+    @Override
+    public void addDefaultLookNum() {
+        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndShowStateAndDraft(1,1,0);
+        articleInfoList.forEach(l->{
+            l.setLookNum(new Random().nextInt(450)+50);
         });
     }
 }

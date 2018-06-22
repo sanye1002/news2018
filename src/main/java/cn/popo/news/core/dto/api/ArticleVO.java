@@ -23,6 +23,8 @@ public class ArticleVO implements Serializable {
     private List<String> imgList;
 
     @JsonProperty("nowTime")
+    private Integer lookNum;
+
     private String manyTimeAgo;
 
     private Integer commentNum;

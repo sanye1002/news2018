@@ -82,5 +82,7 @@ public interface ArticleService {
 
     void addDefaultAuditTime();
 
+    void addDefaultLookNum();
+
 
 }

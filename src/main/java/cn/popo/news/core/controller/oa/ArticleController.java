@@ -642,6 +642,18 @@ public class ArticleController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * 添加默认审核时间
+     */
+    @ResponseBody
+    @PostMapping("/look/save/default")
+    public ResultVO<Map<String,Object>> saveLookNum(){
+
+        articleService.addDefaultLookNum();
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
 
 
 }
