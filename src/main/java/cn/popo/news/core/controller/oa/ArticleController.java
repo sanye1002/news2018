@@ -363,11 +363,11 @@ public class ArticleController {
     /**
      * 文章审核展示(搜索)
      */
-    /*@GetMapping("/selectlist")
+    /*@GetMapping("/select/list")
     public ModelAndView selectList(Map<String,Object> map,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "12") Integer size,
-                             @RequestParam(value = "state", defaultValue = "2") Integer state,
+                             @RequestParam(value = "state", defaultValue = "1") Integer state,
                              @RequestParam(value = "type", defaultValue = "0") Integer type,
                              @RequestParam(value = "line", defaultValue = "title") String line,
                              @RequestParam(value = "content", defaultValue = "") String content
@@ -382,7 +382,7 @@ public class ArticleController {
         map.put("state", state);
         map.put("type",type);
         map.put("pageContent", pageDTO);
-        map.put("url", "/oa/article/selectlist.html");
+        map.put("url", "/oa/article/select/list.html");
         map.put("size", size);
         map.put("pass", pass);
         map.put("noPass", noPass);
@@ -543,13 +543,21 @@ public class ArticleController {
                              @RequestParam(value = "state", defaultValue = "1") Integer state,
                              @RequestParam(value = "type", defaultValue = "0") Integer type,
                              @RequestParam(value = "showState", defaultValue = "1") Integer showState,
-                             @RequestParam(value = "classifyId", defaultValue = "0") Integer classifyId
+                             @RequestParam(value = "classifyId", defaultValue = "0") Integer classifyId,
+                                 @RequestParam(value = "content", defaultValue = "") String content
     ){
         map.put("pageId",102);
         map.put("pageTitle","文章展示");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
-        PageDTO<ArticleDTO> pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type,classifyId);
-        System.out.println(pageDTO.getPageContent().get(0).getImgList()+"--------------");
+        PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
+        if ("".equals(content)){
+            pageDTO = articleService.findAllByShowAndStateAndType(pageRequest,showState,state,type,classifyId);
+        }else {
+            pageDTO = articleService.findAllByTitleOrkeywordsOrClassifyLikeAndStateAndType(pageRequest,"title",content,0,1);
+        }
+
+
+
         Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),type,classifyId);
         Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode(),type,classifyId);
         List<Classify> list = classifyService.findAllClassify();
@@ -562,6 +570,7 @@ public class ArticleController {
         map.put("size", size);
         map.put("showY", showY);
         map.put("showN", showN);
+        map.put("content",content);
         map.put("showState",showState);
         map.put("currentPage", page);
         return new ModelAndView("pages/article-show-list",map);

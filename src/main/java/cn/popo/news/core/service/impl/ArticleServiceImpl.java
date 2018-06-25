@@ -739,6 +739,8 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
+                    articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
+                    articleDTO.setAuditTime(GetTimeUtil.getDateFormat(l.getAuditTime()));
                     list.add(articleDTO);
                 });
             }

@@ -57,6 +57,25 @@
                         <div class="header bordered-sky">
                         ${pageTitle}
                         </div>
+                        <div class="search" method="get">
+                            <div style="float:left;margin-right:2px;">
+                                <div class="form-group">
+                                    <select name="search" id="search">
+                                        <option value="title">标题</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                            <span class="input-icon icon-right">
+                                                <input type="text" value="${content}" name="searchText" class="form-control"
+                                                       placeholder="搜索">
+                                                <i class="fa fa-search" onclick="selectList()"></i>
+                                            </span>
+                                </div>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <div class="checkbox" id="type">
@@ -260,6 +279,18 @@
     var carousel = {
         articleId: "",
         showState: ""
+    }
+
+
+    function selectList(){
+        var content = $("input[name='searchText']").val()
+        if (content == ""){
+            alert(123)
+        } else {
+            location = "/oa/article/showlist?content="+content
+        }
+
+
     }
 
     $("#show input[type=checkbox]").click(function () {
