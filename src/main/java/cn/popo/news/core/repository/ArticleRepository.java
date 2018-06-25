@@ -76,6 +76,8 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     //Page<ArticleInfo> findAllByUidAndStateAndShowStateAndDraft(Pageable pageable,String userId,Integer state, Integer showState,Integer draft);
     Page<ArticleInfo> findAllByClassifyIdAndStateAndShowStateAndDraft(Pageable pageable,Integer classify,Integer state, Integer showState,Integer draft);
 
+    Page<ArticleInfo> findAllByTypeIdAndStateAndShowStateAndDraftAndManageId(Pageable pageable,Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId);
+
     List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
             Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
 

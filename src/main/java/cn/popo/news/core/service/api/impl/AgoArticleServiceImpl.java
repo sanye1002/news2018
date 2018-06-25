@@ -281,6 +281,47 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     }
 
     /**
+     * 通过typeID查找文章
+     */
+    @Override
+    public PageDTO<ArticleVO> findAllArticleByTypeId(Pageable pageable, Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId) {
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+
+        Page<ArticleInfo> articleInfoPage = articleRepository.findAllByTypeIdAndStateAndShowStateAndDraftAndManageId(
+                pageable,typeId,state,showState,draft,manageId);
+
+        List<ArticleVO> list = new ArrayList<>();
+        Long time = System.currentTimeMillis();
+        if(articleInfoPage != null){
+            pageDTO.setTotalPages(articleInfoPage.getTotalPages());
+            if (!articleInfoPage.getContent().isEmpty()){
+                articleInfoPage.getContent().forEach(l->{
+                    ArticleVO indexVO = new ArticleVO();
+                    BeanUtils.copyProperties(l,indexVO);
+                    indexVO.setArticleId(l.getArticleId());
+                    indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+                    if(l.getImgUrl()!=null){
+                        indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                        indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
+                    }
+                    indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
+                    User user = userRepository.findOne(l.getUid());
+                    Author author = new Author();
+                    author.setAvatar(user.getAvatar());
+                    author.setName(user.getNikeName());
+                    author.setUserId(user.getUserId());
+                    indexVO.setAuthor(author);
+                    list.add(indexVO);
+                });
+            }
+        }
+        pageDTO.setPageContent(list);
+
+        return pageDTO;
+    }
+
+    /**
      * 模糊查询 （keywords）
      */
     @Override
