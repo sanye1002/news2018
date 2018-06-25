@@ -110,8 +110,8 @@ public class GetTimeUtil {
     }
     public static long getMonthDay(Integer day,Integer month) {
         Calendar calendar = Calendar.getInstance();// 获取当前日期
-        calendar.set(Calendar.MONTH, day);
-        calendar.set(Calendar.DAY_OF_MONTH, month-1);// 设置为1号,当前日期既为本月第一天
+        calendar.set(Calendar.MONTH, month-1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);// 设置为1号,当前日期既为本月第一天
         return calendar.getTimeInMillis()/1000;
     }
 

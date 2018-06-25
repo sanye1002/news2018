@@ -26,7 +26,7 @@ public class UserRealInfo {
     private IPStatisticsService ipStatisticsService;
 
     /**
-     * 分类列表显示
+     * ip存储访问量
      */
     @ResponseBody
     @GetMapping("/list")

@@ -26,7 +26,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
      */
     @Override
     public void saveIP(String ip, String util) {
-        IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIp(ip);
+        IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip).get(0);
         IPStatistics ipStatistics = new IPStatistics();
         long nowTime = System.currentTimeMillis()/1000;
         IpTime ipTime = new IpTime();
