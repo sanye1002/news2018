@@ -282,11 +282,15 @@ public class HomePageController {
                                                      @RequestParam(value = "size", defaultValue = "12") Integer size){
 
 
-        page = new Random().nextInt(50)+45;
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        List<ArticleVO> list = new ArrayList<>();
+        for (int i=0;i<6;i++){
+            page = new Random().nextInt(700)+300;
+            PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
+            list.addAll(articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO).getPageContent());
+        }
+        pageDTO.setPageContent(list);
         //文章
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("asc","auditTime"));
-        PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
-        Collections.shuffle(pageDTO.getPageContent());
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);
