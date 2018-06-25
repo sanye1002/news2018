@@ -182,6 +182,7 @@ public class ArticleController {
     @PostMapping("/save")
     @ResponseBody
     public ResultVO<Map<String, String>> save(@Valid ArticleForm articleForm){
+
         String key = articleForm.getKeywords();
         String title = articleForm.getTitle();
         String content = articleForm.getContent();
@@ -200,7 +201,12 @@ public class ArticleController {
                 return ResultVOUtil.error(100,"视频描述违规："+KeyWordFilter.checkWords(desc));
             }
         }
-        articleService.articleSave(articleForm);
+        if (articleService.findTitleIsSame(articleForm.getTitle())){
+            articleService.articleSave(articleForm);
+        }else {
+            return ResultVOUtil.error(100,"该文章已存在");
+        }
+
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

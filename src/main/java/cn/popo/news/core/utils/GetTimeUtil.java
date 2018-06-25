@@ -115,6 +115,17 @@ public class GetTimeUtil {
         return calendar.getTimeInMillis()/1000;
     }
 
+    public static long getBeforeSevenDay() {
+        Calendar c = Calendar.getInstance();
+        //过去七天
+        c.setTime(new Date());
+        c.add(Calendar.DATE, - 7);
+        return c.getTimeInMillis();
+    }
+
+    /*public static void main(String[] args) {
+
+    }*/
 
 }
 

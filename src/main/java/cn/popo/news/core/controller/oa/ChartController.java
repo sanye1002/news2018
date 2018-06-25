@@ -1,7 +1,9 @@
 package cn.popo.news.core.controller.oa;
 
 import cn.popo.news.core.dto.api.ReplyVO;
+import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.IPStatisticsService;
+import cn.popo.news.core.service.impl.ArticleServiceImpl;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
@@ -31,13 +33,18 @@ public class ChartController {
     @Autowired
     private IPStatisticsService ipStatisticsService;
 
+    @Autowired
+    private ArticleService articleService;
+
+
     /**
-     * 文章举报展示
+     * 访问量
      */
     @GetMapping("/index")
     public ModelAndView index(Map<String,Object> map,
                               @RequestParam(value = "month",defaultValue = "1") Integer month
     ){
+
 
         List<Integer> list = new ArrayList<>();
         for(int i=1;i<8;i++){
@@ -53,7 +60,7 @@ public class ChartController {
     }
 
     /**
-     * 文章举报展示
+     * 增加天数
      */
     @ResponseBody
     @PostMapping("/add/day")

@@ -51,112 +51,114 @@
             <!-- /Page Header -->
             <!-- Page Body -->
             <div class="page-body">
-            <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <div class="well with-header with-footer">
-                        <div class="header bordered-sky">
-                        ${pageTitle}
-                        </div>
-                        <div class="search" method="get">
-                            <div style="float:left;margin-right:2px;">
-                                <div class="form-group">
-                                    <select name="search" id="search">
-                                        <option value="title">标题</option>
-                                    </select>
-                                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="well with-header with-footer">
+                            <div class="header bordered-sky">
+                            ${pageTitle}
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
+                            <div class="search" method="get">
+                                <div style="float:left;margin-right:2px;">
+                                    <div class="form-group">
+                                        <select name="search" id="search">
+                                            <option value="title">标题</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
                                             <span class="input-icon icon-right">
-                                                <input type="text" value="${content}" name="searchText" class="form-control"
+                                                <input id="titleSearch" type="text" value="${content}" name="searchText"
+                                                       class="form-control"
                                                        placeholder="搜索">
                                                 <i class="fa fa-search" onclick="selectList()"></i>
                                             </span>
+                                    </div>
                                 </div>
+                                <div style="clear: both;"></div>
                             </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <div class="checkbox" id="type">
-                                    <span>类型：</span>
-                                    <label>
-                                        <input type="checkbox" class="colored-blue" value="1"
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="checkbox" id="type">
+                                        <span>类型：</span>
+                                        <label>
+                                            <input type="checkbox" class="colored-blue" value="1"
                                                    <#if type==1>checked</#if>>
-                                        <span class="text">图文</span>
-                                    </label>
-                                    <label id="abc">
-                                        <input type="checkbox" class="colored-blue" value="2"
+                                            <span class="text">图文</span>
+                                        </label>
+                                        <label id="abc">
+                                            <input type="checkbox" class="colored-blue" value="2"
                                                    <#if type==2>checked</#if>>
-                                        <span class="text">多图</span>
-                                    </label>
-                                    <label id="abc">
-                                        <input type="checkbox" class="colored-blue" value="3"
+                                            <span class="text">多图</span>
+                                        </label>
+                                        <label id="abc">
+                                            <input type="checkbox" class="colored-blue" value="3"
                                                    <#if type==3>checked</#if>>
-                                        <span class="text">视频</span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" value="0" class="colored-danger"
+                                            <span class="text">视频</span>
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" value="0" class="colored-danger"
                                                    <#if type==0>checked</#if>>
-                                        <span class="text">全部</span>
-                                    </label>
+                                            <span class="text">全部</span>
+                                        </label>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="float:right;margin-right:2px;">
+                            <div style="float:right;margin-right:2px;">
 
-                            <div class="form-group">
-                                <select id="selectType">
-                                    <option value="1" <#if showState==1>selected</#if> >已展示 <span
-                                            class="badge">${showY}</span></option>
-                                    <option value="0" <#if showState==0>selected</#if> >未展示 <span
-                                            class="badge">${showN}</span></option>
-                                </select>
+                                <div class="form-group">
+                                    <select id="selectType">
+                                        <option value="1" <#if showState==1>selected</#if> >已展示 <span
+                                                class="badge">${showY}</span></option>
+                                        <option value="0" <#if showState==0>selected</#if> >未展示 <span
+                                                class="badge">${showN}</span></option>
+                                    </select>
+                                </div>
+
                             </div>
+                            <div style="float:right;margin-right:2px;">
 
-                        </div>
-                        <div style="float:right;margin-right:2px;">
-
-                            <div class="form-group">
-                                <select id="classifySelectType">
-                                    <option value="0" <#if classifyId == 0>selected</#if>>全部</option>
+                                <div class="form-group">
+                                    <select id="classifySelectType">
+                                        <option value="0" <#if classifyId == 0>selected</#if>>全部</option>
                                     <#list classify as c>
                                         <option value="${c.getId()}" <#if c.getId() ==classifyId >selected</#if>>
                                             ${c.getClassify()}</option>
                                     </#list>
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="table-scrollable">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>标题</th>
-                                    <th>发布时间</th>
-                                    <th>审核通过时间</th>
-                                    <th>关键字</th>
-                                    <th>类型</th>
-                                    <th>分类</th>
-                                    <th>审核状态</th>
-                                    <th>内容与图片</th>
-                                    <th>展示</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                            <div class="table-scrollable">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>发布时间</th>
+                                        <th>审核通过时间</th>
+                                        <th>关键字</th>
+                                        <th>类型</th>
+                                        <th>分类</th>
+                                        <th>审核状态</th>
+                                        <th>内容与图片</th>
+                                        <th>展示</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                 <#list pageContent.getPageContent() as p>
                                 <tr id="${p.getArticleId()}">
                                     <td>${p.getTitle()}</td>
                                     <td>${p.getTime()}</td>
                                     <td>${p.getAuditTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
-                                    <#--<div id="content${p.getArticleId()}" style="display: none">
-                                            ${p.getContent()}
-                                    </div>-->
+                                <#--<div id="content${p.getArticleId()}" style="display: none">
+                                        ${p.getContent()}
+                                </div>-->
                                     <div id="video${p.getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
-                                                <video preload="none"  style="max-height: 700px" src="${p.getContent()}" controls="controls" >
+                                                <video preload="none" style="max-height: 700px" src="${p.getContent()}"
+                                                       controls="controls">
 
                                                 </video>
                                             </div>
@@ -167,25 +169,34 @@
                                     <td>${p.getClassify()}</td>
                                     <td>
                                         <#if p.getState()==1>
-                                                已通过
+                                            已通过
                                         </#if>
                                     </td>
                                     <td>
 
                                         <#if p.getTypeId()==1>
-                                            <a class="btn btn-info btn-xs" onclick="showContent('${p.getArticleId()}')"><i class="fa fa-pencil"></i>
+                                            <a class="btn btn-info btn-xs" onclick="showContent('${p.getArticleId()}')"><i
+                                                    class="fa fa-pencil"></i>
                                                 内容</a>
-                                            <a class="btn btn-info btn-xs" onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i class="fa fa-picture-o"></i>
+                                            <a class="btn btn-info btn-xs"
+                                               onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i
+                                                    class="fa fa-picture-o"></i>
                                                 封面图</a>
                                         </#if>
                                         <#if p.getTypeId()==2>
-                                            <a class="btn btn-info btn-xs" onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i class="fa fa-pencil"></i>
+                                            <a class="btn btn-info btn-xs"
+                                               onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i
+                                                    class="fa fa-pencil"></i>
                                                 内容</a>
                                         </#if>
                                         <#if p.getTypeId()==3>
-                                            <a class="btn btn-info btn-xs" onclick="showVedio('${p.getArticleId()}',${p.getTypeId()})"><i class="fa fa-caret-square-o-right"></i>
+                                            <a class="btn btn-info btn-xs"
+                                               onclick="showVedio('${p.getArticleId()}',${p.getTypeId()})"><i
+                                                    class="fa fa-caret-square-o-right"></i>
                                                 视频</a>
-                                        <a class="btn btn-info btn-xs" onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i class="fa fa-picture-o"></i>
+                                        <a class="btn btn-info btn-xs"
+                                           onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i
+                                                class="fa fa-picture-o"></i>
                                             封面图</a>
                                         </#if>
                                     </td>
@@ -199,19 +210,23 @@
                                     </td>
                                 </tr>
                                 </#list>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
 
 
-                        <div class="margin-top-30 text-align-right">
-                            <div class="next">
-                                <ul class="pagination">
-                                    <li><a href="${url}?page=1&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">首页</a></li>
+                            <div class="margin-top-30 text-align-right">
+                                <div class="next">
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="${url}?page=1&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">首页</a>
+                                        </li>
                                             <#if currentPage lte 1>
                                                 <li class="disabled"><a>上一页</a></li>
                                             <#else>
-                                                <li><a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">上一页</a></li>
+                                                <li>
+                                                    <a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">上一页</a>
+                                                </li>
 
                                             </#if>
 
@@ -220,7 +235,9 @@
                                                        <#if currentPage == index >
                          <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                        <li><a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a></li>
+                        <li>
+                            <a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a>
+                        </li>
                                                        </#if>
                                                    </#list>
                                                <#elseif currentPage lte 3>
@@ -228,7 +245,9 @@
                                                        <#if currentPage == index >
                          <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                        <li><a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a></li>
+                        <li>
+                            <a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a>
+                        </li>
                                                        </#if>
                                                    </#list>
                                                <#elseif  currentPage gt 3 && currentPage lte pageContent.getTotalPages()-2>
@@ -236,7 +255,9 @@
                                                        <#if currentPage == index >
                                 <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                                <li><a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a></li>
+                                <li>
+                                    <a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a>
+                                </li>
                                                        </#if>
                                                    </#list>
                                                <#elseif  currentPage gt pageContent.getTotalPages()-2>
@@ -244,7 +265,9 @@
                                                        <#if currentPage == index >
                                 <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                                <li><a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a></li>
+                                <li>
+                                    <a href="${url}?page=${index}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">${index}</a>
+                                </li>
                                                        </#if>
                                                    </#list>
                                                </#if>
@@ -253,18 +276,20 @@
                                                 <#if currentPage gte pageContent.getTotalPages()>
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
-                                                    <li><a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">下一页</a></li>
+                                                    <li>
+                                                        <a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&showState=${showState}&classifyId=${classifyId}">下一页</a>
+                                                    </li>
                                                 </#if>
-                                    <li>
-                                        <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&showState=${showState}&classifyId=${classifyId}">尾页</a>
-                                    </li>
-                                </ul>
+                                        <li>
+                                            <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&showState=${showState}&classifyId=${classifyId}">尾页</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
             <!-- /Page Body -->
         </div>
     </div>
@@ -282,16 +307,23 @@
     }
 
 
-    function selectList(){
+    function selectList() {
         var content = $("input[name='searchText']").val()
-        if (content == ""){
-            alert(123)
-        } else {
-            location = "/oa/article/showlist?content="+content
-        }
 
+        location = "/oa/article/showlist?content=" + content
 
     }
+
+
+    $("document").ready(function() {
+        $("#titleSearch").keydown(function(e){
+            var ev = document.all ? window.event : e;
+            if(ev.keyCode==13) {
+                selectList();//处理事件
+            }
+        })
+    });
+
 
     $("#show input[type=checkbox]").click(function () {
         //判断是否选中
@@ -307,12 +339,13 @@
             update()
         }
     })
+
     function update() {
         var resultType = $("#type input[type=checkbox]:checked").val()
         var showF = 0
-        if(carousel.showState == 0){
+        if (carousel.showState == 0) {
             showF = 1
-        }else {
+        } else {
             showF = 0
         }
         $.post(
@@ -323,11 +356,11 @@
                 },
                 function (data) {
                     if (data.code == 0) {
-                        var url =  window.location.pathname;
+                        var url = window.location.pathname;
                         var search = window.location.search;
                         layer.msg(data.message);
                         setTimeout(function () {
-                            location = url+search
+                            location = url + search
                             // location = "/oa/article/showlist?type=" +resultType+ "&showState=" + showF
                         }, 100)
                     } else {
@@ -339,14 +372,12 @@
     }
 
 
-
-
     //展示与未展示切换
-    $("#selectType").change(function(){
+    $("#selectType").change(function () {
         var showState = $(this).val()
         var resultType = $("#type input[type=checkbox]:checked").val()
         var classifyId = $("#classifySelectType").val();
-        location = "/oa/article/showlist?type="+resultType+"&showState="+showState+"&classifyId="+classifyId
+        location = "/oa/article/showlist?type=" + resultType + "&showState=" + showState + "&classifyId=" + classifyId
     });
 
 
@@ -355,15 +386,15 @@
         var showState = $("#selectType option:selected").val()
         var resultType = $(this).val()
         var classifyId = $("#classifySelectType").val();
-        location = "/oa/article/showlist.html?state=" + STATE+"&type=" + resultType + "&showState=" +showState+"&classifyId="+classifyId
+        location = "/oa/article/showlist.html?state=" + STATE + "&type=" + resultType + "&showState=" + showState + "&classifyId=" + classifyId
     })
 
     //分类切换
-    $("#classifySelectType").change(function(){
+    $("#classifySelectType").change(function () {
         var showState = $("#selectType option:selected").val()
         var resultType = $("#type input[type=checkbox]:checked").val()
         var classifyId = $("#classifySelectType").val();
-        location = "/oa/article/showlist?type="+resultType+"&state="+STATE+"&classifyId="+classifyId+ "&showState=" +showState
+        location = "/oa/article/showlist?type=" + resultType + "&state=" + STATE + "&classifyId=" + classifyId + "&showState=" + showState
     });
 
 
@@ -392,19 +423,19 @@
     }
 
     //相册层
-    function showImgs(id,type) {
+    function showImgs(id, type) {
         // console.log(id)
-        $.getJSON('/layer/article?id='+id+'&type='+type, function(json){
+        $.getJSON('/layer/article?id=' + id + '&type=' + type, function (json) {
             layer.photos({
                 photos: json
-                ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+                , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
             });
         });
     }
 
     function showVedio(id) {
         //页面层
-        var video = $("#video"+id).html();
+        var video = $("#video" + id).html();
         layer.open({
             type: 1,
             skin: 'layui-layer-lan', //加上边框

@@ -23,6 +23,7 @@ import cn.popo.news.core.utils.ShiroGetSession;
 import cn.popo.news.core.utils.SplitUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.Roman;
+import org.apache.poi.ss.formula.ptg.AreaI;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -927,4 +928,24 @@ public class ArticleServiceImpl implements ArticleService {
             l.setLookNum(new Random().nextInt(450)+50);
         });
     }
+
+
+    /**
+     * 对比七日之内是否有title相同的文章
+     */
+    @Override
+    public boolean findTitleIsSame(String title) {
+        Long time = GetTimeUtil.getBeforeSevenDay();
+
+        ArticleInfo articleInfo =  articleRepository.findByTitleAndCrateTimeAfter(title,time);
+        System.out.println(articleInfo);
+
+        if (articleInfo!=null){
+            return false;
+        }
+
+        return true;
+    }
+
+
 }

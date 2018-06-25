@@ -84,5 +84,7 @@ public interface ArticleService {
 
     void addDefaultLookNum();
 
+    boolean findTitleIsSame(String title);
+
 
 }
