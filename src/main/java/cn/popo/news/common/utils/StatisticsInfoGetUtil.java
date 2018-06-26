@@ -117,7 +117,6 @@ public class StatisticsInfoGetUtil {
             //电脑
             visitUitl = "computer";
         }
-        System.out.println(visitUitl);
         return visitUitl;
     }
 

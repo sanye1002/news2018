@@ -26,7 +26,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
      */
     @Override
     public void saveIP(String ip, String util) {
-        IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip).get(0);
+        IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip);
         IPStatistics ipStatistics = new IPStatistics();
         long nowTime = System.currentTimeMillis()/1000;
         IpTime ipTime = new IpTime();
@@ -40,9 +40,8 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
             long timesMorning = GetTimeUtil.getTimesmorning();
             long time = ipStatisticsTemp.getNewestTime();
             if (time<timesMorning) {
-
+                ipStatisticsTemp.setNewestTime(nowTime);
                 ipTimeRepository.save(ipTime);
-                ipStatisticsRepository.save(ipStatistics);
             }else {
                 ipStatisticsTemp.setNewestTime(nowTime);
             }

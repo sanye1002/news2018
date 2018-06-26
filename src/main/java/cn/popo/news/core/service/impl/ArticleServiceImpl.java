@@ -420,7 +420,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void updateArticleSpecialByArticleId(String articleId,Integer typeId) {
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
         List<ArticleInfo> list = articleRepository.findAllByManageIdAndTypeIdAndRecommendStateOrderByAuditTimeAsc(1,typeId,1);
-        if (list.size()==20){
+        if (list.size()>=20){
             updateArticleManage(list.get(0).getArticleId(),100);
         }
         articleInfo.setManageId(ResultEnum.PARAM_NULL.getCode());

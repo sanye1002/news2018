@@ -64,9 +64,9 @@
                 </div>
                 <br>
                 <br>
-                <#--<button id="randomizeData">Randomize Data</button>
-                <button id="addDataset">Add Dataset</button>
-                <button id="removeDataset">Remove Dataset</button>-->
+            <#--<button id="randomizeData">Randomize Data</button>
+            <button id="addDataset">Add Dataset</button>
+            <button id="removeDataset">Remove Dataset</button>-->
                 <button id="addData">Add Data</button>
                 <button id="removeData">Remove Data</button>
                 <button id="nextMonth">Next Month</button>
@@ -83,7 +83,7 @@
 <script>
     // var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var DAY = ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号', '13号', '14号', '15号', '16号', '17号', '18号', '19号',
-        '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号'];
+        '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号', '31号', '32号'];
 
     var month = ${month}
 
@@ -110,7 +110,7 @@
             responsive: true,
             title: {
                 display: true,
-                text: month+'月访问量'
+                text: month + '月访问量'
             },
             tooltips: {
                 mode: 'index',
@@ -153,17 +153,17 @@
     };
 
     document.getElementById('upMonth').addEventListener('click', function () {
-        if(month>1){
-            month = month-1
-            location = "/oa/chart/index?month="+month
+        if (month > 1) {
+            month = month - 1
+            location = "/oa/chart/index?month=" + month
         }
 
     });
 
     document.getElementById('nextMonth').addEventListener('click', function () {
-        if(month<12){
-            month = month+1
-            location = "/oa/chart/index?month="+month
+        if (month < 12) {
+            month = month + 1
+            location = "/oa/chart/index?month=" + month
         }
 
     });
@@ -200,32 +200,37 @@
 
     document.getElementById('addData').addEventListener('click', function () {
 
+        var year = 2018; //表示需要查找的年份
+        var curMonthDays = new Date(year, month, 0).getDate(); //0表示3月的第0天，上月的最后一天,月份从0开始记数
+        console.log('查找的月份共有' + curMonthDays + "天");
+
         var day = DAY[config.data.labels.length % DAY.length];
-        config.data.labels.push(day);
-         day = day.split("号");
+        day = day.split("号");
 
-        $.post(
-                "/oa/chart/add/day",
-                {
-                    day: day[0],
-                    month:month
-                },
-                function (data) {
-                    if (data.code == 0) {
-                        if (config.data.datasets.length > 0) {
-                            config.data.datasets.forEach(function (dataset) {
-                                dataset.data.push(data.data.dayValue);
-                            });
+        if (parseInt(day[0]) <= parseInt(curMonthDays)) {
+
+            config.data.labels.push(day[0]+"号");
+            $.post(
+                    "/oa/chart/add/day",
+                    {
+                        day: day[0],
+                        month: month
+                    },
+                    function (data) {
+                        if (data.code == 0) {
+                            if (config.data.datasets.length > 0) {
+                                config.data.datasets.forEach(function (dataset) {
+                                    dataset.data.push(data.data.dayValue);
+                                });
+                            }
+                            window.myLine.update();
                         }
-                        window.myLine.update();
+                        if (data.code > 0) {
+                            layer.msg(data.message);
+                        }
                     }
-                    if (data.code > 0) {
-                        layer.msg(data.message);
-                    }
-                }
-        )
-
-
+            )
+        }
 
 
     });

@@ -2,6 +2,7 @@ package cn.popo.news.core.controller.api;
 
 import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.RedisOperator;
+import cn.popo.news.core.controller.oa.UserRealInfo;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -53,6 +55,9 @@ public class HomePageController {
 
     @Autowired
     private LogoService logoService;
+
+    @Autowired
+    private UserRealInfo userRealInfo;
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
@@ -112,7 +117,9 @@ public class HomePageController {
      */
     @PostMapping("/slide")
     @ResponseBody
-    public ResultVO<Map<String,Object>> slide(Map<String,Object> map){
+    public ResultVO<Map<String,Object>> slide(Map<String,Object> map,HttpServletRequest httpServletRequest){
+
+        userRealInfo.allClassify(httpServletRequest);
 
         //轮播图
         List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
@@ -273,7 +280,7 @@ public class HomePageController {
     /**
      * @param page size
      * @return  List<article>
-     * @desc 首页上拉刷新
+     * @desc 首页随机刷新
      */
     @PostMapping("/random/article")
     @ResponseBody
@@ -382,7 +389,7 @@ public class HomePageController {
     /**
      * @param page size
      * @return  List<article>
-     * @desc 首页刷新按时间
+     * @desc 各类型文章
      */
     @PostMapping("/type/article")
     @ResponseBody
