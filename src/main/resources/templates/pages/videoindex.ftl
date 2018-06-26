@@ -150,7 +150,7 @@
                                 <div class="col-sm-12 WA">
                                     <div class="form-title">视频</div>
                                     <div class="col-sm-12">
-                                        <div class="form-title">视频<span>大小：20M以下</span></div>
+                                        <div class="form-title">视频<span>大小：100M以下</span></div>
                                         <div class="layui-upload">
                                             <input id="imgId" value="" style="display: none">
                                             <button type="button" class="layui-btn" id="image-select">
@@ -249,7 +249,7 @@
                 , url: '/oa/upload/mp4/${user.getUserId()}'
                 , auto: false
                 , multiple: false
-                , size: 20480
+                , size: 102400
                 , accept:"video"
                 , acceptMime: 'video'
                 , bindAction: '#image-upload'

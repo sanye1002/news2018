@@ -14,8 +14,8 @@ spring:
         ddl-auto: update
   http:
     multipart:
-      max-request-size: 25MB
-      max-file-size: 25MB
+      max-request-size: 100MB
+      max-file-size: 100MB
   freemarker:
     settings:
       number_format: 0.##
@@ -34,7 +34,7 @@ upload:
   waterMarkPath: D:\xiaoxin\water.png
 server:
   port: 8888
-  address: news.cdrysj.com
+  #address: news.cdrysj.com
 ffmpeg:
   exePath: D:\Program Files\ffmpeg\bin\ffmpeg.exe
   waterPath: D:\Program Files\waterPath\water.png

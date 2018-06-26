@@ -192,7 +192,12 @@ public class UploadUtil {
                 WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
             }
 
-            return "http://p0.cdrysj.com/p0/read/img/" + type + "/" + fileName;
+            try {
+                new QiniuUpload().uploadFile(saveFile,"po/read/img/" + type + "/" + fileName);
+            } catch (IOException e) {
+                log.info("【上传】={}", "error");
+            }
+            return "http://p0.cdrysj.com/po/read/img/" + type + "/" + fileName;
 
         } catch (IOException e) {
             e.printStackTrace();
