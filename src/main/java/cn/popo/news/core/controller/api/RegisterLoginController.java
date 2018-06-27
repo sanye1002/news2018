@@ -98,7 +98,8 @@ public class RegisterLoginController {
                                                   @RequestParam(value = "password") @ApiParam(value = "手机密码", required = true) String password) {
         return loginService.register(request, response, phone, code, password);
     }
-    @PostMapping("/oauthQQ")
+
+    @PostMapping("/oauth/qq")
     @ApiOperation(value = "QQ第三方登录", notes = "QQ第三方登录，QQAccessToken、QQOpenID，来获取用户信息")
     public ResultVO<Map<String, Object>> oauthQQ(HttpServletRequest request, HttpServletResponse response,
                                                   @RequestParam(value = "QQAccessToken") @ApiParam(value = "QQAccessToken", required = true) String QQAccessToken,

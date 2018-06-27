@@ -269,12 +269,12 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
 
     @Override
     public Boolean QQLogin(String accessToken, String openID) {
-        User user = userRepository.findByQQOpenIDAndQQAccessToken(accessToken, openID);
+        User user = userRepository.findByQqOpenIDAndQqAccessToken(accessToken, openID);
         if (user == null) {
             UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
             user = new User();
-            user.setQQAccessToken(accessToken);
-            user.setQQOpenID(openID);
+            user.setQqAccessToken(accessToken);
+            user.setQqOpenID(openID);
             UserInfoBean userInfo = null;
             try {
                 userInfo = qzoneUserInfo.getUserInfo();
@@ -303,7 +303,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     @Override
     public ResultVO<Map<String, Object>> oauthQQ(HttpServletRequest request, HttpServletResponse response, String QQAccessToken, String QQOpenID) {
         Map<String, Object> map = new HashMap<>();
-        User user = userRepository.findByQQOpenIDAndQQAccessToken(QQOpenID,QQAccessToken);
+        User user = userRepository.findByQqOpenIDAndQqAccessToken(QQOpenID,QQAccessToken);
         if (user==null){
            return ResultVOUtil.error(403,"授权失效~");
         }

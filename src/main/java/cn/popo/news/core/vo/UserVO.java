@@ -104,7 +104,7 @@ public class UserVO {
 
     private String aliPay;//支付宝
 
-    private String QQAccessToken;
+    private String qqAccessToken;
 
-    private String QQOpenID;
+    private String qqOpenID;
 }

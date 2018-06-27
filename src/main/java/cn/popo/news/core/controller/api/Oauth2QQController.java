@@ -60,7 +60,7 @@ public class Oauth2QQController {
                 UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
                 UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
                 String name = userInfoBean.getNickname();
-                return new ModelAndView("redirect:http://www.immnc.com?QQOpenID="+openID+"&QQAccessToken="+accessToken);
+                return new ModelAndView("redirect:http://www.immnc.com/#/otherLogin?QQOpenID="+openID+"&QQAccessToken="+accessToken);
             }
 
         }catch(Exception e){
