@@ -103,4 +103,8 @@ public class UserVO {
     private String bankUserName;//开户姓名
 
     private String aliPay;//支付宝
+
+    private String QQAccessToken;
+
+    private String QQOpenID;
 }

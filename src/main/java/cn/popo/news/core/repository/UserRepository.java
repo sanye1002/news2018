@@ -31,4 +31,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     User findAllByNikeName(String nikename);
 
+    User findByQQOpenIDAndQQAccessToken(String OpenID,String accessToken);
+
 }

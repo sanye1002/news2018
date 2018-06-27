@@ -106,6 +106,10 @@ public class User implements Serializable {
 
     private String aliPay;//支付宝
 
+    private String QQAccessToken;
+
+    private String QQOpenID;
+
 
 
 }

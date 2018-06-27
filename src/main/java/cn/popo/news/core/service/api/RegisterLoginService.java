@@ -114,6 +114,9 @@ public interface RegisterLoginService {
 
     Boolean checkPhone(String phone);
 
+    Boolean QQLogin(String accessToken,String openID);
+
+    ResultVO<Map<String,Object>> oauthQQ(HttpServletRequest request,HttpServletResponse response,String QQAccessToken,String QQOpenID);
 
 
 

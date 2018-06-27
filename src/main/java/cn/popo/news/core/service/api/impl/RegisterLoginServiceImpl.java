@@ -6,12 +6,16 @@ import cn.popo.news.common.utils.RedisOperator;
 import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.enums.ResultEnum;
+import cn.popo.news.core.exception.APIException;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.RegisterLoginService;
 import cn.popo.news.core.utils.*;
 import cn.popo.news.core.vo.ResultVO;
 import cn.popo.news.core.vo.UserVO;
 import com.google.gson.Gson;
+import com.qq.connect.QQConnectException;
+import com.qq.connect.api.qzone.UserInfo;
+import com.qq.connect.javabeans.qzone.UserInfoBean;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -258,6 +262,58 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     public Boolean checkPhone(String phone) {
         User user = userRepository.findByPhone(phone);
         if (user == null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean QQLogin(String accessToken, String openID) {
+        User user = userRepository.findByQQOpenIDAndQQAccessToken(accessToken, openID);
+        if (user == null) {
+            UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
+            user = new User();
+            user.setQQAccessToken(accessToken);
+            user.setQQOpenID(openID);
+            UserInfoBean userInfo = null;
+            try {
+                userInfo = qzoneUserInfo.getUserInfo();
+            } catch (QQConnectException e) {
+
+                e.printStackTrace();
+                return false;
+            }
+            String nickName = userInfo.getNickname();
+            while (!checkNickName(nickName)) {
+                nickName = userInfo.getNickname() + (int) (1 + Math.random() * (10 - 1 + 1));
+            }
+            user.setNikeName(nickName);
+            user.setName(nickName);
+            user.setAvatar(userInfo.getAvatar().getAvatarURL50());
+            user.setCreateDate(GetTimeUtil.getTime());
+            user.setUpdateDate(GetTimeUtil.getTime());
+            user.setUserType("1");
+            user.setUserId(KeyUtil.genUniqueKey());
+            user.setStatus(1);
+            userRepository.save(user);
+        }
+        return true;
+    }
+
+    @Override
+    public ResultVO<Map<String, Object>> oauthQQ(HttpServletRequest request, HttpServletResponse response, String QQAccessToken, String QQOpenID) {
+        Map<String, Object> map = new HashMap<>();
+        User user = userRepository.findByQQOpenIDAndQQAccessToken(QQOpenID,QQAccessToken);
+        if (user==null){
+           return ResultVOUtil.error(403,"授权失效~");
+        }
+        map.put("message", "登录成功");
+        map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, user));
+        return ResultVOUtil.success(map);
+    }
+
+    private Boolean checkNickName(String nickName){
+        if (userRepository.findAllByNikeName(nickName) == null){
             return true;
         }
         return false;
