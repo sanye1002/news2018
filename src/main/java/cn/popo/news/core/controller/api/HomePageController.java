@@ -2,6 +2,8 @@ package cn.popo.news.core.controller.api;
 
 import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.RedisOperator;
+import cn.popo.news.common.utils.StatisticsInfoGetUtil;
+import cn.popo.news.common.utils.ToolUtil;
 import cn.popo.news.core.controller.oa.UserRealInfo;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
@@ -11,6 +13,7 @@ import cn.popo.news.core.entity.common.Logo;
 import cn.popo.news.core.entity.common.SearchWords;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
+import cn.popo.news.core.service.IPStatisticsService;
 import cn.popo.news.core.service.LogoService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoPersonalService;
@@ -57,7 +60,7 @@ public class HomePageController {
     private LogoService logoService;
 
     @Autowired
-    private UserRealInfo userRealInfo;
+    private IPStatisticsService ipStatisticsService;
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
@@ -119,7 +122,7 @@ public class HomePageController {
     @ResponseBody
     public ResultVO<Map<String,Object>> slide(Map<String,Object> map,HttpServletRequest httpServletRequest){
 
-        userRealInfo.allClassify(httpServletRequest);
+        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
 
         //轮播图
         List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);

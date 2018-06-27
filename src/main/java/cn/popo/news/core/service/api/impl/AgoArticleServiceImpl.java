@@ -298,6 +298,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleVO indexVO = new ArticleVO();
                     BeanUtils.copyProperties(l,indexVO);
+                    if (l.getTypeId()!=3){
+                        indexVO.setContent("");
+                    }
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
