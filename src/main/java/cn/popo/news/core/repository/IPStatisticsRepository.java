@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IPStatisticsRepository extends JpaRepository<IPStatistics,String> {
+public interface IPStatisticsRepository extends JpaRepository<IPStatistics,Integer> {
     IPStatistics findAllByIpOrderByNewestTimeDesc(String ip);
 }

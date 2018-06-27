@@ -123,7 +123,6 @@ public class HomePageController {
     public ResultVO<Map<String,Object>> slide(Map<String,Object> map,HttpServletRequest httpServletRequest){
 
         ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
-
         //轮播图
         List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
         map.put("slideContent",slide);
