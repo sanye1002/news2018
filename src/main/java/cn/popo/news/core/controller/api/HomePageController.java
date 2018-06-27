@@ -59,8 +59,6 @@ public class HomePageController {
     @Autowired
     private LogoService logoService;
 
-    @Autowired
-    private IPStatisticsService ipStatisticsService;
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
@@ -120,9 +118,8 @@ public class HomePageController {
      */
     @PostMapping("/slide")
     @ResponseBody
-    public ResultVO<Map<String,Object>> slide(Map<String,Object> map,HttpServletRequest httpServletRequest){
+    public ResultVO<Map<String,Object>> slide(Map<String,Object> map){
 
-        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
         //轮播图
         List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
         map.put("slideContent",slide);
