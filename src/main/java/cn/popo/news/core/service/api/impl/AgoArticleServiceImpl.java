@@ -298,8 +298,8 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleVO indexVO = new ArticleVO();
                     BeanUtils.copyProperties(l,indexVO);
-                    if (l.getTypeId()!=3){
-                        indexVO.setContent("");
+                    if (l.getTypeId()==3){
+                        indexVO.setVideo(l.getContent());
                     }
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());

@@ -40,6 +40,6 @@ public class ArticleVO implements Serializable {
 
     private Integer collectId;
 
-    private String content;
+    private String video;
 
 }
