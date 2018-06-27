@@ -69,7 +69,7 @@ public class ChartController {
             @RequestParam(value = "month") Integer month
     ){
         Map<String,Object> map  = new HashMap<>();
-        System.out.println(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
+//        System.out.println(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
         Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
         map.put("dayValue",num);
         return ResultVOUtil.success(map);
