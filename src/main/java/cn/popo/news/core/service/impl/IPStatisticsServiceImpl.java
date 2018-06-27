@@ -28,7 +28,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     public void saveIP(String ip, String util) {
         IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip);
         IPStatistics ipStatistics = new IPStatistics();
-        long nowTime = System.currentTimeMillis()/1000;
+        Long nowTime = System.currentTimeMillis()/1000;
         IpTime ipTime = new IpTime();
         ipTime.setIp(ip);
         ipTime.setTime(GetTimeUtil.getZeroDateFormat(nowTime));
@@ -49,9 +49,6 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
             ipTimeRepository.save(ipTime);
             ipStatisticsRepository.save(ipStatistics);
         }
-
-
-
 
 
     }
