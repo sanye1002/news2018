@@ -107,4 +107,7 @@ public class UserVO {
     private String qqAccessToken;
 
     private String qqOpenID;
+
+    private String weChatOpenID;
+
 }

@@ -110,6 +110,8 @@ public class User implements Serializable {
 
     private String qqOpenID;
 
+    private String weChatOpenID;
+
 
 
 }

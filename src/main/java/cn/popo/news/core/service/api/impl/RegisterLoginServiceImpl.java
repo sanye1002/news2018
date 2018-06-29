@@ -268,7 +268,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     }
 
     @Override
-    public Boolean QQLogin(String accessToken, String openID) {
+    public User QQLogin(String accessToken, String openID) {
         User user = userRepository.findByQqOpenIDAndQqAccessToken(accessToken, openID);
         if (user == null) {
             UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
@@ -281,7 +281,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
             } catch (QQConnectException e) {
 
                 e.printStackTrace();
-                return false;
+                return null;
             }
             String nickName = userInfo.getNickname();
             while (!checkNickName(nickName)) {
@@ -289,15 +289,16 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
             }
             user.setNikeName(nickName);
             user.setName(nickName);
-            user.setAvatar(userInfo.getAvatar().getAvatarURL50());
+            user.setAvatar("/read/img/user/model.png");
+            //user.setAvatar(userInfo.getAvatar().getAvatarURL100());
             user.setCreateDate(GetTimeUtil.getTime());
             user.setUpdateDate(GetTimeUtil.getTime());
             user.setUserType("1");
             user.setUserId(KeyUtil.genUniqueKey());
             user.setStatus(1);
-            userRepository.save(user);
+            return userRepository.save(user);
         }
-        return true;
+        return user;
     }
 
     @Override
@@ -305,7 +306,40 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
         Map<String, Object> map = new HashMap<>();
         User user = userRepository.findByQqOpenIDAndQqAccessToken(QQOpenID,QQAccessToken);
         if (user==null){
-           return ResultVOUtil.error(403,"授权失效~");
+            User qquser = QQLogin(QQAccessToken,QQOpenID);
+            if (qquser==null){
+                return ResultVOUtil.error(403,"授权失效~");
+            }
+            map.put("message", "登录成功");
+            map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, qquser));
+            return ResultVOUtil.success(map);
+
+        }
+        map.put("message", "登录成功");
+        map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, user));
+        return ResultVOUtil.success(map);
+    }
+
+    @Override
+    public ResultVO<Map<String, Object>> oauthWeChat(HttpServletRequest request, HttpServletResponse response, String weChatOpenId) {
+        User user = userRepository.findByWeChatOpenID(weChatOpenId);
+        Map<String, Object> map = new HashMap<>();
+        if (user == null) {
+            user = new User();
+            String nickName = "微信用户"+KeyUtil.genUniqueKey();
+            user.setNikeName(nickName);
+            user.setName(nickName);
+            user.setWeChatOpenID(weChatOpenId);
+            user.setAvatar("/read/img/user/model.png");
+            //user.setAvatar(userInfo.getAvatar().getAvatarURL100());
+            user.setCreateDate(GetTimeUtil.getTime());
+            user.setUpdateDate(GetTimeUtil.getTime());
+            user.setUserType("1");
+            user.setUserId(KeyUtil.genUniqueKey());
+            user.setStatus(1);
+            map.put("message", "登录成功");
+            map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, userRepository.save(user)));
+            return ResultVOUtil.success(map);
         }
         map.put("message", "登录成功");
         map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, user));

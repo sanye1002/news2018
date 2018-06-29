@@ -40,6 +40,9 @@ ffmpeg:
   waterPath: D:\Program Files\waterPath\water.png
 nginx:
   static_url: localhost:8081
+wechat:
+  openAppId: wxa5ae5e9df201554a
+  openAppSecret: 51003bc17930ac0d6dd654eb73193f2c
 
 
 

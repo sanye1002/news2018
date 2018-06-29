@@ -33,4 +33,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     User findByQqOpenIDAndQqAccessToken(String OpenID,String accessToken);
 
+    User findByWeChatOpenID(String weChatOpenId);
+
 }

@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.api;
 
+import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.vo.ResultVO;
 import cn.popo.news.core.vo.UserVO;
 
@@ -114,11 +115,11 @@ public interface RegisterLoginService {
 
     Boolean checkPhone(String phone);
 
-    Boolean QQLogin(String accessToken,String openID);
+    User QQLogin(String accessToken, String openID);
 
     ResultVO<Map<String,Object>> oauthQQ(HttpServletRequest request,HttpServletResponse response,String QQAccessToken,String QQOpenID);
 
-
+    ResultVO<Map<String,Object>> oauthWeChat(HttpServletRequest request,HttpServletResponse response,String weChatOpenId);
 
 
 }
