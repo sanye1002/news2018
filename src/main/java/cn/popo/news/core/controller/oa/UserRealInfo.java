@@ -30,7 +30,7 @@ public class UserRealInfo {
      * ip存储访问量
      */
     @ResponseBody
-    @PostMapping("/list")
+    @GetMapping("/list")
     public ResultVO<Map<String,Object>> allClassify(HttpServletRequest httpServletRequest){
         Map<String,Object> map  = new HashMap<>();
 //        System.out.println(StatisticsInfoGetUtil.getIpAddr(httpServletRequest));
