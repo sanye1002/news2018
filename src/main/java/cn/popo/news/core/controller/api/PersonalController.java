@@ -196,7 +196,7 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> userDynamicList(Map<String, Object> map,
                                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                          @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                         @RequestParam(value = "userId") String userId
+                                                         @RequestParam(value = "userId",defaultValue = "all") String userId
     ) {
         PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("desc", "time"));
         PageDTO<DynamicVO> pageDTO = agoPersonalService.findAllDynamicByUserId(pageRequest, userId);

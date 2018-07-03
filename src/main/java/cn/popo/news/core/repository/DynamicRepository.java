@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DynamicRepository extends JpaRepository<Dynamic,String> {
 
     Page<Dynamic> findAllByUserId(Pageable pageable,String userId);
+    Page<Dynamic> findAll(Pageable pageable);
 }

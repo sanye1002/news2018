@@ -71,7 +71,13 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     public PageDTO<DynamicVO> findAllDynamicByUserId(Pageable pageable, String userId) {
 
         PageDTO<DynamicVO> pageDTO = new PageDTO<>();
-        Page<Dynamic> dynamicPage = dynamicRepository.findAllByUserId(pageable, userId);
+        Page<Dynamic> dynamicPage = null;
+        if(!"all".equals(userId)){
+            dynamicPage = dynamicRepository.findAllByUserId(pageable, userId);
+        }else {
+            dynamicPage = dynamicRepository.findAll(pageable);
+        }
+
         Long time = System.currentTimeMillis();
         List<DynamicVO> list = new ArrayList<DynamicVO>();
         if (dynamicPage != null) {

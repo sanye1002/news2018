@@ -32,4 +32,6 @@ public interface AgoPersonalService {
 
     void dynamicReportSave(DynamicReportForm dynamicReportForm);
 
+//    PageDTO<DynamicVO> findAllDynamic(Pageable pageable);
+
 }

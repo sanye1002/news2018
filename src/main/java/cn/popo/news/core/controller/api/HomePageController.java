@@ -92,7 +92,9 @@ public class HomePageController {
      */
     @PostMapping("/nav")
     @ResponseBody
-    public ResultVO<Map<String,Object>> nav(Map<String,Object> map){
+    public ResultVO<Map<String,Object>> nav(Map<String,Object> map,HttpServletRequest httpServletRequest){
+
+        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
 
         //导航
         List<Classify> list = classifyService.findAllClassify();
@@ -121,8 +123,7 @@ public class HomePageController {
      */
     @PostMapping("/slide")
     @ResponseBody
-    public ResultVO<Map<String,Object>> slide(Map<String,Object> map,HttpServletRequest httpServletRequest){
-        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
+    public ResultVO<Map<String,Object>> slide(Map<String,Object> map){
 
         //轮播图
         List<ArticleVO> slide = agoArticleService.findSlide(ONE,ZERO,ONE,ONE,ONE);
