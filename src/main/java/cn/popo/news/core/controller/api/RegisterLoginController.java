@@ -202,7 +202,7 @@ public class RegisterLoginController {
         }
         log.info("wxMpOAuth2AccessToken={}", wxMpOAuth2AccessToken);
         String openId = wxMpOAuth2AccessToken.getOpenId();
-        return new ModelAndView("redirect:" + returnUrl + "?openid=" + openId);
+        return new ModelAndView("redirect:http://www.immnc.com/weixinLogin?weChatOpenID=" + openId);
     }
     @PostMapping("/wechat/login")
     @ApiOperation(value = "微信第三方登录", notes = "微信第三方登录需要传入weChatOpenID来获取用户信息")

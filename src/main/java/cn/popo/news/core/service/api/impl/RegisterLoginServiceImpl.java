@@ -87,19 +87,25 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     public ResultVO<Map<String, Object>> logout(HttpServletRequest request, HttpServletResponse response, String userId) {
         //1.查询redis
         //2.清除redis
-        if (!redis.get(RedisConstant.TOKEN_PREFIX + userId).equals("")) {
-            redis.del(RedisConstant.TOKEN_PREFIX + userId);
-        }
-        if (!redis.get(RedisConstant.VO_PREFIX + userId).equals("")) {
-            redis.del(RedisConstant.VO_PREFIX + userId);
-        }
-        //3.查询cookie
-        //4.清除cookie
-        Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
-        if (cookie != null) {
-            CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
-            CookieUtil.set(response, CookieConstant.USER_ID, null, 0);
-        }
+       try {
+           if (!redis.get(RedisConstant.TOKEN_PREFIX + userId).equals("")) {
+               redis.del(RedisConstant.TOKEN_PREFIX + userId);
+           }
+           if (!redis.get(RedisConstant.VO_PREFIX + userId).equals("")) {
+               redis.del(RedisConstant.VO_PREFIX + userId);
+           }
+           //3.查询cookie
+           //4.清除cookie
+           Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
+           if (cookie != null) {
+               CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
+               CookieUtil.set(response, CookieConstant.USER_ID, null, 0);
+           }
+       }catch (Exception e){
+           Map<String, Object> map = new HashMap<>();
+           map.put("message", "用户已经注销了！");
+           return ResultVOUtil.success(map);
+       }
         Map<String, Object> map = new HashMap<>();
         map.put("message", "成功退出！");
         return ResultVOUtil.success(map);
