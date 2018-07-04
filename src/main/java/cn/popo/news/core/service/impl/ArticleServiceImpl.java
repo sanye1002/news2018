@@ -938,7 +938,6 @@ public class ArticleServiceImpl implements ArticleService {
         Long time = GetTimeUtil.getBeforeSevenDay();
 
         ArticleInfo articleInfo =  articleRepository.findByTitleAndCrateTimeAfter(title,time);
-        System.out.println(articleInfo);
 
         if (articleInfo!=null){
             return false;

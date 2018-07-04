@@ -136,7 +136,7 @@
                     },
                     ticks: {
                         min: 0,
-                        max: 10,
+                        max: 50,
 
                         // forces step size to be 5 units
                         stepSize: 500
