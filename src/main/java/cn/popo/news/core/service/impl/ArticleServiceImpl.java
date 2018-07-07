@@ -946,5 +946,13 @@ public class ArticleServiceImpl implements ArticleService {
         return true;
     }
 
+    /**
+     * 查询所有显示文章
+     */
+    @Override
+    public List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state, Integer showState, Integer draft) {
+        return articleRepository.findAllByStateAndShowStateAndDraft(state,showState,draft);
+    }
+
 
 }

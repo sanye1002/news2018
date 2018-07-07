@@ -676,6 +676,18 @@ public class ArticleController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * 主动推送全部文章
+     */
+    @ResponseBody
+    @PostMapping("/push")
+    public ResultVO<Map<String,Object>> pushAll(){
+        List<ArticleInfo> list = articleService.findAllByStateAndShowStateAndDraft(1,1,0);
+        PostPushUtil.pushAll(list);
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
 
 
 }

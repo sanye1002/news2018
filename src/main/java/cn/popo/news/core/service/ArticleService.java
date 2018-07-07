@@ -86,5 +86,7 @@ public interface ArticleService {
 
     boolean findTitleIsSame(String title);
 
+    List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state,Integer showState,Integer draft);
+
 
 }

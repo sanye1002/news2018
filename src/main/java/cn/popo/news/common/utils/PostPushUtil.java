@@ -1,11 +1,14 @@
 package cn.popo.news.common.utils;
 
+import cn.popo.news.core.entity.common.ArticleInfo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 /**
  * @Author: popo
@@ -44,6 +47,26 @@ public class PostPushUtil {
             param[1] = "http://www.immnc.com/video?articleId="+articleId;
 
         }
+        String json = Post(url, param);//执行推送方法
+        System.out.println("结果是"+json);  //打印推送结果
+    }
+
+    public static void pushAll(List<ArticleInfo> list){
+        String url = "http://data.zz.baidu.com/urls?site=www.immnc.com&token=zwI3w0PBhjCJwmYs";//网站的服务器连接
+        String[] param = new String[3000];
+        param[0] = "http://www.immnc.com/home";
+        list.forEach(l->{
+            if (l.getTypeId() == 1){
+                param[param.length] = "http://www.immnc.com/imgText?articleId="+l.getArticleId();
+            }
+            if (l.getTypeId() == 2){
+                param[param.length] = "http://www.immnc.com/imgs?articleId="+l.getArticleId();
+            }
+            if (l.getTypeId() == 3){
+                param[param.length] = "http://www.immnc.com/video?articleId="+l.getArticleId();
+            }
+        });
+
         String json = Post(url, param);//执行推送方法
         System.out.println("结果是"+json);  //打印推送结果
     }
