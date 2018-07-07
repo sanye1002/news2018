@@ -2,6 +2,7 @@ package cn.popo.news.core.controller.oa;
 
 import cn.popo.news.common.constant.UrlConstant;
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.common.utils.PostPushUtil;
 import cn.popo.news.core.config.UploadConfig;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
@@ -406,9 +407,13 @@ public class ArticleController {
     @ResponseBody
     public ResultVO<Map<String, String>> articleAudit(@RequestParam(value = "articleId") String articleId,
                             @RequestParam(value = "state") Integer state,
-                            @RequestParam(value = "integral") Integer integral
+                            @RequestParam(value = "integral") Integer integral,
+                            @RequestParam(value = "type") Integer type
     ){
 
+        if (state == 1){
+            PostPushUtil.push(type,articleId);
+        }
         articleService.updateArticleStateByArticleId(articleId,state,integral);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);

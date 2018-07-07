@@ -204,11 +204,11 @@
                                     <td>
                                         <#if p.getState()==2>
                                             <a class="btn btn-success btn-xs"
-                                               onclick="changeAudit('${p.getArticleId()}',1)"><i
+                                               onclick="changeAudit('${p.getArticleId()}',1,${p.getTypeId()})"><i
                                                     class="btn-label glyphicon glyphicon-ok"></i>
                                                 通过</a>
                                             <a class="btn btn-danger btn-xs"
-                                               onclick="changeAudit('${p.getArticleId()}',0)"><i
+                                               onclick="changeAudit('${p.getArticleId()}',0,${p.getTypeId()})"><i
                                                     class="fa fa-times"></i>
                                                 未通过</a>
                                         </#if>
@@ -379,7 +379,7 @@
                         layer.open({
                             type: 1,
                             skin: 'layui-layer-lan', //加上边框
-                            area: ['1280px', '768px'], //宽高
+                            area: ['800px', '600px'], //宽高
                             content: data.data.content
                         });
                     }
@@ -396,7 +396,7 @@
         layer.open({
             type: 1,
             skin: 'layui-layer-lan', //加上边框
-            area: ['1280px', '768px'], //宽高
+            area: ['800px', '600px'], //宽高
             content: video
         });
     }
@@ -411,7 +411,7 @@
         });
     }
 
-    function changeAudit(articleId, state) {
+    function changeAudit(articleId, state,type) {
         var resultType = $("#type input[type=checkbox]:checked").val()
         if (state == 1) {
             layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function (text) {
@@ -421,7 +421,8 @@
                             {
                                 articleId: articleId,
                                 state: state,
-                                integral: text
+                                integral: text,
+                                type:type
 
                             },
                             function (data) {
@@ -451,7 +452,8 @@
                     {
                         articleId: articleId,
                         state: state,
-                        integral: 0
+                        integral: 0,
+                        type:type
 
                     },
                     function (data) {
