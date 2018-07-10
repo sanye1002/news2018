@@ -9,4 +9,6 @@ public interface IPStatisticsService {
     Integer findDayCount(String time);
     Integer findMonthCount(String month);
     Integer findWeekCount(String week);
+    Integer addAddress(String ip);
+    void findAfterIp(Integer a,Integer b);
 }

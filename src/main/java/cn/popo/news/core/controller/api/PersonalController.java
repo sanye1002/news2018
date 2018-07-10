@@ -175,13 +175,13 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> addDynamic(Map<String, Object> map,
                                                     @RequestParam(value = "content") String content,
                                                     @RequestParam(value = "imgUrl") String imgUrl,
-                                                    @RequestParam(value = "userId") String userId,
                                                     HttpServletRequest request,
                                                     HttpServletResponse response
     ) {
         if (!userSessionUtil.verifyLoginStatus(request, response)) {
             return ResultVOUtil.error(3, "用户失效");
         }
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         agoPersonalService.saveDynamic(userId, content, imgUrl);
 
         return ResultVOUtil.success(map);

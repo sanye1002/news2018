@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.oa;
 
+import cn.popo.news.common.utils.GetMaxUtil;
 import cn.popo.news.core.dto.api.ReplyVO;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.IPStatisticsService;
@@ -9,15 +10,13 @@ import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author  Administrator
@@ -40,17 +39,22 @@ public class ChartController {
     /**
      * 访问量
      */
-    @GetMapping("/index")
+    @GetMapping("/ip")
+    @RequiresPermissions("ipChart:list")
     public ModelAndView index(Map<String,Object> map,
                               @RequestParam(value = "month",defaultValue = "1") Integer month
     ){
 
 
         List<Integer> list = new ArrayList<>();
+
         for(int i=1;i<8;i++){
-            list.add(ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month))));
+            Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)));
+            list.add(num);
         }
 
+       /* Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);*/
         map.put("month",month);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1000);
@@ -71,7 +75,24 @@ public class ChartController {
         Map<String,Object> map  = new HashMap<>();
 //        System.out.println(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
         Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
+        /*if (max<num){
+            System.out.println(num);
+           max = GetMaxUtil.maxValue(num);
+            System.out.println(max);
+        }
+        map.put("max",max);*/
         map.put("dayValue",num);
+        return ResultVOUtil.success(map);
+    }
+
+    @ResponseBody
+    @GetMapping("/address")
+    public ResultVO<Map<String, String>> address(
+            @RequestParam(value = "a") Integer a,
+            @RequestParam(value = "b") Integer b
+    ){
+        Map<String,Object> map  = new HashMap<>();
+        ipStatisticsService.findAfterIp(a,b);
         return ResultVOUtil.success(map);
     }
 

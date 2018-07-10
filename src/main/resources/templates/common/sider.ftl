@@ -35,6 +35,23 @@
         </li>
 
 
+     <@shiro.hasPermission name="statistics:tag">
+        <li <#if pageId==1000>class="open" </#if>>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-bar-chart-o"></i>
+                <span class="menu-text">访问统计</span>
+                <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu">
+                <li <#if pageId==1000>class="active" </#if>>
+                    <a href="/oa/chart/ip.html">
+                        <span class="menu-text">ip访问量查询</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+     </@shiro.hasPermission>
+
 
     <@shiro.hasPermission name="articleManage:tag">
         <li <#if pageId==102||pageId==103>class="open" </#if>>
@@ -230,7 +247,7 @@
 
 
     <@shiro.hasPermission name="userManage:tag">
-        <li <#if pageId==24|| pageId==25>class="open" </#if>>
+        <li <#if pageId==24|| pageId==25|| pageId==26>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-group"></i>
                 <span class="menu-text">用户管理</span>
@@ -245,6 +262,11 @@
                 <li <#if pageId==25>class="active" </#if>>
                     <a href="/oa/user/list.html" class="menu-dropdown">
                         <span class="menu-text">用户查询</span>
+                    </a>
+                </li>
+                <li <#if pageId==26>class="active" </#if>>
+                    <a href="/oa/author/apply/list" class="menu-dropdown">
+                        <span class="menu-text">作者申请</span>
                     </a>
                 </li>
             </ul>
@@ -265,7 +287,7 @@
                         <span class="menu-text">分类添加</span>
                     </a>
                 </li>
-                <li <#if pageId==25>class="active" </#if>>
+                <li <#if pageId==26>class="active" </#if>>
                     <a href="/oa/classify/alllist.html" class="menu-dropdown">
                         <span class="menu-text">分类查询</span>
                     </a>

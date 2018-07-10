@@ -8,5 +8,4 @@ import java.util.List;
 public interface IpTimeRepository extends JpaRepository<IpTime,Integer> {
     List<IpTime> findAllByTime(String time);
     List<IpTime> findAllByTimeEndingWith(String week);
-
 }

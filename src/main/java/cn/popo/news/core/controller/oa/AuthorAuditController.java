@@ -8,6 +8,7 @@ import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -69,11 +70,12 @@ public class AuthorAuditController {
     }
 
     @GetMapping("/apply/list")
+    @RequiresPermissions("authorAudit:list")
     public ModelAndView list(Map<String,Object> map,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "12") Integer size
     ){
-        map.put("pageId",133);
+        map.put("pageId",26);
         map.put("pageTitle","申请作者审核");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
         PageDTO<AuthorAuditDTO> pageDTO = authorAuditService.findAllByAuditState(pageRequest,2);

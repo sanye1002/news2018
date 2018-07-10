@@ -9,17 +9,21 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="ip_time")
-public class IpTime {
-
+@Table(name="address")
+public class Address {
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String ip;
+    //国家
+    private String country;
 
-    private String time;
+    //省
+    private String region;
 
-    private Integer addressId;
+    //城市
+    private String city;
 
+    //区
+    private String county;
 }

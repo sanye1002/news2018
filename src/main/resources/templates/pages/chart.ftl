@@ -136,7 +136,7 @@
                     },
                     ticks: {
                         min: 0,
-                        max: 50,
+                        max: 200,
 
                         // forces step size to be 5 units
                         stepSize: 500
@@ -163,7 +163,7 @@
     document.getElementById('nextMonth').addEventListener('click', function () {
         if (month < 12) {
             month = month + 1
-            location = "/oa/chart/index?month=" + month
+            location = "/oa/chart/ip?month=" + month
         }
 
     });
