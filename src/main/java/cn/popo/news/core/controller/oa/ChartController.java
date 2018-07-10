@@ -1,10 +1,7 @@
 package cn.popo.news.core.controller.oa;
 
-import cn.popo.news.common.utils.GetMaxUtil;
-import cn.popo.news.core.dto.api.ReplyVO;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.IPStatisticsService;
-import cn.popo.news.core.service.impl.ArticleServiceImpl;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.vo.ResultVO;
@@ -37,7 +34,7 @@ public class ChartController {
 
 
     /**
-     * 访问量
+     * ip访问量
      */
     @GetMapping("/ip")
     @RequiresPermissions("ipChart:list")
@@ -58,9 +55,62 @@ public class ChartController {
         map.put("month",month);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1000);
-        map.put("pageTitle","数据图表");
+        map.put("pageTitle","ip访问量统计");
 
-        return new ModelAndView("pages/chart",map);
+        return new ModelAndView("chart-ip",map);
+    }
+
+    /**
+     * 文章发布统计
+     */
+    @GetMapping("/issue")
+    public ModelAndView ArticleIssueChart(Map<String,Object> map,
+                              @RequestParam(value = "month",defaultValue = "1") Integer month
+    ){
+
+
+        List<Integer> list = new ArrayList<>();
+
+        for(int i=1;i<8;i++){
+            Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)));
+            list.add(num);
+        }
+
+       /* Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);*/
+        map.put("month",month);
+        map.put("list",JSON.toJSONString(list));
+        map.put("pageId",1001);
+        map.put("pageTitle","文章发布统计");
+
+        return new ModelAndView("chart-issue",map);
+    }
+
+    /**
+     * 文章审核统计
+     */
+    @GetMapping("/audit")
+    public ModelAndView ArticleAuditChart(Map<String,Object> map,
+                                          @RequestParam(value = "month",defaultValue = "1") Integer month,
+                                          @RequestParam(value = "auditState",defaultValue = "100") Integer auditState
+    ){
+
+
+        List<Integer> list = new ArrayList<>();
+
+        for(int i=1;i<8;i++){
+            Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)),auditState);
+            list.add(num);
+        }
+
+       /* Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);*/
+        map.put("month",month);
+        map.put("list",JSON.toJSONString(list));
+        map.put("pageId",1001);
+        map.put("pageTitle","文章审核统计");
+
+        return new ModelAndView("chart-audit",map);
     }
 
     /**

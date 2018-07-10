@@ -11,4 +11,8 @@ public interface IPStatisticsService {
     Integer findWeekCount(String week);
     Integer addAddress(String ip);
     void findAfterIp(Integer a,Integer b);
+    void addArticleIssueNum(Integer type);
+    void addArticleAuditNum(Integer auditState,Integer type);
+    Integer findArticleIssueNumByDay(String time);
+    Integer findArticleAuditNumByDay(String time,Integer auditState);
 }

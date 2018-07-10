@@ -1,12 +1,8 @@
 package cn.popo.news.core.service.impl;
 
 import cn.popo.news.common.utils.GetAddressUtil;
-import cn.popo.news.core.entity.common.Address;
-import cn.popo.news.core.entity.common.IPStatistics;
-import cn.popo.news.core.entity.common.IpTime;
-import cn.popo.news.core.repository.AddressRepository;
-import cn.popo.news.core.repository.IPStatisticsRepository;
-import cn.popo.news.core.repository.IpTimeRepository;
+import cn.popo.news.core.entity.common.*;
+import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.IPStatisticsService;
 import cn.popo.news.core.utils.GetTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +23,12 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private ArticleIssueNumRepository articleIssueNumRepository;
+
+    @Autowired
+    private ArticleAuditNumRepository articleAuditNumRepository;
 
     /**
      * 保存当天用户访问ip
@@ -135,6 +137,97 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
             ipTime.setAddressId(addAddress(ipTime.getIp()));
         }
 //        ipTimeRepository.findOne(2).setAddressId(addAddress("182.148.59.37"));
+
+    }
+
+    /**
+     * 添加当天发布文章数量
+     */
+    @Override
+    public void addArticleIssueNum(Integer type) {
+        String time = GetTimeUtil.getTime();
+        ArticleIssueNum articleIssueNum = null;
+        ArticleIssueNum articleIssueNumAll = null;
+        articleIssueNum = articleIssueNumRepository.findAllByTimeAndType(time,type);
+        articleIssueNumAll = articleIssueNumRepository.findAllByTime(time);
+
+        if (articleIssueNumAll!=null) {
+            articleIssueNumAll.setCount(articleIssueNumAll.getCount()+1);
+        }else {
+            articleIssueNumAll.setCount(1);
+            articleIssueNumAll.setTime(time);
+            articleIssueNumAll.setType(100);
+        }
+
+        if (articleIssueNum!=null){
+            articleIssueNum.setCount(articleIssueNum.getCount()+1);
+        }else {
+            articleIssueNum.setCount(1);
+            articleIssueNum.setTime(time);
+            articleIssueNum.setType(type);
+        }
+    }
+
+    /**
+     * 添加当天文章审核数量
+     */
+    @Override
+    public void addArticleAuditNum(Integer auditState,Integer type) {
+        String time = GetTimeUtil.getTime();
+        ArticleAuditNum articleAuditNum = null;
+        articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,type);
+        if (articleAuditNum!=null){
+            articleAuditNum.setCount(articleAuditNum.getCount()+1);
+        }else {
+            articleAuditNum.setCount(1);
+            articleAuditNum.setTime(time);
+            articleAuditNum.setAuditState(auditState);
+            articleAuditNum.setType(type);
+        }
+    }
+
+    /**
+     * 每天文章发布数量查询
+     * @return
+     */
+    @Override
+    public Integer findArticleIssueNumByDay(String time) {
+        ArticleIssueNum  articleIssueNum = articleIssueNumRepository.findAllByTime(time);
+        if (articleIssueNum!=null){
+            return articleIssueNum.getCount();
+        }else {
+            return 0;
+        }
+
+    }
+
+    /**
+     * 每天文章审核数量查询
+     * @return
+     */
+    @Override
+    public Integer findArticleAuditNumByDay(String time,Integer auditState) {
+        if (auditState==100){
+            Integer off = 0;
+            Integer on = 0;
+            ArticleAuditNum articleAuditNumOff = articleAuditNumRepository.findAllByTimeAndAuditState(time,0);
+            ArticleAuditNum articleAuditNumOn = articleAuditNumRepository.findAllByTimeAndAuditState(time,1);
+            if (articleAuditNumOff!=null){
+                off = articleAuditNumOff.getCount();
+            }
+            if (articleAuditNumOn!=null) {
+                on = articleAuditNumOn.getCount();
+            }
+            return off+on;
+        }else {
+            ArticleAuditNum articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditState(time,auditState);
+            if (articleAuditNum!=null){
+                return articleAuditNum.getCount();
+            }else{
+                return 0;
+            }
+
+        }
 
     }
 
