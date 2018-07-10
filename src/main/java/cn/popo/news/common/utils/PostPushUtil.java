@@ -36,15 +36,15 @@ public class PostPushUtil {
     public static void push(Integer type,String articleId){
         String url = "http://data.zz.baidu.com/urls?site=www.immnc.com&token=zwI3w0PBhjCJwmYs";//网站的服务器连接
         String[] param = new String[5];
-        param[0] = "http://www.immnc.com/home";
+//        param[0] = "http://www.immnc.com/home";
         if (type == 1){
-            param[1] = "http://www.immnc.com/imgText?articleId="+articleId;
+            param[0] = "http://www.immnc.com/imgText?articleId="+articleId;
         }
         if (type == 2){
-            param[1] = "http://www.immnc.com/imgs?articleId="+articleId;
+            param[0] = "http://www.immnc.com/imgs?articleId="+articleId;
         }
         if (type == 3){
-            param[1] = "http://www.immnc.com/video?articleId="+articleId;
+            param[0] = "http://www.immnc.com/video?articleId="+articleId;
 
         }
         String json = Post(url, param);//执行推送方法
@@ -53,19 +53,21 @@ public class PostPushUtil {
 
     public static void pushAll(List<ArticleInfo> list){
         String url = "http://data.zz.baidu.com/urls?site=www.immnc.com&token=zwI3w0PBhjCJwmYs";//网站的服务器连接
-        String[] param = new String[3000];
-        param[0] = "http://www.immnc.com/home";
-        list.forEach(l->{
+        String[] param = new String[2000];
+        param[1999] = "http://www.immnc.com/home";
+        for (int i=0;i<1999;i++){
+            ArticleInfo l = list.get(i);
             if (l.getTypeId() == 1){
-                param[param.length] = "http://www.immnc.com/imgText?articleId="+l.getArticleId();
+                param[i] = "http://www.immnc.com/imgText?articleId="+l.getArticleId();
             }
             if (l.getTypeId() == 2){
-                param[param.length] = "http://www.immnc.com/imgs?articleId="+l.getArticleId();
+                param[i] = "http://www.immnc.com/imgs?articleId="+l.getArticleId();
             }
             if (l.getTypeId() == 3){
-                param[param.length] = "http://www.immnc.com/video?articleId="+l.getArticleId();
+                param[i] = "http://www.immnc.com/video?articleId="+l.getArticleId();
             }
-        });
+        }
+
 
         String json = Post(url, param);//执行推送方法
         System.out.println("结果是"+json);  //打印推送结果
