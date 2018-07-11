@@ -149,7 +149,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         ArticleIssueNum articleIssueNum = null;
         ArticleIssueNum articleIssueNumAll = null;
         articleIssueNum = articleIssueNumRepository.findAllByTimeAndType(time,type);
-        articleIssueNumAll = articleIssueNumRepository.findAllByTime(time);
+        articleIssueNumAll = articleIssueNumRepository.findAllByTimeAndType(time,100);
 
         if (articleIssueNumAll!=null) {
             articleIssueNumAll.setCount(articleIssueNumAll.getCount()+1);
@@ -174,8 +174,18 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Override
     public void addArticleAuditNum(Integer auditState,Integer type) {
         String time = GetTimeUtil.getTime();
-        ArticleAuditNum articleAuditNum = null;
-        articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,type);
+        ArticleAuditNum articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,type);
+        ArticleAuditNum articleAuditNumAll = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,100);
+
+        if (articleAuditNumAll!=null) {
+            articleAuditNumAll.setCount(articleAuditNumAll.getCount()+1);
+        }else {
+            articleAuditNumAll.setCount(1);
+            articleAuditNumAll.setTime(time);
+            articleAuditNumAll.setType(100);
+            articleAuditNumAll.setAuditState(auditState);
+        }
+
         if (articleAuditNum!=null){
             articleAuditNum.setCount(articleAuditNum.getCount()+1);
         }else {
@@ -191,8 +201,9 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
      * @return
      */
     @Override
-    public Integer findArticleIssueNumByDay(String time) {
-        ArticleIssueNum  articleIssueNum = articleIssueNumRepository.findAllByTime(time);
+    public Integer findArticleIssueNumByDay(String time,Integer type) {
+//        ArticleIssueNum  articleIssueNum = articleIssueNumRepository.findAllByTime(time);
+        ArticleIssueNum articleIssueNum = articleIssueNumRepository.findAllByTimeAndType(time,type);
         if (articleIssueNum!=null){
             return articleIssueNum.getCount();
         }else {
@@ -207,27 +218,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
      */
     @Override
     public Integer findArticleAuditNumByDay(String time,Integer auditState) {
-        if (auditState==100){
-            Integer off = 0;
-            Integer on = 0;
-            ArticleAuditNum articleAuditNumOff = articleAuditNumRepository.findAllByTimeAndAuditState(time,0);
-            ArticleAuditNum articleAuditNumOn = articleAuditNumRepository.findAllByTimeAndAuditState(time,1);
-            if (articleAuditNumOff!=null){
-                off = articleAuditNumOff.getCount();
-            }
-            if (articleAuditNumOn!=null) {
-                on = articleAuditNumOn.getCount();
-            }
-            return off+on;
-        }else {
-            ArticleAuditNum articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditState(time,auditState);
-            if (articleAuditNum!=null){
-                return articleAuditNum.getCount();
-            }else{
-                return 0;
-            }
-
-        }
+        return null;
 
     }
 

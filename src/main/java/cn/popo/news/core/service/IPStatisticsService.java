@@ -13,6 +13,6 @@ public interface IPStatisticsService {
     void findAfterIp(Integer a,Integer b);
     void addArticleIssueNum(Integer type);
     void addArticleAuditNum(Integer auditState,Integer type);
-    Integer findArticleIssueNumByDay(String time);
+    Integer findArticleIssueNumByDay(String time,Integer type);
     Integer findArticleAuditNumByDay(String time,Integer auditState);
 }

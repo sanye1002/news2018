@@ -123,8 +123,15 @@ public class GetTimeUtil {
         return c.getTimeInMillis();
     }
 
-    /*public static void main(String[] args) {
+    public static Integer getNowMonth() {
+        Calendar cale =  Calendar.getInstance();
+        int month = cale.get(Calendar.MONTH) + 1;
+        return month;
+    }
 
+    /*public static void main(String[] args) {
+        Calendar cale =  Calendar.getInstance();
+        int month = cale.get(Calendar.MONTH) + 1;
     }*/
 
 }
