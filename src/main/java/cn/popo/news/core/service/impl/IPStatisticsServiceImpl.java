@@ -146,25 +146,28 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Override
     public void addArticleIssueNum(Integer type) {
         String time = GetTimeUtil.getTime();
-        ArticleIssueNum articleIssueNum = null;
-        ArticleIssueNum articleIssueNumAll = null;
-        articleIssueNum = articleIssueNumRepository.findAllByTimeAndType(time,type);
-        articleIssueNumAll = articleIssueNumRepository.findAllByTimeAndType(time,100);
+        ArticleIssueNum articleIssueNumTemp = new ArticleIssueNum();
+        ArticleIssueNum articleIssueNumAllTemp = new ArticleIssueNum();
+        ArticleIssueNum articleIssueNum = articleIssueNumRepository.findAllByTimeAndType(time,type);
+        ArticleIssueNum articleIssueNumAll = articleIssueNumRepository.findAllByTimeAndType(time,100);
+
 
         if (articleIssueNumAll!=null) {
             articleIssueNumAll.setCount(articleIssueNumAll.getCount()+1);
         }else {
-            articleIssueNumAll.setCount(1);
-            articleIssueNumAll.setTime(time);
-            articleIssueNumAll.setType(100);
+            articleIssueNumAllTemp.setCount(1);
+            articleIssueNumAllTemp.setTime(time);
+            articleIssueNumAllTemp.setType(100);
+            articleIssueNumRepository.save(articleIssueNumAllTemp);
         }
 
         if (articleIssueNum!=null){
             articleIssueNum.setCount(articleIssueNum.getCount()+1);
         }else {
-            articleIssueNum.setCount(1);
-            articleIssueNum.setTime(time);
-            articleIssueNum.setType(type);
+            articleIssueNumTemp.setCount(1);
+            articleIssueNumTemp.setTime(time);
+            articleIssueNumTemp.setType(type);
+            articleIssueNumRepository.save(articleIssueNumTemp);
         }
     }
 
@@ -174,25 +177,29 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Override
     public void addArticleAuditNum(Integer auditState,Integer type) {
         String time = GetTimeUtil.getTime();
+        ArticleAuditNum articleAuditNumTemp = new ArticleAuditNum();
+        ArticleAuditNum articleAuditNumAllTemp = new ArticleAuditNum();
         ArticleAuditNum articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,type);
-        ArticleAuditNum articleAuditNumAll = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,100);
+        ArticleAuditNum articleAuditNumAll = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,2,100);
 
         if (articleAuditNumAll!=null) {
             articleAuditNumAll.setCount(articleAuditNumAll.getCount()+1);
         }else {
-            articleAuditNumAll.setCount(1);
-            articleAuditNumAll.setTime(time);
-            articleAuditNumAll.setType(100);
-            articleAuditNumAll.setAuditState(auditState);
+            articleAuditNumAllTemp.setCount(1);
+            articleAuditNumAllTemp.setTime(time);
+            articleAuditNumAllTemp.setType(100);
+            articleAuditNumAllTemp.setAuditState(2);
+            articleAuditNumRepository.save(articleAuditNumAllTemp);
         }
 
         if (articleAuditNum!=null){
             articleAuditNum.setCount(articleAuditNum.getCount()+1);
         }else {
-            articleAuditNum.setCount(1);
-            articleAuditNum.setTime(time);
-            articleAuditNum.setAuditState(auditState);
-            articleAuditNum.setType(type);
+            articleAuditNumTemp.setCount(1);
+            articleAuditNumTemp.setTime(time);
+            articleAuditNumTemp.setAuditState(auditState);
+            articleAuditNumTemp.setType(type);
+            articleAuditNumRepository.save(articleAuditNumTemp);
         }
     }
 
@@ -217,8 +224,13 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
      * @return
      */
     @Override
-    public Integer findArticleAuditNumByDay(String time,Integer auditState) {
-        return null;
+    public Integer findArticleAuditNumByDay(String time,Integer auditState,Integer type) {
+        ArticleAuditNum articleAuditNum = articleAuditNumRepository.findAllByTimeAndAuditStateAndType(time,auditState,type);
+        if (articleAuditNum!=null){
+            return articleAuditNum.getCount();
+        }else {
+            return 0;
+        }
 
     }
 

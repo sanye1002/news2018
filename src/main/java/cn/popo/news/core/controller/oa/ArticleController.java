@@ -61,6 +61,8 @@ public class ArticleController {
     private ReplyReportService replyReportService;
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private IPStatisticsService ipStatisticsService;
 
 
     /**
@@ -208,6 +210,7 @@ public class ArticleController {
             return ResultVOUtil.error(100,"该文章已存在");
         }
 
+        ipStatisticsService.addArticleIssueNum(articleForm.getTypeId());
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
@@ -415,6 +418,7 @@ public class ArticleController {
             PostPushUtil.push(type,articleId);
         }
         articleService.updateArticleStateByArticleId(articleId,state,integral);
+        ipStatisticsService.addArticleAuditNum(state,type);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

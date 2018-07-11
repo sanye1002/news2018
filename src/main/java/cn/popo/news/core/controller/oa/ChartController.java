@@ -41,19 +41,17 @@ public class ChartController {
     public ModelAndView index(Map<String,Object> map,
                               @RequestParam(value = "month",defaultValue = "0") Integer month
     ){
-
-
         List<Integer> list = new ArrayList<>();
 
-
+        if (month==0) {
+            month = GetTimeUtil.getNowMonth();
+        }
 
         for(int i=1;i<8;i++){
             Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)));
             list.add(num);
         }
-        if (month==0) {
-            month = GetTimeUtil.getNowMonth();
-        }
+
 
        /* Integer max = Collections.max(list);
         max = GetMaxUtil.maxValue(max);*/
@@ -70,15 +68,20 @@ public class ChartController {
      */
     @GetMapping("/issue")
     public ModelAndView ArticleIssueChart(Map<String,Object> map,
-                              @RequestParam(value = "month",defaultValue = "1") Integer month
+                              @RequestParam(value = "month",defaultValue = "0") Integer month,
+                              @RequestParam(value = "type",defaultValue = "100") Integer type
     ){
 
 
         List<Integer> list = new ArrayList<>();
 
+        if (month==0) {
+            month = GetTimeUtil.getNowMonth();
+        }
+
         for(int i=1;i<8;i++){
-//            Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)));
-//            list.add(num);
+            Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)),type);
+            list.add(num);
         }
 
         /*Integer max = Collections.max(list);
@@ -96,15 +99,20 @@ public class ChartController {
      */
     @GetMapping("/audit")
     public ModelAndView ArticleAuditChart(Map<String,Object> map,
-                                          @RequestParam(value = "month",defaultValue = "1") Integer month,
-                                          @RequestParam(value = "auditState",defaultValue = "100") Integer auditState
+                                          @RequestParam(value = "month",defaultValue = "0") Integer month,
+                                          @RequestParam(value = "auditState",defaultValue = "2") Integer auditState,
+                                          @RequestParam(value = "type",defaultValue = "100") Integer type
     ){
 
 
         List<Integer> list = new ArrayList<>();
 
+        if (month==0) {
+            month = GetTimeUtil.getNowMonth();
+        }
+
         for(int i=1;i<8;i++){
-            Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)),auditState);
+            Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)),auditState,type);
             list.add(num);
         }
 
@@ -120,6 +128,9 @@ public class ChartController {
 
     /**
      * 增加天数
+     * @param day
+     * @param month
+     * @return
      */
     @ResponseBody
     @PostMapping("/add/day")
@@ -127,8 +138,8 @@ public class ChartController {
             @RequestParam(value = "day") Integer day,
             @RequestParam(value = "month") Integer month
     ){
+
         Map<String,Object> map  = new HashMap<>();
-//        System.out.println(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
         Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
         /*if (max<num){
             System.out.println(num);
@@ -136,6 +147,50 @@ public class ChartController {
             System.out.println(max);
         }
         map.put("max",max);*/
+        map.put("dayValue",num);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 增加天数
+     * @param day
+     * @param month
+     * @param type
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/add/day/issue")
+    public ResultVO<Map<String, String>> addIssueDay(
+            @RequestParam(value = "day") Integer day,
+            @RequestParam(value = "month") Integer month,
+            @RequestParam(value = "type",defaultValue = "100") Integer type
+    ){
+
+        Map<String,Object> map  = new HashMap<>();
+        Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)),type);
+        map.put("dayValue",num);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 增加天数
+     * @param day
+     * @param month
+     * @param auditState
+     * @param type
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/add/day/audit")
+    public ResultVO<Map<String, String>> addAuditDay(
+            @RequestParam(value = "day") Integer day,
+            @RequestParam(value = "month") Integer month,
+            @RequestParam(value = "auditState",defaultValue = "2") Integer auditState,
+            @RequestParam(value = "type",defaultValue = "100") Integer type
+    ){
+
+        Map<String,Object> map  = new HashMap<>();
+        Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)),auditState,type);
         map.put("dayValue",num);
         return ResultVOUtil.success(map);
     }

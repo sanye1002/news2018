@@ -59,18 +59,30 @@
             <!-- /Page Header -->
             <!-- Page Body -->
             <div class="page-body">
-                <div style="width:75%;">
-                    <canvas id="canvas"></canvas>
+                <div class="row">
+                    <div class="col-lg-12 col-sm-6 col-xs-12">
+                        <div class="widget flat radius-bordered">
+                            <div class="widget-header bg-blue">
+                                <span class="widget-caption">${pageTitle}</span>
+                            </div>
+                            <div class="widget-body">
+                                <div style="width:75%;">
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                                <br>
+                                <br>
+                            <#--<button id="randomizeData">Randomize Data</button>
+                            <button id="addDataset">Add Dataset</button>
+                            <button id="removeDataset">Remove Dataset</button>-->
+                                <a href="javascript:void(0);" id="addData" class="btn btn-primary">增加一天</a>
+                                <a href="javascript:void(0);" id="removeData" class="btn btn-info">减少一天</a>
+                                <a href="javascript:void(0);" id="nextMonth" class="btn btn-success">下一月</a>
+                                <a href="javascript:void(0);" id="upMonth" class="btn btn-purple">上一月</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <br>
-            <#--<button id="randomizeData">Randomize Data</button>
-            <button id="addDataset">Add Dataset</button>
-            <button id="removeDataset">Remove Dataset</button>-->
-                <button id="addData">Add Data</button>
-                <button id="removeData">Remove Data</button>
-                <button id="nextMonth">Next Month</button>
-                <button id="upMonth">Before Month</button>
+
             </div>
             <!-- /Page Body -->
         </div>
@@ -99,7 +111,7 @@
             labels: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
             // labels:[1,2,3,4,5,6,7],
             datasets: [{
-                label: '审核量',
+                label: '文章审核量',
                 backgroundColor: window.chartColors.red,
                 borderColor: window.chartColors.red,
                 data: ${list},
@@ -155,7 +167,7 @@
     document.getElementById('upMonth').addEventListener('click', function () {
         if (month > 1) {
             month = month - 1
-            location = "/oa/chart/index?month=" + month
+            location = "/oa/chart/audit.html?month=" + month
         }
 
     });
@@ -163,7 +175,7 @@
     document.getElementById('nextMonth').addEventListener('click', function () {
         if (month < 12) {
             month = month + 1
-            location = "/oa/chart/audit?month=" + month
+            location = "/oa/chart/audit.html?month=" + month
         }
 
     });
@@ -211,7 +223,7 @@
 
             config.data.labels.push(day[0]+"号");
             $.post(
-                    "/oa/chart/add/day",
+                    "/oa/chart/add/day/audit",
                     {
                         day: day[0],
                         month: month
