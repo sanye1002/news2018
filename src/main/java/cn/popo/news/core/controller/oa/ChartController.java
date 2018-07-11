@@ -57,7 +57,7 @@ public class ChartController {
         map.put("pageId",1000);
         map.put("pageTitle","ip访问量统计");
 
-        return new ModelAndView("chart-ip",map);
+        return new ModelAndView("pages/chart-ip",map);
     }
 
     /**
@@ -69,21 +69,22 @@ public class ChartController {
     ){
 
 
-        List<Integer> list = new ArrayList<>();
+        /*List<Integer> list = new ArrayList<>();
 
         for(int i=1;i<8;i++){
             Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)));
             list.add(num);
         }
 
-       /* Integer max = Collections.max(list);
-        max = GetMaxUtil.maxValue(max);*/
+       *//* Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);*//*
         map.put("month",month);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1001);
-        map.put("pageTitle","文章发布统计");
+        map.put("pageTitle","文章发布统计");*/
+        System.out.println(123);
 
-        return new ModelAndView("chart-issue",map);
+        return new ModelAndView("pages/chart-issue",map);
     }
 
     /**
@@ -107,10 +108,10 @@ public class ChartController {
         max = GetMaxUtil.maxValue(max);*/
         map.put("month",month);
         map.put("list",JSON.toJSONString(list));
-        map.put("pageId",1001);
+        map.put("pageId",1002);
         map.put("pageTitle","文章审核统计");
 
-        return new ModelAndView("chart-audit",map);
+        return new ModelAndView("pages/chart-audit",map);
     }
 
     /**
