@@ -168,27 +168,34 @@
                 layer.prompt({title: '请输入提现金额，并确认', formType: 0}, function(text, index){
 
                     layer.close(index);
-                    /* 提现present remark advanceSalary*/
-                    $.post(
-                            "/oa/reward/withdraw",
-                            {
-                                "withdrawSalary":text,"userId":id
+                    if (text<10){
+                        layer.msg('提现金额小于10元~',{
+                            time:1000
+                        });
+                    }else {
+                        /* 提现present remark advanceSalary*/
+                        $.post(
+                                "/oa/reward/withdraw",
+                                {
+                                    "withdrawSalary":text,"userId":id
 
-                            },
-                            function (res) {
+                                },
+                                function (res) {
 
-                                if (res.code == 0){
-                                    layer.msg('金额：'+text+',提现申请中！;',{
-                                        time:1500
-                                    });
+                                    if (res.code == 0){
+                                        layer.msg('金额：'+text+',提现申请中！;',{
+                                            time:1500
+                                        });
+                                    }
+                                    if (res.code > 0){
+                                        layer.msg(res.message,{
+                                            time:1500
+                                        });
+                                    }
                                 }
-                                if (res.code > 0){
-                                    layer.msg(res.message,{
-                                        time:1500
-                                    });
-                                }
-                            }
-                    )
+                        )
+                    }
+
 
                 });
             }
