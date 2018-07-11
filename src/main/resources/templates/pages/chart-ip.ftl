@@ -97,7 +97,11 @@
     var DAY = ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号', '13号', '14号', '15号', '16号', '17号', '18号', '19号',
         '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号', '31号', '32号'];
 
+    var year = ${year}
+
     var month = ${month}
+
+    var max = ${max}
 
     /*var randomScalingFactor = function () {
         return Math.round(Math.random() * 10);
@@ -122,7 +126,7 @@
             responsive: true,
             title: {
                 display: true,
-                text: month + '月访问量'
+                text: year+"年"+ month + '月访问量'
             },
             tooltips: {
                 mode: 'index',
@@ -148,7 +152,7 @@
                     },
                     ticks: {
                         min: 0,
-                        max: 200,
+                        max: max,
 
                         // forces step size to be 5 units
                         stepSize: 500
@@ -212,7 +216,7 @@
 
     document.getElementById('addData').addEventListener('click', function () {
 
-        var year = 2018; //表示需要查找的年份
+        // var year = year; //表示需要查找的年份
         var curMonthDays = new Date(year, month, 0).getDate(); //0表示3月的第0天，上月的最后一天,月份从0开始记数
         console.log('查找的月份共有' + curMonthDays + "天");
 
@@ -221,12 +225,14 @@
 
         if (parseInt(day[0]) <= parseInt(curMonthDays)) {
 
-            config.data.labels.push(day[0]+"号");
+            config.data.labels.push(day[0] + "号");
             $.post(
                     "/oa/chart/add/day",
                     {
                         day: day[0],
-                        month: month
+                        month: month,
+                        max:max,
+                        year:year
                     },
                     function (data) {
                         if (data.code == 0) {
@@ -235,6 +241,8 @@
                                     dataset.data.push(data.data.dayValue);
                                 });
                             }
+                            max = data.data.max;
+                            config.options.scales.yAxes[0].ticks.max = max
                             window.myLine.update();
                         }
                         if (data.code > 0) {

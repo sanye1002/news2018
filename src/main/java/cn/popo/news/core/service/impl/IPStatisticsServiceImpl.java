@@ -30,6 +30,9 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Autowired
     private ArticleAuditNumRepository articleAuditNumRepository;
 
+    @Autowired
+    private ArticleIssueNumByUserRepository articleIssueNumByUserRepository;
+
     /**
      * 保存当天用户访问ip
      */
@@ -234,5 +237,57 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
 
     }
 
+    /**
+     * 用户当天发布文章统计
+     * @param userId
+     * @param type
+     */
+    @Override
+    public void addUserIssueNum(String userId, Integer type) {
+        String time = GetTimeUtil.getTime();
+        ArticleIssueNumByUser articleIssueNumByUserTemp = new ArticleIssueNumByUser();
+        ArticleIssueNumByUser articleIssueNumByUser = articleIssueNumByUserRepository.findAllByTimeAndUserIdAndType(time,userId,type);
+        ArticleIssueNumByUser articleIssueNumByUserAllTemp = new ArticleIssueNumByUser();
+        ArticleIssueNumByUser articleIssueNumByUserAll = articleIssueNumByUserRepository.findAllByTimeAndUserIdAndType(time,userId,100);
+
+        if(articleIssueNumByUserAll!=null){
+            articleIssueNumByUserAll.setCount(articleIssueNumByUserAll.getCount()+1);
+        }else {
+            articleIssueNumByUserAllTemp.setCount(1);
+            articleIssueNumByUserAllTemp.setTime(time);
+            articleIssueNumByUserAllTemp.setUserId(userId);
+            articleIssueNumByUserAllTemp.setType(100);
+            articleIssueNumByUserRepository.save(articleIssueNumByUserAllTemp);
+        }
+
+        if(articleIssueNumByUser!=null){
+            articleIssueNumByUser.setCount(articleIssueNumByUser.getCount()+1);
+        }else {
+            articleIssueNumByUserTemp.setCount(1);
+            articleIssueNumByUserTemp.setTime(time);
+            articleIssueNumByUserTemp.setUserId(userId);
+            articleIssueNumByUserTemp.setType(type);
+            articleIssueNumByUserRepository.save(articleIssueNumByUserTemp);
+        }
+
+
+
+    }
+
+    /**
+     * 用户一天文章发布量查询
+     * @param userId
+     * @param type
+     * @return
+     */
+    @Override
+    public Integer findUserIssueNumByDay(String time,String userId, Integer type) {
+        ArticleIssueNumByUser articleIssueNumByUser = articleIssueNumByUserRepository.findAllByTimeAndUserIdAndType(time,userId,type);
+        if (articleIssueNumByUser!=null){
+            return articleIssueNumByUser.getCount();
+        }else {
+            return 0;
+        }
+    }
 
 }

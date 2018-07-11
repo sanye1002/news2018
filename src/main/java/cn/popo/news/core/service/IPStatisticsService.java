@@ -15,4 +15,6 @@ public interface IPStatisticsService {
     void addArticleAuditNum(Integer auditState,Integer type);
     Integer findArticleIssueNumByDay(String time,Integer type);
     Integer findArticleAuditNumByDay(String time,Integer auditState,Integer type);
+    void addUserIssueNum(String userId,Integer type);
+    Integer findUserIssueNumByDay(String time,String userId,Integer type);
 }

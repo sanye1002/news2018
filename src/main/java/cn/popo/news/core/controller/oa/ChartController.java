@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.oa;
 
+import cn.popo.news.common.utils.GetMaxUtil;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.IPStatisticsService;
 import cn.popo.news.core.utils.GetTimeUtil;
@@ -39,7 +40,8 @@ public class ChartController {
     @GetMapping("/ip")
     @RequiresPermissions("ipChart:list")
     public ModelAndView index(Map<String,Object> map,
-                              @RequestParam(value = "month",defaultValue = "0") Integer month
+                              @RequestParam(value = "month",defaultValue = "0") Integer month,
+                              @RequestParam(value = "year",defaultValue = "0") Integer year
     ){
         List<Integer> list = new ArrayList<>();
 
@@ -47,15 +49,21 @@ public class ChartController {
             month = GetTimeUtil.getNowMonth();
         }
 
+        if (year==0){
+            year = GetTimeUtil.getNowYear();
+        }
+
         for(int i=1;i<8;i++){
-            Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)));
+            Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)));
             list.add(num);
         }
 
 
-       /* Integer max = Collections.max(list);
-        max = GetMaxUtil.maxValue(max);*/
+        Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);
+        map.put("max",max);
         map.put("month",month);
+        map.put("year",year);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1000);
         map.put("pageTitle",month+"月ip访问量统计");
@@ -69,7 +77,8 @@ public class ChartController {
     @GetMapping("/issue")
     public ModelAndView ArticleIssueChart(Map<String,Object> map,
                               @RequestParam(value = "month",defaultValue = "0") Integer month,
-                              @RequestParam(value = "type",defaultValue = "100") Integer type
+                              @RequestParam(value = "type",defaultValue = "100") Integer type,
+                              @RequestParam(value = "year",defaultValue = "0") Integer year
     ){
 
 
@@ -79,14 +88,20 @@ public class ChartController {
             month = GetTimeUtil.getNowMonth();
         }
 
+        if (year==0){
+            year = GetTimeUtil.getNowYear();
+        }
+
         for(int i=1;i<8;i++){
-            Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)),type);
+            Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)),type);
             list.add(num);
         }
 
-        /*Integer max = Collections.max(list);
-        max = GetMaxUtil.maxValue(max);*/
+        Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);
+        map.put("max",max);
         map.put("month",month);
+        map.put("year",year);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1001);
         map.put("pageTitle","文章发布统计");
@@ -101,7 +116,8 @@ public class ChartController {
     public ModelAndView ArticleAuditChart(Map<String,Object> map,
                                           @RequestParam(value = "month",defaultValue = "0") Integer month,
                                           @RequestParam(value = "auditState",defaultValue = "2") Integer auditState,
-                                          @RequestParam(value = "type",defaultValue = "100") Integer type
+                                          @RequestParam(value = "type",defaultValue = "100") Integer type,
+                                          @RequestParam(value = "year",defaultValue = "0") Integer year
     ){
 
 
@@ -111,14 +127,20 @@ public class ChartController {
             month = GetTimeUtil.getNowMonth();
         }
 
+        if (year==0){
+            year = GetTimeUtil.getNowYear();
+        }
+
         for(int i=1;i<8;i++){
-            Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(i,month)),auditState,type);
+            Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)),auditState,type);
             list.add(num);
         }
 
-       /* Integer max = Collections.max(list);
-        max = GetMaxUtil.maxValue(max);*/
+        Integer max = Collections.max(list);
+        max = GetMaxUtil.maxValue(max);
+        map.put("max",max);
         map.put("month",month);
+        map.put("year",year);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1002);
         map.put("pageTitle","文章审核统计");
@@ -136,17 +158,18 @@ public class ChartController {
     @PostMapping("/add/day")
     public ResultVO<Map<String, String>> addDay(
             @RequestParam(value = "day") Integer day,
-            @RequestParam(value = "month") Integer month
+            @RequestParam(value = "month") Integer month,
+            @RequestParam(value = "max") Integer max,
+            @RequestParam(value = "year") Integer year
     ){
 
         Map<String,Object> map  = new HashMap<>();
-        Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)));
-        /*if (max<num){
+        Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+        if (max<num){
             System.out.println(num);
            max = GetMaxUtil.maxValue(num);
-            System.out.println(max);
         }
-        map.put("max",max);*/
+        map.put("max",max);
         map.put("dayValue",num);
         return ResultVOUtil.success(map);
     }
@@ -163,11 +186,18 @@ public class ChartController {
     public ResultVO<Map<String, String>> addIssueDay(
             @RequestParam(value = "day") Integer day,
             @RequestParam(value = "month") Integer month,
-            @RequestParam(value = "type",defaultValue = "100") Integer type
+            @RequestParam(value = "max") Integer max,
+            @RequestParam(value = "type",defaultValue = "100") Integer type,
+            @RequestParam(value = "year") Integer year
     ){
 
         Map<String,Object> map  = new HashMap<>();
-        Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)),type);
+        Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)),type);
+        if (max<num){
+            System.out.println(num);
+            max = GetMaxUtil.maxValue(num);
+        }
+        map.put("max",max);
         map.put("dayValue",num);
         return ResultVOUtil.success(map);
     }
@@ -185,12 +215,18 @@ public class ChartController {
     public ResultVO<Map<String, String>> addAuditDay(
             @RequestParam(value = "day") Integer day,
             @RequestParam(value = "month") Integer month,
+            @RequestParam(value = "max") Integer max,
             @RequestParam(value = "auditState",defaultValue = "2") Integer auditState,
-            @RequestParam(value = "type",defaultValue = "100") Integer type
+            @RequestParam(value = "type",defaultValue = "100") Integer type,
+            @RequestParam(value = "year") Integer year
     ){
 
         Map<String,Object> map  = new HashMap<>();
-        Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getMonthDay(day,month)),auditState,type);
+        Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)),auditState,type);
+        if (max<num){
+            max = GetMaxUtil.maxValue(num);
+        }
+        map.put("max",max);
         map.put("dayValue",num);
         return ResultVOUtil.success(map);
     }

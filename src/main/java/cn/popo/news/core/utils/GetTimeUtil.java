@@ -108,6 +108,8 @@ public class GetTimeUtil {
         cal.set(Calendar.HOUR_OF_DAY, 24);
         return (int) (cal.getTimeInMillis()/1000);
     }
+
+    //设置月日
     public static long getMonthDay(Integer day,Integer month) {
         Calendar calendar = Calendar.getInstance();// 获取当前日期
         calendar.set(Calendar.MONTH, month-1);
@@ -115,6 +117,16 @@ public class GetTimeUtil {
         return calendar.getTimeInMillis()/1000;
     }
 
+    //设置年月日
+    public static long getYearMonthDay(Integer day,Integer month,Integer year) {
+        Calendar calendar = Calendar.getInstance();// 获取当前日期
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH, month-1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);// 设置为1号,当前日期既为本月第一天
+        return calendar.getTimeInMillis()/1000;
+    }
+
+    //获取七天前时间
     public static long getBeforeSevenDay() {
         Calendar c = Calendar.getInstance();
         //过去七天
@@ -123,16 +135,20 @@ public class GetTimeUtil {
         return c.getTimeInMillis();
     }
 
+    //获得当前月
     public static Integer getNowMonth() {
         Calendar cale =  Calendar.getInstance();
         int month = cale.get(Calendar.MONTH) + 1;
         return month;
     }
 
-    /*public static void main(String[] args) {
+    //获取当前年
+    public static Integer getNowYear() {
         Calendar cale =  Calendar.getInstance();
-        int month = cale.get(Calendar.MONTH) + 1;
-    }*/
+        int year = cale.get(Calendar.YEAR);
+        return year;
+    }
+
 
 }
 
