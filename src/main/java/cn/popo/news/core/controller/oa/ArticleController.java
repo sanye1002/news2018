@@ -211,6 +211,8 @@ public class ArticleController {
         }
 
         ipStatisticsService.addArticleIssueNum(articleForm.getTypeId());
+        String userId = ShiroGetSession.getUser().getUserId();
+        ipStatisticsService.addUserIssueNum(userId,articleForm.getTypeId());
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

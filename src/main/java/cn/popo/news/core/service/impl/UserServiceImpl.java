@@ -1,5 +1,6 @@
 package cn.popo.news.core.service.impl;
 
+import cn.popo.news.core.dto.AuthorDTO;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.UserForm;
 import cn.popo.news.core.repository.UserRepository;
@@ -180,6 +181,24 @@ public class UserServiceImpl implements UserService {
         map.put("code", 100);
         map.put("message", "手机号码已存在！");
         return map;
+    }
+
+    /**
+     * 查询所有作者
+     * @return
+     */
+    @Override
+    public List<AuthorDTO> findAllAuthor() {
+        List<User> user = userRepository.findAllByRoleId(4);
+        List<AuthorDTO> list = new ArrayList<>();
+        if (!user.isEmpty()){
+            user.forEach(l->{
+                AuthorDTO authorDTO = new AuthorDTO();
+                BeanUtils.copyProperties(l,authorDTO);
+                list.add(authorDTO);
+            });
+        }
+        return list;
     }
 
 

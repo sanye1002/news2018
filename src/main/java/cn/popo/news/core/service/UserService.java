@@ -1,11 +1,13 @@
 package cn.popo.news.core.service;
 
+import cn.popo.news.core.dto.AuthorDTO;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.UserForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,5 +33,7 @@ public interface UserService {
     Map<String, Object> findPhoneIsEmpty(String phone);
 
     Map<String, Object> findAllByPhone(String phone);
+
+    List<AuthorDTO> findAllAuthor();
 
 }
