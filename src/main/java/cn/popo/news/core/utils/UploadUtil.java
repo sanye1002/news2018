@@ -197,7 +197,7 @@ public class UploadUtil {
             } catch (IOException e) {
                 log.info("【上传】={}", "error");
             }
-            return "http://p0.cdrysj.com/po/read/img/" + type + "/" + fileName;
+            return "https://p0.cdrysj.com/po/read/img/" + type + "/" + fileName;
 
         } catch (IOException e) {
             e.printStackTrace();
