@@ -37,8 +37,8 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("妙漫网创 RESTful APIs 文档")
                 .description("如有疑问请加QQ：331139839")
-                .termsOfServiceUrl("https://www.cdrysj.com")
-                .contact(new Contact("popo", "https://www.cdrysj.com", "331139839@qq.com"))
+                .termsOfServiceUrl("http://www.cdrysj.com")
+                .contact(new Contact("popo", "http://www.cdrysj.com", "331139839@qq.com"))
                 .build();
 
     }

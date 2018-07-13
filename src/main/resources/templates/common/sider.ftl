@@ -99,6 +99,11 @@
                         <span class="menu-text">提现审核</span>
                     </a>
                 </li>
+                <li <#if pageId==26>class="active" </#if>>
+                    <a href="/oa/author/apply/list" class="menu-dropdown">
+                        <span class="menu-text">作者申请</span>
+                    </a>
+                </li>
             </ul>
         </li>
     </@shiro.hasPermission>
@@ -264,11 +269,7 @@
                         <span class="menu-text">用户查询</span>
                     </a>
                 </li>
-                <li <#if pageId==26>class="active" </#if>>
-                    <a href="/oa/author/apply/list" class="menu-dropdown">
-                        <span class="menu-text">作者申请</span>
-                    </a>
-                </li>
+
             </ul>
         </li>
     </@shiro.hasPermission>
@@ -295,6 +296,28 @@
             </ul>
         </li>
     </@shiro.hasPermission>
+
+     <@shiro.hasPermission name="link:tag">
+        <li <#if pageId==500|| pageId==501>class="open" </#if>>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-link"></i>
+                <span class="menu-text">链接管理</span>
+                <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu">
+                <li <#if pageId==500>class="active" </#if>>
+                    <a href="/oa/link/index.html">
+                        <span class="menu-text">链接添加</span>
+                    </a>
+                </li>
+                <li <#if pageId==501>class="active" </#if>>
+                    <a href="/oa/link/list.html" class="menu-dropdown">
+                        <span class="menu-text">链接查询</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+     </@shiro.hasPermission>
     <#--
     <@shiro.hasPermission name="personnelSalary:tag">
 

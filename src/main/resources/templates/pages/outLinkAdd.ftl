@@ -62,11 +62,27 @@
                                 <div>
                                     <form id="addform" class="form-horizontal form-bordered" role="form">
                                         <div class="form-group">
-                                            <label for="getName"
-                                                   class="col-sm-2 control-label no-padding-right">分类名称</label>
+                                            <label for="getLink"
+                                                   class="col-sm-2 control-label no-padding-right">链接</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="getName" value="${classify.getClassify()!}"
-                                                       class="form-control" id="getName">
+                                                <input type="text" name="getLink" value="${outLink.getLink()!}"
+                                                       class="form-control" id="getLink">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="getLinkDesc"
+                                                   class="col-sm-2 control-label no-padding-right">链接描述</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="getLinkDesc" value="${outLink.getLinkDesc()!}"
+                                                       class="form-control" id="getLinkDesc">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="getRanking"
+                                                   class="col-sm-2 control-label no-padding-right">排名</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="getRanking" value="${outLink.getRanking()!}"
+                                                       class="form-control" id="getRanking">
                                             </div>
                                         </div>
 
@@ -95,21 +111,29 @@
 <#include "../common/footjs.ftl">
 <script type="text/javascript">
     $("#permission_list").click(function () {
-        location = "/oa/classify/alllist.html"
+        location = "/oa/link/list.html"
     })
 
     $(function () {
         $("#permissionSubmit").click(function () {
-            var id = "${classify.getId()!}";
-            var name = $("#getName").val();
-            if (name==""){
-                layer.msg("分类名称不能为空！！！")
+            var id = "${outLink.getId()!}";
+            var link = $("#getLink").val();
+            var linkDesc = $("#getLinkDesc").val();
+            var ranking = $("#getRanking").val();
+            if (link==""){
+                layer.msg("链接不能为空！！")
+            }else if(linkDesc==""){
+                layer.msg("链接描述不能为空！！")
+            }else if(ranking==""){
+                layer.msg("排名不能为空！！")
             }else {
                 $.post(
-                        "/oa/classify/save",
+                        "/oa/link/save",
                         {
                             id: id,
-                            classify: name
+                            link: link,
+                            linkDesc:linkDesc,
+                            ranking:ranking
                         },
                         function (res) {
                             if (res.code != 0) {
@@ -122,7 +146,7 @@
                                     time: 1000
                                 });
                                 setTimeout(function () {
-                                    location = "/oa/classify/index.html";
+                                    location = "/oa/link/index.html";
                                 }, 1000);
                             }
                         }
