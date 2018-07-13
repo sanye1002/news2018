@@ -77,7 +77,9 @@ public class UploadUtil {
             } catch (IOException e) {
                 log.info("【上传】={}", "error");
             }
-
+            if(type.equals("user")){
+                return "https://p0.cdrysj.com/po/read/img/" + type + "/" + fileName;
+            }
             return "/read/img/" + type + "/" + fileName;
 
         } catch (IOException e) {
