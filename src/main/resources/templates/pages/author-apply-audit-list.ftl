@@ -83,18 +83,18 @@
                                     <tbody>
                                 <#list pageContent.getPageContent() as p>
                                 <tr id="${p.getId()}">
-                                    <td>${p.getName()}</td>
-                                    <td>${p.getNikeName()}</td>
+                                    <td>${p.getName()!}</td>
+                                    <td>${p.getNikeName()!}</td>
                                     <td>${p.getReason()}</td>
                                     <td>${p.getTime()}</td>
                                     <td>
 
                                         <a class="btn btn-danger btn-xs"
-                                           onclick="audit(1,${p.getId()})"><i
+                                           onclick="audit(2,${p.getId()})"><i
                                                 class="btn-label glyphicon glyphicon-ok"></i>
                                             通过</a>
                                         <a class="btn btn-danger btn-xs"
-                                           onclick="audit(0,${p.getId()})"><i
+                                           onclick="audit(3,${p.getId()})"><i
                                                 class="fa fa-times"></i>
                                             未通过</a>
 

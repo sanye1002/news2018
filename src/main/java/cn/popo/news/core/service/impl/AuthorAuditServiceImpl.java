@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class AuthorAuditServiceImpl implements AuthorAuditService{
+public class AuthorAuditServiceImpl implements AuthorAuditService {
 
     @Autowired
     private AuthorAuditRepository authorAuditRepository;
@@ -38,11 +38,12 @@ public class AuthorAuditServiceImpl implements AuthorAuditService{
 
     /**
      * 添加用户申请
+     *
      * @param reason
      * @param userId
      */
     @Override
-    public void addAudit(String reason,String userId) {
+    public void addAudit(String reason, String userId) {
         AuthorAudit authorAudit = new AuthorAudit();
         Long time = System.currentTimeMillis();
         authorAudit.setAuditState(2);
@@ -54,18 +55,19 @@ public class AuthorAuditServiceImpl implements AuthorAuditService{
 
     /**
      * 申请列表
+     *
      * @param auditState
      * @return
      */
     @Override
-    public PageDTO<AuthorAuditDTO> findAllByAuditState(Pageable pageable,Integer auditState) {
+    public PageDTO<AuthorAuditDTO> findAllByAuditState(Pageable pageable, Integer auditState) {
         PageDTO<AuthorAuditDTO> pageDTO = new PageDTO<>();
-        Page<AuthorAudit> authorAuditPage = authorAuditRepository.findAllByAuditState(pageable,auditState);
+        Page<AuthorAudit> authorAuditPage = authorAuditRepository.findAllByAuditState(pageable, auditState);
         List<AuthorAuditDTO> list = new ArrayList<>();
         if (!authorAuditPage.getContent().isEmpty()) {
-            authorAuditPage.getContent().forEach(l->{
+            authorAuditPage.getContent().forEach(l -> {
                 AuthorAuditDTO authorAuditDTO = new AuthorAuditDTO();
-                BeanUtils.copyProperties(l,authorAuditDTO);
+                BeanUtils.copyProperties(l, authorAuditDTO);
                 User user = userRepository.findOne(l.getUserId());
                 authorAuditDTO.setName(user.getName());
                 authorAuditDTO.setNikeName(user.getNikeName());
@@ -78,37 +80,36 @@ public class AuthorAuditServiceImpl implements AuthorAuditService{
 
     /**
      * 审核
+     *
      * @param auditState
      */
     @Override
-    public void updateAudit(Integer auditState,Integer id) {
+    public void updateAudit(Integer auditState, Integer id) {
         AuthorAudit authorAudit = authorAuditRepository.findOne(id);
-        if(auditState == 0){
-            authorAudit.setAuditState(0);
-        }else {
-            authorAudit.setAuditState(1);
-            User user = userRepository.findOne(authorAudit.getUserId());
-            user.setRoleId(4);
-            user.setUserType("0");
-        }
+        authorAudit.setAuditState(auditState);
+        User user = userRepository.findOne(authorAudit.getUserId());
+        user.setRoleId(4);
+        user.setUserType("0");
+
     }
 
     /**
      * 审核状态
+     *
      * @param userId
      * @return
      */
     @Override
-    public Map<String,Object> findAuditStateById( String userId) {
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> findAuditStateById(String userId) {
+        Map<String, Object> map = new HashMap<>();
         AuthorAudit authorAudit = authorAuditRepository.findAllByUserId(userId);
-        if (authorAudit!=null){
-            map.put("auditState",authorAudit.getAuditState());
-        }else {
-            map.put("auditState",3);//未申请
+        if (authorAudit != null) {
+            map.put("auditState", authorAudit.getAuditState());
+        } else {
+            map.put("auditState", 0);//未申请
         }
         User user = userRepository.findOne(userId);
-        map.put("userType",user.getUserType());
+        map.put("userType", user.getUserType());
         return map;
     }
 }
