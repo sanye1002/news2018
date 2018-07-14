@@ -46,7 +46,7 @@ public class AuthorAuditServiceImpl implements AuthorAuditService {
     public void addAudit(String reason, String userId) {
         AuthorAudit authorAudit = new AuthorAudit();
         Long time = System.currentTimeMillis();
-        authorAudit.setAuditState(2);
+        authorAudit.setAuditState(1);
         authorAudit.setTime(time);
         authorAudit.setUserId(userId);
         authorAudit.setReason(reason);
