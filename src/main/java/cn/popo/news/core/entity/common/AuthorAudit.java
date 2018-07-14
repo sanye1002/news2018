@@ -27,5 +27,6 @@ public class AuthorAudit {
 
     private String reason;
 
+    //0:未通过,1:通过,2:未审核
     private Integer auditState;
 }

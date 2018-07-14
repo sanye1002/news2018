@@ -6,6 +6,8 @@ import cn.popo.news.core.entity.param.OutLinkParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @Author: popo
  * @computer：Administrator
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 public interface OutLinkService {
     void addLink(OutLinkParam outLinkParam);
     Page<OutLink> findAllOutLink(Pageable pageable);
+    List<OutLink> findAll();
     OutLink findOneLine(Integer id);
     void delete(Integer id);
 }

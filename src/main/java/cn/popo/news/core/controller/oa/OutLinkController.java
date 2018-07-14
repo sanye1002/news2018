@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,9 +43,18 @@ public class OutLinkController {
      */
     @ResponseBody
     @PostMapping("/save")
-    public ResultVO<Map<String,Object>> saveClassify(@Valid OutLinkParam outLinkParam){
+    public ResultVO<Map<String,Object>> saveLine(@Valid OutLinkParam outLinkParam){
         outLinkService.addLink(outLinkParam);
         Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
+    @ResponseBody
+    @PostMapping("/web/list")
+    public ResultVO<Map<String,Object>> lineList(){
+        List<OutLink> outLinkList = outLinkService.findAll();
+        Map<String,Object> map  = new HashMap<>();
+        map.put("link",outLinkList);
         return ResultVOUtil.success(map);
     }
 

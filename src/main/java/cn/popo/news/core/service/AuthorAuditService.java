@@ -4,6 +4,8 @@ import cn.popo.news.core.dto.AuthorAuditDTO;
 import cn.popo.news.core.dto.PageDTO;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Map;
+
 /**
  * @Author: popo
  * @computer：Administrator
@@ -14,4 +16,5 @@ public interface AuthorAuditService {
     void addAudit(String reason,String userId);
     PageDTO<AuthorAuditDTO> findAllByAuditState(Pageable pageable, Integer auditState);
     void updateAudit(Integer auditState,Integer id);
+    Map<String,Object> findAuditStateById(String userId);
 }

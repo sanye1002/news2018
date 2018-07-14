@@ -1,14 +1,21 @@
 package cn.popo.news.core.service.impl;
 
 import cn.popo.news.common.utils.GetAddressUtil;
+import cn.popo.news.common.utils.StatisticsInfoGetUtil;
+import cn.popo.news.core.dto.IpDataDTO;
+import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.entity.common.*;
 import cn.popo.news.core.repository.*;
 import cn.popo.news.core.service.IPStatisticsService;
 import cn.popo.news.core.utils.GetTimeUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +44,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
      * 保存当天用户访问ip
      */
     @Override
-    public void saveIP(String ip, String util) {
+    public void saveIP(String ip, String util,String browser) {
         IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip);
         IPStatistics ipStatistics = new IPStatistics();
         Long nowTime = System.currentTimeMillis()/1000;
@@ -45,6 +52,9 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         ipTime.setIp(ip);
         ipTime.setTime(GetTimeUtil.getZeroDateFormat(nowTime));
         ipTime.setAddressId(addAddress(ip));
+        ipTime.setBrowser(browser);
+        ipTime.setUtil(util);
+        ipTime.setFullTime(nowTime);
 //        System.out.println(addAddress(ip));
 //        ipStatistics.setId(KeyUtil.genUniqueKey());
         ipStatistics.setIp(ip);
@@ -58,6 +68,7 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
                 ipTimeRepository.save(ipTime);
             }else {
                 ipStatisticsTemp.setNewestTime(nowTime);
+                ipTime.setUtil(util);
             }
         }else {
             ipTimeRepository.save(ipTime);
@@ -73,6 +84,31 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Override
     public Integer findDayCount(String time) {
         return ipTimeRepository.findAllByTime(time).size();
+    }
+
+    /**
+     * 查询某天的访问数据
+     * @param time
+     * @return
+     */
+    @Override
+    public PageDTO<IpDataDTO> findIpInfoByDay(Pageable pageable, String time) {
+        PageDTO<IpDataDTO> pageDTO = new PageDTO<>();
+        Page<IpTime> ipTime =  ipTimeRepository.findAllByTime(pageable,time);
+        List<IpDataDTO> list = new ArrayList<>();
+        if (!ipTime.getContent().isEmpty()){
+            ipTime.getContent().forEach(l->{
+                IpDataDTO ipDataDTO = new IpDataDTO();
+                BeanUtils.copyProperties(l,ipDataDTO);
+                if (l.getFullTime()!=null){
+                    ipDataDTO.setTime(GetTimeUtil.getDateFormatE(l.getFullTime()));
+                }
+                ipDataDTO.setAddress(addressRepository.findOne(l.getAddressId()).getCity());
+                list.add(ipDataDTO);
+            });
+        }
+        pageDTO.setPageContent(list);
+        return pageDTO;
     }
 
     /**

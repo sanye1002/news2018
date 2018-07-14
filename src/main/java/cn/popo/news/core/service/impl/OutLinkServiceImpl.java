@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @Author: popo
@@ -55,6 +56,15 @@ public class OutLinkServiceImpl implements OutLinkService {
         Page<OutLink> outLinkPage = outLinkRepository.findAll(pageable);
 
         return outLinkPage;
+    }
+
+    /**
+     * 查询所有链接
+     * @return
+     */
+    @Override
+    public List<OutLink> findAll() {
+        return outLinkRepository.findAll();
     }
 
     /**

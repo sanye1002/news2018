@@ -15,4 +15,5 @@ import java.util.List;
  */
 public interface AuthorAuditRepository extends JpaRepository<AuthorAudit,Integer> {
     Page<AuthorAudit> findAllByAuditState(Pageable pageable,Integer AuditState);
+    AuthorAudit findAllByUserId(String userId);
 }

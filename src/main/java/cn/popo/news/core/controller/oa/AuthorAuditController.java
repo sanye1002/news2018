@@ -37,6 +37,13 @@ public class AuthorAuditController {
     @Autowired
     private UserSessionUtil userSessionUtil;
 
+    /**
+     * 作者申请
+     * @param reason
+     * @param request
+     * @param response
+     * @return
+     */
     @ResponseBody
     @PostMapping("/apply")
     public ResultVO<Map<String, String>> apply(
@@ -57,6 +64,30 @@ public class AuthorAuditController {
     }
 
     @ResponseBody
+    @PostMapping("/state")
+    public ResultVO<Map<String, String>> auditState(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+        Map<String,Object> map  = new HashMap<>();
+
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
+
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        map = authorAuditService.findAuditStateById(userId);
+
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 申请审核
+     * @param auditState
+     * @param id
+     * @return
+     */
+    @ResponseBody
     @PostMapping("/audit")
     public ResultVO<Map<String, String>> audit(
             @RequestParam(value = "auditState") Integer auditState,
@@ -69,6 +100,13 @@ public class AuthorAuditController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * 申请列表
+     * @param map
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("/apply/list")
     @RequiresPermissions("authorAudit:list")
     public ModelAndView list(Map<String,Object> map,

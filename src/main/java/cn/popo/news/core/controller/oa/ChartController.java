@@ -1,13 +1,18 @@
 package cn.popo.news.core.controller.oa;
 
 import cn.popo.news.common.utils.GetMaxUtil;
+import cn.popo.news.common.utils.StatisticsInfoGetUtil;
 import cn.popo.news.core.dto.AuthorDTO;
+import cn.popo.news.core.dto.IpDataDTO;
+import cn.popo.news.core.dto.PageDTO;
+import cn.popo.news.core.entity.common.IpTime;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.IPStatisticsService;
 import cn.popo.news.core.service.UserService;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.ResultVOUtil;
+import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.utils.SplitUtil;
 import cn.popo.news.core.vo.ResultVO;
 import com.alibaba.fastjson.JSON;
@@ -15,10 +20,13 @@ import com.qq.connect.api.qzone.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -304,6 +312,25 @@ public class ChartController {
         return ResultVOUtil.success(map);
     }
 
+
+    @ResponseBody
+    @PostMapping("/ip/list")
+    public ResultVO<Map<String, String>> fullIpData(
+            @RequestParam(value = "day") Integer day,
+            @RequestParam(value = "month") Integer month,
+            @RequestParam(value = "size",defaultValue = "12") Integer size,
+            @RequestParam(value = "page",defaultValue = "1") Integer page,
+            @RequestParam(value = "year") Integer year
+    ){
+
+        Map<String,Object> map  = new HashMap<>();
+        PageRequest pageRequest = new PageRequest(page-1,size, SortTools.basicSort("desc","fullTime"));
+        PageDTO<IpDataDTO> ipTimes = ipStatisticsService.findIpInfoByDay(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+
+        map.put("ipTime",ipTimes.getPageContent());
+        return ResultVOUtil.success(map);
+    }
+
     /*@ResponseBody
     @GetMapping("/address")
     public ResultVO<Map<String, String>> address(
@@ -312,6 +339,16 @@ public class ChartController {
     ){
         Map<String,Object> map  = new HashMap<>();
         ipStatisticsService.findAfterIp(a,b);
+        return ResultVOUtil.success(map);
+    }*/
+
+    /*@ResponseBody
+    @GetMapping("/browser")
+    public ResultVO<Map<String, String>> address(HttpServletRequest httpServletRequest
+    ){
+        Map<String,Object> map  = new HashMap<>();
+        StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
+        System.out.println(StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
         return ResultVOUtil.success(map);
     }*/
 

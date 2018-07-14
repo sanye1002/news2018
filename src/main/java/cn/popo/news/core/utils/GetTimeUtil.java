@@ -60,6 +60,12 @@ public class GetTimeUtil {
         return dateFormat.format(time);
     }
 
+    public static String getDateFormatE(long time){
+        time = time * 1000;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(time);
+    }
+
 
     //获得当天0点时间
     public static int getTimesmorning(){

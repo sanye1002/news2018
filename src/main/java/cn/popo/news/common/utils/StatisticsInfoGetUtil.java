@@ -5,6 +5,7 @@ package cn.popo.news.common.utils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.StringTokenizer;
 
 public class StatisticsInfoGetUtil {
     public static String getIpAddr(HttpServletRequest request)
@@ -34,7 +35,7 @@ public class StatisticsInfoGetUtil {
         }
     }
 
-    public static void getSystemAndBrowser(HttpServletRequest request){
+    public static String getSystemAndBrowser(HttpServletRequest request){
         StringBuilder userAgent = new StringBuilder("[");
         userAgent.append(request.getHeader("User-Agent"));
         userAgent.append("]");
@@ -101,7 +102,8 @@ public class StatisticsInfoGetUtil {
                 os += "8.1";
             }
         }
-        System.out.println("系统：" + os + ",浏览器：" + browser);
+//        System.out.println("系统：" + os + ",浏览器：" + browser);
+        return browser;
     }
 
     public static String getVisitUitl(HttpServletRequest request){

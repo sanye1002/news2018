@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: popo
@@ -89,5 +91,24 @@ public class AuthorAuditServiceImpl implements AuthorAuditService{
             user.setRoleId(4);
             user.setUserType("0");
         }
+    }
+
+    /**
+     * 审核状态
+     * @param userId
+     * @return
+     */
+    @Override
+    public Map<String,Object> findAuditStateById( String userId) {
+        Map<String,Object> map = new HashMap<>();
+        AuthorAudit authorAudit = authorAuditRepository.findAllByUserId(userId);
+        if (authorAudit!=null){
+            map.put("auditState",authorAudit.getAuditState());
+        }else {
+            map.put("auditState",3);//未申请
+        }
+        User user = userRepository.findOne(userId);
+        map.put("userType",user.getUserType());
+        return map;
     }
 }

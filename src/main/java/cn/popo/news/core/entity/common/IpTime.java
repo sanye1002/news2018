@@ -19,7 +19,13 @@ public class IpTime {
     private String ip;
 
     private String time;
+    
+    private String browser;
 
     private Integer addressId;
+
+    private String util;
+
+    private Long fullTime;
 
 }

@@ -94,7 +94,11 @@ public class HomePageController {
     @ResponseBody
     public ResultVO<Map<String,Object>> nav(Map<String,Object> map,HttpServletRequest httpServletRequest){
 
-        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
+        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),
+                StatisticsInfoGetUtil.getVisitUitl(httpServletRequest),
+                StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest)
+                );
+        StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
 
         //导航
         List<Classify> list = classifyService.findAllClassify();
@@ -295,10 +299,35 @@ public class HomePageController {
 
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         List<ArticleVO> list = new ArrayList<>();
-        for (int i=0;i<6;i++){
+        for (int i=0;i<10;i++){
             page = new Random().nextInt(700)+300;
             PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
             list.addAll(articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO).getPageContent());
+        }
+        pageDTO.setPageContent(list);
+        //文章
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    @PostMapping("/classify/random/article")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> classifyRandomArticle(Map<String,Object> map,
+                                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                           @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                           @RequestParam(value = "classifyId") Integer classifyId
+
+    ){
+
+
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        List<ArticleVO> list = new ArrayList<>();
+        for (int i=0;i<6;i++){
+            page = new Random().nextInt(80)+20;
+            PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
+
+            list.addAll(agoArticleService.findAllArticleByClassifyIdAndShowStateAndStateAndDraft(pageRequest,classifyId,ONE,ONE,ZERO).getPageContent());
         }
         pageDTO.setPageContent(list);
         //文章

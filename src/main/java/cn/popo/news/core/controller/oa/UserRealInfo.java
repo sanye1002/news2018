@@ -35,7 +35,10 @@ public class UserRealInfo {
         Map<String,Object> map  = new HashMap<>();
 //        System.out.println(StatisticsInfoGetUtil.getIpAddr(httpServletRequest));
 //        StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
-        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
+        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),
+                StatisticsInfoGetUtil.getVisitUitl(httpServletRequest),
+                StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest)
+                );
         return ResultVOUtil.success(map);
     }
 
