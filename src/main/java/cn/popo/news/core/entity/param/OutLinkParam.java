@@ -1,6 +1,5 @@
 package cn.popo.news.core.entity.param;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -21,6 +20,5 @@ public class OutLinkParam {
     @NotEmpty
     private String linkDesc;
 
-    @NotNull
     private Integer ranking;
 }
