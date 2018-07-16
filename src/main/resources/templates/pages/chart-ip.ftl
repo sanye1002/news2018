@@ -78,10 +78,10 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div style="width:50%; display: inline-block;vertical-align:top">
+                                    <div style="width:60%; display: flex;align-items: center;justify-content: center;margin-left: 22%;">
                                         <canvas id="canvas"></canvas>
                                     </div>
-                                    <div style="width:40%;display: inline-block;margin-left: 50px;margin-top: 65px">
+                                    <#--<div style="width:40%;display: inline-block;margin-left: 50px;margin-top: 65px">
                                         <div class="table-scrollable">
                                             <table class="table table-bordered table-hover">
                                                 <thead>
@@ -164,16 +164,19 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <br>
                                     <br>
                                 <#--<button id="randomizeData">Randomize Data</button>
                                 <button id="addDataset">Add Dataset</button>
                                 <button id="removeDataset">Remove Dataset</button>-->
-                                    <a href="javascript:void(0);" id="addData" class="btn btn-primary">增加一天</a>
-                                    <a href="javascript:void(0);" id="removeData" class="btn btn-info">减少一天</a>
-                                    <a href="javascript:void(0);" id="nextMonth" class="btn btn-success">下一月</a>
-                                    <a href="javascript:void(0);" id="upMonth" class="btn btn-purple">上一月</a>
+                                    <div style="display: flex;align-items: center;justify-content: center;">
+                                        <a href="javascript:void(0);" id="addData" class="btn btn-primary">增加一天</a>
+                                        <a href="javascript:void(0);" id="removeData" class="btn btn-info">减少一天</a>
+                                        <a href="javascript:void(0);" id="nextMonth" class="btn btn-success">下一月</a>
+                                        <a href="javascript:void(0);" id="upMonth" class="btn btn-purple">上一月</a>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -240,7 +243,7 @@
                 var element = this.getElementAtEvent(e);
                 if(element.length!=0){
                     var clickDay = (element[0]._index)+1;
-                    page(1,5,clickDay);
+                    // page(1,5,clickDay);
                     address(clickDay);
                     browser(clickDay);
                     util(clickDay);
@@ -515,7 +518,7 @@
                         addressConfig.data.datasets.splice(0,1);
                         for (var i=0;i<data.data.addressCount.length;++i){
                             newDataset.data.push(data.data.addressCount[i]);
-                            var colorName = colorNames[config.data.datasets.length % colorNames.length];
+                            var colorName = colorNames[i];
                             var newColor = window.chartColors[colorName];
                             newDataset.backgroundColor.push(newColor);
                         }
@@ -559,7 +562,7 @@
                         browserConfig.data.datasets.splice(0,1);
                         for (var i=0;i<data.data.browserCount.length;++i){
                             newDataset.data.push(data.data.browserCount[i]);
-                            var colorName = colorNames[config.data.datasets.length % colorNames.length];
+                            var colorName = colorNames[i];
                             var newColor = window.chartColors[colorName];
                             newDataset.backgroundColor.push(newColor);
                         }
@@ -608,7 +611,7 @@
                         utilConfig.data.datasets.splice(0,1);
                         for (var i=0;i<data.data.utilCount.length;++i){
                             newDataset.data.push(data.data.utilCount[i]);
-                            var colorName = colorNames[config.data.datasets.length % colorNames.length];
+                            var colorName = colorNames[i];
                             var newColor = window.chartColors[colorName];
                             newDataset.backgroundColor.push(newColor);
                         }
