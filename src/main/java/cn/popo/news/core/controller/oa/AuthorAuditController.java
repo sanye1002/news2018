@@ -116,7 +116,7 @@ public class AuthorAuditController {
         map.put("pageId",26);
         map.put("pageTitle","申请作者审核");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","time"));
-        PageDTO<AuthorAuditDTO> pageDTO = authorAuditService.findAllByAuditState(pageRequest,2);
+        PageDTO<AuthorAuditDTO> pageDTO = authorAuditService.findAllByAuditState(pageRequest,1);
         map.put("pageContent", pageDTO);
         map.put("url", "/oa/author/apply/list.html");
         map.put("size", size);

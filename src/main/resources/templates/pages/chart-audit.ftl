@@ -112,8 +112,8 @@
         type: 'line',
         data: {
             // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            labels: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
-            // labels:[1,2,3,4,5,6,7],
+            // labels: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
+            labels:${dayList},
             datasets: [{
                 label: '文章审核量',
                 backgroundColor: window.chartColors.red,
@@ -148,7 +148,7 @@
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Value'
+                        labelString: '文章审核量'
                     },
                     ticks: {
                         min: 0,

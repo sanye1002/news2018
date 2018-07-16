@@ -11,4 +11,7 @@ public interface IpTimeRepository extends JpaRepository<IpTime,Integer> {
     List<IpTime> findAllByTime(String time);
     Page<IpTime> findAllByTime(Pageable pageable,String time);
     List<IpTime> findAllByTimeEndingWith(String week);
+    List<IpTime> findAllByTimeAndUtil(String time,String util);
+    List<IpTime> findAllByTimeAndAddressId(String time,Integer addressId);
+    List<IpTime> findAllByTimeAndBrowser(String time,String browser);
 }

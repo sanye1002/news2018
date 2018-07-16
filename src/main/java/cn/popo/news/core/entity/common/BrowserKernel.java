@@ -10,25 +10,17 @@ import javax.persistence.Table;
 /**
  * @Author: popo
  * @computer：Administrator
- * @create 2018-07-09 下午 3:50
+ * @create 2018-07-15 下午 8:34
  * @Description description
  */
+
 @Data
 @Entity
-@Table(name = "author_audit")
-public class AuthorAudit {
+@Table(name = "browser_kernel")
+public class BrowserKernel {
     @Id
     @GeneratedValue
     private Integer id;
 
-    private Long time;
-
-    private Long auditTime;
-
-    private String userId;
-
-    private String reason;
-
-    //0:未通过,1:通过,2:未审核
-    private Integer auditState;
+    private String kernel;
 }

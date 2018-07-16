@@ -171,8 +171,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
                         <div class="margin-top-30 text-align-right">
                             <div class="next">
                                 <ul class="pagination">

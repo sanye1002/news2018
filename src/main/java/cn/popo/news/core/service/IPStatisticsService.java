@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IPStatisticsService {
     void saveIP(String ip,String util,String browser);
@@ -23,4 +24,7 @@ public interface IPStatisticsService {
     Integer findArticleAuditNumByDay(String time,Integer auditState,Integer type);
     void addUserIssueNum(String userId,Integer type);
     Integer findUserIssueNumByDay(String time,String userId,Integer type);
+    Map<String,Object> findUtilNum(String time);
+    Map<String,Object> findAddressNum(String time);
+    Map<String,Object> findBrowserNum(String time);
 }

@@ -57,30 +57,83 @@ public class ChartController {
     @RequiresPermissions("ipChart:list")
     public ModelAndView index(Map<String,Object> map,
                               @RequestParam(value = "month",defaultValue = "0") Integer month,
+                              @RequestParam(value = "size",defaultValue = "5") Integer size,
+                              @RequestParam(value = "page",defaultValue = "1") Integer page,
+                              @RequestParam(value = "nowDay",defaultValue = "1") Integer nowDay,
                               @RequestParam(value = "year",defaultValue = "0") Integer year
     ){
         List<Integer> list = new ArrayList<>();
+        Integer day = 7;
 
         if (month==0) {
             month = GetTimeUtil.getNowMonth();
         }
+        if (year==GetTimeUtil.getNowYear()||year==0){
+            if (month==GetTimeUtil.getNowMonth()||month==0){
+                day = GetTimeUtil.getNowDay();
+                nowDay = GetTimeUtil.getNowDay();
+            }
+        }
+
+
 
         if (year==0){
             year = GetTimeUtil.getNowYear();
         }
 
-        for(int i=1;i<8;i++){
-            Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)));
-            list.add(num);
+        List<String> dayList = new ArrayList<>();
+
+
+
+
+        //访问地址统计
+        Map<String,Object> address = ipStatisticsService.findAddressNum(
+                GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(nowDay,month,year)));
+
+        map.put("addressKey",JSON.toJSONString(address.get("key")));
+        map.put("addressCount",JSON.toJSONString(address.get("count")));
+
+        //访问工具统计
+        Map<String,Object> util = ipStatisticsService.findUtilNum(
+                GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(nowDay,month,year)));
+
+        map.put("utilKey",JSON.toJSONString(util.get("key")));
+        map.put("utilCount",JSON.toJSONString(util.get("count")));
+
+        //访问浏览器内核统计
+        Map<String,Object> browser = ipStatisticsService.findBrowserNum(
+                GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(nowDay,month,year)));
+
+        map.put("browserKey",JSON.toJSONString(browser.get("key")));
+        map.put("browserCount",JSON.toJSONString(browser.get("count")));
+
+        //ip访问数据表
+        PageRequest pageRequest = new PageRequest(page-1,size, SortTools.basicSort("desc","fullTime"));
+        PageDTO<IpDataDTO> ipTimes = ipStatisticsService.findIpInfoByDay(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(nowDay,month,year)));
+        map.put("pageContent",ipTimes);
+
+        if (month<GetTimeUtil.getNowMonth()){
+            day = GetTimeUtil.getMaxDayByYearMonth(year,month);
         }
 
+        //ip访问总量
+        for(int i=1;i<day+1;i++){
+            Integer num = ipStatisticsService.findDayCount(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)));
+            list.add(num);
+            dayList.add(i+"号");
+        }
 
         Integer max = Collections.max(list);
         max = GetMaxUtil.maxValue(max);
         map.put("max",max);
+        map.put("nowDay",nowDay);
         map.put("month",month);
         map.put("year",year);
+        map.put("dayList",JSON.toJSONString(dayList));
         map.put("list",JSON.toJSONString(list));
+        map.put("url", "/oa/chart/ip.html");
+        map.put("size", size);
+        map.put("currentPage", page);
         map.put("pageId",1000);
         map.put("pageTitle",month+"月ip访问量统计");
 
@@ -99,6 +152,14 @@ public class ChartController {
 
 
         List<Integer> list = new ArrayList<>();
+        List<String> dayList = new ArrayList<>();
+        Integer day = 7;
+
+        if (year==GetTimeUtil.getNowYear()||year==0){
+            if (month==GetTimeUtil.getNowMonth()||month==0){
+                day = GetTimeUtil.getNowDay();
+            }
+        }
 
         if (month==0) {
             month = GetTimeUtil.getNowMonth();
@@ -108,9 +169,10 @@ public class ChartController {
             year = GetTimeUtil.getNowYear();
         }
 
-        for(int i=1;i<8;i++){
+        for(int i=1;i<day+1;i++){
             Integer num = ipStatisticsService.findArticleIssueNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)),type);
             list.add(num);
+            dayList.add(i+"号");
         }
 
         List<AuthorDTO> authorDTOList = userService.findAllAuthor();
@@ -120,6 +182,7 @@ public class ChartController {
         map.put("max",max);
         map.put("month",month);
         map.put("year",year);
+        map.put("dayList",JSON.toJSONString(dayList));
         map.put("author",authorDTOList);
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1001);
@@ -190,6 +253,14 @@ public class ChartController {
 
 
         List<Integer> list = new ArrayList<>();
+        List<String> dayList = new ArrayList<>();
+        Integer day = 7;
+
+        if (year==GetTimeUtil.getNowYear()||year==0){
+            if (month==GetTimeUtil.getNowMonth()||month==0){
+                day = GetTimeUtil.getNowDay();
+            }
+        }
 
         if (month==0) {
             month = GetTimeUtil.getNowMonth();
@@ -203,9 +274,10 @@ public class ChartController {
             len = 7;
         }
 
-        for(int i=1;i<len+1;i++){
+        for(int i=1;i<day+1;i++){
             Integer num = ipStatisticsService.findArticleAuditNumByDay(GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(i,month,year)),auditState,type);
             list.add(num);
+            dayList.add(i+"号");
         }
 
         Integer max = Collections.max(list);
@@ -213,6 +285,7 @@ public class ChartController {
         map.put("max",max);
         map.put("month",month);
         map.put("year",year);
+        map.put("dayList",JSON.toJSONString(dayList));
         map.put("list",JSON.toJSONString(list));
         map.put("pageId",1002);
         map.put("pageTitle","文章审核统计");
@@ -318,7 +391,7 @@ public class ChartController {
     public ResultVO<Map<String, String>> fullIpData(
             @RequestParam(value = "day") Integer day,
             @RequestParam(value = "month") Integer month,
-            @RequestParam(value = "size",defaultValue = "12") Integer size,
+            @RequestParam(value = "size",defaultValue = "5") Integer size,
             @RequestParam(value = "page",defaultValue = "1") Integer page,
             @RequestParam(value = "year") Integer year
     ){
@@ -328,6 +401,7 @@ public class ChartController {
         PageDTO<IpDataDTO> ipTimes = ipStatisticsService.findIpInfoByDay(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
 
         map.put("ipTime",ipTimes.getPageContent());
+
         return ResultVOUtil.success(map);
     }
 
@@ -351,6 +425,60 @@ public class ChartController {
         System.out.println(StatisticsInfoGetUtil.getVisitUitl(httpServletRequest));
         return ResultVOUtil.success(map);
     }*/
+
+    @ResponseBody
+    @PostMapping("/address")
+    public ResultVO<Map<String, String>> address(@RequestParam(value = "month") Integer month,
+                                                 @RequestParam(value = "day") Integer day,
+                                                 @RequestParam(value = "year") Integer year
+    ){
+        Map<String,Object> map  = new HashMap<>();
+        //访问地址统计
+        Map<String,Object> address = ipStatisticsService.findAddressNum(
+                GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+
+        map.put("addressKey",address.get("key"));
+        map.put("addressCount",address.get("count"));
+        map.put("nowDay",day);
+
+        return ResultVOUtil.success(map);
+    }
+
+    @ResponseBody
+    @PostMapping("/browser")
+    public ResultVO<Map<String, String>> browser(@RequestParam(value = "month") Integer month,
+                                                 @RequestParam(value = "day") Integer day,
+                                                 @RequestParam(value = "year") Integer year
+    ){
+        Map<String,Object> map  = new HashMap<>();
+        //访问浏览器内核统计
+        Map<String,Object> browser = ipStatisticsService.findBrowserNum(
+                GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+
+        map.put("browserKey",browser.get("key"));
+        map.put("browserCount",browser.get("count"));
+        map.put("nowDay",day);
+
+        return ResultVOUtil.success(map);
+    }
+
+    @ResponseBody
+    @PostMapping("/util")
+    public ResultVO<Map<String, String>> util(@RequestParam(value = "month") Integer month,
+                                                 @RequestParam(value = "day") Integer day,
+                                                 @RequestParam(value = "year") Integer year
+    ){
+        Map<String,Object> map  = new HashMap<>();
+        //访问工具统计
+        Map<String,Object> util = ipStatisticsService.findUtilNum(
+                GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+
+        map.put("utilKey",util.get("key"));
+        map.put("utilCount",util.get("count"));
+        map.put("nowDay",day);
+
+        return ResultVOUtil.success(map);
+    }
 
 
 }

@@ -165,8 +165,9 @@
         type: 'line',
         data: {
             // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            labels: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
+            // labels: ['1号', '2号', '3号', '4号', '5号', '6号', '7号'],
             // labels:[1,2,3,4,5,6,7],
+            labels:${dayList},
             datasets: [{
                 label: '文章发布总量',
                 backgroundColor: window.chartColors.red,
@@ -202,7 +203,7 @@
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Value'
+                        labelString: '文章发布量'
                     },
                     ticks: {
                         min: 0,
@@ -288,6 +289,7 @@
                                 for (var index = 0; index < len; ++index) {
                                     newDataset.data.push(data.data.list[index]);
                                 }
+                                console.log(newDataset)
                             }
                             window.myLine.update();
                             if (data.code > 0) {

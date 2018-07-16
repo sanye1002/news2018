@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +41,21 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Autowired
     private ArticleIssueNumByUserRepository articleIssueNumByUserRepository;
 
+    @Autowired
+    private BrowserKernelRepository browserKernelRepository;
+
     /**
      * 保存当天用户访问ip
      */
     @Override
     public void saveIP(String ip, String util,String browser) {
         IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip);
+        BrowserKernel browserKernel = new BrowserKernel();
+        browserKernel = browserKernelRepository.findAllByKernel(browser);
+        if (browserKernel==null){
+            browserKernel.setKernel(browser);
+            browserKernelRepository.save(browserKernel);
+        }
         IPStatistics ipStatistics = new IPStatistics();
         Long nowTime = System.currentTimeMillis()/1000;
         IpTime ipTime = new IpTime();
@@ -324,6 +334,92 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         }else {
             return 0;
         }
+    }
+
+    /**
+     * 查询访问工具的数量
+     * @param time
+     * @return
+     */
+    @Override
+    public Map<String,Object> findUtilNum(String time) {
+        Map<String,Object> map = new HashMap<>();
+        List<String> stringList = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+
+        List<IpTime> iphoneList = ipTimeRepository.findAllByTimeAndUtil(time,"iPhone");
+        if (!iphoneList.isEmpty()){
+            list.add(iphoneList.size());
+            stringList.add("iPhone");
+        }
+
+        List<IpTime> computerList = ipTimeRepository.findAllByTimeAndUtil(time,"computer");
+        if (!computerList.isEmpty()){
+            list.add(computerList.size());
+            stringList.add("computer");
+        }
+
+        List<IpTime> androidList = ipTimeRepository.findAllByTimeAndUtil(time,"Android");
+        if (!androidList.isEmpty()){
+            list.add(androidList.size());
+            stringList.add("Android");
+        }
+
+
+        map.put("key",stringList);
+        map.put("count",list);
+        return map;
+    }
+
+    /**
+     * 查询访问地址数量
+     * @param time
+     * @return
+     */
+    @Override
+    public Map<String,Object> findAddressNum(String time) {
+        List<Address> address = addressRepository.findAll();
+        Map<String,Object> map = new HashMap<>();
+        List<String> stringList = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        if (address!=null){
+            address.forEach(l->{
+                List<IpTime> ip = ipTimeRepository.findAllByTimeAndAddressId(time,l.getId());
+                if (!ip.isEmpty()){
+                    list.add(ip.size());
+                    stringList.add(l.getCity());
+                }
+
+            });
+        }
+        map.put("key",stringList);
+        map.put("count",list);
+        return map;
+    }
+
+    /**
+     * 查询访问浏览器数量
+     * @param time
+     * @return
+     */
+    @Override
+    public Map<String,Object> findBrowserNum(String time) {
+        Map<String,Object> map = new HashMap<>();
+        List<BrowserKernel> list = browserKernelRepository.findAll();
+        List<String> stringList = new ArrayList<>();
+        List<Integer> listCount = new ArrayList<>();
+        if (list!=null){
+            list.forEach(l->{
+                List<IpTime> ip = ipTimeRepository.findAllByTimeAndBrowser(time,l.getKernel());
+                if (!ip.isEmpty()){
+                    listCount.add(ip.size());
+                    stringList.add(l.getKernel());
+                }
+            });
+        }
+        map.put("key",stringList);
+        map.put("count",listCount);
+        return map;
     }
 
 }

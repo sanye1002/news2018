@@ -44,13 +44,21 @@ public class AuthorAuditServiceImpl implements AuthorAuditService {
      */
     @Override
     public void addAudit(String reason, String userId) {
-        AuthorAudit authorAudit = new AuthorAudit();
+        AuthorAudit authorAudit1 = authorAuditRepository.findAllByUserId(userId);
         Long time = System.currentTimeMillis();
-        authorAudit.setAuditState(1);
-        authorAudit.setTime(time);
-        authorAudit.setUserId(userId);
-        authorAudit.setReason(reason);
-        authorAuditRepository.save(authorAudit);
+        if (authorAudit1!=null) {
+            authorAudit1.setReason(reason);
+            authorAudit1.setTime(time);
+            authorAudit1.setAuditState(1);
+        }else {
+            AuthorAudit authorAudit = new AuthorAudit();
+            authorAudit.setAuditState(1);
+            authorAudit.setTime(time);
+            authorAudit.setUserId(userId);
+            authorAudit.setReason(reason);
+            authorAuditRepository.save(authorAudit);
+        }
+
     }
 
     /**
@@ -87,10 +95,10 @@ public class AuthorAuditServiceImpl implements AuthorAuditService {
     public void updateAudit(Integer auditState, Integer id) {
         AuthorAudit authorAudit = authorAuditRepository.findOne(id);
         authorAudit.setAuditState(auditState);
+        authorAudit.setAuditTime(System.currentTimeMillis());
         User user = userRepository.findOne(authorAudit.getUserId());
         user.setRoleId(4);
         user.setUserType("0");
-
     }
 
     /**
