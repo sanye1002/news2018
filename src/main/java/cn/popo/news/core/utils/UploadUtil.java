@@ -69,7 +69,7 @@ public class UploadUtil {
                 Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
             }*/
             //打水印
-            if (!type.equals("user")){
+            if (!type.equals("user")||!type.equals("userDynamic")){
                 WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
             }
             try {
