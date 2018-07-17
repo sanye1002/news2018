@@ -434,6 +434,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void updateSlide(String articleId) {
         ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        List<ArticleInfo> list = articleRepository.findAllByManageIdAndSlideState(1,1);
+        if (list.size() == 6){
+            updateArticleManage(list.get(0).getArticleId(),100);
+        }
         articleInfo.setSlideState(ResultEnum.PARAM_NULL.getCode());
         articleInfo.setManageId(ResultEnum.PARAM_NULL.getCode());
     }
