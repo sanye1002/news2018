@@ -107,6 +107,94 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         Page<IpTime> ipTime =  ipTimeRepository.findAllByTime(pageable,time);
         List<IpDataDTO> list = new ArrayList<>();
         if (!ipTime.getContent().isEmpty()){
+            pageDTO.setTotalPages(ipTime.getTotalPages());
+            ipTime.getContent().forEach(l->{
+                IpDataDTO ipDataDTO = new IpDataDTO();
+                BeanUtils.copyProperties(l,ipDataDTO);
+                if (l.getFullTime()!=null){
+                    ipDataDTO.setTime(GetTimeUtil.getDateFormatE(l.getFullTime()));
+                }
+                if(l.getAddressId()!=null){
+                    ipDataDTO.setAddress(addressRepository.findOne(l.getAddressId()).getCity());
+                }
+                list.add(ipDataDTO);
+            });
+        }
+        pageDTO.setPageContent(list);
+        return pageDTO;
+    }
+
+    /**
+     * 查询某种工具的访问量
+     * @param pageable
+     * @param time
+     * @param util
+     * @return
+     */
+    @Override
+    public PageDTO<IpDataDTO> findIpInfoByDayAndUtil(Pageable pageable, String time, String util) {
+        PageDTO<IpDataDTO> pageDTO = new PageDTO<>();
+        Page<IpTime> ipTime =  ipTimeRepository.findAllByTimeAndUtil(pageable,time,util);
+        List<IpDataDTO> list = new ArrayList<>();
+        if (!ipTime.getContent().isEmpty()){
+            pageDTO.setTotalPages(ipTime.getTotalPages());
+            ipTime.getContent().forEach(l->{
+                IpDataDTO ipDataDTO = new IpDataDTO();
+                BeanUtils.copyProperties(l,ipDataDTO);
+                if (l.getFullTime()!=null){
+                    ipDataDTO.setTime(GetTimeUtil.getDateFormatE(l.getFullTime()));
+                }
+                ipDataDTO.setAddress(addressRepository.findOne(l.getAddressId()).getCity());
+                list.add(ipDataDTO);
+            });
+        }
+        pageDTO.setPageContent(list);
+        return pageDTO;
+    }
+
+    /**
+     * 某种浏览器内核的访问量
+     * @param pageable
+     * @param time
+     * @param browser
+     * @return
+     */
+    @Override
+    public PageDTO<IpDataDTO> findIpInfoByDayAndBrowser(Pageable pageable, String time, String browser) {
+        PageDTO<IpDataDTO> pageDTO = new PageDTO<>();
+        Page<IpTime> ipTime =  ipTimeRepository.findAllByTimeAndBrowser(pageable,time,browser);
+        List<IpDataDTO> list = new ArrayList<>();
+        if (!ipTime.getContent().isEmpty()){
+            pageDTO.setTotalPages(ipTime.getTotalPages());
+            ipTime.getContent().forEach(l->{
+                IpDataDTO ipDataDTO = new IpDataDTO();
+                BeanUtils.copyProperties(l,ipDataDTO);
+                if (l.getFullTime()!=null){
+                    ipDataDTO.setTime(GetTimeUtil.getDateFormatE(l.getFullTime()));
+                }
+                ipDataDTO.setAddress(addressRepository.findOne(l.getAddressId()).getCity());
+                list.add(ipDataDTO);
+            });
+        }
+        pageDTO.setPageContent(list);
+        return pageDTO;
+    }
+
+    /**
+     * 某个地区的访问量
+     * @param pageable
+     * @param time
+     * @param address
+     * @return
+     */
+    @Override
+    public PageDTO<IpDataDTO> findIpInfoByDayAndAddress(Pageable pageable, String time, String address) {
+        PageDTO<IpDataDTO> pageDTO = new PageDTO<>();
+        Address address1 = addressRepository.findAllByCity(address);
+        Page<IpTime> ipTime =  ipTimeRepository.findAllByTimeAndAddressId(pageable,time,address1.getId());
+        List<IpDataDTO> list = new ArrayList<>();
+        if (!ipTime.getContent().isEmpty()){
+            pageDTO.setTotalPages(ipTime.getTotalPages());
             ipTime.getContent().forEach(l->{
                 IpDataDTO ipDataDTO = new IpDataDTO();
                 BeanUtils.copyProperties(l,ipDataDTO);

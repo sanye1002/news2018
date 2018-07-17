@@ -60,30 +60,57 @@
 
                             <div style="float:left;margin-left: 2px">
                                 <div class="form-group">
-                                    <label for="anchorUser">文章类型</label>
-                                    <span class="input-icon icon-right">
-                                        <#--<select id="e1" style="width:100%;">
-                                            <option value="0" <#if article.getClassifyId()! == 0>selected</#if>>请选择</option>
-                                                <#list classify as c>
-                                                    <option value=${c.getId()} <#if article.getClassifyId()! == c.getId()>selected</#if>>
-                                                            ${c.getClassify()}
-                                                    </option>
-                                                </#list>
-                                        </select>-->
-                                        <i class="glyphicon glyphicon-fire"></i>
+                                    <span class="input-icon icon-right" style="width: 80px">
+                                        <select id="e1" style="width:100%;">
+                                            <#list manyYear as y>
+                                                <option value=${y} <#if year! == y>selected</#if>>
+                                                    ${y}
+                                                </option>
+                                            </#list>
+                                        </select>
                                     </span>
+                                    <label for="anchorUser">年</label>
+                                </div>
+                            </div>
+                            <div style="float:left;margin-left: 2px">
+                                <div class="form-group">
+                                    <span class="input-icon icon-right" style="width: 80px">
+                                        <select id="e2" style="width:100%;">
+                                            <#list 1..12 as m>
+                                                <option value=${m} <#if month! == m>selected</#if>>
+                                                    ${m}
+                                                </option>
+                                            </#list>
+                                        </select>
+
+                                    </span>
+                                    <label for="anchorUser">月</label>
+                                </div>
+                            </div>
+                            <div style="float:left;margin-left: 2px">
+                                <div class="form-group">
+                                    <span class="input-icon icon-right" style="width: 80px">
+                                        <select id="e3" style="width:100%;" >
+                                            <#list manyDay as d>
+                                                <option value=${d} <#if day! == d>selected</#if>>
+                                                    ${d}
+                                                </option>
+                                            </#list>
+                                        </select>
+                                    </span>
+                                    <label for="anchorUser">日</label>
                                 </div>
                             </div>
 
                             <div style="float:right;margin-right:2px;">
 
                                 <div class="form-group">
-                                    <select id="classifySelectType">
-                                        <option value="0" <#if onValue == 0>selected</#if>>address<span
+                                    <select id="address">
+                                        <option value="0" <#if onValue == "0">selected</#if>>address<span
                                                 class="badge">&nbsp;${addressAll}</span></option>
                                     <#list addressKey as c>
                                         <option value="${c}" <#if c == onValue >selected</#if>>
-                                            ${c}<span class="badge">${addressCount[c_index]}
+                                            ${c}<span class="badge">&nbsp;${addressCount[c_index]}
                                         </span>
                                         </option>
                                     </#list>
@@ -93,12 +120,12 @@
                             <div style="float:right;margin-right:2px;">
 
                                 <div class="form-group">
-                                    <select id="classifySelectType">
-                                        <option value="0" <#if onValue == 0>selected</#if>>browser<span
+                                    <select id="browser">
+                                        <option value="0" <#if onValue == "0">selected</#if>>browser<span
                                                 class="badge">&nbsp;${browserAll}</span></option>
                                         <#list browserKey as c>
                                             <option value="${c}" <#if c ==onValue >selected</#if>>
-                                                ${c}<span class="badge">${browserCount[c_index]}
+                                                ${c}<span class="badge">&nbsp;${browserCount[c_index]}
                                             </span>
                                             </option>
                                         </#list>
@@ -108,12 +135,12 @@
                             <div style="float:right;margin-right:2px;">
 
                                 <div class="form-group">
-                                    <select id="classifySelectType">
-                                        <option value="0" <#if onValue == 0>selected</#if>>util<span
+                                    <select id="util">
+                                        <option value="0" <#if onValue == "0">selected</#if>>util<span
                                                 class="badge">&nbsp;${utilAll}</span></option>
                                     <#list utilKey as c>
-                                        <option value="${c}" <#if c ==onValue >selected</#if>>
-                                            ${c}<span class="badge">${utilCount[c_index]}
+                                        <option value="${c}" <#if c == onValue >selected</#if>>
+                                            ${c}<span class="badge">&nbsp;${utilCount[c_index]}
                                         </span>
                                         </option>
                                     </#list>
@@ -135,10 +162,10 @@
                                     <#list pageContent.getPageContent() as ipData>
                                     <tr id="${ipData.getId()}">
                                         <td>${ipData.getIp()}</td>
-                                        <td>${ipData.getTime()}</td>
-                                        <td>${ipData.getBrowser()}</td>
-                                        <td>${ipData.getAddress()}</td>
-                                        <td>${ipData.getUtil()}</td>
+                                        <td>${ipData.getTime()!}</td>
+                                        <td>${ipData.getBrowser()!}</td>
+                                        <td>${ipData.getAddress()!}</td>
+                                        <td>${ipData.getUtil()!}</td>
                                     </tr>
                                     </#list>
                                     </tbody>
@@ -149,13 +176,13 @@
                             <div class="margin-top-30 text-align-right">
                                 <div class="next">
                                     <ul class="pagination">
-                                        <li><a href="${url}?page=1&size=${size}&year=${year}&month=${month}&day=${day}">首页</a>
+                                        <li><a href="${url}?page=1&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">首页</a>
                                         </li>
                                             <#if currentPage lte 1>
                                                 <li class="disabled"><a>上一页</a></li>
                                             <#else>
                                                 <li>
-                                                    <a href="${url}?page=${currentPage-1}&size=${size}&year=${year}&month=${month}&day=${day}">上一页</a>
+                                                    <a href="${url}?page=${currentPage-1}&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">上一页</a>
                                                 </li>
 
                                             </#if>
@@ -166,7 +193,7 @@
                          <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
                         <li>
-                            <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}">${index}</a>
+                            <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">${index}</a>
                         </li>
                                                        </#if>
                                                    </#list>
@@ -176,7 +203,7 @@
                          <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
                         <li>
-                            <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}">${index}</a>
+                            <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">${index}</a>
                         </li>
                                                        </#if>
                                                    </#list>
@@ -186,7 +213,7 @@
                                 <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
                                 <li>
-                                    <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}">${index}</a>
+                                    <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">${index}</a>
                                 </li>
                                                        </#if>
                                                    </#list>
@@ -196,7 +223,7 @@
                                 <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
                                 <li>
-                                    <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}">${index}</a>
+                                    <a href="${url}?page=${index}&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">${index}</a>
                                 </li>
                                                        </#if>
                                                    </#list>
@@ -207,11 +234,11 @@
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
                                                     <li>
-                                                        <a href="${url}?page=${currentPage+1}&size=${size}&year=${year}&month=${month}&day=${day}">下一页</a>
+                                                        <a href="${url}?page=${currentPage+1}&size=${size}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">下一页</a>
                                                     </li>
                                                 </#if>
                                         <li>
-                                            <a href="${url}?page=${pageContent.getTotalPages()}&year=${year}&month=${month}&day=${day}">尾页</a>
+                                            <a href="${url}?page=${pageContent.getTotalPages()}&year=${year}&month=${month}&day=${day}&onValue=${onValue}&table=${table}">尾页</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -228,7 +255,55 @@
 
 <#include "../common/footjs.ftl">
 <script>
+    $("#e1").select2()
+    $("#e2").select2()
+    $("#e3").select2()
 
+
+    $(function () {
+
+        var year = $("#e1").find("option:checked").val();
+        var month = $("#e2").find("option:checked").val();
+        var day = $("#e3").find("option:checked").val();
+
+        //月份切换改变天数
+        $("#e2").change(function () {
+            month = $(this).find("option:checked").val();
+            year = $("#e1").find("option:checked").val();
+            var curMonthDays = new Date(year, month, 0).getDate();
+            var opt = $("#e3").find("option")
+            for (var o=0;o<opt.length;o++){
+                opt.eq(o).remove()
+            }
+            for (var i=0;i<curMonthDays;i++){
+                var op = '<option value="'+(i+1)+'">'+(i+1)+'</option>'
+                $("#e3").append(op)
+            }
+        });
+
+        $("#e3").change(function () {
+            day = $(this).find("option:checked").val();
+            var onValue = ${onValue}
+            location = "/oa/chart/ip/list?onValue="+onValue+"&year="+year+"&month="+month+"&day="+day
+        })
+
+
+
+        $("#address").change(function () {
+             var onValue = $(this).find("option:checked").val();
+             location = "/oa/chart/ip/list?onValue="+onValue+"&table=address&year="+year+"&month="+month+"&day="+day
+        })
+        $("#browser").change(function () {
+            var onValue = $(this).find("option:checked").val();
+            location = "/oa/chart/ip/list?onValue="+onValue+"&table=browser&year="+year+"&month="+month+"&day="+day
+        })
+        $("#util").change(function () {
+            var onValue = $(this).find("option:checked").val();
+            location = "/oa/chart/ip/list?onValue="+onValue+"&table=util&year="+year+"&month="+month+"&day="+day
+        })
+
+
+    })
 </script>
 </body>
 </html>

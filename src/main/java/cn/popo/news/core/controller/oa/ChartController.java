@@ -388,7 +388,8 @@ public class ChartController {
             @RequestParam(value = "month",defaultValue = "0") Integer month,
             @RequestParam(value = "size",defaultValue = "12") Integer size,
             @RequestParam(value = "page",defaultValue = "1") Integer page,
-            @RequestParam(value = "onValue",defaultValue = "0") Integer onValue,
+            @RequestParam(value = "onValue",defaultValue = "0") String onValue,
+            @RequestParam(value = "table",defaultValue = "0") String table,
             @RequestParam(value = "year",defaultValue = "0") Integer year
     ){
 
@@ -400,7 +401,22 @@ public class ChartController {
 
         Map<String,Object> map  = new HashMap<>();
         PageRequest pageRequest = new PageRequest(page-1,size, SortTools.basicSort("desc","fullTime"));
-        PageDTO<IpDataDTO> ipTimes = ipStatisticsService.findIpInfoByDay(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+        PageDTO<IpDataDTO> ipTimes = new PageDTO<>();
+        if ("0".equals(table)){
+            ipTimes = ipStatisticsService.findIpInfoByDay(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)));
+        }
+        if ("address".equals(table)){
+            ipTimes = ipStatisticsService.findIpInfoByDayAndAddress(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)),onValue);
+        }
+        if ("browser".equals(table)){
+
+            ipTimes = ipStatisticsService.findIpInfoByDayAndBrowser(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)),onValue);
+        }
+        if ("util".equals(table)){
+            ipTimes = ipStatisticsService.findIpInfoByDayAndUtil(pageRequest,GetTimeUtil.getZeroDateFormat(GetTimeUtil.getYearMonthDay(day,month,year)),onValue);
+
+        }
+
 
         //访问地址统计
         Map<String,Object> address = ipStatisticsService.findAddressNum(
@@ -426,13 +442,29 @@ public class ChartController {
         map.put("browserCount",browser.get("count"));
         map.put("browserAll",browser.get("browserAll"));
 
+        List<Integer> manyYear = new ArrayList<>();
+        List<Integer> manyDay = new ArrayList<>();
+        for (int i=0;i<10;i++){
+            manyYear.add(2018+i);
+        }
+
+        Integer maxDay = GetTimeUtil.getMaxDayByYearMonth(year,month);
+
+        for (int d=0;d<maxDay;d++){
+            manyDay.add(d+1);
+        }
+
+
         map.put("pageContent",ipTimes);
+        map.put("manyYear",manyYear);
+        map.put("manyDay",manyDay);
         map.put("day",day);
         map.put("month",month);
         map.put("year",year);
         map.put("size",size);
         map.put("page",page);
         map.put("onValue",onValue);
+        map.put("table",table);
         map.put("pageId",1005);
         map.put("pageTitle","ip访问数据图表");
         map.put("currentPage", page);

@@ -14,6 +14,9 @@ public interface IPStatisticsService {
     void saveIP(String ip,String util,String browser);
     Integer findDayCount(String time);
     PageDTO<IpDataDTO> findIpInfoByDay(Pageable pageable, String time);
+    PageDTO<IpDataDTO> findIpInfoByDayAndUtil(Pageable pageable, String time,String util);
+    PageDTO<IpDataDTO> findIpInfoByDayAndBrowser(Pageable pageable, String time,String browser);
+    PageDTO<IpDataDTO> findIpInfoByDayAndAddress(Pageable pageable, String time,String address);
     Integer findMonthCount(String month);
     Integer findWeekCount(String week);
     Integer addAddress(String ip);
