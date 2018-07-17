@@ -36,7 +36,7 @@
 
 
      <@shiro.hasPermission name="statistics:tag">
-        <li <#if pageId==1000>class="open" </#if>>
+        <li <#if pageId==1000||pageId==1005>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-bar-chart-o"></i>
                 <span class="menu-text">访问统计</span>
@@ -46,6 +46,11 @@
                 <li <#if pageId==1000>class="active" </#if>>
                     <a href="/oa/chart/ip.html">
                         <span class="menu-text">ip访问量查询</span>
+                    </a>
+                </li>
+                <li <#if pageId==1005>class="active" </#if>>
+                    <a href="/oa/chart/ip/list.html">
+                        <span class="menu-text">ip访问图表</span>
                     </a>
                 </li>
             </ul>

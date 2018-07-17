@@ -106,11 +106,12 @@
 
                                 <div class="form-group">
                                     <select id="address">
-                                        <option value="0" <#if onValue == "0">selected</#if>>address<span
+                                        <option value="0" <#if onValue == "0">selected</#if>>地区<span
                                                 class="badge">&nbsp;${addressAll}</span></option>
                                     <#list addressKey as c>
                                         <option value="${c}" <#if c == onValue >selected</#if>>
-                                            ${c}<span class="badge">&nbsp;${addressCount[c_index]}
+                                            ${c}
+                                            <span class="badge">&nbsp;${addressCount[c_index]}
                                         </span>
                                         </option>
                                     </#list>
@@ -121,7 +122,7 @@
 
                                 <div class="form-group">
                                     <select id="browser">
-                                        <option value="0" <#if onValue == "0">selected</#if>>browser<span
+                                        <option value="0" <#if onValue == "0">selected</#if>>浏览器内核<span
                                                 class="badge">&nbsp;${browserAll}</span></option>
                                         <#list browserKey as c>
                                             <option value="${c}" <#if c ==onValue >selected</#if>>
@@ -136,7 +137,7 @@
 
                                 <div class="form-group">
                                     <select id="util">
-                                        <option value="0" <#if onValue == "0">selected</#if>>util<span
+                                        <option value="0" <#if onValue == "0">selected</#if>>访问工具<span
                                                 class="badge">&nbsp;${utilAll}</span></option>
                                     <#list utilKey as c>
                                         <option value="${c}" <#if c == onValue >selected</#if>>
@@ -283,7 +284,7 @@
 
         $("#e3").change(function () {
             day = $(this).find("option:checked").val();
-            var onValue = ${onValue}
+            var onValue = "${onValue}"
             location = "/oa/chart/ip/list?onValue="+onValue+"&year="+year+"&month="+month+"&day="+day
         })
 

@@ -281,8 +281,17 @@
             datasets: [{
                 data: ${addressCount},
                 backgroundColor: [
+                    window.chartColors.green,
+                    window.chartColors.blue,
+                    window.chartColors.grey,
+                    window.chartColors.dark,
+                    window.chartColors.purple,
                     window.chartColors.red,
-                    window.chartColors.orange
+                    window.chartColors.orange,
+                    window.chartColors.crimson,
+                    window.chartColors.fuchsia,
+                    window.chartColors.yellow
+
                 ],
                 label: '地址访问'
             }],
@@ -307,6 +316,11 @@
                     window.chartColors.yellow,
                     window.chartColors.green,
                     window.chartColors.blue,
+                    window.chartColors.purple,
+                    window.chartColors.grey,
+                    window.chartColors.crimson,
+                    window.chartColors.fuchsia,
+                    window.chartColors.dark
                 ],
                 label: 'Dataset 1'
             }],
@@ -518,7 +532,8 @@
                         addressConfig.data.datasets.splice(0,1);
                         for (var i=0;i<data.data.addressCount.length;++i){
                             newDataset.data.push(data.data.addressCount[i]);
-                            var colorName = colorNames[i];
+                            var colorNameLen = colorNames.length;
+                            var colorName = colorNames[colorNameLen-i];
                             var newColor = window.chartColors[colorName];
                             newDataset.backgroundColor.push(newColor);
                         }
@@ -611,7 +626,7 @@
                         utilConfig.data.datasets.splice(0,1);
                         for (var i=0;i<data.data.utilCount.length;++i){
                             newDataset.data.push(data.data.utilCount[i]);
-                            var colorName = colorNames[i];
+                            var colorName = colorNames[i+4];
                             var newColor = window.chartColors[colorName];
                             newDataset.backgroundColor.push(newColor);
                         }

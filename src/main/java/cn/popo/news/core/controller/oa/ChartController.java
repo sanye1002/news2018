@@ -383,6 +383,7 @@ public class ChartController {
 
 
     @GetMapping("/ip/list")
+    @RequiresPermissions("ipChartTable:list")
     public ModelAndView fullIpData(
             @RequestParam(value = "day",defaultValue = "0") Integer day,
             @RequestParam(value = "month",defaultValue = "0") Integer month,
