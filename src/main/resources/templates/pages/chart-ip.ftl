@@ -67,18 +67,18 @@
                             </div>
                             <div class="widget-body">
                                 <div style="margin-bottom: 50px">
-                                    <div style="width: 30%;display: inline-block">
+                                    <div style="width: 33%;display: inline-block">
                                         <canvas id="chart-area"></canvas>
                                     </div>
-                                    <div style="width: 30%;display: inline-block">
+                                    <div style="width: 33%;display: inline-block">
                                         <canvas id="chart-area1"></canvas>
                                     </div>
-                                    <div style="width: 30%;display: inline-block">
+                                    <div style="width: 33%;display: inline-block">
                                         <canvas id="chart-area2"></canvas>
                                     </div>
                                 </div>
                                 <div>
-                                    <div style="width:60%; display: flex;align-items: center;justify-content: center;margin-left: 22%;">
+                                    <div style="width:60%; display: flex;align-items: center;justify-content: center;margin-left: 19%;">
                                         <canvas id="canvas"></canvas>
                                     </div>
                                     <#--<div style="width:40%;display: inline-block;margin-left: 50px;margin-top: 65px">
@@ -457,7 +457,7 @@
     });
 
 
-    function page(page,size,day){
+    /*function page(page,size,day){
         var content = $("#pageData").find("tr")
         if (page==0){
             page = 1
@@ -494,7 +494,7 @@
                     }
                 }
         )
-    }
+    }*/
 
     function address(day) {
         var newDataset = {

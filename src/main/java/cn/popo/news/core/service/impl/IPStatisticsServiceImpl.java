@@ -50,11 +50,11 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
     @Override
     public void saveIP(String ip, String util,String browser) {
         IPStatistics ipStatisticsTemp = ipStatisticsRepository.findAllByIpOrderByNewestTimeDesc(ip);
-        BrowserKernel browserKernel = new BrowserKernel();
-        browserKernel = browserKernelRepository.findAllByKernel(browser);
+        BrowserKernel browserKernel = browserKernelRepository.findAllByKernel(browser);
+        BrowserKernel browserKernel1 = new BrowserKernel();
         if (browserKernel==null){
-            browserKernel.setKernel(browser);
-            browserKernelRepository.save(browserKernel);
+            browserKernel1.setKernel(browser);
+            browserKernelRepository.save(browserKernel1);
         }
         IPStatistics ipStatistics = new IPStatistics();
         Long nowTime = System.currentTimeMillis()/1000;
@@ -347,25 +347,30 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         List<String> stringList = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
 
+        Integer utilAll = 0;
+
         List<IpTime> iphoneList = ipTimeRepository.findAllByTimeAndUtil(time,"iPhone");
         if (!iphoneList.isEmpty()){
             list.add(iphoneList.size());
             stringList.add("iPhone");
+            utilAll = utilAll + iphoneList.size();
         }
 
         List<IpTime> computerList = ipTimeRepository.findAllByTimeAndUtil(time,"computer");
         if (!computerList.isEmpty()){
             list.add(computerList.size());
             stringList.add("computer");
+            utilAll = utilAll + computerList.size();
         }
 
         List<IpTime> androidList = ipTimeRepository.findAllByTimeAndUtil(time,"Android");
         if (!androidList.isEmpty()){
             list.add(androidList.size());
             stringList.add("Android");
+            utilAll = utilAll + androidList.size();
         }
 
-
+        map.put("utilAll",utilAll);
         map.put("key",stringList);
         map.put("count",list);
         return map;
@@ -382,16 +387,19 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         Map<String,Object> map = new HashMap<>();
         List<String> stringList = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
+        final Integer[] addressAllTemp = {0};
         if (address!=null){
             address.forEach(l->{
                 List<IpTime> ip = ipTimeRepository.findAllByTimeAndAddressId(time,l.getId());
                 if (!ip.isEmpty()){
                     list.add(ip.size());
                     stringList.add(l.getCity());
+                    addressAllTemp[0] = addressAllTemp[0] + ip.size();
                 }
 
             });
         }
+        map.put("addressAll",addressAllTemp[0]);
         map.put("key",stringList);
         map.put("count",list);
         return map;
@@ -408,15 +416,18 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
         List<BrowserKernel> list = browserKernelRepository.findAll();
         List<String> stringList = new ArrayList<>();
         List<Integer> listCount = new ArrayList<>();
+        final Integer[] browserAllTemp = {0};
         if (list!=null){
             list.forEach(l->{
                 List<IpTime> ip = ipTimeRepository.findAllByTimeAndBrowser(time,l.getKernel());
                 if (!ip.isEmpty()){
                     listCount.add(ip.size());
                     stringList.add(l.getKernel());
+                    browserAllTemp[0] = browserAllTemp[0] +ip.size();
                 }
             });
         }
+        map.put("browserAll",browserAllTemp[0]);
         map.put("key",stringList);
         map.put("count",listCount);
         return map;
