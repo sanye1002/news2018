@@ -292,15 +292,30 @@
 
         $("#address").change(function () {
              var onValue = $(this).find("option:checked").val();
-             location = "/oa/chart/ip/list?onValue="+onValue+"&table=address&year="+year+"&month="+month+"&day="+day
+             if(onValue=="0"){
+                 location = "/oa/chart/ip/list?onValue="+onValue+"&table=address&year="+year+"&month="+month+"&day="+day
+             }else {
+                 location = "/oa/chart/ip/list?onValue="+onValue+"&year="+year+"&month="+month+"&day="+day
+             }
+
         })
         $("#browser").change(function () {
             var onValue = $(this).find("option:checked").val();
-            location = "/oa/chart/ip/list?onValue="+onValue+"&table=browser&year="+year+"&month="+month+"&day="+day
+            if(onValue=="0"){
+                location = "/oa/chart/ip/list?onValue="+onValue+"&year="+year+"&month="+month+"&day="+day
+            }else {
+                location = "/oa/chart/ip/list?onValue="+onValue+"&table=browser&year="+year+"&month="+month+"&day="+day
+            }
+
         })
         $("#util").change(function () {
             var onValue = $(this).find("option:checked").val();
-            location = "/oa/chart/ip/list?onValue="+onValue+"&table=util&year="+year+"&month="+month+"&day="+day
+            if(onValue=="0") {
+                location = "/oa/chart/ip/list?onValue=" + onValue + "&year=" + year + "&month=" + month + "&day=" + day
+            }else {
+                location = "/oa/chart/ip/list?onValue="+onValue+"&table=util&year="+year+"&month="+month+"&day="+day
+            }
+
         })
 
 
