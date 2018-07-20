@@ -71,6 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章上传
      */
     public void articleSave(ArticleForm articleForm){
+        String id = KeyUtil.genUniqueKey();
         ArticleInfo articleInfo = new ArticleInfo();
         articleForm.setContent(KeyWordFilter.doFilter(articleForm.getContent()));
         articleForm.setKeywords(KeyWordFilter.doFilter(articleForm.getKeywords()));
@@ -82,16 +83,24 @@ public class ArticleServiceImpl implements ArticleService {
         if(articleForm.getDraft() == 1){
             articleInfo.setDraft(0);
         }else{
-            articleInfo.setArticleId(KeyUtil.genUniqueKey());
+
+            articleInfo.setArticleId(id);
         }
         articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
         articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
         articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
-        articleInfo.setUid(ShiroGetSession.getUser().getUserId());
         articleInfo.setCrateTime(System.currentTimeMillis());
         articleInfo.setRecommendState(0);
         articleInfo.setSlideState(0);
         articleInfo.setLookNum(0);
+        if (articleForm.getIsOwn()==0){
+            articleInfo.setAuditTime(System.currentTimeMillis());
+            articleInfo.setLookNum(new Random().nextInt(450)+50);
+            articleInfo.setState(1);
+            articleInfo.setUid("1531989514774");
+        }else {
+            articleInfo.setUid(ShiroGetSession.getUser().getUserId());
+        }
         articleRepository.save(articleInfo);
     }
 

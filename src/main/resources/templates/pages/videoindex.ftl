@@ -396,7 +396,8 @@
                                             articleId:article.article,
                                             des:videoDes,
                                             imgUrl:article.smallImg,
-                                            original:article.original
+                                            original:article.original,
+                                            isOwn:1
                                         },
                                         function (data) {
 

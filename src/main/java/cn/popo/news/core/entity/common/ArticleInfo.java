@@ -115,4 +115,9 @@ public class ArticleInfo implements Serializable{
      */
     private Long auditTime;
 
+    /**
+     * 是否是发布的文章 1:是，2:不是
+     */
+
+    private Integer isOwn;
 }

@@ -4,6 +4,7 @@ import cn.popo.news.common.constant.RedisConstant;
 import cn.popo.news.common.utils.RedisOperator;
 import cn.popo.news.common.utils.StatisticsInfoGetUtil;
 import cn.popo.news.common.utils.ToolUtil;
+import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.controller.oa.UserRealInfo;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -61,6 +63,9 @@ public class HomePageController {
 
     @Autowired
     private IPStatisticsService ipStatisticsService;
+
+    @Autowired
+    private UserSessionUtil userSessionUtil;
 
 
     private static final Integer ZERO = 0;
@@ -429,13 +434,19 @@ public class HomePageController {
     public ResultVO<Map<String,Object>> typeArticle(Map<String,Object> map,
                                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                     @RequestParam(value = "size", defaultValue = "6") Integer size,
-                                                    @RequestParam(value = "type") Integer type
+                                                    @RequestParam(value = "type") Integer type,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response
     ){
 
+        String userId = "";
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
 
         //文章
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
-        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO);
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO,userId);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);

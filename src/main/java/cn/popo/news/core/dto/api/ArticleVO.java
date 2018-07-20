@@ -42,4 +42,6 @@ public class ArticleVO implements Serializable {
 
     private String video;
 
+    private Integer isOwn;
+
 }

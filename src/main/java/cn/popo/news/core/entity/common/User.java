@@ -112,6 +112,7 @@ public class User implements Serializable {
 
     private String weChatOpenID;
 
-
+    //vip等级
+    private Integer vip;
 
 }

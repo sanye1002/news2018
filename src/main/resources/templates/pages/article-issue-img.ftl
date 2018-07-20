@@ -346,7 +346,8 @@
                                         classifyId: article.classify,
                                         draft: ${article.getDraft()!0},
                                         articleId:article.article,
-                                        original:article.original
+                                        original:article.original,
+                                        isOwn:1
                                     },
                                     function (data) {
 

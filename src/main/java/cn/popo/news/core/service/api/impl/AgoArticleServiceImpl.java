@@ -284,7 +284,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
      * 通过typeID查找文章
      */
     @Override
-    public PageDTO<ArticleVO> findAllArticleByTypeId(Pageable pageable, Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId) {
+    public PageDTO<ArticleVO> findAllArticleByTypeId(Pageable pageable, Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId,String userId) {
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
 
         Page<ArticleInfo> articleInfoPage = articleRepository.findAllByTypeIdAndStateAndShowStateAndDraftAndManageId(
@@ -314,6 +314,12 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     author.setAvatar(user.getAvatar());
                     author.setName(user.getNikeName());
                     author.setUserId(user.getUserId());
+                    Collect collect = collectRepository.findAllByUidAndAid(userId,l.getArticleId());
+                    if(collect!=null){
+                        indexVO.setCollectId(collect.getId());
+                    }else {
+                        indexVO.setCollectId(0);
+                    }
                     indexVO.setAuthor(author);
                     list.add(indexVO);
                 });

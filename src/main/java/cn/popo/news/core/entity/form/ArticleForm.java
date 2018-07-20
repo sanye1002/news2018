@@ -35,4 +35,6 @@ public class ArticleForm {
     private Integer draft;
 
     private Integer original;
+
+    private Integer isOwn;
 }
