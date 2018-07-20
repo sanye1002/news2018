@@ -327,7 +327,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                         indexVO.setCollectId(0);
                     }
                     ArticlePraise articlePraise = articlePraiseRepository.findAllByUidAndArticleId(userId,l.getArticleId());
-                    if (collect!=null){
+                    if (articlePraise!=null){
                         indexVO.setGoodFlag(1);
                     }else {
                         indexVO.setGoodFlag(0);
