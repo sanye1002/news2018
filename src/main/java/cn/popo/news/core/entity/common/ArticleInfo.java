@@ -120,4 +120,9 @@ public class ArticleInfo implements Serializable{
      */
 
     private Integer isOwn;
+
+    /**
+     * 文章点赞数
+     */
+    private Integer praiseNum;
 }

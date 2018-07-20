@@ -49,5 +49,7 @@ public interface AgoArticleService {
 
     void keywordsArticle(String content,Integer article);
 
+    void articlePraise(String userId,String articleId);
+
 
 }

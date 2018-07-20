@@ -93,6 +93,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleInfo.setRecommendState(0);
         articleInfo.setSlideState(0);
         articleInfo.setLookNum(0);
+        articleInfo.setPraiseNum(0);
         if (articleForm.getIsOwn()==0){
             articleInfo.setAuditTime(System.currentTimeMillis());
             articleInfo.setLookNum(new Random().nextInt(450)+50);

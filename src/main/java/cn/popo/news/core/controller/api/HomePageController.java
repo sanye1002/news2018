@@ -9,9 +9,11 @@ import cn.popo.news.core.controller.oa.UserRealInfo;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
+import cn.popo.news.core.entity.common.ArticlePraise;
 import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.Logo;
 import cn.popo.news.core.entity.common.SearchWords;
+import cn.popo.news.core.repository.ArticlePraiseRepository;
 import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.IPStatisticsService;
@@ -66,6 +68,9 @@ public class HomePageController {
 
     @Autowired
     private UserSessionUtil userSessionUtil;
+
+    @Autowired
+    private ArticlePraiseRepository articlePraiseRepository;
 
 
     private static final Integer ZERO = 0;
@@ -449,6 +454,35 @@ public class HomePageController {
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO,userId);
         pageDTO.setCurrentPage(page);
         map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+
+    /**
+     * 文章点赞
+     * @param articleId
+     * @param request
+     * @param response
+     * @return
+     */
+    @PostMapping("/article/praise")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> articlePraise(
+            @RequestParam(value = "articleId") String articleId,
+            HttpServletRequest request,
+            HttpServletResponse response){
+
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
+
+        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        ArticlePraise articlePraise = articlePraiseRepository.findAllByUidAndArticleId(userId,articleId);
+        if(articlePraise!=null){
+            return ResultVOUtil.error(100,"已赞");
+        }
+        agoArticleService.articlePraise(userId,articleId);
+        Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
 

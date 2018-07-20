@@ -44,4 +44,9 @@ public class ArticleVO implements Serializable {
 
     private Integer isOwn;
 
+    @JsonProperty("goodNum")
+    private Integer praiseNum;
+
+    private Integer goodFlag;
+
 }

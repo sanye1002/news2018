@@ -70,6 +70,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     @Autowired
     private ReportTypeRepository reportTypeRepository;
 
+    @Autowired
+    private ArticlePraiseRepository articlePraiseRepository;
+
 
     /**
      * 通过文章id查找文章详情
@@ -298,6 +301,9 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 articleInfoPage.getContent().forEach(l->{
                     ArticleVO indexVO = new ArticleVO();
                     BeanUtils.copyProperties(l,indexVO);
+                    if (l.getPraiseNum()==null){
+                        indexVO.setPraiseNum(0);
+                    }
                     if (l.getTypeId()==3){
                         indexVO.setVideo(l.getContent());
                     }
@@ -319,6 +325,12 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                         indexVO.setCollectId(collect.getId());
                     }else {
                         indexVO.setCollectId(0);
+                    }
+                    ArticlePraise articlePraise = articlePraiseRepository.findAllByUidAndArticleId(userId,l.getArticleId());
+                    if (collect!=null){
+                        indexVO.setGoodFlag(1);
+                    }else {
+                        indexVO.setGoodFlag(0);
                     }
                     indexVO.setAuthor(author);
                     list.add(indexVO);
@@ -531,6 +543,29 @@ public class AgoArticleServiceImpl implements AgoArticleService {
         pageDTO.setPageContent(list.subList(0, 6));
         String list1 = new Gson().toJson(list);
         redis.set(RedisConstant.VO_PREFIX + article, list1, RedisConstant.EXPIRE);
+    }
+
+    /**
+     * 文章点赞
+     * @param userId
+     * @param articleId
+     */
+    @Override
+    public void articlePraise(String userId, String articleId) {
+        ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        Integer praiseNum = null;
+        if (articleInfo.getPraiseNum()==null||articleInfo.getPraiseNum()==0){
+            praiseNum = 1;
+        }else {
+            praiseNum = articleInfo.getPraiseNum()+1;
+        }
+
+        articleInfo.setPraiseNum(praiseNum);
+        CommentPraise commentPraise = new CommentPraise();
+        ArticlePraise articlePraise = new ArticlePraise();
+        articlePraise.setArticleId(articleId);
+        articlePraise.setUid(userId);
+        articlePraiseRepository.save(articlePraise);
     }
 
 }
