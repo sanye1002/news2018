@@ -71,7 +71,9 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章上传
      */
     public void articleSave(ArticleForm articleForm){
+        System.out.println("mmmp"+articleForm);
         ArticleInfo article = articleRepository.findAllByTitle(articleForm.getTitle());
+        System.out.println("hhhhh:"+article);
         if (article==null){
             String id = KeyUtil.genUniqueKey();
             ArticleInfo articleInfo = new ArticleInfo();
@@ -96,13 +98,14 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setSlideState(0);
             articleInfo.setLookNum(0);
             articleInfo.setPraiseNum(0);
-            if (articleForm.getIsOwn()==0){
+            if (articleForm.getIsOwn()==1){
+                articleInfo.setUid(ShiroGetSession.getUser().getUserId());
+            }else {
                 articleInfo.setAuditTime(System.currentTimeMillis());
                 articleInfo.setLookNum(new Random().nextInt(450)+50);
                 articleInfo.setState(1);
                 articleInfo.setUid("1531989514774");
-            }else {
-                articleInfo.setUid(ShiroGetSession.getUser().getUserId());
+
             }
             articleRepository.save(articleInfo);
         }

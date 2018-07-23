@@ -30,12 +30,20 @@ public class test {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/excle")
-    public ModelAndView articleDeletePraise() {
+    @GetMapping("/excel")
+    public ModelAndView excelUpload() {
         Map<String, Object> map = new HashMap<>();
         map.put("pageId", 1);
         map.put("pageTitle", 112312);
         return new ModelAndView("pages/str-test", map);
+    }
+
+    @GetMapping("/class/content")
+    public ModelAndView excelUploadClass() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageId", 2);
+        map.put("pageTitle", "excel上传content");
+        return new ModelAndView("pages/upload-content-class", map);
     }
 
     @PostMapping("/save")
@@ -68,6 +76,50 @@ public class test {
 
             if (!list.isEmpty()){
                 list.forEach(l->{
+                    articleService.articleSave(l);
+                });
+            }
+
+
+
+            deleteFile(tempFile);
+
+
+        }
+        return ResultVOUtil.success();
+    }
+
+    @PostMapping("/article/save")
+    @ResponseBody
+    public ResultVO<Map<String, Object>> importExcel(HttpServletRequest request,
+                                                           MultipartFile file) {
+
+
+        if (!file.isEmpty()) {
+            String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/";
+            File dir = new File(filePath);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+
+            String path = filePath + file.getOriginalFilename();
+            File tempFile = null;
+            //save to the /upload path
+            try {
+                tempFile = new File(path);
+
+                file.transferTo(tempFile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            List<ArticleForm> list = ArticleExcelUtil.importDataClass(tempFile);
+
+            if (!list.isEmpty()){
+                list.forEach(l->{
+                    System.out.println(l);
                     articleService.articleSave(l);
                 });
             }
