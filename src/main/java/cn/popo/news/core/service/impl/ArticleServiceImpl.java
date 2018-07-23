@@ -71,38 +71,42 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章上传
      */
     public void articleSave(ArticleForm articleForm){
-        String id = KeyUtil.genUniqueKey();
-        ArticleInfo articleInfo = new ArticleInfo();
-        articleForm.setContent(KeyWordFilter.doFilter(articleForm.getContent()));
-        articleForm.setKeywords(KeyWordFilter.doFilter(articleForm.getKeywords()));
-        articleForm.setTitle(KeyWordFilter.doFilter(articleForm.getTitle()));
-        if(articleForm.getDes()!=null){
-            articleForm.setDes(KeyWordFilter.doFilter(articleForm.getDes()));
-        }
-        BeanUtils.copyProperties(articleForm,articleInfo);
-        if(articleForm.getDraft() == 1){
-            articleInfo.setDraft(0);
-        }else{
+        ArticleInfo article = articleRepository.findAllByTitle(articleForm.getTitle());
+        if (article==null){
+            String id = KeyUtil.genUniqueKey();
+            ArticleInfo articleInfo = new ArticleInfo();
+            articleForm.setContent(KeyWordFilter.doFilter(articleForm.getContent()));
+            articleForm.setKeywords(KeyWordFilter.doFilter(articleForm.getKeywords()));
+            articleForm.setTitle(KeyWordFilter.doFilter(articleForm.getTitle()));
+            if(articleForm.getDes()!=null){
+                articleForm.setDes(KeyWordFilter.doFilter(articleForm.getDes()));
+            }
+            BeanUtils.copyProperties(articleForm,articleInfo);
+            if(articleForm.getDraft() == 1){
+                articleInfo.setDraft(0);
+            }else{
 
-            articleInfo.setArticleId(id);
+                articleInfo.setArticleId(id);
+            }
+            articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
+            articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
+            articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
+            articleInfo.setCrateTime(System.currentTimeMillis());
+            articleInfo.setRecommendState(0);
+            articleInfo.setSlideState(0);
+            articleInfo.setLookNum(0);
+            articleInfo.setPraiseNum(0);
+            if (articleForm.getIsOwn()==0){
+                articleInfo.setAuditTime(System.currentTimeMillis());
+                articleInfo.setLookNum(new Random().nextInt(450)+50);
+                articleInfo.setState(1);
+                articleInfo.setUid("1531989514774");
+            }else {
+                articleInfo.setUid(ShiroGetSession.getUser().getUserId());
+            }
+            articleRepository.save(articleInfo);
         }
-        articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
-        articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
-        articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
-        articleInfo.setCrateTime(System.currentTimeMillis());
-        articleInfo.setRecommendState(0);
-        articleInfo.setSlideState(0);
-        articleInfo.setLookNum(0);
-        articleInfo.setPraiseNum(0);
-        if (articleForm.getIsOwn()==0){
-            articleInfo.setAuditTime(System.currentTimeMillis());
-            articleInfo.setLookNum(new Random().nextInt(450)+50);
-            articleInfo.setState(1);
-            articleInfo.setUid("1531989514774");
-        }else {
-            articleInfo.setUid(ShiroGetSession.getUser().getUserId());
-        }
-        articleRepository.save(articleInfo);
+
     }
 
 

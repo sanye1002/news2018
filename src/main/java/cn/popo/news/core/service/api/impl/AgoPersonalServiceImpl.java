@@ -308,4 +308,23 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         dynamicReportRepository.save(dynamicReport);
     }
 
+    /**
+     * 添加匿名用户
+     * @return
+     */
+    @Override
+    public String DefaultUser() {
+        List<String> nameList = new ArrayList<>();
+        nameList.add("匿名");
+        User user = new User();
+        String id = KeyUtil.genUniqueKey();
+        user.setUserId(id);
+        user.setUserType("1");
+        user.setAvatar("https://p0.cdrysj.com/po/read/img/user/model.png");
+        user.setName(nameList.get(0)+id);
+        user.setNikeName(nameList.get(0)+id);
+        userRepository.save(user);
+        return id;
+    }
+
 }

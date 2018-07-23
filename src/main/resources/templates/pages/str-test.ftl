@@ -102,10 +102,14 @@
                 data : data,
                 success : function(result) {
                     $("#sc").attr("disabled",true);
+                    setTimeout(function () {
+                        $("#sc").attr("disabled",false);
+                    },3000)
+                    layer.msg("上传成功！！！！！！！！！！！！！");
                     console.log(result)
                 },
                 error : function() {
-                    alert("失败")
+                    layer.msg("上传失败！！")
                 },
                 cache : false,
                 contentType : false,

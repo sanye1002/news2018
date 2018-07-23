@@ -99,5 +99,6 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
 
     Page<ArticleInfo> findAllByStateAndShowStateAndDraftAndCrateTimeAfter(Pageable pageable,Integer state,Integer showState,Integer draft,Long time);
 
+    ArticleInfo findAllByTitle(String title);
 
 }

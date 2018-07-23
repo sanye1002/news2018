@@ -460,5 +460,17 @@ public class PersonalController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * 添加匿名用户
+     * @return
+     */
+    @PostMapping("/add/user")
+    public ResultVO<Map<String,Object>> addUser(){
+        String userId = agoPersonalService.DefaultUser();
+        Map<String,Object> map  = new HashMap<>();
+        map.put("userId",userId);
+        return ResultVOUtil.success(map);
+    }
+
 
 }

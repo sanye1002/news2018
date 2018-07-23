@@ -98,6 +98,7 @@ public class AuthorAuditServiceImpl implements AuthorAuditService {
         authorAudit.setAuditTime(System.currentTimeMillis());
         User user = userRepository.findOne(authorAudit.getUserId());
         user.setRoleId(4);
+        user.setVip(3);
         user.setUserType("0");
     }
 
