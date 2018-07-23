@@ -34,6 +34,8 @@ public interface AgoPersonalService {
 
     String DefaultUser();
 
+    String addDefaultUser(String userName,String userImg);
+
 //    PageDTO<DynamicVO> findAllDynamic(Pageable pageable);
 
 }

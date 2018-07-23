@@ -71,11 +71,12 @@ public class ArticleServiceImpl implements ArticleService {
      * 文章上传
      */
     public void articleSave(ArticleForm articleForm){
-        System.out.println("mmmp"+articleForm);
         ArticleInfo article = articleRepository.findAllByTitle(articleForm.getTitle());
-        System.out.println("hhhhh:"+article);
         if (article==null){
-            String id = KeyUtil.genUniqueKey();
+            if (articleForm.getArticleId()==null){
+                String id = KeyUtil.genUniqueKey();
+                articleForm.setArticleId(id);
+            }
             ArticleInfo articleInfo = new ArticleInfo();
             articleForm.setContent(KeyWordFilter.doFilter(articleForm.getContent()));
             articleForm.setKeywords(KeyWordFilter.doFilter(articleForm.getKeywords()));
@@ -88,7 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfo.setDraft(0);
             }else{
 
-                articleInfo.setArticleId(id);
+                articleInfo.setArticleId(articleForm.getArticleId());
             }
             articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
             articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());

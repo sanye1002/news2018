@@ -125,4 +125,7 @@ public class ArticleInfo implements Serializable{
      * 文章点赞数
      */
     private Integer praiseNum;
+
+
+
 }

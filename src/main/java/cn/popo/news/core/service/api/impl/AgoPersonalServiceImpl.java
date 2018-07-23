@@ -327,4 +327,20 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         return id;
     }
 
+    /**
+     * 添加默认用户
+     * @return
+     */
+    @Override
+    public String addDefaultUser(String userName,String userImg){
+        User user = new User();
+        String id = KeyUtil.genUniqueKey();
+        user.setUserId(id);
+        user.setUserType("1");
+        user.setAvatar(userImg);
+        user.setName(userName);
+        user.setNikeName(userName);
+        userRepository.save(user);
+        return id;
+    }
 }

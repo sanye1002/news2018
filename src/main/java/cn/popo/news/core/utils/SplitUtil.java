@@ -25,4 +25,23 @@ public class SplitUtil {
         }
         return list;
     }
+
+    /**
+     * 特殊切割
+     */
+    public static List<String> splitCJ(String s){
+        List<String> list = new ArrayList<String>();
+
+        if (s!=""){
+            String[] ss = s.split("!@#");
+            for (int i = 0; i < ss.length; i++){
+                list.add(ss[i]);
+            }
+        }
+        return list;
+    }
+
+
+
+
 }
