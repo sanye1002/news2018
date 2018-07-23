@@ -101,7 +101,7 @@ public class RegisterLoginController {
     public ResultVO<Map<String, Object>> checkPhone(HttpServletRequest request,
                                                     HttpServletResponse response,
                                                     @RequestParam(value = "phone") @ApiParam(value = "手机号码", required = true) String phone,
-                                                    @RequestParam(value = "type") @ApiParam(value = "操作类型（0 登录或者找回密码，1 注册）", required = true) Integer type) {
+                                                    @RequestParam(value = "type") @ApiParam(value = "操作类型（0 登录或者找回密码，1 注册/绑定）", required = true) Integer type) {
         return loginService.checkPhone(request, response, phone, type);
     }
 

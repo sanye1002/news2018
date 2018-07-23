@@ -361,6 +361,9 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
         if (user == null) {
             return ResultVOUtil.error(100, "用户不存在。");
         }
+        if (!userRepository.findAllByPhone(phone).isEmpty()){
+            return ResultVOUtil.error(100, "手机号码已注册。");
+        }
         user.setPhone(phone);
         map.put("message", "修改成功");
         map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, userRepository.save(user)));
