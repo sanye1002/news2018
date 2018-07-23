@@ -149,6 +149,14 @@ public class RegisterLoginController {
                                                      @RequestParam(value = "oldPhone") @ApiParam(value = "旧手机号码", required = true) String oldPhone) {
         return loginService.updatePhone(request, response, oldPhone, newPhone, code);
     }
+    @PostMapping("/bindingPhone")
+    @ApiOperation(value = "绑定用户手机号码", notes = "用户ID、验证码、手机号码")
+    public ResultVO<Map<String, Object>> BindingPhone(HttpServletRequest request, HttpServletResponse response,
+                                                     @RequestParam(value = "userId") @ApiParam(value = "用户ID", required = true) String userId,
+                                                     @RequestParam(value = "code") @ApiParam(value = "验证码", required = true) String code,
+                                                     @RequestParam(value = "phone") @ApiParam(value = "手机号码", required = true) String phone) {
+        return loginService.BindingPhone(request, response, userId, code, phone);
+    }
 
     @PostMapping("/checkCode")
     @ApiOperation(value = "验证验证码", notes = "验证验证码是否正确！")

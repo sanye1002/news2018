@@ -74,9 +74,8 @@ public class UploadController {
         return ResultVOUtil.success(map);
 
     }
-    @PostMapping("article/img/{type}")
 
-    
+    @PostMapping("article/img/{type}")
     private ResultVO<Map<String, String>> uploadArticleImg(HttpServletRequest request,
                                                      @PathVariable String type,
                                                      MultipartFile file) throws Exception {

@@ -121,5 +121,6 @@ public interface RegisterLoginService {
 
     ResultVO<Map<String,Object>> oauthWeChat(HttpServletRequest request,HttpServletResponse response,String weChatOpenId);
 
+    ResultVO<Map<String,Object>> BindingPhone(HttpServletRequest request,HttpServletResponse response,String userId,String code,String phone);
 
 }

@@ -87,25 +87,25 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     public ResultVO<Map<String, Object>> logout(HttpServletRequest request, HttpServletResponse response, String userId) {
         //1.查询redis
         //2.清除redis
-       try {
-           if (!redis.get(RedisConstant.TOKEN_PREFIX + userId).equals("")) {
-               redis.del(RedisConstant.TOKEN_PREFIX + userId);
-           }
-           if (!redis.get(RedisConstant.VO_PREFIX + userId).equals("")) {
-               redis.del(RedisConstant.VO_PREFIX + userId);
-           }
-           //3.查询cookie
-           //4.清除cookie
-           Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
-           if (cookie != null) {
-               CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
-               CookieUtil.set(response, CookieConstant.USER_ID, null, 0);
-           }
-       }catch (Exception e){
-           Map<String, Object> map = new HashMap<>();
-           map.put("message", "用户已经注销了！");
-           return ResultVOUtil.success(map);
-       }
+        try {
+            if (!redis.get(RedisConstant.TOKEN_PREFIX + userId).equals("")) {
+                redis.del(RedisConstant.TOKEN_PREFIX + userId);
+            }
+            if (!redis.get(RedisConstant.VO_PREFIX + userId).equals("")) {
+                redis.del(RedisConstant.VO_PREFIX + userId);
+            }
+            //3.查询cookie
+            //4.清除cookie
+            Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
+            if (cookie != null) {
+                CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
+                CookieUtil.set(response, CookieConstant.USER_ID, null, 0);
+            }
+        } catch (Exception e) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("message", "用户已经注销了！");
+            return ResultVOUtil.success(map);
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("message", "成功退出！");
         return ResultVOUtil.success(map);
@@ -132,10 +132,9 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
 
     }
 
-
     /**
      * 验证手机号码
-     * type 0 登录找回密码   1 注册
+     * type 0 登录找回密码   1 注册/绑定
      */
 
     @Override
@@ -171,7 +170,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
             user.setNikeName("用户" + KeyUtil.genUniqueKey());
             user.setAvatar("");
             user.setCreateDate(GetTimeUtil.getTime());
-            user.setAvatar("/read/img/user/model.png");
+            user.setAvatar("https://p0.cdrysj.com/po/read/img/user/model.png");
             user.setUpdateDate(GetTimeUtil.getTime());
             user.setUserType("1");
             user.setUserId(KeyUtil.genUniqueKey());
@@ -310,11 +309,11 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     @Override
     public ResultVO<Map<String, Object>> oauthQQ(HttpServletRequest request, HttpServletResponse response, String QQAccessToken, String QQOpenID) {
         Map<String, Object> map = new HashMap<>();
-        User user = userRepository.findByQqOpenIDAndQqAccessToken(QQOpenID,QQAccessToken);
-        if (user==null){
-            User qquser = QQLogin(QQAccessToken,QQOpenID);
-            if (qquser==null){
-                return ResultVOUtil.error(403,"授权失效~");
+        User user = userRepository.findByQqOpenIDAndQqAccessToken(QQOpenID, QQAccessToken);
+        if (user == null) {
+            User qquser = QQLogin(QQAccessToken, QQOpenID);
+            if (qquser == null) {
+                return ResultVOUtil.error(403, "授权失效~");
             }
             map.put("message", "登录成功");
             map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, qquser));
@@ -332,7 +331,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
         Map<String, Object> map = new HashMap<>();
         if (user == null) {
             user = new User();
-            String nickName = "微信用户"+KeyUtil.genUniqueKey();
+            String nickName = "微信用户" + KeyUtil.genUniqueKey();
             user.setNikeName(nickName);
             user.setName(nickName);
             user.setWeChatOpenID(weChatOpenId);
@@ -352,8 +351,24 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
         return ResultVOUtil.success(map);
     }
 
-    private Boolean checkNickName(String nickName){
-        if (userRepository.findAllByNikeName(nickName) == null){
+    @Override
+    public ResultVO<Map<String, Object>> BindingPhone(HttpServletRequest request, HttpServletResponse response, String userId, String code,String phone) {
+        Map<String, Object> map = new HashMap<>();
+        User user = userRepository.findOne(userId);
+        if (!checkCode(request, code)){
+            return ResultVOUtil.error(100, "验证码输入错误");
+        }
+        if (user == null) {
+            return ResultVOUtil.error(100, "用户不存在。");
+        }
+        user.setPhone(phone);
+        map.put("message", "修改成功");
+        map.put("userVO", this.setUserRedisSessionTokenAndCookieSession(response, userRepository.save(user)));
+        return ResultVOUtil.success(map);
+    }
+
+    private Boolean checkNickName(String nickName) {
+        if (userRepository.findAllByNikeName(nickName) == null) {
             return true;
         }
         return false;
