@@ -49,4 +49,8 @@ public class ArticleForm {
     private List<String> commentList;
 
     private List<String> commentName;
+
+    private List<String> commentImg;
+
+
 }

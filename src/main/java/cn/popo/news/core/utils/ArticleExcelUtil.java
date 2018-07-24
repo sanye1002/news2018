@@ -256,14 +256,19 @@ public class ArticleExcelUtil {
             String keywords = row.getCell(7).getStringCellValue();
             String commentName = row.getCell(8).getStringCellValue();
             String comment = row.getCell(9).getStringCellValue();
+            String commentImg = row.getCell(10).getStringCellValue();
 
             List<String> commentList = new ArrayList<>();
+            List<String> commentImgList = new ArrayList<>();
             List<String> commentNameList = new ArrayList<>();
             SplitUtil.splitCJ(comment).forEach(l->{
                 commentList.add(l);
             });
             SplitUtil.splitCJ(commentName).forEach(c->{
                 commentNameList.add(c);
+            });
+            SplitUtil.splitCJ(commentImg).forEach(m->{
+                commentImgList.add(m);
             });
             int classifyId= Integer.parseInt(classifyIdTemp);
             ArticleForm articleForm = new ArticleForm();
@@ -281,6 +286,7 @@ public class ArticleExcelUtil {
             articleForm.setAuthorName(authorName);
             articleForm.setCommentList(commentList);
             articleForm.setCommentName(commentNameList);
+            articleForm.setCommentImg(commentImgList);
             ArticleFormList.add(articleForm);
 
             if (content==null||content=="")

@@ -301,6 +301,8 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         DynamicReport dynamicReport = new DynamicReport();
         dynamicReportForm.setContent(KeyWordFilter.doFilter(dynamicReportForm.getContent()));
         BeanUtils.copyProperties(dynamicReportForm, dynamicReport);
+        dynamicReport.setInfo(dynamicReportForm.getContent());
+        dynamicReport.setDid(dynamicReportForm.getDynamicId());
         Long l = System.currentTimeMillis();
         dynamicReport.setTime(l);
 //        dynamicReport.setId(KeyUtil.genUniqueKey());

@@ -94,7 +94,9 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
             articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
             articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
-            articleInfo.setCrateTime(System.currentTimeMillis());
+            if(articleForm.getIsOwn()==1){
+                articleInfo.setCrateTime(System.currentTimeMillis());
+            }
             articleInfo.setRecommendState(0);
             articleInfo.setSlideState(0);
             articleInfo.setLookNum(0);
@@ -105,8 +107,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfo.setAuditTime(System.currentTimeMillis());
                 articleInfo.setLookNum(new Random().nextInt(450)+50);
                 articleInfo.setState(1);
-                articleInfo.setUid("1531989514774");
-
+                articleInfo.setUid(articleForm.getUid());
             }
             articleRepository.save(articleInfo);
         }

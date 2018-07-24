@@ -104,21 +104,32 @@ public class test {
 
             if (!list.isEmpty()){
                 list.forEach(l->{
-
-
                     ArticleInfo article = articleRepository.findAllByTitle(l.getTitle());
                     if (article==null){
-
+                        User user1 = userRepository.findAllByNikeName(l.getAuthorName());
+                        if (user1==null){
+                            String userId = agoPersonalService.addDefaultUser(l.getAuthorName(),l.getAuthorImg());
+                            l.setUid(userId);
+                        }else {
+                            l.setUid(user1.getUserId());
+                        }
                         String id = KeyUtil.genUniqueKey();
                         l.setArticleId(id);
                         articleService.articleSave(l);
-                        if (!l.getCommentList().isEmpty()) {
-                            for (int i=0;i<l.getCommentList().size();i++){
+                        Integer cj = l.getCommentName().size() - l.getCommentImg().size();
+                        if (cj>0){
+                            for (int a=0;a<cj;a++){
+                                l.getCommentImg().add("https://p0.cdrysj.com/po/read/img/user/model.png");
+                            }
+                        }
+                        if (!l.getCommentName().isEmpty()) {
+                            for (int i=0;i<l.getCommentName().size();i++){
                                 String name = l.getCommentName().get(i);
+                                String img = l.getCommentImg().get(i);
                                 User user = userRepository.findAllByNikeName(name);
                                 CommentForm commentForm = new CommentForm();
                                 if (user==null){
-                                    String userId = agoPersonalService.addDefaultUser(name,null);
+                                    String userId = agoPersonalService.addDefaultUser(name,img);
                                     commentForm.setUid(userId);
                                 }else {
                                     commentForm.setUid(user.getUserId());
