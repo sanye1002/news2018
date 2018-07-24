@@ -94,9 +94,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
             articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
             articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
-            if(articleForm.getIsOwn()==1){
-                articleInfo.setCrateTime(System.currentTimeMillis());
-            }
+            articleInfo.setCrateTime(System.currentTimeMillis());
             articleInfo.setRecommendState(0);
             articleInfo.setSlideState(0);
             articleInfo.setLookNum(0);
