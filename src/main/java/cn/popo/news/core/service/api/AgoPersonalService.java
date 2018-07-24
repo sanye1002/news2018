@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface AgoPersonalService {
 
-    void saveDynamic(String userId,String content,String imgUrl);
+    void saveDynamic(String userId,String content,String imgUrl,String videoUrl);
 
     PageDTO<DynamicVO> findAllDynamicByUserId(Pageable pageable,String userId);
 

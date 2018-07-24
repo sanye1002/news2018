@@ -21,6 +21,8 @@ public class Dynamic {
 
     private String imgUrl;
 
+    private String videoUrl;
+
     private Long time;
 
     private Integer praiseNum;

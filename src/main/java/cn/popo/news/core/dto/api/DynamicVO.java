@@ -23,6 +23,8 @@ public class DynamicVO {
     @JsonProperty("imgs")
     private List<String> imgList;
 
+    private List<String> videoList;
+
     private Integer good;
 
     private Integer goodFlag;

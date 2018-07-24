@@ -88,8 +88,11 @@ public class ArticleServiceImpl implements ArticleService {
             if(articleForm.getDraft() == 1){
                 articleInfo.setDraft(0);
             }else{
-
-                articleInfo.setArticleId(articleForm.getArticleId());
+                if (articleForm.getIsOwn()==1){
+                    articleInfo.setArticleId(KeyUtil.genUniqueKey());
+                }else {
+                    articleInfo.setArticleId(articleForm.getArticleId());
+                }
             }
             articleInfo.setState(ResultEnum.PLATFORM_BOOS_NULL.getCode());
             articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());

@@ -51,7 +51,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
      * 动态保存
      */
     @Override
-    public void saveDynamic(String userId, String content, String imgUrl) {
+    public void saveDynamic(String userId, String content, String imgUrl,String videoUrl) {
         Long time = System.currentTimeMillis();
         Dynamic dynamic = new Dynamic();
         dynamic.setId(KeyUtil.genUniqueKey());
@@ -60,6 +60,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         dynamic.setImgUrl(imgUrl);
         dynamic.setUserId(userId);
         dynamic.setPraiseNum(0);
+        dynamic.setVideoUrl(videoUrl);
         dynamicRepository.save(dynamic);
     }
 
@@ -90,8 +91,12 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                     dynamicVO.setUsername(user.getNikeName());
                     dynamicVO.setAvatar(user.getAvatar());
 
-                    if(!l.getImgUrl().equals("")){
+                    if(l.getImgUrl()!=null){
                         dynamicVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                    }
+
+                    if (l.getVideoUrl()!=null){
+                        dynamicVO.setVideoList(SplitUtil.splitComme(l.getVideoUrl()));
                     }
                     dynamicVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));
                     DynamicPraise dynamicPraise = dynamicPraiseRepository.findAllByUidAndDynamicId(userId,l.getId());
