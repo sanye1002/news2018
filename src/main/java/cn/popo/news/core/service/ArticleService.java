@@ -7,6 +7,7 @@ import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
+import cn.popo.news.core.utils.ArticleExcelUtil;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -87,6 +88,8 @@ public interface ArticleService {
     boolean findTitleIsSame(String title);
 
     List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state,Integer showState,Integer draft);
+
+    String findUidByArticleId(String articleId);
 
 
 }

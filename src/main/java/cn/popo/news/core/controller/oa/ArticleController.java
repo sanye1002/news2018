@@ -290,7 +290,13 @@ public class ArticleController {
     ){
         map.put("pageId",101);
         map.put("pageTitle","文章审核");
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        PageRequest pageRequest = null;
+        if (state==2){
+            pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","crateTime"));
+        }else {
+            pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
+        }
+
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndType(pageRequest,state,type,classifyId);
         Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode(),classifyId,type);
         Integer pass = articleService.findStateNum(ResultEnum.PARAM_NULL.getCode(),classifyId,type);

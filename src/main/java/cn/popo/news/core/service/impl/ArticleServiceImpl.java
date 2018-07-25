@@ -154,6 +154,9 @@ public class ArticleServiceImpl implements ArticleService {
                     articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
                     articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
+                    if (l.getAuditTime()!=null){
+                        articleDTO.setAuditTime(GetTimeUtil.getDateFormat(l.getAuditTime()));
+                    }
                     articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
                     articleDTO.setUser(userRepository.getOne(l.getUid()));
                     list.add(articleDTO);
@@ -976,6 +979,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleInfo> findAllByStateAndShowStateAndDraft(Integer state, Integer showState, Integer draft) {
         return articleRepository.findAllByStateAndShowStateAndDraft(state,showState,draft);
+    }
+
+    /**
+     * 通过文章id查询uid
+     * @param articleId
+     * @return
+     */
+    @Override
+    public String findUidByArticleId(String articleId) {
+        ArticleInfo articleInfo = articleRepository.findAllByArticleId(articleId);
+        return articleInfo.getUid();
     }
 
 

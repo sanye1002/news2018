@@ -140,7 +140,10 @@
                                         <th>用户</th>
                                         <th>是否原创</th>
                                         <th>标题</th>
-                                        <th>时间</th>
+                                        <th>发布时间</th>
+                                        <#if state!=2>
+                                            <th>审核时间</th>
+                                        </#if>
                                         <th>关键字</th>
                                         <th>类型</th>
                                         <th>分类</th>
@@ -158,6 +161,11 @@
                                     </td>
                                     <td>${p.getTitle()}</td>
                                     <td>${p.getTime()}</td>
+                                    <#if state!=2>
+                                        <td>
+                                            ${p.getAuditTime()!}
+                                        </td>
+                                    </#if>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
                                     
                                     <div id="video${p.getArticleId()}" style="display: none">

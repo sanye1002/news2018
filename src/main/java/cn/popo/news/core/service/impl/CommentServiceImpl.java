@@ -47,4 +47,9 @@ public class CommentServiceImpl implements CommentService {
         });
         return list;
     }
+
+    @Override
+    public List<Comment> findCommentByArticleId(String articleId) {
+        return commentRepository.findAllByAid(articleId);
+    }
 }

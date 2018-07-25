@@ -1,12 +1,15 @@
 package cn.popo.news.core.controller.test;
 
+import cn.popo.news.core.dto.DataDTO;
 import cn.popo.news.core.entity.common.ArticleInfo;
+import cn.popo.news.core.entity.common.Comment;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.ArticleForm;
 import cn.popo.news.core.entity.form.CommentForm;
 import cn.popo.news.core.repository.ArticleRepository;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.ArticleService;
+import cn.popo.news.core.service.CommentService;
 import cn.popo.news.core.service.api.AgoCommentService;
 import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.utils.ArticleExcelUtil;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +53,9 @@ public class test {
 
     @Autowired
     private AgoPersonalService agoPersonalService;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/excel")
     public ModelAndView excelUpload() {
@@ -254,5 +261,46 @@ public class test {
                 file.delete();
             }
         }
+    }
+
+
+    @GetMapping("/data/select")
+    public ModelAndView dataSelect() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageId", 5);
+        map.put("pageTitle", "数据查看");
+        return new ModelAndView("pages/data", map);
+    }
+
+    @PostMapping("/more/data")
+    @ResponseBody
+    public ResultVO<Map<String, Object>> moreData(@RequestParam(value = "articleId") String articleId) {
+        String uid = articleService.findUidByArticleId(articleId);
+
+        User u = userRepository.findOne(uid);
+        List<Comment> comments = commentService.findCommentByArticleId(articleId);
+        List<DataDTO> dataDTOS = new ArrayList<>();
+        comments.forEach(l->{
+            DataDTO dataDTO = new DataDTO();
+            String commInfo = "commentInfo:"+l.getCommentInfo();
+            String commUid = "commentUid:"+l.getUid();
+            User user = userRepository.findOne(l.getUid());
+            String commUserAvatar = "commentUserAvatar:"+user.getAvatar();
+            String commUserName = "commentUserName:"+user.getName();
+            String commUserNickName = "commentUserNickName:"+user.getNikeName();
+            dataDTO.setCommInfo(commInfo);
+            dataDTO.setCommUid(commUid);
+            dataDTO.setCommUserAvatar(commUserAvatar);
+            dataDTO.setCommUserName(commUserName);
+            dataDTO.setCommUserNickName(commUserNickName);
+            dataDTOS.add(dataDTO);
+        });
+        Map<String,Object> map  = new HashMap<>();
+
+        map.put("articleData",dataDTOS);
+        map.put("articleUid",uid);
+        map.put("articleByName",u.getName());
+        map.put("articleByNickName",u.getNikeName());
+        return ResultVOUtil.success(map);
     }
 }

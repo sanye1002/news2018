@@ -13,4 +13,5 @@ import java.util.List;
 public interface CommentService {
     void deleteComment(String articleId);
     List<String> findCommentIdByArticleId(String articleId);
+    List<Comment> findCommentByArticleId(String articleId);
 }

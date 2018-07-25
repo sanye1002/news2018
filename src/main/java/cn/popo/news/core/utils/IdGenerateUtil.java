@@ -9,6 +9,9 @@ package cn.popo.news.core.utils;
 public class IdGenerateUtil {
     public String GetId(Integer userSize,String newestId){
 
+        if (userSize<100){
+
+        }
         return null;
     }
 }

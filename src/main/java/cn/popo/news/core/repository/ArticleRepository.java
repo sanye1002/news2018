@@ -71,6 +71,7 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     Page<ArticleInfo> findAllByUidAndDraft(Pageable pageable,String userId, Integer draft);
     List<ArticleInfo> findAllByManageIdAndTypeIdAndRecommendStateOrderByAuditTimeAsc(Integer manageId,Integer typeId, Integer recommendState);
     ArticleInfo findByTitleAndCrateTimeAfter(String title,Long time);
+    ArticleInfo findAllByArticleId(String articleId);
 
     //api
     Page<ArticleInfo> findAllByStateAndTitleLikeAndShowStateAndDraft(Pageable pageable,Integer state,String content,Integer showState,Integer draft);
