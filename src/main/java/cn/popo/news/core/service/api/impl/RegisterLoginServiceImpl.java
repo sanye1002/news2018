@@ -294,8 +294,8 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
             }
             user.setNikeName(nickName);
             user.setName(nickName);
-            user.setAvatar("/read/img/user/model.png");
-            //user.setAvatar(userInfo.getAvatar().getAvatarURL100());
+            //user.setAvatar("/read/img/user/model.png");
+            user.setAvatar(userInfo.getAvatar().getAvatarURL100());
             user.setCreateDate(GetTimeUtil.getTime());
             user.setUpdateDate(GetTimeUtil.getTime());
             user.setUserType("1");
@@ -335,7 +335,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
             user.setNikeName(nickName);
             user.setName(nickName);
             user.setWeChatOpenID(weChatOpenId);
-            user.setAvatar("/read/img/user/model.png");
+            user.setAvatar("https://p0.cdrysj.com/po/read/img/user/model.png");
             //user.setAvatar(userInfo.getAvatar().getAvatarURL100());
             user.setCreateDate(GetTimeUtil.getTime());
             user.setUpdateDate(GetTimeUtil.getTime());
