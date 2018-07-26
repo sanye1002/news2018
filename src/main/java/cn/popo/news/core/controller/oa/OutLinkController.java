@@ -84,10 +84,10 @@ public class OutLinkController {
         OutLink outLink = new OutLink();
         map.put("pageId", 500);
         if (id != null) {
-            map.put("pageTitle", "分类编辑");
+            map.put("pageTitle", "链接编辑");
             outLink = outLinkService.findOneLine(id);
         } else {
-            map.put("pageTitle", "分类添加");
+            map.put("pageTitle", "链接添加");
         }
         map.put("outLink", outLink);
         return new ModelAndView("pages/outLinkAdd", map);
