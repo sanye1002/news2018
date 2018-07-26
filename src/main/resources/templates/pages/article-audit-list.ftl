@@ -194,7 +194,7 @@
                                         </#if>
                                         <#if p.getTypeId()==2>
                                             <a class="btn btn-info btn-xs"
-                                               onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})')"><i
+                                               onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})"><i
                                                     class="fa fa-pencil"></i>
                                                 内容</a>
                                         </#if>
