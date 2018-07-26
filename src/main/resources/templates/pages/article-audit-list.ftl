@@ -194,7 +194,7 @@
                                         </#if>
                                         <#if p.getTypeId()==2>
                                             <a class="btn btn-info btn-xs"
-                                               onclick="showContent('${p.getArticleId()}')"><i
+                                               onclick="showImgs('${p.getArticleId()}',${p.getTypeId()})')"><i
                                                     class="fa fa-pencil"></i>
                                                 内容</a>
                                         </#if>
@@ -410,7 +410,6 @@
     }
 
     function showImgs(id, type) {
-        console.log(id)
         $.getJSON('/layer/article?id=' + id + '&type=' + type, function (json) {
             layer.photos({
                 photos: json
