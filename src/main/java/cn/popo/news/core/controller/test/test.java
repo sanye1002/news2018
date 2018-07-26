@@ -57,6 +57,10 @@ public class test {
     @Autowired
     private CommentService commentService;
 
+    /**
+     * excel上传（内容-用户-评论-评论用户）
+     * @return
+     */
     @GetMapping("/excel")
     public ModelAndView excelUpload() {
         Map<String, Object> map = new HashMap<>();
@@ -81,6 +85,10 @@ public class test {
         return new ModelAndView("pages/add-avatar", map);
     }
 
+    /**
+     * excel上传（内容-用户-评论-评论用户）
+     * @return
+     */
     @PostMapping("/save")
     @ResponseBody
     public ResultVO<Map<String, Object>> importSalaryExcel(HttpServletRequest request,
