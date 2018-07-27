@@ -82,7 +82,14 @@
                                     >
                                         <td>${radio.getRadioName()}</td>
                                         <td>${radio.getUrl()}</td>
-                                        <td>${radio.getShowState()}</td>
+                                        <td>
+                                            <#if radio.getShowState()==1>
+                                                在线
+                                            </#if>
+                                            <#if radio.getShowState()==0>
+                                                未上线
+                                            </#if>
+                                        </td>
                                         <td>
                                             <a href="/oa/radio/index?id=${radio.getId()}"
                                                name="pullModel-edit_area_row"
@@ -90,6 +97,16 @@
                                             <a id="remove-area-1" onclick="deleteDept(${radio.getId()})"
                                                class="btn btn-danger btn-xs edit"><i
                                                     class="glyphicon glyphicon-trash"></i> 删除</a>
+                                            <#if radio.getShowState()==1>
+                                                <a class="btn btn-magenta btn-xs" onclick="changeShowState(${radio.getId()},0)">
+                                                    <i class="glyphicon glyphicon-arrow-down edit"></i>下线
+                                                </a>
+                                            </#if>
+                                            <#if radio.getShowState()==0>
+                                                <a class="btn btn-azure btn-xs" onclick="changeShowState(${radio.getId()},1)">
+                                                    <i class="glyphicon glyphicon-arrow-up edit"></i>上线
+                                                </a>
+                                            </#if>
                                         </td>
                                     </tr>
                                     </#list>
@@ -135,6 +152,24 @@
             )
 
         });
+    }
+    function changeShowState(id,showState) {
+        $.post(
+                "/oa/radio/update",
+                {
+                    id: id,
+                    showState:showState
+                },
+                function (res) {
+                    if (res.code == 0) {
+                        setTimeout(function () {
+                            layer.msg("成功！！！！！");
+                        }, 1000);
+                        location="/oa/radio/list.html"
+                    }
+                }
+        )
+
     }
 
 </script>

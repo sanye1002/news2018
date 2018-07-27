@@ -12,5 +12,4 @@ public class IdGenerateUtil {
             String id = (Integer.parseInt(newestId)+d)+"";
             return id;
     }
-
 }

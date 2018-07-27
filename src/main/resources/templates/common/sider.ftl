@@ -87,7 +87,7 @@
 
         <#--checkManage:tag-->
     <@shiro.hasPermission name="checkManage:tag">
-        <li <#if pageId==101|| pageId==201>class="open" </#if>>
+        <li <#if pageId==101|| pageId==201||pageId==26>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-bolt"></i>
                 <span class="menu-text">审核管理</span>
@@ -257,7 +257,7 @@
 
 
     <@shiro.hasPermission name="userManage:tag">
-        <li <#if pageId==24|| pageId==25|| pageId==26>class="open" </#if>>
+        <li <#if pageId==24|| pageId==25>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-group"></i>
                 <span class="menu-text">用户管理</span>
@@ -288,12 +288,12 @@
                 <i class="menu-expand"></i>
             </a>
             <ul class="submenu">
-                <li <#if pageId==24>class="active" </#if>>
+                <li <#if pageId==33>class="active" </#if>>
                     <a href="/oa/classify/index.html">
                         <span class="menu-text">分类添加</span>
                     </a>
                 </li>
-                <li <#if pageId==26>class="active" </#if>>
+                <li <#if pageId==34>class="active" </#if>>
                     <a href="/oa/classify/alllist.html" class="menu-dropdown">
                         <span class="menu-text">分类查询</span>
                     </a>
@@ -327,7 +327,7 @@
     <@shiro.hasPermission name="radio:tag">
         <li <#if pageId==600|| pageId==601>class="open" </#if>>
             <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-link"></i>
+                <i class="menu-icon fa fa-headphones"></i>
                 <span class="menu-text">电台管理</span>
                 <i class="menu-expand"></i>
             </a>

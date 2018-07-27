@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="getShowState"
-                                                   class="col-sm-2 control-label no-padding-right">是否立刻展示</label>
+                                                   class="col-sm-2 control-label no-padding-right">是否在线</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="getShowState" value="${radioInfo.getShowState()!}"
                                                        class="form-control" id="getShowState" placeholder="0:否,1:是">
