@@ -325,7 +325,7 @@
      </@shiro.hasPermission>
 
     <@shiro.hasPermission name="radio:tag">
-        <li <#if pageId==600|| pageId==601>class="open" </#if>>
+        <li <#if pageId==600|| pageId==601|| pageId==602>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-headphones"></i>
                 <span class="menu-text">电台管理</span>
@@ -340,6 +340,11 @@
                 <li <#if pageId==601>class="active" </#if>>
                     <a href="/oa/radio/list.html" class="menu-dropdown">
                         <span class="menu-text">电台查询</span>
+                    </a>
+                </li>
+                <li <#if pageId==602>class="active" </#if>>
+                    <a href="/oa/radio/list/letter.html" class="menu-dropdown">
+                        <span class="menu-text">用户留言</span>
                     </a>
                 </li>
             </ul>

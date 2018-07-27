@@ -1,5 +1,6 @@
 package cn.popo.news.core.controller.oa;
 
+import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.RadioAnchorLetterDTO;
 import cn.popo.news.core.entity.common.RadioAnchorLetter;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,9 @@ public class RadioInfoController {
 
     @Autowired
     private RadioInfoService radioInfoService;
+
+    @Autowired
+    private UserSessionUtil userSessionUtil;
 
     /**
      * 添加电台页面
@@ -153,7 +159,14 @@ public class RadioInfoController {
      */
     @ResponseBody
     @PostMapping("/add/letter")
-    public ResultVO<Map<String,Object>> addLetter(@Valid RadioAnchorLetterParam radioAnchorLetterParam){
+    public ResultVO<Map<String,Object>> addLetter(@Valid RadioAnchorLetterParam radioAnchorLetterParam,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response
+    ){
+
+        if (!userSessionUtil.verifyLoginStatus(request,response)){
+            return ResultVOUtil.error(3,"用户失效");
+        }
         Map<String,Object> map  = new HashMap<>();
         radioInfoService.addRadioAnchorLetter(radioAnchorLetterParam);
         return ResultVOUtil.success(map);
@@ -161,7 +174,7 @@ public class RadioInfoController {
 
 
     @GetMapping("/list/letter")
-//    @RequiresPermissions("radio:list")
+    @RequiresPermissions("radio:letterList")
     public ModelAndView letterList(Map<String, Object> map,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "10") Integer size,
@@ -197,7 +210,7 @@ public class RadioInfoController {
 
         map.put("manyYear",manyYear);
         map.put("manyDay",manyDay);
-        map.put("pageId", 6001);
+        map.put("pageId", 602);
         map.put("pageTitle", "操作电台列表");
         map.put("pageContent", radioInfoPage);
         map.put("day",day);
