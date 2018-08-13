@@ -8,5 +8,5 @@ public class MineSections {
     private String url;//URL
     private String text;//左标题
     private String key;// key
-    private String tip_new;//
+    private Integer tip_new;//
 }

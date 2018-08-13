@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-@RestController
-@RequestMapping("/app/mine")
 @Api(tags = {"app Mine 列表"})
+@RestController
+@RequestMapping(value = "/app/mine")
 @Slf4j
 public class MineController {
 
@@ -27,7 +27,7 @@ public class MineController {
 
     @GetMapping("/sections")
     @ApiOperation(value = "个人中心列表")
-    private ResultVO<Map<String,Object>> getMineSections(){
+    public ResultVO<Map<String,Object>> getMineSections(){
         return mineService.getMineList();
     }
 
