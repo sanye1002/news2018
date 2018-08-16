@@ -27,7 +27,7 @@ public class MineServiceImpl implements MineService {
                 case 0:
                     mineSections1.setText("我的动态");
                     sectionsList1.add(mineSections1);
-                    sectionsList.add(sectionsList1);
+
                     break;
                 case 1:
                     mineSections1.setText("我的收藏");
@@ -37,7 +37,7 @@ public class MineServiceImpl implements MineService {
                 case 2:
                     mineSections1.setText("关注");
                     sectionsList2.add(mineSections1);
-                    sectionsList.add(sectionsList2);
+
                     break;
                 case 3:
                     mineSections1.setText("粉丝");
