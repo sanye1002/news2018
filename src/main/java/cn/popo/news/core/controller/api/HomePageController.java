@@ -116,6 +116,28 @@ public class HomePageController {
         return ResultVOUtil.success(map);
     }
 
+    //获取访问信息
+    @PostMapping("/ip")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> getIpAndSystemAndBrowser(Map<String,Object> map,HttpServletRequest httpServletRequest){
+        ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),
+                StatisticsInfoGetUtil.getVisitUitl(httpServletRequest),
+                StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest)
+        );
+        StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
+        return ResultVOUtil.success(map);
+    }
+
+    //android nav
+    @PostMapping("/android/nav")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> navAndroid(Map<String,Object> map){
+        //导航
+        List<Classify> list = classifyService.findAllClassify();
+        map.put("indexNavigation",list);
+        return ResultVOUtil.success(map);
+    }
+
     /**
      * @param
      * @return

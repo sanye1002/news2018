@@ -32,7 +32,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/oa/radio")
 @Slf4j
-public class RadioInfoController {
+public class RadioInfoController{
 
     @Autowired
     private RadioInfoService radioInfoService;
