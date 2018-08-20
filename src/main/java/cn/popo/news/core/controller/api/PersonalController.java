@@ -237,6 +237,63 @@ public class PersonalController {
         return ResultVOUtil.success(map);
     }
 
+    @PostMapping("/phone/user/index")
+    public ResultVO<Map<String, Object>> userPhoneIndex(Map<String, Object> map,
+                                                   @RequestParam(value = "userId1", defaultValue = "0") String userId1,
+                                                   HttpServletRequest request,
+                                                   HttpServletResponse response
+
+    ) {
+
+
+        String userId = null;
+
+
+        if(!userId1.equals("0")){
+            userId = userId1;
+        }else {
+            if (!userSessionUtil.verifyLoginStatus(request, response)) {
+                return ResultVOUtil.error(3, "用户失效");
+            }
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
+
+
+
+        //用户信息
+        PersonalVO personalVO = agoPersonalService.findUserInfoByUserId(userId);
+//        map.put("user", personalVO);
+        map.put("userId",personalVO.getUserId());
+        map.put("nikeName",personalVO.getNikeName());
+        map.put("signature",personalVO.getSignature());
+        map.put("avatar",personalVO.getAvatar());
+        map.put("backgroundImg",personalVO.getBackgroundImg());
+
+        //粉丝和关注数量
+        Integer fans = agoAttentionService.findFansNum(userId);
+        Integer attentionNum = agoAttentionService.findAttentionNum(userId);
+        map.put("fansNum", fans);
+        map.put("attentionNum", attentionNum);
+
+        //关注
+        if(userSessionUtil.verifyLoginStatus(request,response)){
+            if (userId1.equals("0")) {
+            } else {
+                Attention attention = attentionRepository.findAllByAidAndFid(
+                        userSessionUtil.getUserByCookie(request,response).getUserId(), userId1);
+                if (attention!=null){
+                    map.put("attentionFlag",1);
+                }else {
+                    map.put("attentionFlag",0);
+                }
+            }
+        }else {
+            map.put("attentionFlag",0);
+        }
+
+        return ResultVOUtil.success(map);
+    }
+
 
     /**
      * @param page size
