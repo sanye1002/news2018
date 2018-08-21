@@ -47,6 +47,9 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     @Autowired
     private DynamicReportRepository dynamicReportRepository;
 
+    @Autowired
+    private TypeRepository typeRepository;
+
     /**
      * 动态保存
      */
@@ -349,5 +352,10 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         user.setNikeName(userName);
         userRepository.save(user);
         return id;
+    }
+
+    @Override
+    public List<Type_info> findAllType() {
+        return typeRepository.findAll();
     }
 }

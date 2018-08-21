@@ -3,9 +3,12 @@ package cn.popo.news.core.service.api;
 
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
+import cn.popo.news.core.entity.common.Type_info;
 import cn.popo.news.core.entity.form.DynamicReportForm;
 import cn.popo.news.core.entity.param.PersonalParam;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface AgoPersonalService {
 
@@ -35,6 +38,8 @@ public interface AgoPersonalService {
     String DefaultUser();
 
     String addDefaultUser(String userName,String userImg);
+
+    List<Type_info> findAllType();
 
 //    PageDTO<DynamicVO> findAllDynamic(Pageable pageable);
 

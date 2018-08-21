@@ -7,6 +7,7 @@ import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.dto.api.*;
 import cn.popo.news.core.entity.common.Attention;
 import cn.popo.news.core.entity.common.DynamicPraise;
+import cn.popo.news.core.entity.common.Type_info;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.DynamicReportForm;
 import cn.popo.news.core.entity.param.PersonalParam;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -290,6 +292,14 @@ public class PersonalController {
         }else {
             map.put("attentionFlag",0);
         }
+
+        //查询所有type（文章种类）
+        List<Type_info> list = agoPersonalService.findAllType();
+        Type_info dynamic = new Type_info();
+        dynamic.setId(4);
+        dynamic.setType_name("动态");
+        list.add(dynamic);
+        map.put("indexNavigation",list);
 
         return ResultVOUtil.success(map);
     }

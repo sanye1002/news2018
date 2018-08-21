@@ -1,5 +1,6 @@
 package cn.popo.news.core.entity.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -21,5 +22,6 @@ public class Type_info {
     @GeneratedValue
     private Integer id;
 
+    @JsonProperty("title")
     private String type_name;
 }
