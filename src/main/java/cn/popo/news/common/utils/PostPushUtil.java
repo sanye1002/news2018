@@ -54,7 +54,6 @@ public class PostPushUtil {
         String json = Post(url, param);//执行推送方法
         System.out.println("结果是"+json);  //打印推送结果
     }
-
     public static void pushAll(List<ArticleInfo> list){
         String url = "http://data.zz.baidu.com/urls?site=www.immnc.com&token=zwI3w0PBhjCJwmYs";//网站的服务器连接
         String[] param = new String[2000];
