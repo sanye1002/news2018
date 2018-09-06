@@ -311,4 +311,11 @@ public class test {
         map.put("articleByNickName",u.getNikeName());
         return ResultVOUtil.success(map);
     }
+    @GetMapping("/news/detail")
+    public ModelAndView newsDetail() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageId", 5);
+        map.put("pageTitle", "数据查看");
+        return new ModelAndView("seo/page/index", map);
+    }
 }
