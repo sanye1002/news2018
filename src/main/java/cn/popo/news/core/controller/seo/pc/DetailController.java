@@ -36,7 +36,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/oa/seo")
+@RequestMapping("/pc")
 public class DetailController {
     @Autowired
     private AgoCommentService agoCommentService;

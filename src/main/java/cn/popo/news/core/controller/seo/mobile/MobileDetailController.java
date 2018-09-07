@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/mobile")
-public class DetailController {
+public class MobileDetailController {
     @Autowired
     private AgoArticleService articleService;
     @GetMapping("/detail")
