@@ -2,8 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="https://n.immnc.com/static/bitbug_favicon.ico">
-
+    <link rel="shortcut icon" type="image/x-icon" href="http://localhost:8088/seo/pc/bitbug_favicon.ico">
     <title>${articleDetails.title}---妙漫网创</title>
     <meta name="renderer" content="webkit">
     <meta name="baidu-site-verification" content="VsjZmJyha2">
@@ -16,8 +15,56 @@
     <meta name="og:category " content="妙漫网创">
     <meta property="og:image" content="${articleDetails.imgList[0]}">
     <script src="https://zz.bdstatic.com/linksubmit/push.js"></script>
-    <script type="text/javascript" src="http://n.immnc.com/static/radio/flowplayer-3.2.13.min.js"></script>
+    <script type="text/javascript" src="http://localhost:8088/seo/pc/radio/flowplayer-3.2.13.min.js"></script>
     <link href="/seo/pc/css/app.401adb6d4161f101f68133407f78a37c.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/seo/pc/lbt/css/reset.css"/>
+    <link rel='stylesheet prefetch' href='/seo/pc/lbt/css/slick.css'>
+    <link rel='stylesheet prefetch' href='/seo/pc/lbt/css/slick-theme.css'>
+    <link rel="stylesheet" href="/seo/pc/lbt/css/style.css">
+
+    <link rel="stylesheet" href="/seo/pc/lbt/swiper-4.3.5/dist/css/swiper.min.css">
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+    </style>
+
     <style type="text/css">.ivu-load-loop {
         -webkit-animation: ani-load-loop 1s linear infinite;
         animation: ani-load-loop 1s linear infinite
@@ -388,8 +435,8 @@
 
     @font-face {
         font-family: Ionicons;
-        src: url(/static/fonts/ionicons.2c2ae06.eot);
-        src: url(/static/fonts/ionicons.2c2ae06.eot#iefix) format("embedded-opentype"), url(/seo/pc/fonts/ionicons.24712f6.ttf) format("truetype"), url(/seo/pc/fonts/ionicons.05acfdb.woff) format("woff"), url(/static/img/ionicons.621bd38.svg#Ionicons) format("svg");
+        src: url(/seo/pc/fonts/ionicons.2c2ae06.eot);
+        src: url(/seo/pc/fonts/ionicons.2c2ae06.eot#iefix) format("embedded-opentype"), url(/seo/pc/fonts/ionicons.24712f6.ttf) format("truetype"), url(/seo/pc/fonts/ionicons.05acfdb.woff) format("woff"), url(/seo/pc/img/ionicons.621bd38.svg#Ionicons) format("svg");
         font-weight: 400;
         font-style: normal
     }
@@ -17000,8 +17047,7 @@
 
     /*# sourceURL=/./src/common/styles/common.css */
     /*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi8uL3NyYy9jb21tb24vc3R5bGVzL2NvbW1vbi5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxXQUFXO0VBQ1gsVUFBVTtFQUNWLGlCQUFpQjtFQUNqQixZQUFZO0VBQ1osYUFBYTtFQUNiOzs7Ozs7YUFNVztDQUNaOztBQUVEO0VBQ0UsZUFBZTtFQUNmLHNCQUFzQjtDQUN2Qjs7QUFFRDtFQUNFLGVBQWU7RUFDZixzQkFBc0I7Q0FDdkI7O0FBRUQ7RUFDRSxzQkFBc0I7Q0FDdkI7O0FBRUQ7RUFDRSxnQkFBZ0I7RUFDaEIsb0JBQW9CO0NBQ3JCOztBQUVEO0VBQ0UsZUFBZTtFQUNmLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLGVBQWU7Q0FDaEI7O0FBRUQ7RUFDRSwwQkFBMEI7Q0FDM0I7O0FBRUQ7RUFDRSw0Q0FBNEM7Q0FDN0M7QUFDRDtFQUNFLE9BQU8sd0JBQXdCLENBQUM7RUFDaEMsT0FBTywwQkFBMEIsQ0FBQztFQUNsQyxPQUFPLDBCQUEwQixDQUFDO0NBQ25DO0FBQ0Q7RUFDRSxhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLG1CQUFtQjtFQUNuQixpQkFBaUI7Q0FDbEI7O0FBRUQ7RUFDRSxtQkFBbUI7RUFDbkIsZ0JBQWdCO0VBQ2hCLFlBQVk7RUFDWixrQkFBa0I7RUFDbEIsbUJBQW1CO0VBQ25CLG1CQUFtQjtFQUNuQixpQkFBaUI7RUFDakIsaUJBQWlCO0NBQ2xCOztBQUVEO0VBQ0UsbUJBQW1CO0VBQ25CLFFBQVE7RUFDUixPQUFPO0VBQ1AsWUFBWTtFQUNaLFdBQVc7RUFDWCxhQUFhO0VBQ2Isb0JBQW9CO0VBQ3BCLG1CQUFtQjtDQUNwQiIsImZpbGUiOiJjb21tb24uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiYm9keSB7XG4gIHBhZGRpbmc6IDA7XG4gIG1hcmdpbjogMDtcbiAgbGlzdC1zdHlsZTogbm9uZTtcbiAgd2lkdGg6IDEwMCU7XG4gIGhlaWdodDogMTAwJTtcbiAgZm9udC1mYW1pbHk6IFwiUGluZ0ZhbmcgU0NcIixcbiAgXCJIaXJhZ2lubyBTYW5zIEdCXCIsXG4gIFwiTWljcm9zb2Z0IFlhSGVpXCIsXG4gIFwiV2VuUXVhbllpIE1pY3JvIEhlaVwiLFxuICBcIkhlbHZldGljYSBOZXVlXCIsXG4gIEFyaWFsLFxuICBzYW5zLXNlcmlmO1xufVxuXG5hIHtcbiAgY29sb3I6ICMyMjIyMjI7XG4gIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbn1cblxuYTpob3ZlciB7XG4gIGNvbG9yOiAjNDA2NTk5O1xuICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG59XG5cbnVsIHtcbiAgbGlzdC1zdHlsZS10eXBlOiBub25lO1xufVxuXG5oMiB7XG4gIGZvbnQtc2l6ZTogMThweDtcbiAgbWFyZ2luLWJvdHRvbTogMTBweDtcbn1cblxuLmRkIHtcbiAgY29sb3I6ICMxYzI0Mzg7XG4gIGZvbnQtd2VpZ2h0OiA0MDA7XG59XG5cbi5kZDpob3ZlciB7XG4gIGNvbG9yOiAjNDA2NTk5O1xufVxuXG4uY2N7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmOWY5Zjk7XG59XG5cbi5kZW1vLXNwaW4taWNvbi1sb2Fke1xuICBhbmltYXRpb246IGFuaS1kZW1vLXNwaW4gMXMgbGluZWFyIGluZmluaXRlO1xufVxuQGtleWZyYW1lcyBhbmktZGVtby1zcGluIHtcbiAgZnJvbSB7IHRyYW5zZm9ybTogcm90YXRlKDBkZWcpO31cbiAgNTAlICB7IHRyYW5zZm9ybTogcm90YXRlKDE4MGRlZyk7fVxuICB0byAgIHsgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTt9XG59XG4uZGVtby1zcGluLWNvbHtcbiAgaGVpZ2h0OiA0MHB4O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgbWFyZ2luLXRvcDogMTBweDtcbn1cblxuLnRpdGxlQyB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgZm9udC1zaXplOiAxOHB4O1xuICBjb2xvcjogIzIyMjtcbiAgbGluZS1oZWlnaHQ6IDE4cHg7XG4gIHBhZGRpbmctbGVmdDogMTZweDtcbiAgbWFyZ2luLWJvdHRvbTogNnB4O1xuICBmb250LXdlaWdodDogNzAwO1xuICBtYXJnaW4tdG9wOiAxMHB4O1xufVxuXG4udGl0bGVDOmJlZm9yZSB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgbGVmdDogMDtcbiAgdG9wOiAwO1xuICBjb250ZW50OiBcIlwiO1xuICB3aWR0aDogNHB4O1xuICBoZWlnaHQ6IDE4cHg7XG4gIGJhY2tncm91bmQ6ICNlZDQwNDA7XG4gIGJvcmRlci1yYWRpdXM6IDRweDtcbn0iXSwic291cmNlUm9vdCI6IndlYnBhY2s6Ly8ifQ== */</style>
-    <script type="text/javascript" charset="utf-8" async="" src="/seo/pc/js/0.cb9e6dcb7cf56a069791.js"></script>
-    <script type="text/javascript" charset="utf-8" async="" src="/seo/pc/js/2.281777f9942bc7429f5d.js"></script>
+
     <meta data-vue-meta-info="true" name="keyWords" content="妙漫网创">
     <meta data-vue-meta-info="true" name="description" content="原创文章">
 </head>
@@ -17010,15 +17056,18 @@
     <div data-v-165c5766="" id="topAnchor" class="index">
         <div data-v-1edc45fa="" data-v-165c5766="" navnum="99" index="0">
             <div data-v-1edc45fa="" class="nav-wrapper">
-                <div data-v-1edc45fa="" class="nav-logo"><a data-v-1edc45fa="" href="http://n.immnc.com" class="router-link-active"><img
+                <div data-v-1edc45fa="" class="nav-logo"><a data-v-1edc45fa="" href="http://n.immnc.com"
+                                                            class="router-link-active"><img
                         data-v-1edc45fa="" src="/seo/pc/img/logo.612c61d.jpg" class="logo"></a></div>
-                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://n.immnc.com" class="router-link-active">
+                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://n.immnc.com"
+                                                            class="router-link-active">
                     <div data-v-1edc45fa="" class="nav clickAfter">
                         推荐
                     </div>
                 </a></div>
                 <#list indexNavigation as cla>
-                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://n.immnc.com/sortPage?navId=${cla.id}" class="">
+                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa=""
+                                                            href="http://n.immnc.com/sortPage?navId=${cla.id}" class="">
                     <div data-v-1edc45fa="" class="nav">
                         ${cla.classify}
                     </div>
@@ -17026,36 +17075,38 @@
                 </#list>
             </div>
         </div>
-        <div data-v-0859dd8c="" data-v-165c5766="" class="content"
+        <div data-v-2173c36a="" data-v-165c5766="" class="content"
              slide="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
              reload="function () { [native code] }" idx="0" searchval=""
              articlerecommendagen="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]">
-            <div data-v-0859dd8c="" class="left">
-                <div data-v-0859dd8c="">
-                    <div data-v-0859dd8c="" class="title"><h1 data-v-0859dd8c="">${articleDetails.title!}</h1></div>
-                    <div data-v-0859dd8c="" class="description"><!---->
-                        <div data-v-0859dd8c="" class="author">${author.nikeName!}</div>
-                        <div data-v-0859dd8c="" class="time"><span data-v-0859dd8c="">${articleDetails.time!}</span>
+            <div data-v-2173c36a="" class="left">
+                <div data-v-2173c36a="">
+                    <div style="margin-bottom: 10px;" data-v-2173c36a="" class="ivu-card ivu-card-bordered"><!---->
+                        <!---->
+                        <div style="
+    height: 500px;
+    overflow:  hidden;
+    padding: 8px;
+    margin-bottom: 10px;">
+                            <div class="swiper-container swiper-container-horizontal">
+                                <div class="swiper-wrapper">
+                                <#list articleDetails.getImgList() as img>
+                                    <div class="swiper-slide swiper-slide-active" style="width: 800px;height:500px">
+                                        <div>
+                                            <img src="https://p0.cdrysj.com/po${img}"/>
+                                        </div>
+                                    </div>
+                                </#list>
+
+                                </div>
+                                <!-- Add Arrows -->
+                                <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide"
+                                     aria-disabled="false"></div>
+                                <div class="swiper-button-prev swiper-button-disabled" tabindex="0" role="button"
+                                     aria-label="Previous slide" aria-disabled="true"></div>
+                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
                         </div>
                     </div>
-                    <div data-v-0859dd8c="" class="value">${articleDetails.content}</div>
-                    <p data-v-0859dd8c="" style="float: right; margin-bottom: 5px; margin-top: 5px;">
-                        此文章来源于网络,如有侵权请联系我们!</p><!---->
-                    <div data-v-1d85ef16="" data-v-0859dd8c="" class="labelClass"
-                         style="margin-bottom: 10px; clear: both;"><i data-v-1d85ef16=""
-                                                                      class="right1 ivu-icon ivu-icon-ios-pricetags-outline"></i>
-                        <div data-v-1d85ef16="" class="bspan ivu-breadcrumb">
-                            <#list articleDetails.keywordList as keylist>
-                                <span class="ivu-breadcrumb-item-link"><a data-v-1d85ef16=""
-                                                                          style="color: rgb(64, 101, 153);">${keylist}</a></span>
-                                <span class="ivu-breadcrumb-item-separator">/</span>
-                            </#list>
-                        </div>
-                        <div data-v-1d85ef16="" class="descriptionLabel">
-                            <a href="http://n.immnc.com/login"><span data-v-1d85ef16=""><span data-v-1d85ef16="" class="des"><i data-v-1d85ef16="" class="font left1 ivu-icon ivu-icon-ios-star-outline"></i>收藏
-      </span> <span data-v-1d85ef16="" class="des"><i data-v-1d85ef16=""
-                                                      class="font left1 ivu-icon ivu-icon-ios-information-outline"></i>举报
-      </span></span></a> <span data-v-1d85ef16=""></span></div> <!----></div>
                     <div data-v-c626a16c="" data-v-0859dd8c="" class="ivu-card ivu-card-bordered"><!----> <!---->
                         <div class="ivu-card-body">
                             <div data-v-c626a16c="" class="title"><h2 data-v-c626a16c="">${comment.commentNum}条评论</h2>
@@ -17094,7 +17145,7 @@
                                             </div>
                                             <div data-v-c626a16c="" class="foot"><a data-v-c626a16c=""
                                                                                     class="right1"
-                                            href="http://n.immnc.com/login"
+                                                                                    href="http://n.immnc.com/login"
                                             >回复</a> <!----> <a href="http://n.immnc.com/login">
                                                 <p
                                                         data-v-c626a16c="" class="f-right"><span data-v-c626a16c=""
@@ -17126,33 +17177,102 @@
                                 <!----></div> <!---->
                         </div>
                     </div>
-                    <div data-v-0859dd8c="" class="titleC">
+                    <div data-v-2173c36a="" class="titleC">
                         相关推荐
                     </div>
                     <div data-v-0859dd8c="">
                         <div data-v-f93e8622="" data-v-0859dd8c="" class="body">
                             <#list article.getPageContent() as a >
                                 <#if a.typeId==1>
-                                    <div data-v-f93e8622="" style="margin-bottom: 5px;"><!----> <div data-v-f93e8622=""><div data-v-36242dd2="" data-v-f93e8622="" class="card2 ivu-card ivu-card-bordered" userinfo="[object Object]" style="width: 700px;"><!----> <!----> <div class="ivu-card-body"><div data-v-36242dd2="" class="card2Wrapper"><a data-v-36242dd2=""><a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId=${a.articleId}" class="router-link-exact-active router-link-active" target="_blank"><div data-v-36242dd2="" class="card2-left"><!----> <img data-v-36242dd2="" src="${a.imgList[0]}" class="card2-img"></div></a></a> <!----> <div data-v-36242dd2="" class="card2-right"><a data-v-36242dd2=""><a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId=${a.articleId}" class="router-link-exact-active router-link-active" target="_blank"><p data-v-36242dd2="" class="card2-title" style="width: 474px;">${a.title}</p></a></a> <!----> <div data-v-36242dd2="" class="card2-description"><div data-v-36242dd2="" class="card2-description-wrapper"><div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(45, 140, 240); color: rgb(45, 140, 240);">图文</div> <div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(73, 80, 96); color: rgb(73, 80, 96);">${a.classify}</div> <p data-v-36242dd2="" class="margin-right8px width1"></p> <a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId=${a.articleId}" class="" target="_blank"><div data-v-6f7b468e="" data-v-36242dd2="" class="author margin-right8px"><img data-v-6f7b468e="" src="${a.author.avatar}" class="avatar"> <p data-v-6f7b468e="" class="name">${a.author.name}</p></div></a> <!----> <span data-v-36242dd2="" class="margin-right8px">·</span> <a data-v-36242dd2=""><a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId=${a.articleId}" class="router-link-exact-active router-link-active" target="_blank"><div data-v-04cfc4ee="" data-v-36242dd2="" class="comment margin-right8px">${a.commentNum}条评论</div></a></a> <!----> <span data-v-36242dd2="" class="margin-right8px">·</span> <span data-v-36242dd2="" class="margin-right8px time">${a.lookNum}浏览</span></div> <div data-v-36242dd2="" class="del" style="display: none;"><a data-v-36242dd2=""><i data-v-36242dd2="" class="ivu-icon ivu-icon-ios-trash"></i>
-                                        删除
-                                    </a></div></div></div></div></div></div></div> <!----></div>
+                                    <div data-v-f93e8622="" style="margin-bottom: 5px;"><!---->
+                                        <div data-v-f93e8622="">
+                                            <div data-v-36242dd2="" data-v-f93e8622=""
+                                                 class="card2 ivu-card ivu-card-bordered" userinfo="[object Object]"
+                                                 style="width: 700px;"><!----> <!---->
+                                                <div class="ivu-card-body">
+                                                    <div data-v-36242dd2="" class="card2Wrapper"><a
+                                                            data-v-36242dd2=""><a data-v-36242dd2=""
+                                                                                  href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                                  class="router-link-exact-active router-link-active"
+                                                                                  target="_blank">
+                                                        <div data-v-36242dd2="" class="card2-left"><!----> <img
+                                                                data-v-36242dd2="" src="${a.imgList[0]}"
+                                                                class="card2-img"></div>
+                                                    </a></a> <!---->
+                                                        <div data-v-36242dd2="" class="card2-right"><a
+                                                                data-v-36242dd2=""><a data-v-36242dd2=""
+                                                                                      href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                                      class="router-link-exact-active router-link-active"
+                                                                                      target="_blank"><p
+                                                                data-v-36242dd2="" class="card2-title"
+                                                                style="width: 474px;">${a.title}</p></a></a> <!---->
+                                                            <div data-v-36242dd2="" class="card2-description">
+                                                                <div data-v-36242dd2=""
+                                                                     class="card2-description-wrapper">
+                                                                    <div data-v-786666ee="" data-v-36242dd2=""
+                                                                         class="sort margin-right8px"
+                                                                         style="border-color: rgb(45, 140, 240); color: rgb(45, 140, 240);">
+                                                                        图文
+                                                                    </div>
+                                                                    <div data-v-786666ee="" data-v-36242dd2=""
+                                                                         class="sort margin-right8px"
+                                                                         style="border-color: rgb(73, 80, 96); color: rgb(73, 80, 96);">${a.classify}</div>
+                                                                    <p data-v-36242dd2=""
+                                                                       class="margin-right8px width1"></p> <a
+                                                                        data-v-36242dd2=""
+                                                                        href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                        class="" target="_blank">
+                                                                    <div data-v-6f7b468e="" data-v-36242dd2=""
+                                                                         class="author margin-right8px"><img
+                                                                            data-v-6f7b468e="" src="${a.author.avatar}"
+                                                                            class="avatar">
+                                                                        <p data-v-6f7b468e=""
+                                                                           class="name">${a.author.name}</p></div>
+                                                                </a> <!----> <span data-v-36242dd2=""
+                                                                                   class="margin-right8px">·</span> <a
+                                                                        data-v-36242dd2=""><a data-v-36242dd2=""
+                                                                                              href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                                              class="router-link-exact-active router-link-active"
+                                                                                              target="_blank">
+                                                                    <div data-v-04cfc4ee="" data-v-36242dd2=""
+                                                                         class="comment margin-right8px">${a.commentNum}
+                                                                        条评论
+                                                                    </div>
+                                                                </a></a> <!----> <span data-v-36242dd2=""
+                                                                                       class="margin-right8px">·</span>
+                                                                    <span data-v-36242dd2=""
+                                                                          class="margin-right8px time">${a.lookNum}浏览</span>
+                                                                </div>
+                                                                <div data-v-36242dd2="" class="del"
+                                                                     style="display: none;"><a data-v-36242dd2=""><i
+                                                                        data-v-36242dd2=""
+                                                                        class="ivu-icon ivu-icon-ios-trash"></i>
+                                                                    删除
+                                                                </a></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!----></div>
                                 </#if>
                             </#list>
-                            <!----></div> <!----></div> <!---->
-                </div>
+                            <!----></div> <!----></div> <!----> <!----></div>
             </div>
             <div data-v-0859dd8c="" class="right">
                 <div data-v-0859dd8c="">
                     <div data-v-62af862f="" data-v-0859dd8c="" class="cc ivu-card ivu-card-bordered"
                          style="width: 340px;"><!----> <!---->
                         <div class="ivu-card-body">
-                            <div data-v-62af862f="" class="personIntro"><a data-v-62af862f="" href="http://n.immnc.com/otherPersonInfo?idUser=${author.userId}"
+                            <div data-v-62af862f="" class="personIntro"><a data-v-62af862f=""
+                                                                           href="http://n.immnc.com/otherPersonInfo?idUser=${author.userId}"
                                                                            class="" target="_blank">
                                 <div data-v-62af862f="" class="left"><img data-v-62af862f="" src="${author.avatar}">
                                 </div>
                             </a>
                                 <div data-v-62af862f="" class="right">
-                                    <div data-v-62af862f="" class="name"><a data-v-62af862f="" href="http://n.immnc.com/otherPersonInfo?idUser=${author.userId}"
+                                    <div data-v-62af862f="" class="name"><a data-v-62af862f=""
+                                                                            href="http://n.immnc.com/otherPersonInfo?idUser=${author.userId}"
                                                                             class="" target="_blank"><a
                                             data-v-62af862f="">${author.nikeName}</a></a> <!----></div>
                                     <div data-v-62af862f="" class="relation">
@@ -17165,16 +17285,25 @@
                                         <#if author.attentionId == 0>
                                             <button data-v-62af862f="" type="button"
                                                     class="ivu-btn ivu-btn-primary ivu-btn-small"><!----> <i
-                                                    class="ivu-icon ivu-icon-plus-round"><a href="http://n.immnc.com/login"></i> <span>关注</span></a></button>
+                                                    class="ivu-icon ivu-icon-plus-round"><a
+                                                    href="http://n.immnc.com/login"></i> <span>关注</span></a></button>
                                         </#if>
 
                                     </div>
                                 </div>
                             </div>
-                            <div data-v-62af862f="" class="article"><h4 data-v-62af862f="" class="hi">推荐文章</h4>
-                                <ul data-v-62af862f="">
-                                    <#list author.getUserReCommentList() as list>
-                                        <li>${list.title}</li>
+                            <div data-v-509ac042="" class="article"><h4 data-v-509ac042="" class="hi">推荐图片</h4>
+                                <ul data-v-509ac042="" class="img">
+
+                                    <#list author.userReCommentList as im>
+                                        <li data-v-509ac042="" class="img-li"><a data-v-509ac042=""
+                                                                                 href="/imgs?articleId=${im.articleId}"
+                                                                                 class="router-link-active" target="_blank"><a
+                                                data-v-509ac042="">
+                                            <div data-v-509ac042="" class="img-div"><img data-v-509ac042=""
+                                                                                         src="${im.imgList[0]}">
+                                                <i data-v-509ac042="" class="more">${im.imgNum}图</i></div>
+                                            <p data-v-509ac042="" class="title">${im.title}</p></a></a></li>
                                     </#list>
                                 </ul>
                             </div>
@@ -17191,18 +17320,18 @@
                                     <#list realTimeNews.getPageContent() as textNew>
                                         <li data-v-09429746="" class="news-item">
 
-                                                <a
-                                                        href="http://n.immnc.com/imgText?articleId=${textNew.articleId}"
-                                                        class="router-link-active"
-                                                        target="_blank"
-                                                        data-v-09429746="" class="dd">
-                                                    <div data-v-09429746="" class="left"><img data-v-09429746=""
-                                                                                              src="${textNew.imgList[0]}">
-                                                    </div>
-                                                    <div data-v-09429746="" class="right"><p data-v-09429746="">
-                                                        ${textNew.title}</p></div>
-                                                </a>
-                                            </li>
+                                            <a
+                                                    href="http://n.immnc.com/imgText?articleId=${textNew.articleId}"
+                                                    class="router-link-active"
+                                                    target="_blank"
+                                                    data-v-09429746="" class="dd">
+                                                <div data-v-09429746="" class="left"><img data-v-09429746=""
+                                                                                          src="${textNew.imgList[0]}">
+                                                </div>
+                                                <div data-v-09429746="" class="right"><p data-v-09429746="">
+                                                    ${textNew.title}</p></div>
+                                            </a>
+                                        </li>
                                     </#list>
                                 </ul>
                             </div>
@@ -17219,7 +17348,7 @@
                             </h4></a>
                                 <ul data-v-0ade2e1d="" class="img">
                                     <#list recommendImgs.getPageContent() as imgNew>
-                                        <li data-v-0ade2e1d="" class="img-li"><a ></a><a
+                                        <li data-v-0ade2e1d="" class="img-li"><a></a><a
                                                 href="http://n.immnc.com/imgs?articleId=${imgNew.articleId}"
                                                 class="" target="_blank"
                                                 data-v-0ade2e1d="">
@@ -17315,23 +17444,89 @@ var s = document.getElementsByTagName("script")[0];
 s.parentNode.insertBefore(bp, s);</script>
 <script type="text/javascript" src="/seo/pc/js/manifest.03daa3fc73f416f17127.js"></script>
 <script type="text/javascript" src="/seo/pc/js/vendor.e75190ebec1851477ca2.js"></script>
-<#--<script type="text/javascript" src="/seo/pc/js/app.d6f67b56d379ef8a1cbb.js"></script>-->
+<div class="ivu-loading-bar" style="height: 2px; display: none;">
+    <div class="ivu-loading-bar-inner ivu-loading-bar-inner-color-primary" style="width: 0%; height: 2px;"></div>
+</div>
 <div class="ivu-loading-bar" style="height: 2px; display: none;">
     <div class="ivu-loading-bar-inner ivu-loading-bar-inner-color-primary" style="height: 2px; width: 0%;"></div>
 </div>
-<div data-v-1d85ef16="" data-transfer="true" class="report v-transfer-dom">
+<div data-v-c626a16c="" data-transfer="true" class="report v-transfer-dom">
     <div class="ivu-modal-mask" style="display: none;"></div>
     <div class="ivu-modal-wrap ivu-modal-hidden">
         <div class="ivu-modal" style="width: 520px; display: none;">
             <div class="ivu-modal-content"><a class="ivu-modal-close"><i class="ivu-icon ivu-icon-ios-close-empty"></i></a>
-                <div class="ivu-modal-header"><p data-v-1d85ef16=""
+                <div class="ivu-modal-header"><p data-v-c626a16c=""
                                                  style="color: rgb(255, 102, 0); text-align: center;"><i
-                        data-v-1d85ef16="" class="ivu-icon ivu-icon-information-circled"></i> <span data-v-1d85ef16="">举报文章</span>
+                        data-v-c626a16c="" class="ivu-icon ivu-icon-information-circled"></i> <span data-v-c626a16c="">举报此人</span>
                 </p></div>
                 <div class="ivu-modal-body">
-                    <div data-v-1d85ef16="" name="ivuRadioGroup_1536133982057_0"
+                    <div data-v-c626a16c="" name="ivuRadioGroup_1536133981261_0"
                          class="ivu-radio-group ivu-radio-group-vertical">
-                        <div data-v-1d85ef16="" class="ivu-input-wrapper ivu-input-type"
+                        <div data-v-c626a16c="" class="ivu-input-wrapper ivu-input-type"
+                             style="width: 488px; margin-top: 10px;"><textarea wrap="soft" autocomplete="off"
+                                                                               spellcheck="false" placeholder="我有话说..."
+                                                                               rows="4" class="ivu-input"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="ivu-modal-footer">
+                    <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large"><!----> <!----> <span>取消</span>
+                    </button>
+                    <button type="button" class="ivu-btn ivu-btn-primary ivu-btn-large"><!----> <!----> <span>确定</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-v-3226676e="" data-transfer="true" class="report v-transfer-dom">
+    <div class="ivu-modal-mask" style="display: none;"></div>
+    <div class="ivu-modal-wrap ivu-modal-hidden">
+        <div class="ivu-modal" style="width: 520px; display: none;">
+            <div class="ivu-modal-content"><a class="ivu-modal-close"><i class="ivu-icon ivu-icon-ios-close-empty"></i></a>
+                <div class="ivu-modal-header"><p data-v-3226676e=""
+                                                 style="color: rgb(255, 102, 0); text-align: center;"><i
+                        data-v-3226676e="" class="ivu-icon ivu-icon-information-circled"></i> <span data-v-3226676e="">举报文章</span>
+                </p></div>
+                <div class="ivu-modal-body">
+                    <div data-v-3226676e="" name="ivuRadioGroup_1536133981261_1"
+                         class="ivu-radio-group ivu-radio-group-vertical"><label data-v-3226676e=""
+                                                                                 class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">内容引起不适</span></label><label data-v-3226676e=""
+                                                                           class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">内容虚假</span></label><label data-v-3226676e=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">播放问题</span></label><label data-v-3226676e=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">内容不完整</span></label><label data-v-3226676e=""
+                                                                          class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">政治</span></label><label data-v-3226676e=""
+                                                                       class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">内容低俗</span></label><label data-v-3226676e=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536133981261_1"></span><span
+                            data-v-3226676e="">标题夸张</span></label>
+                        <div data-v-3226676e="" class="ivu-input-wrapper ivu-input-type"
                              style="width: 488px; margin-top: 10px;"><textarea wrap="soft" autocomplete="off"
                                                                                spellcheck="false" placeholder="我有话说..."
                                                                                rows="4" class="ivu-input"></textarea>
@@ -17358,8 +17553,43 @@ s.parentNode.insertBefore(bp, s);</script>
                         data-v-c626a16c="" class="ivu-icon ivu-icon-information-circled"></i> <span data-v-c626a16c="">举报此人</span>
                 </p></div>
                 <div class="ivu-modal-body">
-                    <div data-v-c626a16c="" name="ivuRadioGroup_1536133982057_1"
-                         class="ivu-radio-group ivu-radio-group-vertical">
+                    <div data-v-c626a16c="" name="ivuRadioGroup_1536301442214_0"
+                         class="ivu-radio-group ivu-radio-group-vertical"><label data-v-c626a16c=""
+                                                                                 class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">内容引起不适</span></label><label data-v-c626a16c=""
+                                                                           class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">内容虚假</span></label><label data-v-c626a16c=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">播放问题</span></label><label data-v-c626a16c=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">内容不完整</span></label><label data-v-c626a16c=""
+                                                                          class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">政治</span></label><label data-v-c626a16c=""
+                                                                       class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">内容低俗</span></label><label data-v-c626a16c=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_0"></span><span
+                            data-v-c626a16c="">标题夸张</span></label>
                         <div data-v-c626a16c="" class="ivu-input-wrapper ivu-input-type"
                              style="width: 488px; margin-top: 10px;"><textarea wrap="soft" autocomplete="off"
                                                                                spellcheck="false" placeholder="我有话说..."
@@ -17377,5 +17607,108 @@ s.parentNode.insertBefore(bp, s);</script>
         </div>
     </div>
 </div>
+<div data-v-3226676e="" data-transfer="true" class="report v-transfer-dom">
+    <div class="ivu-modal-mask" style="display: none;"></div>
+    <div class="ivu-modal-wrap ivu-modal-hidden">
+        <div class="ivu-modal" style="width: 520px; display: none;">
+            <div class="ivu-modal-content"><a class="ivu-modal-close"><i class="ivu-icon ivu-icon-ios-close-empty"></i></a>
+                <div class="ivu-modal-header"><p data-v-3226676e=""
+                                                 style="color: rgb(255, 102, 0); text-align: center;"><i
+                        data-v-3226676e="" class="ivu-icon ivu-icon-information-circled"></i> <span data-v-3226676e="">举报文章</span>
+                </p></div>
+                <div class="ivu-modal-body">
+                    <div data-v-3226676e="" name="ivuRadioGroup_1536301442214_1"
+                         class="ivu-radio-group ivu-radio-group-vertical"><label data-v-3226676e=""
+                                                                                 class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">内容引起不适</span></label><label data-v-3226676e=""
+                                                                           class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">内容虚假</span></label><label data-v-3226676e=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">播放问题</span></label><label data-v-3226676e=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">内容不完整</span></label><label data-v-3226676e=""
+                                                                          class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">政治</span></label><label data-v-3226676e=""
+                                                                       class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">内容低俗</span></label><label data-v-3226676e=""
+                                                                         class="ivu-radio-wrapper ivu-radio-group-item"><span
+                            class="ivu-radio"><span class="ivu-radio-inner"></span> <input type="radio"
+                                                                                           class="ivu-radio-input"
+                                                                                           name="ivuRadioGroup_1536301442214_1"></span><span
+                            data-v-3226676e="">标题夸张</span></label>
+                        <div data-v-3226676e="" class="ivu-input-wrapper ivu-input-type"
+                             style="width: 488px; margin-top: 10px;"><textarea wrap="soft" autocomplete="off"
+                                                                               spellcheck="false" placeholder="我有话说..."
+                                                                               rows="4" class="ivu-input"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="ivu-modal-footer">
+                    <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large"><!----> <!----> <span>取消</span>
+                    </button>
+                    <button type="button" class="ivu-btn ivu-btn-primary ivu-btn-large"><!----> <!----> <span>确定</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/seo/pc/lbt/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src='/seo/pc/lbt/js/slick.min.js'></script>
+<script type="text/javascript">
+    (function () {
+
+        var slideContainer = $('.slide-container');
+
+        slideContainer.slick();
+
+        $('.clash-card__image img').hide();
+        $('.slick-active').find('.clash-card img').fadeIn(200);
+
+        // On before slide change
+        slideContainer.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+            $('.slick-active').find('.clash-card img').fadeOut(1000);
+        });
+
+        // On after slide change
+        slideContainer.on('afterChange', function (event, slick, currentSlide) {
+            $('.slick-active').find('.clash-card img').fadeIn(200);
+        });
+
+    })();
+</script>
+
+<div style="text-align:center;clear:both;">
+</div>
+
+<script src="/seo/pc/lbt/swiper-4.3.5/dist/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
 </body>
 </html>
