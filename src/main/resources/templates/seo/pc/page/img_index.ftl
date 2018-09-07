@@ -6,12 +6,13 @@
     <title>${articleDetails.title}---妙漫网创</title>
     <meta name="renderer" content="webkit">
     <meta name="baidu-site-verification" content="VsjZmJyha2">
-    <meta name="keywords" content="网创,新闻,原创,妙漫网创">
-    <meta name="description" content="全新的原创新闻网,${articleDetails.title}">
+    <meta name="keywords" content="${keyword}">
+    <meta name="description" content="${desc}">
     <meta name="360-site-verification" content="4b2da34ae6a1905c24e033d802c975af">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta property="og:title" content="${articleDetails.title}---妙漫网创">
-    <meta property="og:description" content="全新的原创新闻网,${articleDetails.title}">
+    <meta property="og:description" content="${desc}">
+    <meta property="og:keywords" content="${keyword}">
     <meta name="og:category " content="妙漫网创">
     <meta property="og:image" content="${articleDetails.imgList[0]}">
     <script src="https://zz.bdstatic.com/linksubmit/push.js"></script>
@@ -17301,7 +17302,7 @@
                                                                                  class="router-link-active" target="_blank"><a
                                                 data-v-509ac042="">
                                             <div data-v-509ac042="" class="img-div"><img data-v-509ac042=""
-                                                                                         src="https://p0.cdrysj.com/po${im.imgList[0]}">
+                                                                                         src="${im.imgList[0]}">
                                                 <i data-v-509ac042="" class="more">${im.imgNum}图</i></div>
                                             <p data-v-509ac042="" class="title">${im.title}</p></a></a></li>
                                     </#list>
@@ -17374,7 +17375,7 @@
                                     <#list recommendVideos.getPageContent() as videoNew>
                                         <li data-v-129deafd="" class="img-li"><a data-v-129deafd=""
                                                                                  href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
-                                                                                 class="" target="_blank"></a><a
+                                                                                 class="" target="_blank"><a
                                                 data-v-129deafd="">
                                             <div data-v-129deafd="" class="img-wrapper">
                                                 <div data-v-129deafd="" class="img-div"><img data-v-129deafd=""
@@ -17386,7 +17387,7 @@
                                                     <div data-v-129deafd="" class="playIconWrapper"></div>
                                                 </div>
                                             </div>
-                                            <p data-v-129deafd="" class="title">${videoNew.title} </p></a></li>
+                                            <p data-v-129deafd="" class="title">${videoNew.title} </p></a></a></li>
                                     </#list>
                                 </ul>
                             </div>

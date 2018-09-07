@@ -10,6 +10,7 @@ import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoCommentService;
+import cn.popo.news.core.utils.SEOUtil;
 import cn.popo.news.core.utils.SortTools;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +131,9 @@ public class DetailController {
 
         List<Classify> cla = classifyService.findAllClassify();
         map.put("indexNavigation",cla);
+
+        map.put("desc",SEOUtil.getDescription(articleDetailsVO.getContent()));
+        map.put("keyword",SEOUtil.getKeywordsByList(articleDetailsVO.getKeywordList()));
 
 
         map.put("pageId", 1000000);

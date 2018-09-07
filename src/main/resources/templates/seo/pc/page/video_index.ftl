@@ -5,12 +5,13 @@
     <title>${articleDetails.title}---妙漫网创</title>
     <meta name="renderer" content="webkit">
     <meta name="baidu-site-verification" content="VsjZmJyha2">
-    <meta name="keywords" content="网创,新闻,原创,妙漫网创">
-    <meta name="description" content="全新的原创新闻网,${articleDetails.title}">
+    <meta name="keywords" content="${keyword}">
+    <meta name="description" content="${desc}">
     <meta name="360-site-verification" content="4b2da34ae6a1905c24e033d802c975af">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta property="og:title" content="${articleDetails.title}---妙漫网创">
-    <meta property="og:description" content="全新的原创新闻网,${articleDetails.title}">
+    <meta property="og:description" content="${desc}">
+    <meta property="og:keywords" content="${keyword}">
     <meta name="og:category " content="妙漫网创">
     <meta property="og:image" content="${articleDetails.imgList[0]}">
     <script src="https://zz.bdstatic.com/linksubmit/push.js"></script>
@@ -17189,9 +17190,7 @@
                             <div data-v-5373043c="" class="article"><h4 data-v-5373043c="" class="hi">Ta的视频</h4>
                                 <ul data-v-5373043c="" class="img">
                                     <#list author.userReCommentList as vi>
-                                        <li data-v-5373043c="" class="img-li"><a data-v-5373043c=""
-                                                                                 href="http://n.immnc.com/video?articleId=${vi.articleId}"`
-                                                                                 class="router-link-active" target="_blank"><a
+                                        <li data-v-5373043c="" class="img-li"><a href="http://n.immnc.com/video?articleId=${vi.articleId}"
                                                 data-v-5373043c="">
                                             <div data-v-5373043c="" class="img-wrapper">
                                                 <div data-v-5373043c="" class="img-div"><img data-v-5373043c=""
@@ -17274,9 +17273,7 @@
                             </h4></a>
                                 <ul data-v-129deafd="" class="img">
                                     <#list recommendVideos.getPageContent() as videoNew>
-                                        <li data-v-129deafd="" class="img-li"><a data-v-129deafd=""
-                                                                                 href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
-                                                                                 class="" target="_blank"></a><a
+                                        <li data-v-129deafd="" class="img-li"><a href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
                                                 data-v-129deafd="">
                                             <div data-v-129deafd="" class="img-wrapper">
                                                 <div data-v-129deafd="" class="img-div"><img data-v-129deafd=""
