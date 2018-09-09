@@ -17136,82 +17136,8 @@
                         相关推荐
                     </div>
                     <div data-v-0859dd8c="">
-                        <div data-v-f93e8622="" data-v-0859dd8c="" class="body">
-                            <#--<#list article.getPageContent() as a >
-                                <#if a.typeId==1>
-                                    <div data-v-f93e8622="" style="margin-bottom: 5px;"><!--&ndash;&gt;
-                                        <div data-v-f93e8622="">
-                                            <div data-v-36242dd2="" data-v-f93e8622=""
-                                                 class="card2 ivu-card ivu-card-bordered" userinfo="[object Object]"
-                                                 style="width: 700px;"><!--&ndash;&gt; <!--&ndash;&gt;
-                                                <div class="ivu-card-body">
-                                                    <div data-v-36242dd2="" class="card2Wrapper"><a
-                                                            data-v-36242dd2=""><a data-v-36242dd2=""
-                                                                                  href="http://n.immnc.com/imgText?articleId=${a.articleId}"
-                                                                                  class="router-link-exact-active router-link-active"
-                                                                                  target="_blank">
-                                                        <div data-v-36242dd2="" class="card2-left"><!--&ndash;&gt; <img
-                                                                data-v-36242dd2="" src="${a.imgList[0]}"
-                                                                class="card2-img"></div>
-                                                    </a></a> <!--&ndash;&gt;
-                                                        <div data-v-36242dd2="" class="card2-right"><a
-                                                                data-v-36242dd2=""><a data-v-36242dd2=""
-                                                                                      href="http://n.immnc.com/imgText?articleId=${a.articleId}"
-                                                                                      class="router-link-exact-active router-link-active"
-                                                                                      target="_blank"><p
-                                                                data-v-36242dd2="" class="card2-title"
-                                                                style="width: 474px;">${a.title}</p></a></a> <!--&ndash;&gt;
-                                                            <div data-v-36242dd2="" class="card2-description">
-                                                                <div data-v-36242dd2=""
-                                                                     class="card2-description-wrapper">
-                                                                    <div data-v-786666ee="" data-v-36242dd2=""
-                                                                         class="sort margin-right8px"
-                                                                         style="border-color: rgb(45, 140, 240); color: rgb(45, 140, 240);">
-                                                                        图文
-                                                                    </div>
-                                                                    <div data-v-786666ee="" data-v-36242dd2=""
-                                                                         class="sort margin-right8px"
-                                                                         style="border-color: rgb(73, 80, 96); color: rgb(73, 80, 96);">${a.classify}</div>
-                                                                    <p data-v-36242dd2=""
-                                                                       class="margin-right8px width1"></p> <a
-                                                                        data-v-36242dd2=""
-                                                                        href="http://n.immnc.com/imgText?articleId=${a.articleId}"
-                                                                        class="" target="_blank">
-                                                                    <div data-v-6f7b468e="" data-v-36242dd2=""
-                                                                         class="author margin-right8px"><img
-                                                                            data-v-6f7b468e="" src="${a.author.avatar}"
-                                                                            class="avatar">
-                                                                        <p data-v-6f7b468e=""
-                                                                           class="name">${a.author.name}</p></div>
-                                                                </a> <!--&ndash;&gt; <span data-v-36242dd2=""
-                                                                                   class="margin-right8px">·</span> <a
-                                                                        data-v-36242dd2=""><a data-v-36242dd2=""
-                                                                                              href="http://n.immnc.com/imgText?articleId=${a.articleId}"
-                                                                                              class="router-link-exact-active router-link-active"
-                                                                                              target="_blank">
-                                                                    <div data-v-04cfc4ee="" data-v-36242dd2=""
-                                                                         class="comment margin-right8px">${a.commentNum}
-                                                                        条评论
-                                                                    </div>
-                                                                </a></a> <!--&ndash;&gt; <span data-v-36242dd2=""
-                                                                                       class="margin-right8px">·</span>
-                                                                    <span data-v-36242dd2=""
-                                                                          class="margin-right8px time">${a.lookNum}浏览</span>
-                                                                </div>
-                                                                <div data-v-36242dd2="" class="del"
-                                                                     style="display: none;"><a data-v-36242dd2=""><i
-                                                                        data-v-36242dd2=""
-                                                                        class="ivu-icon ivu-icon-ios-trash"></i>
-                                                                    删除
-                                                                </a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> <!--&ndash;&gt;</div>
-                                </#if>
-                            </#list>-->
+                        <div id="xgArticle" data-v-f93e8622="" data-v-0859dd8c="" class="body">
+
                             <!----></div> <!----></div> <!----> <!----></div>
             </div>
             <div data-v-0859dd8c="" class="right">
@@ -17725,6 +17651,67 @@ s.parentNode.insertBefore(bp, s);</script>
                     }
                     if (data.code > 0) {
                         alert(123)
+                    }
+                }
+        )
+        $.post(
+                "/pc/article",
+                {
+
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        for(var i=0;i<data.data.article.pageContent.length;i++){
+                            var article_html = '<div data-v-f93e8622="" style="margin-bottom: 5px;">'+
+                                    '<div data-v-f93e8622="">'+
+                                    '<div data-v-36242dd2="" data-v-f93e8622="" class="card2 ivu-card ivu-card-bordered" userinfo="[object Object]" style="width: 700px;">'+
+                                    '<div class="ivu-card-body">'+
+                                    '<div data-v-36242dd2="" class="card2Wrapper">'+
+                                    '<a data-v-36242dd2="">'+
+                                    '	<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                    '		<div data-v-36242dd2="" class="card2-left">'+
+                                    '			<img data-v-36242dd2="" src='+data.data.artilce.pageContent[i].img[0]+' class="card2-img"></div>'+
+                                    '	</a>'+
+                                    '</a>'+
+                                    '<div data-v-36242dd2="" class="card2-right">'+
+                                    '	<a data-v-36242dd2="">'+
+                                    '		<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                    '			<p data-v-36242dd2="" class="card2-title" style="width: 474px;">'+data.data.article.pageContent[i].title+'</p>'+
+                                    '		</a>'+
+                                    '	</a>'+
+                                    '	<div data-v-36242dd2="" class="card2-description">'+
+                                    '		<div data-v-36242dd2="" class="card2-description-wrapper">'+
+                                    '			<div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(45, 140, 240); color: rgb(45, 140, 240);">图文</div>'+
+                                    '			<div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(73, 80, 96); color: rgb(73, 80, 96);">'+data.data.article.pageContent[i].sort+'</div>'+
+                                    '			<p data-v-36242dd2="" class="margin-right8px width1"></p>'+
+                                    '			<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="" target="_blank">'+
+                                    '				<div data-v-6f7b468e="" data-v-36242dd2="" class="author margin-right8px"><img data-v-6f7b468e="" src='+data.data.article.pageContent[i].author.avatar+' class="avatar">'+
+                                    '					<p data-v-6f7b468e="" class="name">'+data.data.article.pageContent[i].author.name+'</p>'+
+                                    '				</div>'+
+                                    '			</a>'+
+                                    '			<span data-v-36242dd2="" class="margin-right8px">·</span>'+
+                                    '			<a data-v-36242dd2="">'+
+                                    '				<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                    '					<div data-v-04cfc4ee="" data-v-36242dd2="" class="comment margin-right8px">'+data.data.article.pageContent[i].commentNum+'条评论</div>'+
+                                    '				</a>'+
+                                    '			</a>'+
+                                    '			<span data-v-36242dd2="" class="margin-right8px">·</span> <span data-v-36242dd2="" class="margin-right8px time">'+data.data.article.pageContent[i].nowTime+'浏览</span></div>'+
+                                    '		<div data-v-36242dd2="" class="del" style="display: none;">'+
+                                    '			<a data-v-36242dd2=""><i data-v-36242dd2="" class="ivu-icon ivu-icon-ios-trash"></i> 删除'+
+                                    '			</a>'+
+                                    '		</div>'+
+                                    '	</div>'+
+                                    '</div>'+
+                                    '	</div>'+
+                                    '	</div>'+
+                                    '	</div>'+
+                                    '	</div>'+
+                                    '</div>'
+                            $("#xgArticle").append(article_html)
+                        }
+                    }
+                    if (data.code > 0) {
+                        alert("请求错误！！！")
                     }
                 }
         )

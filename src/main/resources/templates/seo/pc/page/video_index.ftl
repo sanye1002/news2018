@@ -17095,18 +17095,10 @@
                     <div data-v-e0e9143c="" class="titleC">
                         相关推荐
                     </div>
-                    <div data-v-f93e8622="" data-v-e0e9143c="" class="body"> <!----></div>
-                    <div data-v-e0e9143c="" class="demo-spin-col">
-                        <div data-v-e0e9143c="" class="ivu-spin ivu-spin-fix ivu-spin-show-text">
-                            <div class="ivu-spin-main"><span class="ivu-spin-dot"></span>
-                                <div class="ivu-spin-text"><i data-v-e0e9143c=""
-                                                              class="demo-spin-icon-load ivu-icon ivu-icon-load-c"
-                                                              style="font-size: 18px;"></i>
-                                    <div data-v-e0e9143c="">Loading</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!----></div>
+                    <div data-v-0859dd8c="">
+                        <div id="xgArticle" data-v-f93e8622="" data-v-0859dd8c="" class="body">
+
+                            <!----></div> <!----></div> <!----> <!----></div>
             </div>
             <div data-v-0859dd8c="" class="right">
                 <div data-v-0859dd8c="">
@@ -17422,7 +17414,68 @@ s.parentNode.insertBefore(bp, s);</script>
 
                     }
                     if (data.code > 0) {
-                        alert(123)
+                        alert（"请求错误！"）
+                    }
+                }
+        )
+        $.post(
+                "/pc/article",
+                {
+
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        for(var i=0;i<data.data.article.pageContent.length;i++){
+                            var article_html = '<div data-v-f93e8622="" style="margin-bottom: 5px;">'+
+                                    '<div data-v-f93e8622="">'+
+                                    '<div data-v-36242dd2="" data-v-f93e8622="" class="card2 ivu-card ivu-card-bordered" userinfo="[object Object]" style="width: 700px;">'+
+                                    '<div class="ivu-card-body">'+
+                                    '<div data-v-36242dd2="" class="card2Wrapper">'+
+                                    '<a data-v-36242dd2="">'+
+                                    '	<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                    '		<div data-v-36242dd2="" class="card2-left">'+
+                                    '			<img data-v-36242dd2="" src='+data.data.artilce.pageContent[i].img[0]+' class="card2-img"></div>'+
+                                    '	</a>'+
+                                    '</a>'+
+                                    '<div data-v-36242dd2="" class="card2-right">'+
+                                    '	<a data-v-36242dd2="">'+
+                                    '		<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                    '			<p data-v-36242dd2="" class="card2-title" style="width: 474px;">'+data.data.article.pageContent[i].title+'</p>'+
+                                    '		</a>'+
+                                    '	</a>'+
+                                    '	<div data-v-36242dd2="" class="card2-description">'+
+                                    '		<div data-v-36242dd2="" class="card2-description-wrapper">'+
+                                    '			<div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(45, 140, 240); color: rgb(45, 140, 240);">图文</div>'+
+                                    '			<div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(73, 80, 96); color: rgb(73, 80, 96);">'+data.data.article.pageContent[i].sort+'</div>'+
+                                    '			<p data-v-36242dd2="" class="margin-right8px width1"></p>'+
+                                    '			<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="" target="_blank">'+
+                                    '				<div data-v-6f7b468e="" data-v-36242dd2="" class="author margin-right8px"><img data-v-6f7b468e="" src='+data.data.article.pageContent[i].author.avatar+' class="avatar">'+
+                                    '					<p data-v-6f7b468e="" class="name">'+data.data.article.pageContent[i].author.name+'</p>'+
+                                    '				</div>'+
+                                    '			</a>'+
+                                    '			<span data-v-36242dd2="" class="margin-right8px">·</span>'+
+                                    '			<a data-v-36242dd2="">'+
+                                    '				<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                    '					<div data-v-04cfc4ee="" data-v-36242dd2="" class="comment margin-right8px">'+data.data.article.pageContent[i].commentNum+'条评论</div>'+
+                                    '				</a>'+
+                                    '			</a>'+
+                                    '			<span data-v-36242dd2="" class="margin-right8px">·</span> <span data-v-36242dd2="" class="margin-right8px time">'+data.data.article.pageContent[i].nowTime+'浏览</span></div>'+
+                                    '		<div data-v-36242dd2="" class="del" style="display: none;">'+
+                                    '			<a data-v-36242dd2=""><i data-v-36242dd2="" class="ivu-icon ivu-icon-ios-trash"></i> 删除'+
+                                    '			</a>'+
+                                    '		</div>'+
+                                    '	</div>'+
+                                    '</div>'+
+                                    '	</div>'+
+                                    '	</div>'+
+                                    '	</div>'+
+                                    '	</div>'+
+                                    '</div>'
+                            $("#xgArticle").append(article_html)
+                        }
+                    }
+                    if (data.code > 0) {
+                        alert("请求错误！！！")
                     }
                 }
         )
