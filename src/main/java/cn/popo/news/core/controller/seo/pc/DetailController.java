@@ -10,15 +10,15 @@ import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoCommentService;
+import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SEOUtil;
 import cn.popo.news.core.utils.SortTools;
+import cn.popo.news.core.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ import java.util.Map;
 
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/pc")
 public class DetailController {
     @Autowired
@@ -69,13 +69,7 @@ public class DetailController {
         }
 
 
-        //评论
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","praiseNum"));
-        PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
-        pageDTO.setCurrentPage(page);
-        Integer commentNum = agoCommentService.findCommentNumByArticleId(articleId,ONE);
-        pageDTO.setCommentNum(commentNum);
-        map.put("comment", pageDTO);
+
 
         //文章详情
         ArticleDetailsVO articleDetailsVO = agoArticleService.findArticleDetails(articleId,userId);
@@ -85,10 +79,6 @@ public class DetailController {
         //用户信息及用户文章推荐
         UserVO userVO = agoArticleService.findArticleDetailsUser(articleId,userId);
         map.put("author",userVO);
-
-        //增加浏览记录
-        agoArticleService.saveBrowsingHistory(userId,articleId);
-
 
         //图文
         List<ArticleVO> realTimeNews = agoArticleService.findRecommentByTypeId(ONE,ZERO,ONE,ONE,ONE,ONE);
@@ -106,7 +96,7 @@ public class DetailController {
         videosPage.setPageContent(videos);
         map.put("recommendVideos",videosPage);
 
-        List<ArticleVO> list = new ArrayList<>();
+        /*List<ArticleVO> list = new ArrayList<>();
         content.forEach(l->{
             List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
             List<ArticleVO> temp = new ArrayList<>(articleVOList);
@@ -126,8 +116,8 @@ public class DetailController {
             }
         }
         pageDTO1.setCurrentPage(page);
-        pageDTO1.setTotalPages(totalPages);
-        map.put("article", pageDTO1);
+        pageDTO1.setTotalPages(totalPages);*/
+//        map.put("article", pageDTO1);
 
         List<Classify> cla = classifyService.findAllClassify();
         map.put("indexNavigation",cla);
@@ -147,6 +137,32 @@ public class DetailController {
             return new ModelAndView("seo/pc/page/video_index",map);
         }
 
+    }
+
+    @PostMapping("/comment")
+    public ResultVO<Map<String,Object>> articleSeoComment(Map<String,Object> map,
+                                                       @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                       @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                       @RequestParam(value = "articleId") String articleId,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response){
+
+
+        String userId = "";
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
+
+        //评论
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","praiseNum"));
+        PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest,articleId,userId,ONE);
+        pageDTO.setCurrentPage(page);
+        Integer commentNum = agoCommentService.findCommentNumByArticleId(articleId,ONE);
+        pageDTO.setCommentNum(commentNum);
+        map.put("comment", pageDTO);
+
+
+        return ResultVOUtil.success(map);
     }
 
 

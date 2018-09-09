@@ -17183,30 +17183,30 @@
                     </div>
                     <div data-v-0859dd8c="">
                         <div data-v-f93e8622="" data-v-0859dd8c="" class="body">
-                            <#list article.getPageContent() as a >
+                            <#--<#list article.getPageContent() as a >
                                 <#if a.typeId==1>
-                                    <div data-v-f93e8622="" style="margin-bottom: 5px;"><!---->
+                                    <div data-v-f93e8622="" style="margin-bottom: 5px;"><!--&ndash;&gt;
                                         <div data-v-f93e8622="">
                                             <div data-v-36242dd2="" data-v-f93e8622=""
                                                  class="card2 ivu-card ivu-card-bordered" userinfo="[object Object]"
-                                                 style="width: 700px;"><!----> <!---->
+                                                 style="width: 700px;"><!--&ndash;&gt; <!--&ndash;&gt;
                                                 <div class="ivu-card-body">
                                                     <div data-v-36242dd2="" class="card2Wrapper"><a
                                                             data-v-36242dd2=""><a data-v-36242dd2=""
                                                                                   href="http://n.immnc.com/imgText?articleId=${a.articleId}"
                                                                                   class="router-link-exact-active router-link-active"
                                                                                   target="_blank">
-                                                        <div data-v-36242dd2="" class="card2-left"><!----> <img
+                                                        <div data-v-36242dd2="" class="card2-left"><!--&ndash;&gt; <img
                                                                 data-v-36242dd2="" src="${a.imgList[0]}"
                                                                 class="card2-img"></div>
-                                                    </a></a> <!---->
+                                                    </a></a> <!--&ndash;&gt;
                                                         <div data-v-36242dd2="" class="card2-right"><a
                                                                 data-v-36242dd2=""><a data-v-36242dd2=""
                                                                                       href="http://n.immnc.com/imgText?articleId=${a.articleId}"
                                                                                       class="router-link-exact-active router-link-active"
                                                                                       target="_blank"><p
                                                                 data-v-36242dd2="" class="card2-title"
-                                                                style="width: 474px;">${a.title}</p></a></a> <!---->
+                                                                style="width: 474px;">${a.title}</p></a></a> <!--&ndash;&gt;
                                                             <div data-v-36242dd2="" class="card2-description">
                                                                 <div data-v-36242dd2=""
                                                                      class="card2-description-wrapper">
@@ -17229,7 +17229,7 @@
                                                                             class="avatar">
                                                                         <p data-v-6f7b468e=""
                                                                            class="name">${a.author.name}</p></div>
-                                                                </a> <!----> <span data-v-36242dd2=""
+                                                                </a> <!--&ndash;&gt; <span data-v-36242dd2=""
                                                                                    class="margin-right8px">·</span> <a
                                                                         data-v-36242dd2=""><a data-v-36242dd2=""
                                                                                               href="http://n.immnc.com/imgText?articleId=${a.articleId}"
@@ -17239,7 +17239,7 @@
                                                                          class="comment margin-right8px">${a.commentNum}
                                                                         条评论
                                                                     </div>
-                                                                </a></a> <!----> <span data-v-36242dd2=""
+                                                                </a></a> <!--&ndash;&gt; <span data-v-36242dd2=""
                                                                                        class="margin-right8px">·</span>
                                                                     <span data-v-36242dd2=""
                                                                           class="margin-right8px time">${a.lookNum}浏览</span>
@@ -17255,9 +17255,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> <!----></div>
+                                        </div> <!--&ndash;&gt;</div>
                                 </#if>
-                            </#list>
+                            </#list>-->
                             <!----></div> <!----></div> <!----> <!----></div>
             </div>
             <div data-v-0859dd8c="" class="right">
@@ -17297,12 +17297,11 @@
                                 <ul data-v-509ac042="" class="img">
 
                                     <#list author.userReCommentList as im>
-                                        <li data-v-509ac042="" class="img-li"><a data-v-509ac042=""
-                                                                                 href="/imgs?articleId=${im.articleId}"
-                                                                                 class="router-link-active" target="_blank"><a
+                                        <li data-v-509ac042="" class="img-li"><a href="http://n.immnc.com/imgs?articleId=${im.articleId}"
+                                                                                     class="router-link-active" target="_blank"
                                                 data-v-509ac042="">
                                             <div data-v-509ac042="" class="img-div"><img data-v-509ac042=""
-                                                                                         src="${im.imgList[0]}">
+                                                                                         src="https://p0.cdrysj.com/po${im.imgList[0]}">
                                                 <i data-v-509ac042="" class="more">${im.imgNum}图</i></div>
                                             <p data-v-509ac042="" class="title">${im.title}</p></a></a></li>
                                     </#list>
@@ -17373,9 +17372,9 @@
                             </h4></a>
                                 <ul data-v-129deafd="" class="img">
                                     <#list recommendVideos.getPageContent() as videoNew>
-                                        <li data-v-129deafd="" class="img-li"><a data-v-129deafd=""
-                                                                                 href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
-                                                                                 class="" target="_blank"><a
+                                        <li data-v-129deafd="" class="img-li"><a
+                                                href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
+                                                class="" target="_blank"
                                                 data-v-129deafd="">
                                             <div data-v-129deafd="" class="img-wrapper">
                                                 <div data-v-129deafd="" class="img-div"><img data-v-129deafd=""
@@ -17387,7 +17386,7 @@
                                                     <div data-v-129deafd="" class="playIconWrapper"></div>
                                                 </div>
                                             </div>
-                                            <p data-v-129deafd="" class="title">${videoNew.title} </p></a></a></li>
+                                            <p data-v-129deafd="" class="title">${videoNew.title} </p></a></li>
                                     </#list>
                                 </ul>
                             </div>
@@ -17703,6 +17702,7 @@ s.parentNode.insertBefore(bp, s);</script>
 </div>
 
 <script src="/seo/pc/lbt/swiper-4.3.5/dist/js/swiper.min.js"></script>
+
 <script>
     var swiper = new Swiper('.swiper-container', {
         navigation: {
@@ -17710,6 +17710,69 @@ s.parentNode.insertBefore(bp, s);</script>
             prevEl: '.swiper-button-prev',
         },
     });
+</script>
+<script src="/seo/pc/lbt/js/jquery-2.1.1.min.js"></script>
+<script>
+    $(function () {
+        $.post(
+                "/pc/comment",
+                {
+                    articleId:${articleDetails.articleId}
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        console.log(data)
+                        console.log(data.data.comment.pageContent[0].username)
+                        console.log(data.data.comment.pageContent.length)
+                        for(var i=0;i<data.data.comment.pageContent.length;i++){
+
+                            var comm_html = '<div data-v-c626a16c="" class="otherComment">'+
+                                    '<div data-v-c626a16c="" class="otherAvatar">'+
+                                    '<a data-v-c626a16c="" href="http://n.immnc.com/otherPersonInfo?idUser=1535964149426" class=""><img data-v-c626a16c="" src='+data.data.comment.pageContent[i].avatar+'></a>'+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="otherUser">'+
+                                    '<div data-v-c626a16c="" class="other">'+
+                                    '	<a data-v-c626a16c="" href="http://n.immnc.com/otherPersonInfo?idUser=1535964149426" class="">'+
+                                    '<a data-v-c626a16c="">'+
+                                    data.data.comment.pageContent[i].username+'</a>'+
+                                    '</a> <span data-v-c626a16c="">'+data.data.comment.pageContent[i].time+'</span></div>'+
+                                    '<div data-v-c626a16c="" class="content">'+
+                                    data.data.comment.pageContent[i].commentInfo+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="foot">'+
+                                    '<a data-v-c626a16c="" class="right1" href="http://n.immnc.com/login">回复</a>'+
+                                    '<a href="http://n.immnc.com/login">'+
+                                    '<p data-v-c626a16c="" class="f-right"><span data-v-c626a16c="" class="ic">'+
+                                    data.data.comment.pageContent[i].replyNum+
+                                    '<i data-v-c626a16c="" class="right1 ivu-icon ivu-icon-thumbsup"></i></span>'+
+                                    '<span data-v-c626a16c=""><i data-v-c626a16c="" class="right1 ic ivu-icon ivu-icon-ios-information-outline"></i></span>'+
+                                    '</p>'+
+                                    '</a>'+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="reply" style="display: none;">'+
+                                    '<div data-v-c626a16c="" class="ivu-input-wrapper ivu-input-type">'+
+                                    '<textarea wrap="soft" autocomplete="off" spellcheck="false" placeholder="请输入您的评论" rows="2" class="ivu-input" style="height: 31px; min-height: 31px; max-height: 94px;"></textarea>'+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="replyButton">'+
+                                    '<button data-v-c626a16c="" type="button" class="ivu-btn ivu-btn-info"><span>回复</span></button>'+
+                                    '<button data-v-c626a16c="" type="button" class="ivu-btn ivu-btn-ghost"><span>关闭</span></button>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '</div>'
+
+                            $("#commentList").append(comm_html)
+                        }
+
+
+
+                    }
+                    if (data.code > 0) {
+                        alert(123)
+                    }
+                }
+        )
+    })
 </script>
 </body>
 </html>

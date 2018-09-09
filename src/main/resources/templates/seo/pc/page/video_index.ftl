@@ -17273,7 +17273,9 @@
                             </h4></a>
                                 <ul data-v-129deafd="" class="img">
                                     <#list recommendVideos.getPageContent() as videoNew>
-                                        <li data-v-129deafd="" class="img-li"><a href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
+                                        <li data-v-129deafd="" class="img-li"><a
+                                                href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
+                                                class="" target="_blank"
                                                 data-v-129deafd="">
                                             <div data-v-129deafd="" class="img-wrapper">
                                                 <div data-v-129deafd="" class="img-div"><img data-v-129deafd=""
@@ -17407,5 +17409,68 @@ s.parentNode.insertBefore(bp, s);</script>
         </div>
     </div>
 </div>
+<script src="/seo/pc/lbt/js/jquery-2.1.1.min.js"></script>
+<script>
+    $(function () {
+        $.post(
+                "/pc/comment",
+                {
+                    articleId:${articleDetails.articleId}
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        console.log(data)
+                        console.log(data.data.comment.pageContent[0].username)
+                        console.log(data.data.comment.pageContent.length)
+                        for(var i=0;i<data.data.comment.pageContent.length;i++){
+
+                            var comm_html = '<div data-v-c626a16c="" class="otherComment">'+
+                                    '<div data-v-c626a16c="" class="otherAvatar">'+
+                                    '<a data-v-c626a16c="" href="http://n.immnc.com/otherPersonInfo?idUser=1535964149426" class=""><img data-v-c626a16c="" src='+data.data.comment.pageContent[i].avatar+'></a>'+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="otherUser">'+
+                                    '<div data-v-c626a16c="" class="other">'+
+                                    '	<a data-v-c626a16c="" href="http://n.immnc.com/otherPersonInfo?idUser=1535964149426" class="">'+
+                                    '<a data-v-c626a16c="">'+
+                                    data.data.comment.pageContent[i].username+'</a>'+
+                                    '</a> <span data-v-c626a16c="">'+data.data.comment.pageContent[i].time+'</span></div>'+
+                                    '<div data-v-c626a16c="" class="content">'+
+                                    data.data.comment.pageContent[i].commentInfo+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="foot">'+
+                                    '<a data-v-c626a16c="" class="right1" href="http://n.immnc.com/login">回复</a>'+
+                                    '<a href="http://n.immnc.com/login">'+
+                                    '<p data-v-c626a16c="" class="f-right"><span data-v-c626a16c="" class="ic">'+
+                                    data.data.comment.pageContent[i].replyNum+
+                                    '<i data-v-c626a16c="" class="right1 ivu-icon ivu-icon-thumbsup"></i></span>'+
+                                    '<span data-v-c626a16c=""><i data-v-c626a16c="" class="right1 ic ivu-icon ivu-icon-ios-information-outline"></i></span>'+
+                                    '</p>'+
+                                    '</a>'+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="reply" style="display: none;">'+
+                                    '<div data-v-c626a16c="" class="ivu-input-wrapper ivu-input-type">'+
+                                    '<textarea wrap="soft" autocomplete="off" spellcheck="false" placeholder="请输入您的评论" rows="2" class="ivu-input" style="height: 31px; min-height: 31px; max-height: 94px;"></textarea>'+
+                                    '</div>'+
+                                    '<div data-v-c626a16c="" class="replyButton">'+
+                                    '<button data-v-c626a16c="" type="button" class="ivu-btn ivu-btn-info"><span>回复</span></button>'+
+                                    '<button data-v-c626a16c="" type="button" class="ivu-btn ivu-btn-ghost"><span>关闭</span></button>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '</div>'
+
+                            $("#commentList").append(comm_html)
+                        }
+
+
+
+                    }
+                    if (data.code > 0) {
+                        alert(123)
+                    }
+                }
+        )
+    })
+</script>
 </body>
 </html>
