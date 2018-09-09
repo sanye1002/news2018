@@ -17110,7 +17110,7 @@
                     </div>
                     <div data-v-c626a16c="" data-v-0859dd8c="" class="ivu-card ivu-card-bordered"><!----> <!---->
                         <div class="ivu-card-body">
-                            <div data-v-c626a16c="" class="title"><h2 data-v-c626a16c="">${comment.commentNum}条评论</h2>
+                            <div data-v-c626a16c="" class="title"><h2 id="commNum" data-v-c626a16c="">0条评论</h2>
                             </div>
                             <div data-v-c626a16c="" class="userComment"><span data-v-c626a16c="" class="avatar"><img
                                     data-v-c626a16c=""
@@ -17125,55 +17125,9 @@
                                         <!----> <a href="http://n.immnc.com/login"><span>评论</span></a></button>
                                 </div>
                             </div>
-                            <div data-v-c626a16c="">
+                            <div id="commentList" data-v-c626a16c="">
 
-                                <#list comment.pageContent as comlist>
-                                    <div data-v-c626a16c="" class="otherComment">
-                                        <div data-v-c626a16c="" class="otherAvatar"><a data-v-c626a16c=""
-                                                                                       href="/otherPersonInfo?idUser=1535964149426"
-                                                                                       class=""><img data-v-c626a16c=""
-                                                                                                     src="${comlist.avatar}"></a>
-                                        </div>
-                                        <div data-v-c626a16c="" class="otherUser">
-                                            <div data-v-c626a16c="" class="other"><a data-v-c626a16c=""
-                                                                                     href="/otherPersonInfo?idUser=1535964149426"
-                                                                                     class=""><a data-v-c626a16c="">
-                                                ${comlist.nickName}</a></a> <span
-                                                    data-v-c626a16c="">${comlist.manyTimeAgo}</span></div>
-                                            <div data-v-c626a16c="" class="content">
 
-                                                ${comlist.commentInfo}
-                                            </div>
-                                            <div data-v-c626a16c="" class="foot"><a data-v-c626a16c=""
-                                                                                    class="right1"
-                                                                                    href="http://n.immnc.com/login"
-                                            >回复</a> <!----> <a href="http://n.immnc.com/login">
-                                                <p
-                                                        data-v-c626a16c="" class="f-right"><span data-v-c626a16c=""
-                                                                                                 class="ic">
-            ${comlist.praiseNum}
-            <i data-v-c626a16c="" class="right1 ivu-icon ivu-icon-thumbsup"></i></span> <!----> <span
-                                                        data-v-c626a16c=""><i data-v-c626a16c=""
-                                                                              class="right1 ic ivu-icon ivu-icon-ios-information-outline"></i></span>
-                                                </p>
-                                            </a></div>
-                                            <div data-v-c626a16c="" class="reply" style="display: none;">
-                                                <div data-v-c626a16c="" class="ivu-input-wrapper ivu-input-type">
-                                                    <textarea wrap="soft" autocomplete="off" spellcheck="false"
-                                                              placeholder="请输入您的评论" rows="2" class="ivu-input"
-                                                              style="height: 31px; min-height: 31px; max-height: 94px;"></textarea>
-                                                </div>
-                                                <div data-v-c626a16c="" class="replyButton">
-                                                    <button data-v-c626a16c="" type="button"
-                                                            class="ivu-btn ivu-btn-info"><!----> <!----> <span>回复</span>
-                                                    </button>
-                                                    <button data-v-c626a16c="" type="button"
-                                                            class="ivu-btn ivu-btn-ghost"><!----> <!---->
-                                                        <span>关闭</span></button>
-                                                </div>
-                                            </div>  <!----></div>
-                                    </div>
-                                </#list>
 
                                 <!----></div> <!---->
                         </div>
@@ -17763,6 +17717,8 @@ s.parentNode.insertBefore(bp, s);</script>
 
                             $("#commentList").append(comm_html)
                         }
+
+                        $("#commNum").text(data.data.comment.commentNum)
 
 
 

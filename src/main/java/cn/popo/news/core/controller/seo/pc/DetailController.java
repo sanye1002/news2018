@@ -7,6 +7,7 @@ import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.dto.api.UserVO;
 import cn.popo.news.core.entity.common.Classify;
+import cn.popo.news.core.service.ArticleService;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoCommentService;
@@ -49,6 +50,9 @@ public class DetailController {
 
     @Autowired
     private ClassifyService classifyService;
+
+    @Autowired
+    private ArticleService articleService;
 
     private static final Integer ZERO = 0;
     private static final Integer ONE = 1;
@@ -162,6 +166,21 @@ public class DetailController {
         map.put("comment", pageDTO);
 
 
+        return ResultVOUtil.success(map);
+    }
+
+    @PostMapping("/article")
+    public ResultVO<Map<String,Object>> articleSeoArticle(Map<String,Object> map,
+                                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                          @RequestParam(value = "size", defaultValue = "12") Integer size
+                                                          ){
+
+
+        //文章
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
+        PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
+        pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
         return ResultVOUtil.success(map);
     }
 
