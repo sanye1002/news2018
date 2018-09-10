@@ -78,7 +78,6 @@ public class DetailController {
         //文章详情
         ArticleDetailsVO articleDetailsVO = agoArticleService.findArticleDetails(articleId,userId);
         map.put("articleDetails",articleDetailsVO);
-        List<String> content = articleDetailsVO.getKeywordList();
 
         //用户信息及用户文章推荐
         UserVO userVO = agoArticleService.findArticleDetailsUser(articleId,userId);
@@ -172,15 +171,39 @@ public class DetailController {
     @PostMapping("/article")
     public ResultVO<Map<String,Object>> articleSeoArticle(Map<String,Object> map,
                                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                          @RequestParam(value = "size", defaultValue = "12") Integer size
+                                                          @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                          @RequestParam(value = "articleId",defaultValue = "") String articleId
                                                           ){
 
+        String userId = "";
 
-        //文章
-        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
-        PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
+        //文章详情
+        ArticleDetailsVO articleDetailsVO = agoArticleService.findArticleDetails(articleId,userId);
+        map.put("articleDetails",articleDetailsVO);
+        List<String> content = articleDetailsVO.getKeywordList();
+        List<ArticleVO> list = new ArrayList<>();
+        content.forEach(l->{
+            List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
+            List<ArticleVO> temp = new ArrayList<>(articleVOList);
+            temp.retainAll(list);
+            articleVOList.removeAll(temp);
+            list.addAll(articleVOList);
+        });
+        double d = size;
+        double l = list.size()/d;
+        Integer totalPages = (int)Math.ceil(l);
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+        if(list.size()!=0){
+            if (totalPages == page){
+                pageDTO.setPageContent(list.subList((page-1)*size,list.size()));
+            }else {
+                pageDTO.setPageContent(list.subList((page-1)*size,size*page));
+            }
+        }
         pageDTO.setCurrentPage(page);
+        pageDTO.setTotalPages(totalPages);
         map.put("article", pageDTO);
+
         return ResultVOUtil.success(map);
     }
 
