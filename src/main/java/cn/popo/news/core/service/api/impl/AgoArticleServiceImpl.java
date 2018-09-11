@@ -332,6 +332,12 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     }else {
                         indexVO.setGoodFlag(0);
                     }
+                    Attention attention = attentionRepository.findAllByAidAndFid(userId,l.getUid());
+                    if (attention!=null){
+                        indexVO.setAttentionId(attention.getId());
+                    }else {
+                        indexVO.setAttentionId(0);
+                    }
                     indexVO.setAuthor(author);
                     list.add(indexVO);
                 });

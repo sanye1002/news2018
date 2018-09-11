@@ -51,5 +51,4 @@ public interface AgoArticleService {
 
     void articlePraise(String userId,String articleId);
 
-
 }

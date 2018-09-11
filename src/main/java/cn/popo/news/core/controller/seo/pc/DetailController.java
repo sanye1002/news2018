@@ -72,9 +72,6 @@ public class DetailController {
             userId = userSessionUtil.getUserByCookie(request,response).getUserId();
         }
 
-
-
-
         //文章详情
         ArticleDetailsVO articleDetailsVO = agoArticleService.findArticleDetails(articleId,userId);
         map.put("articleDetails",articleDetailsVO);
@@ -98,29 +95,6 @@ public class DetailController {
         PageDTO<ArticleVO> videosPage = new PageDTO<>();
         videosPage.setPageContent(videos);
         map.put("recommendVideos",videosPage);
-
-        /*List<ArticleVO> list = new ArrayList<>();
-        content.forEach(l->{
-            List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
-            List<ArticleVO> temp = new ArrayList<>(articleVOList);
-            temp.retainAll(list);
-            articleVOList.removeAll(temp);
-            list.addAll(articleVOList);
-        });
-        double d = size;
-        double l = list.size()/d;
-        Integer totalPages = (int)Math.ceil(l);
-        PageDTO<ArticleVO> pageDTO1 = new PageDTO<>();
-        if(list.size()!=0){
-            if (totalPages == page){
-                pageDTO1.setPageContent(list.subList((page-1)*size,list.size()));
-            }else {
-                pageDTO1.setPageContent(list.subList((page-1)*size,size*page));
-            }
-        }
-        pageDTO1.setCurrentPage(page);
-        pageDTO1.setTotalPages(totalPages);*/
-//        map.put("article", pageDTO1);
 
         List<Classify> cla = classifyService.findAllClassify();
         map.put("indexNavigation",cla);

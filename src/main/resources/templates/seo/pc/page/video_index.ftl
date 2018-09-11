@@ -17431,7 +17431,7 @@ s.parentNode.insertBefore(bp, s);</script>
                     },
                     function (data) {
                         if (data.code == 0) {
-                            page =  data.data.article.currentPage
+                            page =  data.data.article.currentPage+1
                             for(var i=0;i<data.data.article.pageContent.length;i++){
                                 var article_html = '<div data-v-f93e8622="" style="margin-bottom: 5px;">'+
                                         '<div data-v-f93e8622="">'+

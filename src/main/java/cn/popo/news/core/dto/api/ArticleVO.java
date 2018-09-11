@@ -49,5 +49,7 @@ public class ArticleVO implements Serializable {
 
     private Integer goodFlag;
 
+    private Integer attentionId;
+
 
 }
