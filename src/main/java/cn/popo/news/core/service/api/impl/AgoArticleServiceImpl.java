@@ -290,8 +290,8 @@ public class AgoArticleServiceImpl implements AgoArticleService {
     public PageDTO<ArticleVO> findAllArticleByTypeId(Pageable pageable, Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId,String userId) {
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
 
-        Page<ArticleInfo> articleInfoPage = articleRepository.findAllByTypeIdAndStateAndShowStateAndDraftAndManageId(
-                pageable,typeId,state,showState,draft,manageId);
+        Page<ArticleInfo> articleInfoPage = articleRepository.findAllByTypeIdAndStateAndShowStateAndDraft(
+                pageable,typeId,state,showState,draft);
 
         List<ArticleVO> list = new ArrayList<>();
         Long time = System.currentTimeMillis();

@@ -326,12 +326,12 @@ public class HomePageController {
     @ResponseBody
     public ResultVO<Map<String,Object>> indexRandomArticle(Map<String,Object> map,
                                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                     @RequestParam(value = "size", defaultValue = "12") Integer size){
+                                                     @RequestParam(value = "size", defaultValue = "10") Integer size){
 
 
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         List<ArticleVO> list = new ArrayList<>();
-        for (int i=0;i<10;i++){
+        for (int i=0;i<size;i++){
             page = new Random().nextInt(700)+300;
             PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
             list.addAll(articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO).getPageContent());
@@ -347,7 +347,7 @@ public class HomePageController {
     @ResponseBody
     public ResultVO<Map<String,Object>> classifyRandomArticle(Map<String,Object> map,
                                                            @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                           @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                                           @RequestParam(value = "size", defaultValue = "6") Integer size,
                                                            @RequestParam(value = "classifyId") Integer classifyId
 
     ){
@@ -355,10 +355,9 @@ public class HomePageController {
 
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         List<ArticleVO> list = new ArrayList<>();
-        for (int i=0;i<6;i++){
+        for (int i=0;i<size;i++){
             page = new Random().nextInt(80)+20;
             PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
-
             list.addAll(agoArticleService.findAllArticleByClassifyIdAndShowStateAndStateAndDraft(pageRequest,classifyId,ONE,ONE,ZERO).getPageContent());
         }
         pageDTO.setPageContent(list);
@@ -383,6 +382,7 @@ public class HomePageController {
 
 
         //文章
+
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("asc","auditTime"));
         PageDTO<ArticleVO> pageDTO = articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO);
         pageDTO.setCurrentPage(page);
@@ -475,6 +475,41 @@ public class HomePageController {
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO,userId);
         pageDTO.setCurrentPage(page);
+        map.put("article", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * @param page size
+     * @return  List<article>
+     * @desc 随机视频
+     */
+    @PostMapping("/random/type/article")
+    @ResponseBody
+    public ResultVO<Map<String,Object>> typeRandomArticle(Map<String,Object> map,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                    @RequestParam(value = "size", defaultValue = "6") Integer size,
+                                                    @RequestParam(value = "type",defaultValue = "3") Integer type,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response
+    ){
+
+        String userId = "";
+        if (userSessionUtil.verifyLoginStatus(request,response)){
+            userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        }
+
+        PageDTO<ArticleVO> pageDTO = new PageDTO<>();
+
+        List<ArticleVO> list = new ArrayList<>();
+        for (int i=0;i<size;i++){
+            page = new Random().nextInt(150)+50;
+            PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
+            list.addAll(agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO,userId).getPageContent());
+        }
+        //文章
+//        pageDTO.setCurrentPage(page);
+        pageDTO.setPageContent(list);
         map.put("article", pageDTO);
         return ResultVOUtil.success(map);
     }

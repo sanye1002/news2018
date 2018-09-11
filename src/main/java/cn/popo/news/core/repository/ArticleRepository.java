@@ -80,6 +80,8 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
 
     Page<ArticleInfo> findAllByTypeIdAndStateAndShowStateAndDraftAndManageId(Pageable pageable,Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId);
 
+    Page<ArticleInfo> findAllByTypeIdAndStateAndShowStateAndDraft(Pageable pageable,Integer typeId,Integer state, Integer showState,Integer draft);
+
     List<ArticleInfo> findAllByStateAndDraftAndShowStateAndManageIdAndTypeIdAndRecommendState(
             Integer state,Integer draft,Integer showState,Integer manageId,Integer typeId,Integer recommendState);
 
