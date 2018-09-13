@@ -504,7 +504,7 @@ public class HomePageController {
         List<ArticleVO> list = new ArrayList<>();
         for (int i=0;i<size;i++){
             page = new Random().nextInt(150)+50;
-            PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
+            PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
             list.addAll(agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO,userId).getPageContent());
         }
         //文章
