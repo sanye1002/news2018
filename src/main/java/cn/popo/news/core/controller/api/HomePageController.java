@@ -21,6 +21,7 @@ import cn.popo.news.core.service.LogoService;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoPersonalService;
 import cn.popo.news.core.service.api.SearchWordsService;
+import cn.popo.news.core.utils.RandomUtil;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
@@ -501,9 +502,11 @@ public class HomePageController {
 
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
 
+        Set<Integer> integers = RandomUtil.moreRandom(50, 200, size);
+
         List<ArticleVO> list = new ArrayList<>();
-        for (int i=0;i<size;i++){
-            page = new Random().nextInt(150)+50;
+        for (int i=0;i<integers.size();i++){
+            page = (Integer) integers.toArray()[i];
             PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
             list.addAll(agoArticleService.findAllArticleByTypeId(pageRequest,type,ONE,ONE,ZERO,ZERO,userId).getPageContent());
         }
