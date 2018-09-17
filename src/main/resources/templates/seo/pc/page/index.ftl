@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="https://n.immnc.com/static/bitbug_favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="https://www.immnc.com/static/bitbug_favicon.ico">
 
     <title>${articleDetails.title}---妙漫网创</title>
     <meta name="renderer" content="webkit">
@@ -17,7 +17,7 @@
     <meta name="og:category " content="妙漫网创">
     <meta property="og:image" content="${articleDetails.imgList[0]}">
     <script src="https://zz.bdstatic.com/linksubmit/push.js"></script>
-    <script type="text/javascript" src="http://n.immnc.com/static/radio/flowplayer-3.2.13.min.js"></script>
+    <script type="text/javascript" src="http://www.immnc.com/static/radio/flowplayer-3.2.13.min.js"></script>
     <link href="/seo/pc/css/app.401adb6d4161f101f68133407f78a37c.css" rel="stylesheet">
     <style type="text/css">.ivu-load-loop {
         -webkit-animation: ani-load-loop 1s linear infinite;
@@ -17011,15 +17011,15 @@
     <div data-v-165c5766="" id="topAnchor" class="index">
         <div data-v-1edc45fa="" data-v-165c5766="" navnum="99" index="0">
             <div data-v-1edc45fa="" class="nav-wrapper">
-                <div data-v-1edc45fa="" class="nav-logo"><a data-v-1edc45fa="" href="http://n.immnc.com" class="router-link-active"><img
+                <div data-v-1edc45fa="" class="nav-logo"><a data-v-1edc45fa="" href="http://www.immnc.com" class="router-link-active"><img
                         data-v-1edc45fa="" src="/seo/pc/img/logo.612c61d.jpg" class="logo"></a></div>
-                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://n.immnc.com" class="router-link-active">
+                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://www.immnc.com" class="router-link-active">
                     <div data-v-1edc45fa="" class="nav clickAfter">
                         推荐
                     </div>
                 </a></div>
                 <#list indexNavigation as cla>
-                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://n.immnc.com/sortPage?navId=${cla.id}" class="">
+                <div data-v-1edc45fa="" class="nav-item"><a data-v-1edc45fa="" href="http://www.immnc.com/sortPage?navId=${cla.id}" class="">
                     <div data-v-1edc45fa="" class="nav">
                         ${cla.classify}
                     </div>
@@ -17053,7 +17053,7 @@
                             </#list>
                         </div>
                         <div data-v-1d85ef16="" class="descriptionLabel">
-                            <a href="http://n.immnc.com/login"><span data-v-1d85ef16=""><span data-v-1d85ef16="" class="des"><i data-v-1d85ef16="" class="font left1 ivu-icon ivu-icon-ios-star-outline"></i>收藏
+                            <a href="http://www.immnc.com/login"><span data-v-1d85ef16=""><span data-v-1d85ef16="" class="des"><i data-v-1d85ef16="" class="font left1 ivu-icon ivu-icon-ios-star-outline"></i>收藏
       </span> <span data-v-1d85ef16="" class="des"><i data-v-1d85ef16=""
                                                       class="font left1 ivu-icon ivu-icon-ios-information-outline"></i>举报
       </span></span></a> <span data-v-1d85ef16=""></span></div> <!----></div>
@@ -17071,7 +17071,7 @@
                                 </div>
                                 <div data-v-c626a16c="" class="commentButton">
                                     <button data-v-c626a16c="" type="button" class="ivu-btn ivu-btn-info"><!---->
-                                        <!----> <a href="http://n.immnc.com/login"><span>评论</span></a></button>
+                                        <!----> <a href="http://www.immnc.com/login"><span>评论</span></a></button>
                                 </div>
                             </div>
                             <div id="commentList" data-v-c626a16c="">
@@ -17095,8 +17095,8 @@
                                             </div>
                                             <div data-v-c626a16c="" class="foot"><a data-v-c626a16c=""
                                                                                     class="right1"
-                                            href="http://n.immnc.com/login"
-                                            >回复</a> <!--&ndash;&gt; <a href="http://n.immnc.com/login">
+                                            href="http://www.immnc.com/login"
+                                            >回复</a> <!--&ndash;&gt; <a href="http://www.immnc.com/login">
                                                 <p
                                                         data-v-c626a16c="" class="f-right"><span data-v-c626a16c=""
                                                                                                  class="ic">
@@ -17142,7 +17142,7 @@
                                                 <div class="ivu-card-body">
                                                     <div data-v-36242dd2="" class="card2Wrapper"><a
                                                             data-v-36242dd2=""><a data-v-36242dd2=""
-                                                                                  href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                                  href="http://www.immnc.com/imgText?articleId=${a.articleId}"
                                                                                   class="router-link-exact-active router-link-active"
                                                                                   target="_blank">
                                                         <div data-v-36242dd2="" class="card2-left"><!--&ndash;&gt; <img
@@ -17151,7 +17151,7 @@
                                                     </a></a> <!--&ndash;&gt;
                                                         <div data-v-36242dd2="" class="card2-right"><a
                                                                 data-v-36242dd2=""><a data-v-36242dd2=""
-                                                                                      href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                                      href="http://www.immnc.com/imgText?articleId=${a.articleId}"
                                                                                       class="router-link-exact-active router-link-active"
                                                                                       target="_blank"><p
                                                                 data-v-36242dd2="" class="card2-title"
@@ -17170,7 +17170,7 @@
                                                                     <p data-v-36242dd2=""
                                                                        class="margin-right8px width1"></p> <a
                                                                         data-v-36242dd2=""
-                                                                        href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                        href="http://www.immnc.com/imgText?articleId=${a.articleId}"
                                                                         class="" target="_blank">
                                                                     <div data-v-6f7b468e="" data-v-36242dd2=""
                                                                          class="author margin-right8px"><img
@@ -17181,7 +17181,7 @@
                                                                 </a> <!--&ndash;&gt; <span data-v-36242dd2=""
                                                                                    class="margin-right8px">·</span> <a
                                                                         data-v-36242dd2=""><a data-v-36242dd2=""
-                                                                                              href="http://n.immnc.com/imgText?articleId=${a.articleId}"
+                                                                                              href="http://www.immnc.com/imgText?articleId=${a.articleId}"
                                                                                               class="router-link-exact-active router-link-active"
                                                                                               target="_blank">
                                                                     <div data-v-04cfc4ee="" data-v-36242dd2=""
@@ -17219,13 +17219,13 @@
                     <div data-v-62af862f="" data-v-0859dd8c="" class="cc ivu-card ivu-card-bordered"
                          style="width: 340px;"><!----> <!---->
                         <div class="ivu-card-body">
-                            <div data-v-62af862f="" class="personIntro"><a data-v-62af862f="" href="http://n.immnc.com/otherPersonInfo?idUser=${author.userId}"
+                            <div data-v-62af862f="" class="personIntro"><a data-v-62af862f="" href="http://www.immnc.com/otherPersonInfo?idUser=${author.userId}"
                                                                            class="" target="_blank">
                                 <div data-v-62af862f="" class="left"><img data-v-62af862f="" src="${author.avatar}">
                                 </div>
                             </a>
                                 <div data-v-62af862f="" class="right">
-                                    <div data-v-62af862f="" class="name"><a data-v-62af862f="" href="http://n.immnc.com/otherPersonInfo?idUser=${author.userId}"
+                                    <div data-v-62af862f="" class="name"><a data-v-62af862f="" href="http://www.immnc.com/otherPersonInfo?idUser=${author.userId}"
                                                                             class="" target="_blank"><a
                                             data-v-62af862f="">${author.nikeName}</a></a> <!----></div>
                                     <div data-v-62af862f="" class="relation">
@@ -17238,7 +17238,7 @@
                                         <#if author.attentionId == 0>
                                             <button data-v-62af862f="" type="button"
                                                     class="ivu-btn ivu-btn-primary ivu-btn-small"><!----> <i
-                                                    class="ivu-icon ivu-icon-plus-round"><a href="http://n.immnc.com/login"></i> <span>关注</span></a></button>
+                                                    class="ivu-icon ivu-icon-plus-round"><a href="http://www.immnc.com/login"></i> <span>关注</span></a></button>
                                         </#if>
 
                                     </div>
@@ -17265,7 +17265,7 @@
                                         <li data-v-09429746="" class="news-item">
 
                                                 <a
-                                                        href="http://n.immnc.com/imgText?articleId=${textNew.articleId}"
+                                                        href="http://www.immnc.com/imgText?articleId=${textNew.articleId}"
                                                         class="router-link-active"
                                                         target="_blank"
                                                         data-v-09429746="" class="dd">
@@ -17293,7 +17293,7 @@
                                 <ul data-v-0ade2e1d="" class="img">
                                     <#list recommendImgs.getPageContent() as imgNew>
                                         <li data-v-0ade2e1d="" class="img-li"><a ></a><a
-                                                href="http://n.immnc.com/imgs?articleId=${imgNew.articleId}"
+                                                href="http://www.immnc.com/imgs?articleId=${imgNew.articleId}"
                                                 class="" target="_blank"
                                                 data-v-0ade2e1d="">
                                             <div data-v-0ade2e1d="" class="img-div"><img data-v-0ade2e1d=""
@@ -17317,7 +17317,7 @@
                                 <ul data-v-129deafd="" class="img">
                                     <#list recommendVideos.getPageContent() as videoNew>
                                         <li data-v-129deafd="" class="img-li"><a
-                                                href="http://n.immnc.com/video?articleId=${videoNew.articleId}"
+                                                href="http://www.immnc.com/video?articleId=${videoNew.articleId}"
                                                 class="" target="_blank"
                                                 data-v-129deafd="">
                                             <div data-v-129deafd="" class="img-wrapper">
@@ -17465,11 +17465,11 @@ s.parentNode.insertBefore(bp, s);</script>
 
                             var comm_html = '<div data-v-c626a16c="" class="otherComment">'+
                                     '<div data-v-c626a16c="" class="otherAvatar">'+
-                                    '<a data-v-c626a16c="" href="http://n.immnc.com/otherPersonInfo?idUser=1535964149426" class=""><img data-v-c626a16c="" src='+data.data.comment.pageContent[i].avatar+'></a>'+
+                                    '<a data-v-c626a16c="" href="http://www.immnc.com/otherPersonInfo?idUser=1535964149426" class=""><img data-v-c626a16c="" src='+data.data.comment.pageContent[i].avatar+'></a>'+
                                     '</div>'+
                                     '<div data-v-c626a16c="" class="otherUser">'+
                                     '<div data-v-c626a16c="" class="other">'+
-                                    '	<a data-v-c626a16c="" href="http://n.immnc.com/otherPersonInfo?idUser=1535964149426" class="">'+
+                                    '	<a data-v-c626a16c="" href="http://www.immnc.com/otherPersonInfo?idUser=1535964149426" class="">'+
                                     '<a data-v-c626a16c="">'+
                                     data.data.comment.pageContent[i].username+'</a>'+
                                     '</a> <span data-v-c626a16c="">'+data.data.comment.pageContent[i].time+'</span></div>'+
@@ -17477,8 +17477,8 @@ s.parentNode.insertBefore(bp, s);</script>
                                     data.data.comment.pageContent[i].commentInfo+
                                     '</div>'+
                                     '<div data-v-c626a16c="" class="foot">'+
-                                    '<a data-v-c626a16c="" class="right1" href="http://n.immnc.com/login">回复</a>'+
-                                    '<a href="http://n.immnc.com/login">'+
+                                    '<a data-v-c626a16c="" class="right1" href="http://www.immnc.com/login">回复</a>'+
+                                    '<a href="http://www.immnc.com/login">'+
                                     '<p data-v-c626a16c="" class="f-right"><span data-v-c626a16c="" class="ic">'+
                                     data.data.comment.pageContent[i].replyNum+
                                     '<i data-v-c626a16c="" class="right1 ivu-icon ivu-icon-thumbsup"></i></span>'+
@@ -17528,14 +17528,14 @@ s.parentNode.insertBefore(bp, s);</script>
                                         '<div class="ivu-card-body">'+
                                         '<div data-v-36242dd2="" class="card2Wrapper">'+
                                         '<a data-v-36242dd2="">'+
-                                        '	<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                        '	<a data-v-36242dd2="" href="http://www.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
                                         '		<div data-v-36242dd2="" class="card2-left">'+
                                         '			<img data-v-36242dd2="" src='+data.data.article.pageContent[i].img[0]+' class="card2-img"></div>'+
                                         '	</a>'+
                                         '</a>'+
                                         '<div data-v-36242dd2="" class="card2-right">'+
                                         '	<a data-v-36242dd2="">'+
-                                        '		<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                        '		<a data-v-36242dd2="" href="http://www.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
                                         '			<p data-v-36242dd2="" class="card2-title" style="width: 474px;">'+data.data.article.pageContent[i].title+'</p>'+
                                         '		</a>'+
                                         '	</a>'+
@@ -17544,14 +17544,14 @@ s.parentNode.insertBefore(bp, s);</script>
                                         '			<div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(45, 140, 240); color: rgb(45, 140, 240);">图文</div>'+
                                         '			<div data-v-786666ee="" data-v-36242dd2="" class="sort margin-right8px" style="border-color: rgb(73, 80, 96); color: rgb(73, 80, 96);">'+data.data.article.pageContent[i].sort+'</div>'+
                                         '			<p data-v-36242dd2="" class="margin-right8px width1"></p>'+
-                                        '			<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="" target="_blank">'+
+                                        '			<a data-v-36242dd2="" href="http://www.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="" target="_blank">'+
                                         '				<div data-v-6f7b468e="" data-v-36242dd2="" class="author margin-right8px"><img data-v-6f7b468e="" src='+data.data.article.pageContent[i].author.avatar+' class="avatar">'+
                                         '					<p data-v-6f7b468e="" class="name">'+data.data.article.pageContent[i].author.name+'</p>'+
                                         '				</div>'+
                                         '			</a>'+
                                         '			<span data-v-36242dd2="" class="margin-right8px">·</span>'+
                                         '			<a data-v-36242dd2="">'+
-                                        '				<a data-v-36242dd2="" href="http://n.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
+                                        '				<a data-v-36242dd2="" href="http://www.immnc.com/imgText?articleId='+data.data.article.pageContent[i].id+'" class="router-link-exact-active router-link-active" target="_blank">'+
                                         '					<div data-v-04cfc4ee="" data-v-36242dd2="" class="comment margin-right8px">'+data.data.article.pageContent[i].commentNum+'条评论</div>'+
                                         '				</a>'+
                                         '			</a>'+

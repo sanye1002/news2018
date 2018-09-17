@@ -404,8 +404,6 @@ public class HomePageController {
                                                      @RequestParam(value = "size", defaultValue = "6") Integer size,
                                                      @RequestParam(value = "time") Long time
     ){
-
-
         //文章
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByStateAndShowStateAndDraftAndTimeAfter(pageRequest,ONE,ZERO,ZERO,1,time);
