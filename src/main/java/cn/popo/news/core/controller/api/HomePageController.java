@@ -118,7 +118,7 @@ public class HomePageController {
     }
 
     //获取访问信息
-    @PostMapping("/ip")
+    /*@PostMapping("/ip")
     @ResponseBody
     public ResultVO<Map<String,Object>> getIpAndSystemAndBrowser(Map<String,Object> map,HttpServletRequest httpServletRequest){
         ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),
@@ -127,7 +127,7 @@ public class HomePageController {
         );
         StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
         return ResultVOUtil.success(map);
-    }
+    }*/
 
     //android nav
     @PostMapping("/android/nav")
@@ -426,13 +426,16 @@ public class HomePageController {
     ){
 
         List<ArticleVO> list = new ArrayList<>();
-        content.forEach(l->{
-            List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,l);
-            List<ArticleVO> temp = new ArrayList<>(articleVOList);
-            temp.retainAll(list);
-            articleVOList.removeAll(temp);
-            list.addAll(articleVOList);
-        });
+        /*content.forEach(l->{
+
+        });*/
+
+        List<ArticleVO> articleVOList = agoArticleService.findAllArticleByKeywordsLike(ONE,ZERO,ONE,content.get(0));
+        List<ArticleVO> temp = new ArrayList<>(articleVOList);
+        temp.retainAll(list);
+        articleVOList.removeAll(temp);
+        list.addAll(articleVOList);
+
         double d = size;
         double l = list.size()/d;
         Integer totalPages = (int)Math.ceil(l);
