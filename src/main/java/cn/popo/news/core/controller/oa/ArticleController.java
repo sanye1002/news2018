@@ -705,9 +705,9 @@ public class ArticleController {
 
     @ResponseBody
     @PostMapping("/add/info")
-    public ResultVO<Map<String,Object>> addInfo(){
+    public ResultVO<Map<String,Object>> addInfo(@RequestParam(value = "size") Integer size){
 
-        PageRequest pageRequest = new PageRequest(0,1000,SortTools.basicSort("desc","auditTime"));
+        PageRequest pageRequest = new PageRequest(0,size,SortTools.basicSort("desc","auditTime"));
         articleService.addInfo(pageRequest);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
