@@ -223,11 +223,11 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                         indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     }
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
-                    User user = userRepository.findOne(l.getUid());
+//                    User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
-                    author.setAvatar(user.getAvatar());
-                    author.setName(user.getNikeName());
-                    author.setUserId(user.getUserId());
+                    author.setAvatar(l.getAvatar());
+                    author.setName(l.getUsername());
+                    author.setUserId(l.getUid());
                     indexVO.setAuthor(author);
                     list.add(indexVO);
                 });
@@ -315,11 +315,11 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                         indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     }
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
-                    User user = userRepository.findOne(l.getUid());
+//                    User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
-                    author.setAvatar(user.getAvatar());
-                    author.setName(user.getNikeName());
-                    author.setUserId(user.getUserId());
+                    author.setAvatar(l.getAvatar());
+                    author.setName(l.getUsername());
+                    author.setUserId(l.getUid());
                     Collect collect = collectRepository.findAllByUidAndAid(userId,l.getArticleId());
                     if(collect!=null){
                         indexVO.setCollectId(collect.getId());
@@ -371,10 +371,11 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                         indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     }
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
-                    User user = userRepository.findOne(l.getUid());
+//                    User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
-                    author.setAvatar(user.getAvatar());
-                    author.setName(user.getNikeName());
+                    author.setAvatar(l.getAvatar());
+                    author.setName(l.getUsername());
+                    author.setUserId(l.getUid());
                     indexVO.setAuthor(author);
                     list.add(indexVO);
                 });

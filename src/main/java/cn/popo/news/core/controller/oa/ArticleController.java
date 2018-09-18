@@ -707,7 +707,8 @@ public class ArticleController {
     @PostMapping("/add/info")
     public ResultVO<Map<String,Object>> addInfo(){
 
-        articleService.addInfo();
+        PageRequest pageRequest = new PageRequest(0,1000,SortTools.basicSort("desc","auditTime"));
+        articleService.addInfo(pageRequest);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

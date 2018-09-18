@@ -104,6 +104,6 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
 
     ArticleInfo findAllByTitle(String title);
 
-    List<ArticleInfo> findAllByAvatarAndUsernameAndCommentNum(String avatar,String username,Integer commentNum);
+    List<ArticleInfo> findAllByAvatarAndUsernameAndCommentNum(Pageable pageable,String avatar,String username,Integer commentNum);
 
 }

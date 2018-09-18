@@ -882,10 +882,11 @@ public class ArticleServiceImpl implements ArticleService {
                         searchVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     }
                     searchVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getCrateTime()));
-                    User user = userRepository.findOne(l.getUid());
+//                    User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
-                    author.setAvatar(user.getAvatar());
-                    author.setName(user.getNikeName());
+                    author.setAvatar(l.getAvatar());
+                    author.setName(l.getUsername());
+                    author.setUserId(l.getUid());
                     searchVO.setAuthor(author);
                     list.add(searchVO);
                 });
@@ -921,11 +922,11 @@ public class ArticleServiceImpl implements ArticleService {
                     }
                     indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
                     indexVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time,l.getAuditTime()));
-                    User user = userRepository.findOne(l.getUid());
+//                    User user = userRepository.findOne(l.getUid());
                     Author author = new Author();
-                    author.setAvatar(user.getAvatar());
-                    author.setName(user.getNikeName());
-                    author.setUserId(user.getUserId());
+                    author.setAvatar(l.getAvatar());
+                    author.setName(l.getUsername());
+                    author.setUserId(l.getUid());
                     indexVO.setAuthor(author);
                     list.add(indexVO);
                 });
@@ -996,8 +997,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void addInfo() {
-        List<ArticleInfo> list = articleRepository.findAllByAvatarAndUsernameAndCommentNum(null, null, null);
+    public void addInfo(Pageable pageable) {
+        List<ArticleInfo> list = articleRepository.findAllByAvatarAndUsernameAndCommentNum(pageable,"", "", null);
+        System.out.println(list);
         list.forEach(l->{
             l.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
             User user = userRepository.findOne(l.getUid());
