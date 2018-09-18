@@ -873,7 +873,7 @@ public class ArticleServiceImpl implements ArticleService {
                     BeanUtils.copyProperties(l,searchVO);
                     searchVO.setArticleId(l.getArticleId());
                     searchVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                    searchVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                    searchVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         searchVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                         searchVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
@@ -912,7 +912,7 @@ public class ArticleServiceImpl implements ArticleService {
                     BeanUtils.copyProperties(l,indexVO);
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }

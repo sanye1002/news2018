@@ -217,7 +217,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     BeanUtils.copyProperties(l,indexVO);
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                         indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
@@ -257,7 +257,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     BeanUtils.copyProperties(articleInfo,indexVO);
                     indexVO.setArticleId(articleInfo.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(articleInfo.getClassifyId()).getClassify());
-                    indexVO.setCommentNum(commentRepository.findAllByAid(articleInfo.getArticleId()).size());
+//                    indexVO.setCommentNum(commentRepository.findAllByAid(articleInfo.getArticleId()).size());
                     if(articleInfo.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(articleInfo.getImgUrl()));
                     }
@@ -309,7 +309,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     }
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                         indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
@@ -365,7 +365,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     BeanUtils.copyProperties(l,indexVO);
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                         indexVO.setImgNum(SplitUtil.splitComme(l.getImgUrl()).size());
@@ -462,7 +462,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                     BeanUtils.copyProperties(l,indexVO);
                     indexVO.setArticleId(l.getArticleId());
                     indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                    indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                     if(l.getImgUrl()!=null){
                         indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                     }
@@ -530,7 +530,7 @@ public class AgoArticleServiceImpl implements AgoArticleService {
                 BeanUtils.copyProperties(l,indexVO);
                 indexVO.setArticleId(l.getArticleId());
                 indexVO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
-                indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+//                indexVO.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
                 if(l.getImgUrl()!=null){
                     indexVO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
                 }
