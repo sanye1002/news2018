@@ -51,5 +51,12 @@ public class ArticleVO implements Serializable {
 
     private Integer attentionId;
 
+    //用户名
+    private String username;
+
+    //用户头像
+    private String avatar;
+
+
 
 }

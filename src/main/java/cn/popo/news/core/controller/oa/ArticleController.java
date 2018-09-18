@@ -9,6 +9,7 @@ import cn.popo.news.core.dto.ArticleReportDTO;
 import cn.popo.news.core.dto.PageDTO;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.Classify;
+import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
 import cn.popo.news.core.enums.ResultEnum;
@@ -185,7 +186,9 @@ public class ArticleController {
     @PostMapping("/save")
     @ResponseBody
     public ResultVO<Map<String, String>> save(@Valid ArticleForm articleForm){
-
+        User user = ShiroGetSession.getUser();
+        articleForm.setAuthorName(user.getNikeName());
+        articleForm.setAuthorImg(user.getAvatar());
         String key = articleForm.getKeywords();
         String title = articleForm.getTitle();
         String content = articleForm.getContent();
@@ -696,6 +699,15 @@ public class ArticleController {
     public ResultVO<Map<String,Object>> pushAll(){
         List<ArticleInfo> list = articleService.findAllByStateAndShowStateAndDraft(1,1,0);
         PostPushUtil.pushAll(list);
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
+    @ResponseBody
+    @PostMapping("/add/info")
+    public ResultVO<Map<String,Object>> addInfo(){
+
+        articleService.addInfo();
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

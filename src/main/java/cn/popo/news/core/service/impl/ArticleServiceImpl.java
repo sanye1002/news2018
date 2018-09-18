@@ -98,6 +98,9 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setShowState(ResultEnum.PARAM_NULL.getCode());
             articleInfo.setManageId(ResultEnum.SUCCESS.getCode());
             articleInfo.setCrateTime(System.currentTimeMillis());
+            articleInfo.setUsername(articleForm.getAuthorName());
+            articleInfo.setAvatar(articleForm.getAuthorImg());
+            articleInfo.setCommentNum(0);
             articleInfo.setRecommendState(0);
             articleInfo.setSlideState(0);
             articleInfo.setLookNum(0);
@@ -990,6 +993,17 @@ public class ArticleServiceImpl implements ArticleService {
     public String findUidByArticleId(String articleId) {
         ArticleInfo articleInfo = articleRepository.findAllByArticleId(articleId);
         return articleInfo.getUid();
+    }
+
+    @Override
+    public void addInfo() {
+        List<ArticleInfo> list = articleRepository.findAllByAvatarAndUsernameAndCommentNum(null, null, null);
+        list.forEach(l->{
+            l.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
+            User user = userRepository.findOne(l.getUid());
+            l.setAvatar(user.getAvatar());
+            l.setUsername(user.getNikeName());
+        });
     }
 
 

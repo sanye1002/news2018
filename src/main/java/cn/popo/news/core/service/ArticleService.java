@@ -91,5 +91,7 @@ public interface ArticleService {
 
     String findUidByArticleId(String articleId);
 
+    void addInfo();
+
 
 }

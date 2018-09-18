@@ -126,6 +126,13 @@ public class ArticleInfo implements Serializable{
      */
     private Integer praiseNum;
 
+    //用户名
+    private String username;
 
+    //用户头像
+    private String avatar;
+
+    //评论数量
+    private Integer commentNum;
 
 }
