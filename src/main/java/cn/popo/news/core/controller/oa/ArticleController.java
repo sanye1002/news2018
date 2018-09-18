@@ -708,8 +708,9 @@ public class ArticleController {
     public ResultVO<Map<String,Object>> addInfo(@RequestParam(value = "size") Integer size){
 
         PageRequest pageRequest = new PageRequest(0,size,SortTools.basicSort("desc","auditTime"));
-        articleService.addInfo(pageRequest);
+        Integer integer = articleService.addInfo(pageRequest);
         Map<String,Object> map  = new HashMap<>();
+        map.put("成功数量",integer);
         return ResultVOUtil.success(map);
     }
 

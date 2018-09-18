@@ -91,7 +91,7 @@ public interface ArticleService {
 
     String findUidByArticleId(String articleId);
 
-    void addInfo(Pageable pageable);
+    Integer addInfo(Pageable pageable);
 
 
 }

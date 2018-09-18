@@ -997,15 +997,17 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void addInfo(Pageable pageable) {
-        List<ArticleInfo> list = articleRepository.findAllByAvatarAndUsernameAndCommentNum(pageable,"", "", null);
-        System.out.println(list);
+    public Integer addInfo(Pageable pageable) {
+        List<ArticleInfo> list = articleRepository.findAllByAvatarAndUsernameAndCommentNum(pageable,null, null, null);
+
         list.forEach(l->{
             l.setCommentNum(commentRepository.findAllByAid(l.getArticleId()).size());
             User user = userRepository.findOne(l.getUid());
             l.setAvatar(user.getAvatar());
             l.setUsername(user.getNikeName());
         });
+
+        return list.size();
     }
 
 
