@@ -100,7 +100,12 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setCrateTime(System.currentTimeMillis());
             articleInfo.setUsername(articleForm.getAuthorName());
             articleInfo.setAvatar(articleForm.getAuthorImg());
-            articleInfo.setCommentNum(0);
+            if (articleForm.getCommentNum()!=null){
+                articleInfo.setCommentNum(articleForm.getCommentNum());
+            }else {
+                articleInfo.setCommentNum(0);
+            }
+
             articleInfo.setRecommendState(0);
             articleInfo.setSlideState(0);
             articleInfo.setLookNum(0);

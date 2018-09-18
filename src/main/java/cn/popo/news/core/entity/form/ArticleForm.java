@@ -40,6 +40,8 @@ public class ArticleForm {
 
     private Integer isOwn;
 
+    private Integer commentNum;
+
     private String authorImg;
 
     private String authorName;

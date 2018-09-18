@@ -130,6 +130,7 @@ public class test {
                         }
                         String id = KeyUtil.genUniqueKey();
                         l.setArticleId(id);
+                        l.setCommentNum(l.getCommentName().size());
                         articleService.articleSave(l);
                         Integer cj = l.getCommentName().size() - l.getCommentImg().size();
                         if (cj>0){
