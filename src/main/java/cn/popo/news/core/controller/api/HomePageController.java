@@ -118,7 +118,7 @@ public class HomePageController {
     }
 
     //获取访问信息
-    @PostMapping("/ip")
+    /*@PostMapping("/ip")
     @ResponseBody
     public ResultVO<Map<String,Object>> getIpAndSystemAndBrowser(Map<String,Object> map,HttpServletRequest httpServletRequest){
         ipStatisticsService.saveIP(ToolUtil.getClientIp(httpServletRequest),
@@ -127,7 +127,7 @@ public class HomePageController {
         );
         StatisticsInfoGetUtil.getSystemAndBrowser(httpServletRequest);
         return ResultVOUtil.success(map);
-    }
+    }*/
 
     //android nav
     @PostMapping("/android/nav")
