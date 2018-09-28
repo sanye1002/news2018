@@ -286,10 +286,10 @@
 
                         // $('#imgShow').append('<img src="' + res.data.src + '" alt="' + res.data.src + '" class="layui-upload-img">')
                         if (article.smallImg == "") {
-                            article.smallImg = 'https://p0.cdrysj.com/po' + res.data.src;
+                            article.smallImg = res.data.src;
 
                         } else {
-                            article.smallImg = article.smallImg + "," + 'https://p0.cdrysj.com/po' + res.data.src;
+                            article.smallImg = article.smallImg + "," + res.data.src;
                         }
                         return layer.msg(res.message);
                     }
