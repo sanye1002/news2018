@@ -2,6 +2,7 @@ package cn.popo.news.core.service.impl;
 
 import cn.popo.news.common.constant.UrlConstant;
 import cn.popo.news.common.utils.KeyWordFilter;
+import cn.popo.news.common.utils.PostPushUtil;
 import cn.popo.news.common.utils.WordParticipleUtil;
 import cn.popo.news.core.dto.ArticleDTO;
 import cn.popo.news.core.dto.ArticleReportDTO;
@@ -117,6 +118,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleInfo.setLookNum(new Random().nextInt(450)+50);
                 articleInfo.setState(1);
                 articleInfo.setUid(articleForm.getUid());
+                PostPushUtil.push(articleForm.getTypeId(),articleForm.getArticleId());
             }
             articleRepository.save(articleInfo);
         }

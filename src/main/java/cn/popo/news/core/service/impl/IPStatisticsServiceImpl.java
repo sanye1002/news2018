@@ -84,8 +84,6 @@ public class IPStatisticsServiceImpl implements IPStatisticsService {
             ipTimeRepository.save(ipTime);
             ipStatisticsRepository.save(ipStatistics);
         }
-
-
     }
 
     /**
