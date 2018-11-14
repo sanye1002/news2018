@@ -301,9 +301,9 @@ public class ArticleController {
         }
 
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndType(pageRequest,state,type,classifyId);
-        Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode(),classifyId,type);
-        Integer pass = articleService.findStateNum(ResultEnum.PARAM_NULL.getCode(),classifyId,type);
-        Integer noAudit = articleService.findStateNum(ResultEnum.PLATFORM_BOOS_NULL.getCode(),classifyId,type);
+//        Integer noPass = articleService.findStateNum(ResultEnum.SUCCESS.getCode(),classifyId,type);
+//        Integer pass = articleService.findStateNum(ResultEnum.PARAM_NULL.getCode(),classifyId,type);
+//        Integer noAudit = articleService.findStateNum(ResultEnum.PLATFORM_BOOS_NULL.getCode(),classifyId,type);
         List<Classify> list = classifyService.findAllClassify();
         map.put("classify",list);
         map.put("classifyId",classifyId);
@@ -312,9 +312,9 @@ public class ArticleController {
         map.put("pageContent", pageDTO);
         map.put("url", "/oa/article/auditlist.html");
         map.put("size", size);
-        map.put("pass", pass);
-        map.put("noPass", noPass);
-        map.put("noAudit",noAudit);
+        map.put("pass", 0);
+        map.put("noPass", 0);
+        map.put("noAudit",0);
         map.put("currentPage", page);
         return new ModelAndView("pages/article-audit-list",map);
     }
@@ -484,8 +484,8 @@ public class ArticleController {
         map.put("pageTitle","文章管理");
         PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","auditTime"));
         PageDTO<ArticleDTO> pageDTO = articleService.findAllArticleDTOByStateAndTypeAndSid(pageRequest,state,type,manageId,classifyId,position);
-        Integer passNum = articleService.findStateAndSidNum(state,ResultEnum.SUCCESS.getCode(),classifyId,type,position);
-        Integer onNum = articleService.findStateAndSidNum(state,ResultEnum.PARAM_NULL.getCode(),classifyId,type,position);
+//        Integer passNum = articleService.findStateAndSidNum(state,ResultEnum.SUCCESS.getCode(),classifyId,type,position);
+//        Integer onNum = articleService.findStateAndSidNum(state,ResultEnum.PARAM_NULL.getCode(),classifyId,type,position);
         List<Classify> list = classifyService.findAllClassify();
         map.put("classify",list);
         map.put("classifyId",classifyId);
@@ -496,8 +496,8 @@ public class ArticleController {
         map.put("url", "/oa/article/managelist.html");
         map.put("size", size);
         map.put("manageId",manageId);
-        map.put("passNum",passNum);
-        map.put("onNum",onNum);
+        map.put("passNum",0);
+        map.put("onNum",0);
         map.put("currentPage", page);
         return new ModelAndView("pages/article-manage-list",map);
     }
@@ -584,8 +584,8 @@ public class ArticleController {
 
 
 
-        Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),type,classifyId);
-        Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode(),type,classifyId);
+//        Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),type,classifyId);
+//        Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode(),type,classifyId);
         List<Classify> list = classifyService.findAllClassify();
         map.put("classify",list);
         map.put("classifyId",classifyId);
@@ -594,8 +594,8 @@ public class ArticleController {
         map.put("pageContent", pageDTO);
         map.put("url", "/oa/article/showlist.html");
         map.put("size", size);
-        map.put("showY", showY);
-        map.put("showN", showN);
+        map.put("showY", 0);
+        map.put("showN", 0);
         map.put("content",content);
         map.put("showState",showState);
         map.put("currentPage", page);

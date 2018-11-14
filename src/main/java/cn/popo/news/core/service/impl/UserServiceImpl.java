@@ -1,13 +1,16 @@
 package cn.popo.news.core.service.impl;
 
 import cn.popo.news.core.dto.AuthorDTO;
+import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.UserForm;
 import cn.popo.news.core.repository.UserRepository;
+import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.UserService;
 import cn.popo.news.core.utils.Encrypt;
 import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.KeyUtil;
+import cn.popo.news.core.utils.PrefListUtil;
 import org.apache.poi.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -26,11 +29,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * @Author  Administrator
- * @Date    2018/5/29 14:17
- * @Desc    用户-逻辑控制中心
+ * @Author Administrator
+ * @Date 2018/5/29 14:17
+ * @Desc 用户-逻辑控制中心
  */
 
 @Service
@@ -38,7 +42,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private ClassifyService classifyService;
 
     /**
      * 查找用户根据状态等
@@ -72,8 +77,14 @@ public class UserServiceImpl implements UserService {
             user.setUserType("0");
             user.setCreateDate(GetTimeUtil.getTime());
             user.setUpdateDate(GetTimeUtil.getTime());
-        }
+            List<Classify> classifies = classifyService.findAllClassify();
+            if (!classifies.isEmpty()) {
+                user.setPrefList(PrefListUtil.set(classifies.stream().map(e ->
+                        e.getId()
+                ).collect(Collectors.toList())));
+            }
 
+        }
 
 
         userRepository.save(user);
@@ -89,17 +100,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *
      * @param phone
      * @return
      */
     @Override
     public User findByPhoneAndStatus(String phone) {
-        User user = userRepository.findByPhoneAndStatus(phone,1);
-        if (user==null){
+        User user = userRepository.findByPhoneAndStatus(phone, 1);
+        if (user == null) {
             return null;
-        }else{
-            return  user;
+        } else {
+            return user;
         }
 
 
@@ -109,13 +119,13 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> login(HttpServletRequest request, String phone, String password) {
         Map<String, Object> map = new HashMap<>();
 
-        User userInfo = userRepository.findByPhoneAndStatus(phone,1);
+        User userInfo = userRepository.findByPhoneAndStatus(phone, 1);
         if (userInfo == null) {
             map.put("code", 100);
             map.put("message", "用户名不存在");
             return map;
         }
-        if(!userInfo.getUserType().equals("0")){
+        if (!userInfo.getUserType().equals("0")) {
             map.put("code", 100);
             map.put("message", "无权限访问~");
             return map;
@@ -185,16 +195,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询所有作者
+     *
      * @return
      */
     @Override
     public List<AuthorDTO> findAllAuthor() {
         List<User> user = userRepository.findAllByRoleId(4);
         List<AuthorDTO> list = new ArrayList<>();
-        if (!user.isEmpty()){
-            user.forEach(l->{
+        if (!user.isEmpty()) {
+            user.forEach(l -> {
                 AuthorDTO authorDTO = new AuthorDTO();
-                BeanUtils.copyProperties(l,authorDTO);
+                BeanUtils.copyProperties(l, authorDTO);
                 list.add(authorDTO);
             });
         }

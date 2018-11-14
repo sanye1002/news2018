@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author  Administrator
@@ -134,5 +135,6 @@ public class ArticleInfo implements Serializable{
 
     //评论数量
     private Integer commentNum;
+    private Date newsTime = new Date();
 
 }

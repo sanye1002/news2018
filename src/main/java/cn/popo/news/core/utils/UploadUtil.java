@@ -69,15 +69,15 @@ public class UploadUtil {
                 Thumbnails.of(saveFile.getAbsolutePath()).scale(1f).outputQuality(0.5f).toFile(saveFile.getAbsolutePath());
             }*/
             //打水印
-            if (!type.equals("user")||!type.equals("userDynamic")){
-                WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
-            }
+//            if (!type.equals("user")||!type.equals("userDynamic")){
+//                WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
+//            }
             try {
-                new QiniuUpload().uploadFile(saveFile,"po/read/img/" + type + "/" + fileName);
+                new QiniuUpload().uploadFile(saveFile, "po/read/img/" + type + "/" + fileName);
             } catch (IOException e) {
                 log.info("【上传】={}", "error");
             }
-            if(type.equals("user")){
+            if (type.equals("user")) {
                 return "https://p0.cdrysj.com/po/read/img/" + type + "/" + fileName;
             }
             return "/read/img/" + type + "/" + fileName;
@@ -126,9 +126,10 @@ public class UploadUtil {
             map.put("message", "视频上传成功！");
             map.put("videoPath", "/read/mp4/" + userId + "/" + fileName);
             try {
-                new QiniuUpload().uploadFile(saveFile,"po/read/mp4/" + userId + "/" + fileName);
+                new QiniuUpload().uploadFile(saveFile, "po/read/mp4/" + userId + "/" + fileName);
             } catch (IOException e) {
                 log.info("【视频上传】={}", "error");
+                e.printStackTrace();
             }
             return map;
 
@@ -190,12 +191,12 @@ public class UploadUtil {
         try {
             file.transferTo(saveFile);
 
-            if (!type.equals("user")){
-                WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(),saveFile.getAbsolutePath(),uploadConfig.getWaterMarkPath());
+            if (!type.equals("user")) {
+                WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(), saveFile.getAbsolutePath(), uploadConfig.getWaterMarkPath());
             }
 
             try {
-                new QiniuUpload().uploadFile(saveFile,"po/read/img/" + type + "/" + fileName);
+                new QiniuUpload().uploadFile(saveFile, "po/read/img/" + type + "/" + fileName);
             } catch (IOException e) {
                 log.info("【上传】={}", "error");
             }

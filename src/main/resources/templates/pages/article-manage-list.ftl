@@ -57,7 +57,7 @@
                             <div class="header bordered-sky">
                             ${pageTitle}
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="checkbox" id="type">
                                         <span>类型：</span>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <#if manageId == 1>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="checkbox" id="special">
                                             <span>板块：</span>
@@ -114,9 +114,9 @@
                                 <div class="form-group">
                                     <select id="selectType">
                                         <option value="1" <#if manageId==1>selected</#if> >已安排 <span
-                                                class="badge">${onNum}</span></option>
+                                                class="badge"></span></option>
                                         <option value="0" <#if manageId==0>selected</#if> >未安排 <span
-                                                class="badge">${passNum}</span></option>
+                                                class="badge"></span></option>
                                     </select>
                                 </div>
                             </div>

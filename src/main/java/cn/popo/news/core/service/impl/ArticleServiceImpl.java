@@ -948,12 +948,12 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 添加默认时间
      */
-    @Autowired
+
     public void addDefaultAuditTime(){
-        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndShowStateAndDraft(1,1,0);
-        articleInfoList.forEach(l->{
-            l.setAuditTime(System.currentTimeMillis());
-        });
+//        List<ArticleInfo> articleInfoList = articleRepository.findAllByStateAndShowStateAndDraft(1,1,0);
+//        articleInfoList.forEach(l->{
+//            l.setAuditTime(System.currentTimeMillis());
+//        });
     }
 
     /**

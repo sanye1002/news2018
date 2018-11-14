@@ -77,7 +77,7 @@
                                 </div>
                                 <div style="clear: both;"></div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="checkbox" id="type">
                                         <span>类型：</span>
@@ -110,9 +110,9 @@
                                 <div class="form-group">
                                     <select id="selectType">
                                         <option value="1" <#if showState==1>selected</#if> >已展示 <span
-                                                class="badge">${showY}</span></option>
+                                                class="badge"></span></option>
                                         <option value="0" <#if showState==0>selected</#if> >未展示 <span
-                                                class="badge">${showN}</span></option>
+                                                class="badge"></span></option>
                                     </select>
                                 </div>
 

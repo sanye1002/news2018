@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="checkbox" id="type">
                                         <span>类型：</span>
@@ -113,11 +113,11 @@
                                 <div class="form-group">
                                     <select id="selectType">
                                         <option value="1" <#if state==1>selected</#if> >已通过 <span
-                                                class="badge">${pass}</span></option>
+                                                class="badge"></span></option>
                                         <option value="0" <#if state==0>selected</#if> >未通过 <span
-                                                class="badge">${noPass}</span></option>
+                                                class="badge"></span></option>
                                         <option value="2" <#if state==2>selected</#if> >待审核 <span
-                                                class="badge">${noAudit}</span></option>
+                                                class="badge"></span></option>
                                     </select>
                                 </div>
                             </div>

@@ -2,6 +2,7 @@ package cn.popo.news.core.entity.common;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -114,5 +115,7 @@ public class User implements Serializable {
 
     //vip等级
     private Integer vip;
+    @Column(columnDefinition = "TEXT")
+    private String prefList;
 
 }
