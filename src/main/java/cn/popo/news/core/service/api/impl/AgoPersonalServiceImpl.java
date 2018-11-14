@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Transactional
@@ -244,7 +245,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
      * 通信保存
      */
     @Override
-    public void saveCommunication(String uid, String userId, String sendMessage) {
+    public void saveCommunication(String uid, String userId, String sendMessage,Integer state) {
         PrivateLetter privateLetter = new PrivateLetter();
 //        privateLetter.setId(KeyUtil.genUniqueKey());
         privateLetter.setTime(System.currentTimeMillis());
@@ -252,7 +253,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         privateLetter.setUserId(userId);
         privateLetter.setSendMessage(sendMessage);
         privateLetter.setId(KeyUtil.genUniqueKey());
-        privateLetter.setState(0);
+        privateLetter.setState(state);
         privateLetterRepository.save(privateLetter);
 
     }
@@ -281,7 +282,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
             }
         }
 
-
+        Collections.reverse(list);
         pageDTO.setPageContent(list);
 
         return pageDTO;

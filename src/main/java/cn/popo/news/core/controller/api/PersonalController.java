@@ -478,7 +478,7 @@ public class PersonalController {
 
         if (userSessionUtil.verifyLoginStatus(request, response)) {
             String userId = userSessionUtil.getUserByCookie(request, response).getUserId();
-            agoPersonalService.saveCommunication(uid, userId, sendMessage);
+            agoPersonalService.saveCommunication(uid, userId, sendMessage,0);
         } else {
             return ResultVOUtil.error(3, "用户失效");
         }
@@ -505,7 +505,7 @@ public class PersonalController {
         }
         String userId = userSessionUtil.getUserByCookie(request, response).getUserId();
         agoPersonalService.updateCommunicationLookState(uid, userId);
-        PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("asc", "time"));
+        PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("desc", "time"));
         PageDTO<PrivateLetterVO> pageDTO = agoPersonalService.findUserCommunication(pageRequest, uid, userId);
         pageDTO.setCurrentPage(page);
         map.put("chatMessages", pageDTO);

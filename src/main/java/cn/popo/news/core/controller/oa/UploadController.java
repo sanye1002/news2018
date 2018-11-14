@@ -11,10 +11,7 @@ import cn.popo.news.core.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +47,7 @@ public class UploadController {
 
         log.info("path={}", uploadConfig.getPath() + File.separator + type);
 
+        System.out.println(file+"1111");
         String src = uploadUtil.uploadFile(file, path, type);
         if (src != null) {
             map.put("src", src);

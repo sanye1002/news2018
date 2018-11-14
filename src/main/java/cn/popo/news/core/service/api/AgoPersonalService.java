@@ -27,7 +27,7 @@ public interface AgoPersonalService {
 
     PageDTO<Author> findUserByUserTypeAndNickNameLike(Pageable pageable, String userType, String content);
 
-    void saveCommunication(String uid,String userId,String sendMessage);
+    void saveCommunication(String uid,String userId,String sendMessage,Integer state);
 
     PageDTO<PrivateLetterVO> findUserCommunication(Pageable pageable,String uid,String userId);
 
