@@ -5,7 +5,7 @@
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="icon" href="/images/web_logo.ico" type="image/x-icon">
+    <link rel="icon" href="/images/immnc-ico.ico" type="image/x-icon">
     <!--Basic Styles-->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/font-awesome.min.css" rel="stylesheet"/>
