@@ -59,7 +59,7 @@
 
 
     <@shiro.hasPermission name="articleManage:tag">
-        <li <#if pageId==102||pageId==103>class="open" </#if>>
+        <li <#if pageId==102||pageId==103||pageId==1012>class="open" </#if>>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-align-right"></i>
                 <span class="menu-text">文章处理</span>
@@ -81,6 +81,11 @@
                         <span class="menu-text">特殊板块文章展示</span>
                     </a>
                 </li>
+               <li <#if pageId==1012>class="active" </#if>>
+                   <a href="/oa/article/top/list.html" class="menu-dropdown">
+                       <span class="menu-text">文章顶置</span>
+                   </a>
+               </li>
             </ul>
         </li>
     </@shiro.hasPermission>

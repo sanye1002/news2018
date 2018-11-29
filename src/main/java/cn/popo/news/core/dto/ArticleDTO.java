@@ -122,5 +122,9 @@ public class ArticleDTO {
 
     private String auditTime;
 
+    private Integer topState;
+
+    private Integer topSort;
+
 
 }

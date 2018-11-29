@@ -7,10 +7,10 @@ import cn.popo.news.core.entity.form.UserForm;
 import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.ClassifyService;
 import cn.popo.news.core.service.UserService;
-import cn.popo.news.core.utils.Encrypt;
-import cn.popo.news.core.utils.GetTimeUtil;
-import cn.popo.news.core.utils.KeyUtil;
-import cn.popo.news.core.utils.PrefListUtil;
+import cn.popo.news.core.service.api.RegisterLoginService;
+import cn.popo.news.core.service.api.impl.RegisterLoginServiceImpl;
+import cn.popo.news.core.utils.*;
+import cn.popo.news.core.vo.ResultVO;
 import org.apache.poi.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ClassifyService classifyService;
+    @Autowired
+    private RegisterLoginServiceImpl registerLoginService;
 
     /**
      * 查找用户根据状态等
@@ -185,7 +188,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> map = new HashMap<>();
         if (userInfoList.isEmpty()) {
             map.put("code", 0);
-            map.put("message", "手机号码可以使用！");
+            map.put("message", "手机 号码可以使用！");
             return map;
         }
         map.put("code", 100);
@@ -211,6 +214,73 @@ public class UserServiceImpl implements UserService {
         }
         return list;
     }
+
+    /**
+     * 查找是否有该qq的用户
+     * @param openID
+     * @return
+     */
+    @Override
+    public ResultVO<Map<String, Object>> findUserByQQ(String openID, String name,String avatar, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        User user = userRepository.findByQqOpenID(openID);
+        System.out.println(user);
+        if (user==null){
+            //type=1,表示qq用户
+            user = registerUserInfo(openID,name,avatar,response,1);
+        }
+        map.put("message", "登录成功");
+        map.put("userVO", registerLoginService.setUserRedisSessionTokenAndCookieSession(response, user));
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 查找是否有该微信的用户
+     * @param weChatOpenId
+     * @param name
+     * @param avatar
+     * @param response
+     * @return
+     */
+    @Override
+    public ResultVO<Map<String, Object>> findUserByWeChatId(String weChatOpenId, String name, String avatar, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        User user = userRepository.findByWeChatOpenID(weChatOpenId);
+        System.out.println(user);
+        if (user==null){
+            //type=1,表示微信用户
+            user = registerUserInfo(weChatOpenId,name,avatar,response,2);
+        }
+        map.put("message", "登录成功");
+        map.put("userVO", registerLoginService.setUserRedisSessionTokenAndCookieSession(response, user));
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 注册qq用户
+     */
+    @Override
+    public User registerUserInfo(String openID,String name,String avatar,HttpServletResponse response,Integer type) {
+        User user = new User();
+        if(type==1){
+            user.setQqOpenID(openID);
+        }else {
+            user.setWeChatOpenID(openID);
+        }
+        user.setNikeName(name);
+        user.setName(name);
+        user.setAvatar("");
+        user.setCreateDate(GetTimeUtil.getTime());
+        user.setAvatar(avatar);
+        user.setUpdateDate(GetTimeUtil.getTime());
+        user.setUserType("1");
+        user.setUserId(KeyUtil.genUniqueKey());
+        user.setStatus(1);
+        User userParam = userRepository.save(user);
+        return userParam;
+    }
+
+
 
 
 }

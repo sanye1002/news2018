@@ -603,6 +603,57 @@ public class ArticleController {
     }
 
     /**
+     * 文章前台显示否
+     */
+    @GetMapping("/top/list")
+    @RequiresPermissions("articleTop:list")
+    public ModelAndView listTop(Map<String,Object> map,
+                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                 @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                 @RequestParam(value = "state", defaultValue = "1") Integer state,
+                                 @RequestParam(value = "type", defaultValue = "0") Integer type,
+                                 @RequestParam(value = "topState", defaultValue = "1") Integer topState,
+                                 @RequestParam(value = "classifyId", defaultValue = "0") Integer classifyId,
+                                 @RequestParam(value = "content", defaultValue = "") String content
+    ){
+        map.put("pageId",1012);
+        map.put("pageTitle","文章顶置");
+        Integer showState = 1;
+        if(topState==1){
+            showState = 2;
+        }else {
+            showState = 1;
+        }
+        PageRequest pageRequest = new PageRequest(page-1,size,SortTools.basicSort("desc","topSort"));
+        PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
+        if ("".equals(content)){
+            pageDTO = articleService.findAllArticleTop(pageRequest,topState,showState);
+        }else {
+            pageDTO = articleService.findAllByTitleOrkeywordsOrClassifyLikeAndStateAndType(pageRequest,"title",content,0,1);
+        }
+
+
+
+//        Integer showY = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.PARAM_NULL.getCode(),type,classifyId);
+//        Integer showN = articleService.findStateAndShowNum(ResultEnum.PARAM_NULL.getCode(),ResultEnum.SUCCESS.getCode(),type,classifyId);
+        List<Classify> list = classifyService.findAllClassify();
+        map.put("classify",list);
+        map.put("classifyId",classifyId);
+        map.put("state", state);
+        map.put("type",type);
+        map.put("pageContent", pageDTO);
+        map.put("url", "/oa/article/top/list.html");
+        map.put("size", size);
+        map.put("showY", 0);
+        map.put("showN", 0);
+        map.put("content",content);
+        map.put("topState",topState);
+        map.put("showState",showState);
+        map.put("currentPage", page);
+        return new ModelAndView("pages/article-top-list",map);
+    }
+
+    /**
      * 展示状态改变
      */
     @PostMapping("/show")
@@ -611,6 +662,38 @@ public class ArticleController {
                                                       @RequestParam(value = "showState") Integer showState
     ){
         articleService.updateArticleShow(articleId,showState);
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 改变排序
+     */
+    @PostMapping("/sort")
+    @ResponseBody
+    public ResultVO<Map<String, String>>articleSort(@RequestParam(value = "articleId") String articleId,
+                                                    @RequestParam(value = "sort") Integer sort
+    ){
+        articleService.updateArticleSort(articleId,sort);
+        Map<String,Object> map  = new HashMap<>();
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 展示状态改变
+     */
+    @PostMapping("/top")
+    @ResponseBody
+    public ResultVO<Map<String, String>>articleTop(@RequestParam(value = "articleId") String articleId,
+                                                    @RequestParam(value = "topState") Integer topState
+    ){
+        Integer showState = 1;
+        if(topState==1){
+            showState = 2;
+        }else {
+            showState = 1;
+        }
+        articleService.updateArticleTop(articleId,showState,topState);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }

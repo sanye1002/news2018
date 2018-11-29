@@ -3,10 +3,12 @@ package cn.popo.news.core.service;
 import cn.popo.news.core.dto.AuthorDTO;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.UserForm;
+import cn.popo.news.core.vo.ResultVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +37,11 @@ public interface UserService {
     Map<String, Object> findAllByPhone(String phone);
 
     List<AuthorDTO> findAllAuthor();
+
+    ResultVO<Map<String, Object>> findUserByQQ(String openID, String name,String avatar, HttpServletResponse response);
+
+    User registerUserInfo(String openID,String name,String avatar,HttpServletResponse response,Integer type);
+
+    ResultVO<Map<String, Object>> findUserByWeChatId(String weChatOpenId,String name,String avatar,HttpServletResponse response);
 
 }

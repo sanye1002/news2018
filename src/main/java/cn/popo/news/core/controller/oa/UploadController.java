@@ -72,6 +72,22 @@ public class UploadController {
 
     }
 
+    @PostMapping("/mp3/{userId}")
+    private ResultVO<Map<String, Object>> uploadMp3(HttpServletRequest request,
+                                                    @PathVariable String userId,
+                                                    MultipartFile file) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+
+        String path = uploadConfig.getPath() + File.separator + "mp3"+ File.separator + userId;
+
+        log.info("path={}", uploadConfig.getPath() + File.separator + userId);
+        log.info("【可执行文件路径】={}",ffmpegConfig.getExePath());
+        map = UploadUtil.builder().build().uploadAudio(file,nginxConfig.getStatic_url(), path, userId);
+        return ResultVOUtil.success(map);
+
+    }
+
+
     @PostMapping("article/img/{type}")
     private ResultVO<Map<String, String>> uploadArticleImg(HttpServletRequest request,
                                                      @PathVariable String type,
