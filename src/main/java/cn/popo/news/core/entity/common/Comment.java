@@ -49,5 +49,9 @@ public class Comment {
      */
     private Integer showState;
 
+    private String nickName;
+
+    private String avatar;
+
 
 }

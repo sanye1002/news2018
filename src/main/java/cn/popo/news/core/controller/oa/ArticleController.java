@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -508,6 +509,7 @@ public class ArticleController {
      */
     @PostMapping("/recomment")
     @ResponseBody
+    @CacheEvict(cacheNames = "news",key = "#typeId")
     public ResultVO<Map<String, String>> articleManage(
             @RequestParam(value = "articleId") String articleId,
             @RequestParam(value = "typeId") Integer typeId
@@ -524,6 +526,7 @@ public class ArticleController {
      */
     @PostMapping("/slide")
     @ResponseBody
+    @CacheEvict(cacheNames = "news",key = "1000")
     public ResultVO<Map<String, String>> articleSlide(@RequestParam(value = "articleId") String articleId
     ){
         Map<String,Object> map  = new HashMap<>();

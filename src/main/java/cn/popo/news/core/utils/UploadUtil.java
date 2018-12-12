@@ -152,14 +152,14 @@ public class UploadUtil {
             dir.mkdirs();
         }
         log.info("【音频类型】={}", file.getContentType());
-        if (!file.getContentType().equals("audio/mp3")) {
+        if (!file.getContentType().equals("audio/amr")) {
             map.put("code", 100);
             map.put("message", "请选择MP3格式音频");
             return map;
         }
         //上传视频名
         //String fileName = KeyUtil.genUniqueKey() + file.getOriginalFilename();
-        String fileName = KeyUtil.genUniqueKey() + ".MP3";
+        String fileName = KeyUtil.genUniqueKey() + ".amr";
         //保存视频
         File saveFile = new File(path + File.separator + fileName);
 
@@ -168,9 +168,9 @@ public class UploadUtil {
             log.info("fileName={}", fileName);
             map.put("code", 0);
             map.put("message", "音频上传成功！");
-            map.put("videoPath", "/read/mp3/" + userId + "/" + fileName);
+            map.put("videoPath", "/read/amr/" + userId + "/" + fileName);
             try {
-                new QiniuUpload().uploadFile(saveFile, "po/read/mp3/" + userId + "/" + fileName);
+                new QiniuUpload().uploadFile(saveFile, "po/read/amr/" + userId + "/" + fileName);
             } catch (IOException e) {
                 log.info("【音频上传】={}", "error");
                 e.printStackTrace();

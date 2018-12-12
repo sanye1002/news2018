@@ -11,6 +11,7 @@ import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.ArticleReport;
+import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
@@ -102,6 +103,10 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setCrateTime(System.currentTimeMillis());
             articleInfo.setUsername(articleForm.getAuthorName());
             articleInfo.setAvatar(articleForm.getAuthorImg());
+            articleInfo.setTopState(0);
+            articleInfo.setTopSort(0);
+            Classify classify = classifyRepository.findOne(articleForm.getClassifyId());
+            articleInfo.setClassifyName(classify.getClassify());
             if (articleForm.getCommentNum()!=null){
                 articleInfo.setCommentNum(articleForm.getCommentNum());
             }else {

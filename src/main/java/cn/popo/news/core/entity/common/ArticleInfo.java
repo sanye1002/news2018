@@ -143,4 +143,10 @@ public class ArticleInfo implements Serializable{
     //顶置排序
     private Integer topSort;
 
+    //分类名称
+    private String classifyName;
+
+    //文章搜索数量
+    private Integer searchNum=0;
+
 }

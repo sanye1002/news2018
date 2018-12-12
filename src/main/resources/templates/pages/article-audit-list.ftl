@@ -421,7 +421,7 @@
     function changeAudit(articleId, state,type) {
         var resultType = $("#type input[type=checkbox]:checked").val()
         if (state == 1) {
-            layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function (text) {
+            layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function (text,index) {
                 if (parseInt(text) == text) {
                     $.post(
                             "/oa/article/audit",
@@ -434,13 +434,15 @@
                             },
                             function (data) {
                                 if (data.code == 0) {
+                                    layer.close(index);
                                     layer.msg(data.message);
-                                    setTimeout(function () {
+                                    $("#"+articleId).remove();
+                                    /*setTimeout(function () {
                                         // location = "/oa/article/auditlist?type="+resultType
                                         var url = window.location.pathname;
                                         var search = window.location.search;
                                         location = url + search
-                                    }, 100)
+                                    }, 100)*/
                                 }
                                 if (data.code > 0) {
                                     layer.msg(data.message);
@@ -466,11 +468,12 @@
                     function (data) {
                         if (data.code == 0) {
                             layer.msg(data.message);
-                            setTimeout(function () {
+                            $("#"+articleId).remove();
+                            /*setTimeout(function () {
                                 var url = window.location.pathname;
                                 var search = window.location.search;
                                 location = url + search
-                            }, 100)
+                            }, 100)*/
                         }
                         if (data.code > 0) {
                             layer.msg(data.message);

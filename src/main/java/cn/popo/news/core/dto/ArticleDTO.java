@@ -126,5 +126,7 @@ public class ArticleDTO {
 
     private Integer topSort;
 
+    private String classifyName;
+
 
 }
