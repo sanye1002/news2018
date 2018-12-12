@@ -114,10 +114,7 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
     @Override
     public ResultVO<Map<String, Object>> loginByPhoneAndCode(HttpServletRequest request, HttpServletResponse response, String phone, String code) {
         Map<String, Object> map = new HashMap<>();
-        HttpSession session = request.getSession();
-        String messageCode = (String) session.getAttribute("code");
-        if (messageCode.equals(code)) {
-            session.removeAttribute("code");
+        if (checkCode(request,code)) {
             User user = userRepository.findByPhoneAndStatus(phone, 1);
             if (user == null) {
                 return ResultVOUtil.error(100, "查无用户");
@@ -149,6 +146,8 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
         }
         Integer code = RandomUtils.getRandom4Font();
         if (SendMessageUtil.sendCodeMessage(phone, code + "")) {
+            HttpSession session = request.getSession();
+            request.setAttribute("code",code);
             CookieUtil.set(response, CookieConstant.CODE_YZM, code + "", 300);
             map.put("message", "验证码发送成功！");
         } else {
