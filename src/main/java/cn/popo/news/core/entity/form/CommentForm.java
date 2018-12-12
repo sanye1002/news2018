@@ -26,4 +26,8 @@ public class CommentForm {
      */
     @NotEmpty
     private String commentInfo;
+
+    private String nickName;
+
+    private String avatar;
 }

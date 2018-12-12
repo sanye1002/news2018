@@ -58,9 +58,11 @@ public class AgoCommentServiceImpl implements AgoCommentService {
                 commentPage.getContent().forEach(l -> {
                     CommentVO commentVO = new CommentVO();
                     BeanUtils.copyProperties(l, commentVO);
-                    User user = userRepository.findOne(l.getUid());
-                    commentVO.setAvatar(user.getAvatar());
-                    commentVO.setNickName(user.getNikeName());
+                    if(l.getAvatar()==null){
+                        User user = userRepository.findOne(l.getUid());
+                        commentVO.setAvatar(user.getAvatar());
+                        commentVO.setNickName(user.getNikeName());
+                    }
                     commentVO.setReplyNum(replyRepository.findAllByCommId(l.getId()).size());
                     commentVO.setManyTimeAgo(GetTimeUtil.getCurrentTimeMillisDiff(time, l.getTime()));
                     commentVO.setUserID(l.getUid());

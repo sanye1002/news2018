@@ -31,6 +31,8 @@ public interface ArticleService {
 
     PageDTO<ArticleReportDTO> findAllReportByDisposeState(Pageable pageable,Integer disposeState);
 
+    PageDTO<ArticleDTO> findAllArticleTop(Pageable pageable,Integer topState,Integer showState);
+
     PageDTO<ArticleDTO> findAllByUserIdAndDraftAndTypeId(Pageable pageable,String userId,Integer draft,Integer typeId);
 
     Integer findStateNum(Integer state,Integer classifyId,Integer typeId);
@@ -60,6 +62,10 @@ public interface ArticleService {
     void updateArticleManage(String articleId,Integer manageId);
 
     void updateArticleShow(String articleId,Integer showState);
+
+    void  updateArticleSort(String articleId,Integer sort);
+
+    void updateArticleTop(String articleId,Integer showState,Integer topState);
 
     void deleteArticleByArticleId(String articleId);
 

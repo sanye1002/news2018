@@ -144,6 +144,8 @@ public class test {
                                 String img = l.getCommentImg().get(i);
                                 User user = userRepository.findAllByNikeName(name);
                                 CommentForm commentForm = new CommentForm();
+                                commentForm.setNickName(name);
+                                commentForm.setAvatar(img);
                                 if (user==null){
                                     String userId = agoPersonalService.addDefaultUser(name,img);
                                     commentForm.setUid(userId);

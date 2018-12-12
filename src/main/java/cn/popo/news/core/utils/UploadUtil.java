@@ -140,6 +140,50 @@ public class UploadUtil {
 
     }
 
+    public Map<String, Object> uploadAudio(MultipartFile file, String exePath, String path, String userId) {
+        File dir = new File(path);
+        Map<String, Object> map = new HashMap<>();
+        //判断目录是否存在
+        log.info("【音频上传】 path={}", path);
+        log.info("【音频上传】 dir.exists()={}", dir.exists());
+        //判断目录是否存在
+        if (!dir.exists()) {
+            // 如果不存在，自动创建
+            dir.mkdirs();
+        }
+        log.info("【音频类型】={}", file.getContentType());
+        if (!file.getContentType().equals("audio/amr")) {
+            map.put("code", 100);
+            map.put("message", "请选择MP3格式音频");
+            return map;
+        }
+        //上传视频名
+        //String fileName = KeyUtil.genUniqueKey() + file.getOriginalFilename();
+        String fileName = KeyUtil.genUniqueKey() + ".amr";
+        //保存视频
+        File saveFile = new File(path + File.separator + fileName);
+
+        try {
+            file.transferTo(saveFile);
+            log.info("fileName={}", fileName);
+            map.put("code", 0);
+            map.put("message", "音频上传成功！");
+            map.put("videoPath", "/read/amr/" + userId + "/" + fileName);
+            try {
+                new QiniuUpload().uploadFile(saveFile, "po/read/amr/" + userId + "/" + fileName);
+            } catch (IOException e) {
+                log.info("【音频上传】={}", "error");
+                e.printStackTrace();
+            }
+            return map;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public static Map<String, Object> uploadImgs(MultipartFile file, String path, String type) {
         File dir = new File(path);
         File dis = new File(path + File.pathSeparator + "small");
@@ -191,9 +235,9 @@ public class UploadUtil {
         try {
             file.transferTo(saveFile);
 
-            if (!type.equals("user")) {
+            /*if (!type.equals("user")) {
                 WaterMarkUtils.AddImgWaterMark(saveFile.getAbsolutePath(), saveFile.getAbsolutePath(), uploadConfig.getWaterMarkPath());
-            }
+            }*/
 
             try {
                 new QiniuUpload().uploadFile(saveFile, "po/read/img/" + type + "/" + fileName);

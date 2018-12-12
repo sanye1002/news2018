@@ -332,7 +332,7 @@ public class HomePageController {
         PageDTO<ArticleVO> pageDTO = new PageDTO<>();
         List<ArticleVO> list = new ArrayList<>();
         for (int i=0;i<size;i++){
-            page = new Random().nextInt(700)+300;
+            page = new Random().nextInt(700)+2000;
             PageRequest pageRequest = new PageRequest(page-1,1,SortTools.basicSort("desc","auditTime"));
             list.addAll(articleService.findAllArticleByShowStateAndStateAndDraft(pageRequest,ONE,ONE,ZERO).getPageContent());
         }

@@ -61,14 +61,17 @@ public class IMUtil {
     public void onMessage(String message,Session session){
         JSONObject jsStr = JSONObject.parseObject(message);
         String toUserId = (String) jsStr.get("to");
+        String type = jsStr.getString("type");
         //进入或退出聊天页面，0退出，1进入
-        String inUserId = (String) jsStr.get("in");
-        if("0".equals(inUserId)){
-            mapIn.put(this.userId,"0");
-        }else if("1".equals(inUserId)){
-            mapIn.put(this.userId,toUserId);
+        Integer in =  jsStr.getInteger("in");
+        if(in!=null){
+            if(in==0){
+                mapIn.put(this.userId,"0");
+            }else if(in==1){
+                mapIn.put(this.userId,toUserId);
+            }
         }else{
-            String msg = (String) jsStr.get("msg");
+            String msg = type + "|type|" + jsStr.getString("msg");
             try {
                 //是否单向发送
                 if(!toUserId.equals("")){
@@ -106,7 +109,6 @@ public class IMUtil {
      */
     private void sendToMessage(String message, String toUserId) throws IOException {
         Session session = map.get(toUserId);
-
         String toToUserId = mapIn.get(toUserId);
         Integer state = 0;
         //判断对方是否在线

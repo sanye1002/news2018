@@ -57,27 +57,25 @@
                             <div class="header bordered-sky">
                             ${pageTitle}
                             </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <div class="checkbox" id="state">
-                                        <span>结果：</span>
-                                        <label>
-                                            <input type="checkbox" class="colored-blue" value="0"
-                                                   <#if state==0>checked</#if>>
-                                            <span class="text">未通过</span>
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" class="colored-blue" value="1"
-                                                   <#if state==1>checked</#if>>
-                                            <span class="text">通过</span>
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" value="2" class="colored-danger"
-                                                   <#if state==2>checked</#if>>
-                                            <span class="text">待审核</span>
-                                        </label>
+                            <div class="search" method="get">
+                                <div style="float:left;margin-right:2px;">
+                                    <div class="form-group">
+                                        <select name="search" id="search">
+                                            <option value="title">标题</option>
+                                        </select>
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                            <span class="input-icon icon-right">
+                                                <input id="titleSearch" type="text" value="${content}" name="searchText"
+                                                       class="form-control"
+                                                       placeholder="搜索">
+                                                <i class="fa fa-search" onclick="selectList()"></i>
+                                            </span>
+                                    </div>
+                                </div>
+                                <div style="clear: both;"></div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -107,19 +105,17 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div style="float:right;margin-right:2px;">
 
                                 <div class="form-group">
                                     <select id="selectType">
-                                        <option value="1" <#if state==1>selected</#if> >已通过 <span
+                                        <option value="1" <#if topState==1>selected</#if> >已顶置 <span
                                                 class="badge"></span></option>
-                                        <option value="0" <#if state==0>selected</#if> >未通过 <span
-                                                class="badge"></span></option>
-                                        <option value="2" <#if state==2>selected</#if> >待审核 <span
+                                        <option value="0" <#if topState==0>selected</#if> >未顶置 <span
                                                 class="badge"></span></option>
                                     </select>
                                 </div>
+
                             </div>
                             <div style="float:right;margin-right:2px;">
 
@@ -137,37 +133,28 @@
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>用户</th>
-                                        <th>是否原创</th>
                                         <th>标题</th>
                                         <th>发布时间</th>
-                                        <#if state!=2>
-                                            <th>审核时间</th>
-                                        </#if>
+                                        <th>审核通过时间</th>
                                         <th>关键字</th>
                                         <th>类型</th>
                                         <th>分类</th>
+                                        <th>审核状态</th>
                                         <th>内容与图片</th>
-                                        <th>审核</th>
+                                        <th>顶置</th>
+                                        <th>排序</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                 <#list pageContent.getPageContent() as p>
                                 <tr id="${p.getArticleId()}">
-                                    <td>${p.getUser().getNikeName()}</td>
-                                    <td>
-                                        <#if p.getOriginal()==0>非原创</#if>
-                                        <#if p.getOriginal()==1>原创</#if>
-                                    </td>
                                     <td>${p.getTitle()}</td>
                                     <td>${p.getTime()}</td>
-                                    <#if state!=2>
-                                        <td>
-                                            ${p.getAuditTime()!}
-                                        </td>
-                                    </#if>
+                                    <td>${p.getAuditTime()}</td>
                                     <td><#list p.getKeywords() as key>【${key}】</#list></td>
-                                    
+                                <#--<div id="content${p.getArticleId()}" style="display: none">
+                                        ${p.getContent()}
+                                </div>-->
                                     <div id="video${p.getArticleId()}" style="display: none">
                                         <div style="display: flex;height:726px;align-items:center;justify-content: center">
                                             <div style="">
@@ -181,6 +168,11 @@
                                     </div>
                                     <td>${p.getType()}</td>
                                     <td>${p.getClassify()}</td>
+                                    <td>
+                                        <#if p.getState()==1>
+                                            已通过
+                                        </#if>
+                                    </td>
                                     <td>
 
                                         <#if p.getTypeId()==1>
@@ -209,27 +201,26 @@
                                             封面图</a>
                                         </#if>
                                     </td>
-                                    <td>
-                                        <#if p.getState()==2>
-                                            <a class="btn btn-success btn-xs"
-                                               onclick="changeAudit('${p.getArticleId()}',1,${p.getTypeId()})"><i
-                                                    class="btn-label glyphicon glyphicon-ok"></i>
-                                                通过</a>
-                                            <a class="btn btn-danger btn-xs"
-                                               onclick="changeAudit('${p.getArticleId()}',0,${p.getTypeId()})"><i
-                                                    class="fa fa-times"></i>
-                                                未通过</a>
-                                        </#if>
-                                        <#if p.getState()==1>
-                                            <a class="btn btn-success btn-xs"><i
-                                                    class="btn-label glyphicon glyphicon-ok"></i>
-                                                已通过</a>
-                                        </#if>
-                                        <#if p.getState()==0>
-                                            <a class="btn btn-danger btn-xs"><i class="fa fa-times"></i>
-                                                未通过</a>
-                                        </#if>
+                                    <td id="show">
+                                        <label>
+                                            <input id="${p.getArticleId()}" class="checkbox-slider colored-blue"
+                                                   type="checkbox"
+                                                   <#if p.getTopState() ==1>checked</#if>>
+                                            <span class="text"></span>
+                                        </label>
                                     </td>
+                                    <td>
+                                        <input name="${p.getArticleId()}" value="${p.getTopSort()}" />
+                                        <a class="btn btn-info btn-xs"
+                                           onclick="sort('${p.getArticleId()}')"><i
+                                                class="fa fa-pencil"></i>
+                                            确定</a>
+                                        <a class="btn btn-info btn-xs"
+                                           onclick="sortNo(${p.getTopSort()},'${p.getArticleId()}')"><i
+                                                class="fa fa-pencil"></i>
+                                            取消</a>
+                                    </td>
+
                                 </tr>
                                 </#list>
                                     </tbody>
@@ -241,13 +232,13 @@
                                 <div class="next">
                                     <ul class="pagination">
                                         <li>
-                                            <a href="${url}?page=1&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">首页</a>
+                                            <a href="${url}?page=1&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">首页</a>
                                         </li>
                                             <#if currentPage lte 1>
                                                 <li class="disabled"><a>上一页</a></li>
                                             <#else>
                                                 <li>
-                                                    <a href="${url}?page=${currentPage-1}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">上一页</a>
+                                                    <a href="${url}?page=${currentPage-1}&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">上一页</a>
                                                 </li>
 
                                             </#if>
@@ -257,7 +248,9 @@
                                                        <#if currentPage == index >
                          <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                        <li><a href="${url}?page=${index}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">${index}</a></li>
+                        <li>
+                            <a href="${url}?page=${index}&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">${index}</a>
+                        </li>
                                                        </#if>
                                                    </#list>
                                                <#elseif currentPage lte 3>
@@ -265,7 +258,9 @@
                                                        <#if currentPage == index >
                          <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                        <li><a href="${url}?page=${index}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">${index}</a></li>
+                        <li>
+                            <a href="${url}?page=${index}&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">${index}</a>
+                        </li>
                                                        </#if>
                                                    </#list>
                                                <#elseif  currentPage gt 3 && currentPage lte pageContent.getTotalPages()-2>
@@ -273,7 +268,9 @@
                                                        <#if currentPage == index >
                                 <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                                <li><a href="${url}?page=${index}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">${index}</a></li>
+                                <li>
+                                    <a href="${url}?page=${index}&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">${index}</a>
+                                </li>
                                                        </#if>
                                                    </#list>
                                                <#elseif  currentPage gt pageContent.getTotalPages()-2>
@@ -281,19 +278,23 @@
                                                        <#if currentPage == index >
                                 <li class="active"><a href="#">${index}</a></li>
                                                        <#else>
-                                <li><a href="${url}?page=${index}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">${index}</a></li>
+                                <li>
+                                    <a href="${url}?page=${index}&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">${index}</a>
+                                </li>
                                                        </#if>
                                                    </#list>
                                                </#if>
+
+
                                                 <#if currentPage gte pageContent.getTotalPages()>
                                                     <li class="disabled"><a>下一页</a></li>
                                                 <#else>
                                                     <li>
-                                                        <a href="${url}?page=${currentPage+1}&size=${size}&state=${state}&type=${type}&classifyId=${classifyId}">下一页</a>
+                                                        <a href="${url}?page=${currentPage+1}&size=${size}&type=${type}&topState=${topState}&classifyId=${classifyId}">下一页</a>
                                                     </li>
                                                 </#if>
                                         <li>
-                                            <a href="${url}?page=${pageContent.getTotalPages()}&state=${state}&type=${type}&classifyId=${classifyId}">尾页</a>
+                                            <a href="${url}?page=${pageContent.getTotalPages()}&type=${type}&topState=${topState}&classifyId=${classifyId}">尾页</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -310,73 +311,133 @@
 
 <#include "../common/footjs.ftl">
 <script>
+    var STATE = 1
+    var NO = 0
 
 
-    //select切换页面展示
-    var ALL = 0
-    $("#selectType").change(function () {
-        var resultType = $("#type input[type=checkbox]:checked").val()
-        var state = $("#selectType").val()
-        var classifyId = $("#classifySelectType").val();
-        location = "/oa/article/auditlist?type=" + resultType + "&state=" + state + "&classifyId=" + classifyId
+    var carousel = {
+        articleId: "",
+        topState: ""
+    }
+
+
+    function selectList() {
+        var content = $("input[name='searchText']").val()
+
+        location = "/oa/article/top/list?content=" + content
+
+    }
+
+
+    $("document").ready(function() {
+        $("#titleSearch").keydown(function(e){
+            var ev = document.all ? window.event : e;
+            if(ev.keyCode==13) {
+                selectList();//处理事件
+            }
+        })
     });
 
-    //分类切换
-    $("#classifySelectType").change(function () {
-        var resultType = $("#type input[type=checkbox]:checked").val()
-        var state = $("#selectType").val()
-        var classifyId = $("#classifySelectType").val();
-        location = "/oa/article/auditlist?type=" + resultType + "&state=" + state + "&classifyId=" + classifyId
-    });
+
+    $("#show input[type=checkbox]").click(function () {
+        //判断是否选中
+        if ($(this).is(':checked')) {
+            carousel.topState = 1
+            carousel.articleId = $(this).attr("id")
+            update()
 
 
-    /*//审核提交
-    function changeAudit1(articleId,state){
+        } else {
+            carousel.articleId = $(this).attr("id")
+            carousel.topState = 0
+            update()
+        }
+    })
+
+    function update() {
         var resultType = $("#type input[type=checkbox]:checked").val()
+        var showF = 0
+        if (carousel.topState == 0) {
+            showF = 1
+        } else {
+            showF = 0
+        }
         $.post(
-            "/oa/article/audit",
+                "/oa/article/top",
                 {
-                    articleId:articleId,
-                    state:state
+                    articleId: carousel.articleId,
+                    topState: carousel.topState
                 },
-                function (data){
+                function (data) {
                     if (data.code == 0) {
-                        var url =  window.location.pathname;
+                        var url = window.location.pathname;
                         var search = window.location.search;
                         layer.msg(data.message);
                         setTimeout(function () {
-                            // location = "/oa/article/auditlist?type="+resultType
-                            location = url+search
+                            location = url + search
+                            // location = "/oa/article/showlist?type=" +resultType+ "&topState=" + showF
                         }, 100)
+                    } else {
+                        layer.msg(data.message);
+                    }
+
+                }
+        )
+    }
+
+
+    //展示与未展示切换
+    $("#selectType").change(function () {
+        var topState = $(this).val()
+        var resultType = $("#type input[type=checkbox]:checked").val()
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/top/list?type=" + resultType + "&topState=" + topState + "&classifyId=" + classifyId
+    });
+
+
+    //类型切换
+    $("#type input[type=checkbox]").click(function () {
+        var topState = $("#selectType option:selected").val()
+        var resultType = $(this).val()
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/top/list.html?state=" + STATE + "&type=" + resultType + "&topState=" + topState + "&classifyId=" + classifyId
+    })
+
+    //分类切换
+    $("#classifySelectType").change(function () {
+        var topState = $("#selectType option:selected").val()
+        var resultType = $("#type input[type=checkbox]:checked").val()
+        var classifyId = $("#classifySelectType").val();
+        location = "/oa/article/top/list?type=" + resultType + "&state=" + STATE + "&classifyId=" + classifyId + "&topState=" + topState
+    });
+
+    function sort(articleId){
+        var sortValue =  $("input[name='"+articleId+"']").val();
+        $.post(
+                "/oa/article/sort",
+                {
+                    articleId: articleId,
+                    sort:sortValue
+                },
+                function (data) {
+                    if (data.code == 0) {
+                        layer.msg("修改成功");
                     }
                     if (data.code > 0) {
                         layer.msg(data.message);
                     }
                 }
         )
-    }*/
+    }
 
-    //类型和审核状态选择
-    $("input[type=checkbox]").click(function () {
-        var classifyId = $("#classifySelectType").val();
-        var resultStatus = null;
-        var resultType = null;
-        var result = $(this).parent().parent().attr('id');
-        if (result != "") {
-            if (result == "state") {
-                resultStatus = $(this).val()
-                resultType = $("#type input[type=checkbox]:checked").val()
-            } else {
-                resultType = $(this).val()
-                resultStatus = $("#state input[type=checkbox]:checked").val()
-            }
-        }
-        location = "/oa/article/auditlist.html?state=" + resultStatus + "&type=" + resultType + "&classifyId=" + classifyId
+    function sortNo(sortValue,articleId) {
+        $("input[name='"+articleId+"']").val(sortValue);
+    }
 
-    })
 
     function showContent(id) {
         //页面层
+        // var content = $("#content"+id).html();
         $.post(
                 "/oa/article/content",
                 {
@@ -387,7 +448,7 @@
                         layer.open({
                             type: 1,
                             skin: 'layui-layer-lan', //加上边框
-                            area: ['800px', '600px'], //宽高
+                            area: ['1280px', '768px'], //宽高
                             content: data.data.content
                         });
                     }
@@ -398,18 +459,9 @@
         )
     }
 
-    function showVedio(id) {
-        //页面层
-        var video = $("#video" + id).html();
-        layer.open({
-            type: 1,
-            skin: 'layui-layer-lan', //加上边框
-            area: ['800px', '600px'], //宽高
-            content: video
-        });
-    }
-
+    //相册层
     function showImgs(id, type) {
+        // console.log(id)
         $.getJSON('/layer/article?id=' + id + '&type=' + type, function (json) {
             layer.photos({
                 photos: json
@@ -418,71 +470,15 @@
         });
     }
 
-    function changeAudit(articleId, state,type) {
-        var resultType = $("#type input[type=checkbox]:checked").val()
-        if (state == 1) {
-            layer.prompt({title: '请输入积分(整数)，并确认', formType: 0}, function (text,index) {
-                if (parseInt(text) == text) {
-                    $.post(
-                            "/oa/article/audit",
-                            {
-                                articleId: articleId,
-                                state: state,
-                                integral: text,
-                                type:type
-
-                            },
-                            function (data) {
-                                if (data.code == 0) {
-                                    layer.close(index);
-                                    layer.msg(data.message);
-                                    $("#"+articleId).remove();
-                                    /*setTimeout(function () {
-                                        // location = "/oa/article/auditlist?type="+resultType
-                                        var url = window.location.pathname;
-                                        var search = window.location.search;
-                                        location = url + search
-                                    }, 100)*/
-                                }
-                                if (data.code > 0) {
-                                    layer.msg(data.message);
-                                }
-                            }
-                    )
-                } else {
-                    layer.msg("请输入整数")
-                }
-
-
-            });
-        } else {
-            $.post(
-                    "/oa/article/audit",
-                    {
-                        articleId: articleId,
-                        state: state,
-                        integral: 0,
-                        type:type
-
-                    },
-                    function (data) {
-                        if (data.code == 0) {
-                            layer.msg(data.message);
-                            $("#"+articleId).remove();
-                            /*setTimeout(function () {
-                                var url = window.location.pathname;
-                                var search = window.location.search;
-                                location = url + search
-                            }, 100)*/
-                        }
-                        if (data.code > 0) {
-                            layer.msg(data.message);
-                        }
-                    }
-            )
-        }
-
-
+    function showVedio(id) {
+        //页面层
+        var video = $("#video" + id).html();
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-lan', //加上边框
+            area: ['1280px', '768px'], //宽高
+            content: video
+        });
     }
 </script>
 </body>

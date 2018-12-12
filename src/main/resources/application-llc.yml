@@ -29,8 +29,8 @@ spring:
         max-idle: 5
       database: 1
 upload:
-  path: D:\xiaoxin\upload
-  waterMarkPath: D:\xiaoxin\water.png
+  path: C:\xiaoxin\upload
+  waterMarkPath: C:\xiaoxin\water.png
 server:
   port: 8088
 ffmpeg:

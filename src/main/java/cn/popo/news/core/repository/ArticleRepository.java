@@ -1,6 +1,7 @@
 package cn.popo.news.core.repository;
 
 import cn.popo.news.core.entity.common.ArticleInfo;
+import io.swagger.models.auth.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -105,5 +106,8 @@ public interface ArticleRepository extends JpaRepository<ArticleInfo,String> {
     ArticleInfo findAllByTitle(String title);
 
     List<ArticleInfo> findAllByAvatarAndUsernameAndCommentNum(Pageable pageable,String avatar,String username,Integer commentNum);
+
+    Page<ArticleInfo> findByStateAndDraftAndTopStateAndShowState(Pageable pageable, Integer state, Integer draft, Integer topState,Integer showState);
+
 
 }

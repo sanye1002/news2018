@@ -90,7 +90,7 @@ public class User implements Serializable {
 
     private String updateDate; //修改时间
 
-    private String QQ;
+    private String qQ;
     private String email;
     private String city;
     private String birthday;

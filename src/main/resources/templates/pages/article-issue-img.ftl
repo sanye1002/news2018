@@ -177,12 +177,8 @@
 <script src="/layui/layui.js" charset="utf-8"></script>
 <script>
 
-
+    // cleanRedisCacheNews();
     $(function () {
-
-
-
-
         var DEFAULT = 1;
         var article = {
             title: "",

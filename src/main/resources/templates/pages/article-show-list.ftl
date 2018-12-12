@@ -297,7 +297,10 @@
 </div>
 
 <#include "../common/footjs.ftl">
+<#--<script src="/assets/js/currency.js" charset="utf-8"></script>-->
 <script>
+
+
     var STATE = 1
     var NO = 0
 
@@ -360,7 +363,9 @@
                         var search = window.location.search;
                         layer.msg(data.message);
                         setTimeout(function () {
+
                             location = url + search
+                            // cleanRedisCacheNews();
                             // location = "/oa/article/showlist?type=" +resultType+ "&showState=" + showF
                         }, 100)
                     } else {

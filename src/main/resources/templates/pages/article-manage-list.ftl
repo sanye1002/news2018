@@ -371,10 +371,11 @@
                         var url =  window.location.pathname;
                         var search = window.location.search;
                         layer.msg(data.message);
-                        setTimeout(function () {
+                        // window.open("https://www.immnc.com/moon/article/redis/evict/banner");
+                        /*setTimeout(function () {
                             location = url+search
                             // location = "/oa/article/managelist?type=" + resultType + "&maganeId=" + NO
-                        }, 100)
+                        }, 100)*/
                     }
                     if (data.code > 0) {
                         layer.msg(data.message);
@@ -396,6 +397,7 @@
                     if (data.code == 0) {
                         var url =  window.location.pathname;
                         var search = window.location.search;
+                        // window.open("https://www.immnc.com/moon/article/redis/evict/news?typeId="+typeId);
                         layer.msg(data.message);
                         setTimeout(function () {
                             location = url+search

@@ -11,6 +11,7 @@ import cn.popo.news.core.dto.api.ArticleVO;
 import cn.popo.news.core.dto.api.Author;
 import cn.popo.news.core.entity.common.ArticleInfo;
 import cn.popo.news.core.entity.common.ArticleReport;
+import cn.popo.news.core.entity.common.Classify;
 import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.ArticleDraftForm;
 import cn.popo.news.core.entity.form.ArticleForm;
@@ -22,6 +23,7 @@ import cn.popo.news.core.utils.GetTimeUtil;
 import cn.popo.news.core.utils.KeyUtil;
 import cn.popo.news.core.utils.ShiroGetSession;
 import cn.popo.news.core.utils.SplitUtil;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.Roman;
 import org.apache.poi.ss.formula.ptg.AreaI;
@@ -101,6 +103,10 @@ public class ArticleServiceImpl implements ArticleService {
             articleInfo.setCrateTime(System.currentTimeMillis());
             articleInfo.setUsername(articleForm.getAuthorName());
             articleInfo.setAvatar(articleForm.getAuthorImg());
+            articleInfo.setTopState(0);
+            articleInfo.setTopSort(0);
+            Classify classify = classifyRepository.findOne(articleForm.getClassifyId());
+            articleInfo.setClassifyName(classify.getClassify());
             if (articleForm.getCommentNum()!=null){
                 articleInfo.setCommentNum(articleForm.getCommentNum());
             }else {
@@ -601,6 +607,30 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
+     * 改变排序
+     * @param articleId
+     * @param sort
+     */
+    @Override
+    public void updateArticleSort(String articleId, Integer sort) {
+        ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        articleInfo.setTopSort(sort);
+    }
+
+    /**
+     * 改变顶置状态
+     * @param articleId
+     * @param showState
+     * @param topState
+     */
+    @Override
+    public void updateArticleTop(String articleId, Integer showState, Integer topState) {
+        ArticleInfo articleInfo = articleRepository.findOne(articleId);
+        articleInfo.setShowState(showState);
+        articleInfo.setTopState(topState);
+    }
+
+    /**
      * 文章删除
      */
     @Override
@@ -826,6 +856,37 @@ public class ArticleServiceImpl implements ArticleService {
         }
         pageDTO.setPageContent(list);
         return pageDTO;
+    }
+
+    /**
+     * 查询顶置文章
+     * @param pageable
+     * @param topState
+     * @param showState
+     * @return
+     */
+    @Override
+    public PageDTO<ArticleDTO> findAllArticleTop(Pageable pageable, Integer topState, Integer showState) {
+        PageDTO<ArticleDTO> pageDTO = new PageDTO<>();
+        List<ArticleDTO> list = new ArrayList<>();
+        Page<ArticleInfo> articleDTOPage = articleRepository.findByStateAndDraftAndTopStateAndShowState(pageable,1,0,topState,showState);
+        pageDTO.setTotalPages(articleDTOPage.getTotalPages());
+        if(!articleDTOPage.getContent().isEmpty()){
+            articleDTOPage.getContent().forEach(l->{
+                ArticleDTO articleDTO = new ArticleDTO();
+                BeanUtils.copyProperties(l, articleDTO);
+                articleDTO.setType(typeRepository.findOne(l.getTypeId()).getType_name());
+                articleDTO.setClassify(classifyRepository.findOne(l.getClassifyId()).getClassify());
+                articleDTO.setImgList(SplitUtil.splitComme(l.getImgUrl()));
+                articleDTO.setKeywords(SplitUtil.splitComme(l.getKeywords()));
+                articleDTO.setTime(GetTimeUtil.getDateFormat(l.getCrateTime()));
+                articleDTO.setAuditTime(GetTimeUtil.getDateFormat(l.getAuditTime()));
+                list.add(articleDTO);
+            });
+        }
+        pageDTO.setPageContent(list);
+        return  pageDTO;
+
     }
 
 

@@ -4,6 +4,7 @@ import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.common.utils.UserSessionUtil;
 import cn.popo.news.core.dto.api.CommentVO;
 import cn.popo.news.core.entity.common.CommentPraise;
+import cn.popo.news.core.entity.common.User;
 import cn.popo.news.core.entity.form.CommentForm;
 import cn.popo.news.core.entity.form.CommentReportForm;
 import cn.popo.news.core.repository.CommentPraiseRepository;
@@ -85,8 +86,13 @@ public class CommentController {
         if (!userSessionUtil.verifyLoginStatus(request,response)){
             return ResultVOUtil.error(3,"用户失效");
         }
-        String userId = userSessionUtil.getUserByCookie(request,response).getUserId();
+        User user  = userSessionUtil.getUserByCookie(request,response);
+        String userId = user.getUserId();
+        String nikeName = user.getNikeName();
+        String avatar = user.getAvatar();
         commentForm.setUid(userId);
+        commentForm.setNickName(nikeName);
+        commentForm.setAvatar(avatar);
         String content = commentForm.getCommentInfo();
         if (!KeyWordFilter.checkWords(content).equals("")){
             return ResultVOUtil.error(100,"评论内容违规："+KeyWordFilter.checkWords(content));
