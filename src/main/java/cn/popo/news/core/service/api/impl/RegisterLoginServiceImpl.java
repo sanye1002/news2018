@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.qq.connect.QQConnectException;
 import com.qq.connect.api.qzone.UserInfo;
 import com.qq.connect.javabeans.qzone.UserInfoBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import java.util.UUID;
  * @Description description
  */
 @Service
+@Slf4j
 public class RegisterLoginServiceImpl implements RegisterLoginService {
 
 
@@ -242,10 +244,17 @@ public class RegisterLoginServiceImpl implements RegisterLoginService {
 
     @Override
     public Boolean checkCode(HttpServletRequest request, String code) {
-        Cookie cookie = CookieUtil.get(request, CookieConstant.CODE_YZM);
-        String messageCode = (String) cookie.getValue();
-        if (messageCode.equals(code)) {
-            return true;
+        try {
+            Cookie cookie = CookieUtil.get(request, CookieConstant.CODE_YZM);
+
+            String messageCode = (String) cookie.getValue();
+            System.out.println(messageCode);
+            if (messageCode.equals(code)) {
+                return true;
+            }
+        }catch (Exception e){
+            log.error("获取cookie错误");
+            return false;
         }
         return false;
     }
