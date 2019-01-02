@@ -35,6 +35,8 @@ public interface AgoArticleService {
 
     PageDTO<ArticleVO> findAllArticleByUserCollect(Pageable pageable,String userId,Integer typeId);
 
+    PageDTO<ArticleVO> findAllArticleByUserIdCollect(Pageable pageable,String userId);
+
     PageDTO<ArticleVO> findAllArticleByTypeId(Pageable pageable,Integer typeId,Integer state, Integer showState,Integer draft,Integer manageId,String userId);
 
     List<ArticleVO> findAllArticleByKeywordsLike(Integer state,Integer draft,Integer showState,String content);

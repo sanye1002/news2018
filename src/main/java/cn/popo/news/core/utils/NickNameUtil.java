@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class NickNameUtil {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String content ="<img src=\"//p3.pstatp.com/thumb/216c001e8188777c1f10\" alt=\"\">";
         List<String> srcList = new ArrayList<String>(); //用来存储获取到的图片地址
         Pattern p = Pattern.compile("<(img|IMG)(.*?)(>|></img>|/>)");//匹配字符串中的img标签
@@ -36,7 +36,7 @@ public class NickNameUtil {
         }
         System.out.println("匹配到的内容："+srcList);
     }
-
+*/
     public static String SplitSrc(String content){
 //        String content ="<img src=\"//p3.pstatp.com/thumb/216c001e8188777c1f10\" alt=\"\">";
         List<String> srcList = new ArrayList<String>(); //用来存储获取到的图片地址

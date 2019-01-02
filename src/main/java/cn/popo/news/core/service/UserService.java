@@ -28,6 +28,8 @@ public interface UserService {
 
     User findByPhoneAndStatus(String phone);
 
+    User findByUserIdAndState(String userId);
+
     Map<String,Object> login(HttpServletRequest request, String phone, String password);
 
     User saveByUser(User user);

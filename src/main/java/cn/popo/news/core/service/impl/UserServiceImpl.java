@@ -118,6 +118,21 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 通过userId查找用户
+     * @param userId id
+     * @return user
+     */
+    @Override
+    public User findByUserIdAndState(String userId) {
+        User user = userRepository.findByUserIdAndStatus(userId, 1);
+        if (user == null) {
+            return null;
+        } else {
+            return user;
+        }
+    }
+
     @Override
     public Map<String, Object> login(HttpServletRequest request, String phone, String password) {
         Map<String, Object> map = new HashMap<>();

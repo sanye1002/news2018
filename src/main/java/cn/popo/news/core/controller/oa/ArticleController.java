@@ -1,6 +1,5 @@
 package cn.popo.news.core.controller.oa;
 
-import cn.popo.news.common.constant.UrlConstant;
 import cn.popo.news.common.utils.KeyWordFilter;
 import cn.popo.news.common.utils.PostPushUtil;
 import cn.popo.news.core.config.UploadConfig;
@@ -214,9 +213,9 @@ public class ArticleController {
             return ResultVOUtil.error(100,"该文章已存在");
         }
 
-        ipStatisticsService.addArticleIssueNum(articleForm.getTypeId());
+//        ipStatisticsService.addArticleIssueNum(articleForm.getTypeId());
         String userId = ShiroGetSession.getUser().getUserId();
-        ipStatisticsService.addUserIssueNum(userId,articleForm.getTypeId());
+//        ipStatisticsService.addUserIssueNum(userId,articleForm.getTypeId());
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
@@ -430,7 +429,7 @@ public class ArticleController {
             PostPushUtil.push(type,articleId);
         }
         articleService.updateArticleStateByArticleId(articleId,state,integral);
-        ipStatisticsService.addArticleAuditNum(state,type);
+//        ipStatisticsService.addArticleAuditNum(state,type);
         Map<String,Object> map  = new HashMap<>();
         return ResultVOUtil.success(map);
     }
@@ -440,10 +439,10 @@ public class ArticleController {
      */
     @PostMapping("/delete")
     @ResponseBody
-    public ResultVO<Map<String, String>> articleDelete(
+    public ResultVO articleDelete(
             @RequestParam(value = "articleId", defaultValue = "") String articleId){
 
-        if (articleId==""){
+        if ("".equals(articleId)){
             return ResultVOUtil.error(100,"数据为空~");
         }
         commentService.findCommentIdByArticleId(articleId).forEach(l->{

@@ -14,6 +14,7 @@ import cn.popo.news.core.utils.KeyUtil;
 import cn.popo.news.core.utils.SplitUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -245,7 +246,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
      * 通信保存
      */
     @Override
-    public void saveCommunication(String uid, String userId, String sendMessage,Integer state) {
+    public void saveCommunication(String uid, String userId, String sendMessage,Integer state,String type) {
         PrivateLetter privateLetter = new PrivateLetter();
 //        privateLetter.setId(KeyUtil.genUniqueKey());
         privateLetter.setTime(System.currentTimeMillis());
@@ -254,6 +255,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
         privateLetter.setSendMessage(sendMessage);
         privateLetter.setId(KeyUtil.genUniqueKey());
         privateLetter.setState(state);
+        privateLetter.setType(type);
         privateLetterRepository.save(privateLetter);
 
     }
@@ -275,6 +277,7 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
                     privateLetterVO.setTime(GetTimeUtil.getDateFormat(l.getTime()));
                     privateLetterVO.setMessage(l.getSendMessage());
                     privateLetterVO.setId(l.getUserId());
+                    privateLetterVO.setType(l.getType());
                     privateLetterVO.setAvatar(userRepository.findOne(l.getUserId()).getAvatar());
                     privateLetterVO.setUsername(userRepository.findOne(l.getUserId()).getNikeName());
                     list.add(privateLetterVO);
@@ -358,5 +361,16 @@ public class AgoPersonalServiceImpl implements AgoPersonalService {
     @Override
     public List<Type_info> findAllType() {
         return typeRepository.findAll();
+    }
+
+    /**
+     * 查询未读数量
+     * @param userId 用户id
+     * @param toUserId 对方用户id
+     * @return 未读数量
+     */
+    @Override
+    public Integer findUnReadNum(String userId, String toUserId) {
+        return privateLetterRepository.findAllByUidAndUserIdAndState(toUserId,userId,0).size();
     }
 }

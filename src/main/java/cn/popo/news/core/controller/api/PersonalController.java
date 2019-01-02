@@ -17,6 +17,7 @@ import cn.popo.news.core.repository.UserRepository;
 import cn.popo.news.core.service.api.AgoArticleService;
 import cn.popo.news.core.service.api.AgoAttentionService;
 import cn.popo.news.core.service.api.AgoPersonalService;
+import cn.popo.news.core.service.api.IMService;
 import cn.popo.news.core.utils.ResultVOUtil;
 import cn.popo.news.core.utils.SortTools;
 import cn.popo.news.core.vo.ResultVO;
@@ -58,6 +59,9 @@ public class PersonalController {
 
     @Autowired
     private UserSessionUtil userSessionUtil;
+
+    @Autowired
+    private IMService imService;
 
     /**
      * @param fid
@@ -163,6 +167,20 @@ public class PersonalController {
 
         PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("desc", "time"));
         PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserCollect(pageRequest, userId, typeId);
+        pageDTO.setCurrentPage(page);
+        map.put("pageContent", pageDTO);
+        return ResultVOUtil.success(map);
+    }
+
+    @PostMapping("/user/collected/article/all")
+    public ResultVO collectedArticle(Map<String, Object> map,
+                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "12") Integer size,
+                                     @RequestParam(value = "userId") String userId
+    ) {
+
+        PageRequest pageRequest = new PageRequest(page - 1, size, SortTools.basicSort("desc", "time"));
+        PageDTO<ArticleVO> pageDTO = agoArticleService.findAllArticleByUserIdCollect(pageRequest, userId);
         pageDTO.setCurrentPage(page);
         map.put("pageContent", pageDTO);
         return ResultVOUtil.success(map);
@@ -311,12 +329,12 @@ public class PersonalController {
      * @desc 个人首页
      */
     @PostMapping("/user/index")
-    public ResultVO<Map<String, Object>> userIndex(Map<String, Object> map,
-                                                   @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                   @RequestParam(value = "size", defaultValue = "12") Integer size,
-                                                   @RequestParam(value = "userId1", defaultValue = "0") String userId1,
-                                                   HttpServletRequest request,
-                                                   HttpServletResponse response
+    public ResultVO userIndex(Map<String, Object> map,
+                              @RequestParam(value = "page", defaultValue = "1") Integer page,
+                              @RequestParam(value = "size", defaultValue = "12") Integer size,
+                              @RequestParam(value = "userId1", defaultValue = "0") String userId1,
+                              HttpServletRequest request,
+                              HttpServletResponse response
 
     ) {
 
@@ -409,9 +427,9 @@ public class PersonalController {
      * @desc 用户信息更新
      */
     @PostMapping("/user/update")
-    public ResultVO<Map<String, Object>> updateUserInfo(@Valid PersonalParam personalParam,
-                                                        HttpServletRequest request,
-                                                        HttpServletResponse response
+    public ResultVO updateUserInfo(@Valid PersonalParam personalParam,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response
     ) {
         if (!userSessionUtil.verifyLoginStatus(request, response)) {
             return ResultVOUtil.error(3, "用户失效");
@@ -426,7 +444,6 @@ public class PersonalController {
             String nikeName = myUser.getNikeName();
            if (user != null){
                if (!nikeName.equals(personalParam.getNikeName())){
-                   System.out.println();
                    return ResultVOUtil.error(100, "昵称已存在！！！！！");
                }
            }
@@ -472,13 +489,14 @@ public class PersonalController {
     public ResultVO<Map<String, Object>> communication(
             @RequestParam(value = "sendMessage") String sendMessage,
             @RequestParam(value = "uid") String uid,
+            @RequestParam(value = "type") String type,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
 
         if (userSessionUtil.verifyLoginStatus(request, response)) {
             String userId = userSessionUtil.getUserByCookie(request, response).getUserId();
-            agoPersonalService.saveCommunication(uid, userId, sendMessage,0);
+            agoPersonalService.saveCommunication(uid, userId, sendMessage,0,type);
         } else {
             return ResultVOUtil.error(3, "用户失效");
         }
@@ -509,6 +527,10 @@ public class PersonalController {
         PageDTO<PrivateLetterVO> pageDTO = agoPersonalService.findUserCommunication(pageRequest, uid, userId);
         pageDTO.setCurrentPage(page);
         map.put("chatMessages", pageDTO);
+
+        //将未读设置为0
+        imService.updateUnreadNumZero(userId,uid);
+
         return ResultVOUtil.success(map);
     }
 

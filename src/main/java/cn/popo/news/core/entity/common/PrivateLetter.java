@@ -42,4 +42,7 @@ public class PrivateLetter {
      * 状态 0：未阅读 1：已阅读
      */
     private Integer state;
+
+    //内容分类：type=text(文本) type=sound(语音) type=image(图片) type=video(视频)
+    private String type;
 }

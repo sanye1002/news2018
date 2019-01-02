@@ -27,7 +27,7 @@ public interface AgoPersonalService {
 
     PageDTO<Author> findUserByUserTypeAndNickNameLike(Pageable pageable, String userType, String content);
 
-    void saveCommunication(String uid,String userId,String sendMessage,Integer state);
+    void saveCommunication(String uid,String userId,String sendMessage,Integer state,String type);
 
     PageDTO<PrivateLetterVO> findUserCommunication(Pageable pageable,String uid,String userId);
 
@@ -40,6 +40,10 @@ public interface AgoPersonalService {
     String addDefaultUser(String userName,String userImg);
 
     List<Type_info> findAllType();
+
+    Integer findUnReadNum(String userId,String toUserId);
+
+
 
 //    PageDTO<DynamicVO> findAllDynamic(Pageable pageable);
 

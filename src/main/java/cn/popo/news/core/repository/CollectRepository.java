@@ -15,4 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CollectRepository extends JpaRepository<Collect,Integer> {
     Collect findAllByUidAndAid(String userId,String articleId);
     Page<Collect> findAllByUidAndTypeId(Pageable pageable, String userId, Integer typeId);
+    Page<Collect> findAllByUid(Pageable pageable, String userId);
 }

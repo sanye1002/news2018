@@ -9,5 +9,6 @@ public class PrivateLetterVO {
     private String avatar;
     private String message;
     private String time;
+    private String type;
 
 }

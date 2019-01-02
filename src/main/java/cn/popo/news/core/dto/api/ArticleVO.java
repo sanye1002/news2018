@@ -58,5 +58,4 @@ public class ArticleVO implements Serializable {
     private String avatar;
 
 
-
 }

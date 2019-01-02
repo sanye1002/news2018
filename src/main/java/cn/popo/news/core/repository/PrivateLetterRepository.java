@@ -17,5 +17,4 @@ import java.util.List;
 public interface PrivateLetterRepository extends JpaRepository<PrivateLetter,String> {
     Page<PrivateLetter> findAllByUidAndUserIdOrUidAndUserId(Pageable pageable,String uid, String userId,String userId1, String uid1);
     List<PrivateLetter> findAllByUidAndUserIdAndState(String uid, String userId,Integer state);
-
 }

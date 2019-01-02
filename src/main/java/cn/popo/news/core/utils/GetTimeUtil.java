@@ -207,6 +207,52 @@ public class GetTimeUtil {
         }
     }
 
+    public static String getYearMonthDay(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(time);
+    }
+
+    public static String getMonthDay(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd");
+        return dateFormat.format(time);
+    }
+
+    public static String getYear(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        return dateFormat.format(time);
+    }
+
+    public static String getHourMinute(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(time);
+    }
+
+    public static String getMsgTime(long oldTime,long nowTime){
+        SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+        String oldYear = dateFormatYear.format(oldTime);
+        String nowYear = dateFormatYear.format(nowTime);
+        if (nowYear.equals(oldYear)){
+            SimpleDateFormat dateFormatMonthDay = new SimpleDateFormat("MM-dd");
+            String oldMonthDay = dateFormatMonthDay.format(oldTime);
+            String nowMonthDay = dateFormatMonthDay.format(nowTime);
+            if(nowMonthDay.equals(oldMonthDay)){
+                SimpleDateFormat dateFormatHM = new SimpleDateFormat("HH:mm");
+                return dateFormatHM.format(oldTime);
+            }else {
+                return dateFormatMonthDay.format(oldTime);
+            }
+        }else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormatYear.format(oldTime);
+        }
+
+    }
+
+    /*public static void main(String[] args) {
+        String format = getMsgTime(System.currentTimeMillis(),System.currentTimeMillis());
+        System.out.println(format);
+    }*/
+
 }
 
 

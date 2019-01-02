@@ -124,7 +124,7 @@ public class ArticleDetailsController {
         }
 
         //评论
-        PageRequest pageRequest = new PageRequest(page - 1, size);
+        PageRequest pageRequest = new PageRequest(page - 1, size,SortTools.basicSort("desc", "time"));
         PageDTO<CommentVO> pageDTO = agoCommentService.findComment(pageRequest, articleId, userId, ONE);
         pageDTO.setCurrentPage(page);
         map.put("comment", pageDTO);

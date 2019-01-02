@@ -1,6 +1,7 @@
 package cn.popo.news.core.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,6 +42,21 @@ public class SplitUtil {
         return list;
     }
 
+    /**
+     * 切割未读消息
+     * @param s
+     * @return
+     */
+    static List<String> splitMsg(String s){
+
+        List<String> list = new ArrayList<String>();
+
+        if (!s.equals("")){
+            String[] ss = s.split("~type~");
+            Collections.addAll(list, ss);
+        }
+        return list;
+    }
 
 
 
