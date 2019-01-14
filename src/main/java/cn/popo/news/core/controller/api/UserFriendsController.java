@@ -132,7 +132,7 @@ public class UserFriendsController {
         String userId = user.getUserId();
 //        String userId = "1527582639993";
         userFriendsService.saveFriend(userId, friendUserId, friendNickname, friendAvatar);
-//        userFriendsService.saveFriend(friendUserId,userId,user.getNikeName(),user.getAvatar());
+        userFriendsService.saveFriend(friendUserId,userId,user.getNikeName(),user.getAvatar());
         return ResultVOUtil.success(map);
     }
 
